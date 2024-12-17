@@ -1,4 +1,4 @@
-package employees_repository
+package repository
 
 import "github.com/maxwelbm/alkemy-g6b/internal/models"
 

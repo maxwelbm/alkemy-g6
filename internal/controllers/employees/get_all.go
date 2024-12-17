@@ -1,30 +1,32 @@
-package employees_controller
+package controller
 
 import (
 	"net/http"
 
-	"github.com/bootcamp-go/web/response"
-	"github.com/maxwelbm/alkemy-g6b/internal/loaders"
+	"github.com/maxwelbm/alkemy-g6b/pkg/response"
 )
 
 func (c *Employees) GetAll(w http.ResponseWriter, r *http.Request) {
 	employees, err := c.sv.GetAll()
 	if err != nil {
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	data := make(map[int]loaders.EmployeesJSON)
-	for key, value := range employees {
-		data[key] = loaders.EmployeesJSON{
+	var list []EmployeesAttributes
+	for _, value := range employees {
+		list = append(list, EmployeesAttributes{
 			ID:           value.ID,
 			CardNumberID: value.CardNumberID,
 			FirstName:    value.FirstName,
 			LastName:     value.LastName,
 			WarehouseID:  value.WarehouseID,
-		}
+		})
 	}
 
-	response.JSON
+	responseEmp := EmployeesFinalJSON{
+		Data: list,
+	}
 
-	return
+	response.JSON(w, http.StatusOK, responseEmp)
 }
