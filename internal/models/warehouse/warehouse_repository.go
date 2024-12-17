@@ -1,5 +1,5 @@
 package models
 
 type WarehouseRepository interface {
-	GetAll() (w map[int]Warehouse, err error)
+	GetAll() (w []Warehouse, err error)
 }
