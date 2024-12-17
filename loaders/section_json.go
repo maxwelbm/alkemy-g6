@@ -1,0 +1,63 @@
+package loaders
+
+import (
+	"encoding/json"
+	"frescos/models"
+	"os"
+)
+
+func NewSectionJSONFile(path string) *SectionJSONFile {
+	return &SectionJSONFile{
+		path: path,
+	}
+}
+
+type SectionJSONFile struct {
+	path string
+}
+
+type SectionJSON struct {
+	ID                 int     `json:"id"`
+	SectionNumber      int     `json:"section_number"`
+	CurrentTemperature float64 `json:"current_temperature"`
+	MinimumTemperature float64 `json:"minimum_temperature"`
+	CurrentCapacity    int     `json:"current_capacity"`
+	MinimumCapacity    int     `json:"minimum_capacity"`
+	MaximumCapacity    int     `json:"maximum_capacity"`
+	WarehouseID        int     `json:"warehouse_id"`
+	ProductTypeID      int     `json:"product_type_id"`
+}
+
+func (l *SectionJSONFile) Load() (sections map[int]models.Section, err error) {
+	// open file
+	file, err := os.Open(l.path)
+	if err != nil {
+		return
+	}
+	defer file.Close()
+
+	// decode file
+	var sectionsJSON []SectionJSON
+	err = json.NewDecoder(file).Decode(&sectionsJSON)
+	if err != nil {
+		return
+	}
+
+	// serialize sections
+	sections = make(map[int]models.Section)
+	for _, s := range sectionsJSON {
+		sections[s.ID] = models.Section{
+			ID:                 s.ID,
+			SectionNumber:      s.SectionNumber,
+			CurrentTemperature: s.CurrentTemperature,
+			MinimumTemperature: s.MinimumTemperature,
+			CurrentCapacity:    s.CurrentCapacity,
+			MinimumCapacity:    s.MaximumCapacity,
+			MaximumCapacity:    s.MaximumCapacity,
+			WarehouseID:        s.WarehouseID,
+			ProductTypeID:      s.ProductTypeID,
+		}
+	}
+
+	return
+}

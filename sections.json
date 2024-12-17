@@ -1,0 +1,13 @@
+[
+    {
+        "id":1,
+    "section_number":"G-14",
+    "current_temperature":22.3,
+    "minimum_temperature":20.6,
+    "current_capacity":1000,
+    "minimum_capacity":200,
+    "maximum_capacity":2000,
+    "warehouse_id":1,
+    "product_type_id":1
+}
+]
