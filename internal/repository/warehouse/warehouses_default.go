@@ -1,10 +1,10 @@
-package warehouse_repository
+package repository
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models/warehouse"
 )
 
-func NewWarehouse(db map[int]models.Warehouse) *Warehouses {
+func NewWarehouses(db map[int]models.Warehouse) *Warehouses {
 	defaultDb := make(map[int]models.Warehouse)
 	if db != nil {
 		defaultDb = db
