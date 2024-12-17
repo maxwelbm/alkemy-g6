@@ -12,10 +12,10 @@ type WarehouseResJSON struct {
 	MinimumTemperature	float64	`json:"minimum_temperature"`
 }
 
-func NewWarehouseDefault(sv models.WarehouseService) *WarehouseDefault {
-	return &WarehouseDefault{sv: sv}
+func NewWarehouseDefault(service models.WarehouseService) *WarehouseDefault {
+	return &WarehouseDefault{service: service}
 }
 
 type WarehouseDefault struct {
-	sv models.WarehouseService
+	service models.WarehouseService
 }

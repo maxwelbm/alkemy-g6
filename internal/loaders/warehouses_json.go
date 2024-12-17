@@ -1,8 +1,8 @@
 package loaders
 
 import (
-    "encoding/json"
-    "os"
+	"encoding/json"
+	"os"   
     "github.com/maxwelbm/alkemy-g6/internal/models/warehouse"
 )
 

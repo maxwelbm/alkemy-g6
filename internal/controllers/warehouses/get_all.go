@@ -2,22 +2,17 @@ package controllers
 
 import (
 	"net/http"
+	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (h *WarehouseDefault) GetAll() http.HandlerFunc {
+func (c *WarehouseDefault) GetAll() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// request
-		// ...
-
-		// process
-		// - get all vehicles
-		v, err := h.sv.GetAllWarehouses()
+		v, err := c.service.GetAllWarehouses()
 		if err != nil {
-			// response.JSON(w, http.StatusInternalServerError, nil)
+			response.JSON(w, http.StatusInternalServerError, nil)
 			return
 		}
 
-		// response
 		data := make(map[int]WarehouseResJSON)
 		for key, value := range v {
 			data[key] = WarehouseResJSON{
@@ -28,9 +23,9 @@ func (h *WarehouseDefault) GetAll() http.HandlerFunc {
 				MinimumTemperature: value.MinimumTemperature,
 			}
 		}
-		// response.JSON(w, http.StatusOK, map[string]any{
-		// 	"message": "success",
-		// 	"data":    data,
-		// })
+		response.JSON(w, http.StatusOK, map[string]any{
+			"message": "success",
+			"data":    data,
+		})
 	}
 }

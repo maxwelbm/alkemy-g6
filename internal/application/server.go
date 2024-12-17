@@ -69,7 +69,6 @@ const Title string = `
 `
 
 func buildWarehousesRouter(rt *chi.Mux) (err error) {
-    // loads warehouses from warehouses.json file
     path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "warehouses.json")
     ld := loaders.NewWarehouseJSONFile(path)
     warehouses, err := ld.Load()
@@ -77,12 +76,11 @@ func buildWarehousesRouter(rt *chi.Mux) (err error) {
         log.Fatal(err)
 		return
     }
-	// repo
+
     repo := warehouse_repository.NewWarehouse(warehouses)
-	// service
 	service := service.NewWarehouseDefault(repo)
-	//controller
 	controller := controllers.NewWarehouseDefault(service)
+
 	rt.Route("/api/v1/warehouses", func(r chi.Router ) {
 		r.Get("/", controller.GetAll())
 	})

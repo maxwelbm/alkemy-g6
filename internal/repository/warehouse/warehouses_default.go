@@ -9,7 +9,13 @@ func NewWarehouse(db map[int]models.Warehouse) *Warehouses {
 	if db != nil {
 		defaultDb = db
 	}
-	return &Warehouses{db: defaultDb, lastId: 1}
+	lastId := 0
+	for _, w := range db {
+		if lastId < w.Id {
+			lastId = w.Id
+		}
+	}
+	return &Warehouses{db: defaultDb, lastId: lastId}
 }
 
 type Warehouses struct {
