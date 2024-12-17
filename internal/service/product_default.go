@@ -2,14 +2,14 @@ package service
 
 import (
 	models "github.com/maxwelbm/alkemy-g6/internal/models/products"
-	product_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
+	repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
 )
 
 type ProductsDefault struct {
-	repo product_repository.Products
+	repo repository.Products
 }
 
-func NewProductsDefault(repo product_repository.Products) *ProductsDefault {
+func NewProductsDefault(repo repository.Products) *ProductsDefault {
 	return &ProductsDefault{repo: repo}
 }
 

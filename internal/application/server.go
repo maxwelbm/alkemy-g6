@@ -1,7 +1,7 @@
 package application
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -42,8 +42,8 @@ type ServerChi struct {
 
 // Run is a method that runs the application
 func (a *ServerChi) Run() (err error) {
-	fmt.Print(Title)
-	fmt.Printf("Starting server at port %s\n", a.serverAddress)
+	log.Print(Title)
+	log.Printf("Starting server at port %s\n", a.serverAddress)
 
 	// router
 	rt := chi.NewRouter()

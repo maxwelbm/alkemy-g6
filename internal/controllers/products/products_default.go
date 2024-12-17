@@ -1,4 +1,4 @@
-package products_controller
+package controller
 
 import models "github.com/maxwelbm/alkemy-g6/internal/models/products"
 
