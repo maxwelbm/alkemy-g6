@@ -2,10 +2,13 @@ package application
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/maxwelbm/alkemy-g6b/internal/loaders"
 )
 
 // ConfigServerChi is a struct that represents the configuration for ServerChi
@@ -42,6 +45,13 @@ func (a *ServerChi) Run() (err error) {
 	rt.Use(middleware.Logger)
 	rt.Use(middleware.Recoverer)
 
+	//endpoints
+	rt.Route("api/v1", func(r chi.Router) {
+		rt.Route("/employees", func(r chi.Router) {
+			r.Get("/", ctrl.GetEmployees)
+		})
+	})
+
 	// run server
 	err = http.ListenAndServe(a.serverAddress, rt)
 	return
@@ -54,3 +64,17 @@ const Title string = `
 ▐▌   ▐▌ ▐▌▐▙▄▄▖▗▄▄▞▘▝▚▄▄▖▝▚▄▞▘▗▄▄▞▘    ▐▌ ▐▌▐▌  ▗▄█▄▖                                                                                       
 
 `
+
+func loadProductRepository() (repo *employees_repository.Employees) {
+	// loads products from products.json file
+	path := fmt.Sprintf(os.Getenv("DB_PATH"), "employees.json")
+	ld := loaders.NewEmployeesJSONFile(path)
+	emp, err := ld.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	repo = employees_repository.NewEmployeesRepository(emp)
+
+	return
+}

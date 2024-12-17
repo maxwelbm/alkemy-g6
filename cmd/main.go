@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/maxwelbm/alkemy-g6/internal/application"
+	"github.com/maxwelbm/alkemy-g6b/internal/application"
 )
 
 func main() {
