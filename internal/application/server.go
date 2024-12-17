@@ -2,10 +2,16 @@ package application
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/maxwelbm/alkemy-g6/internal/controllers/warehouses"
+	"github.com/maxwelbm/alkemy-g6/internal/loaders"
+	"github.com/maxwelbm/alkemy-g6/internal/repository/warehouse"
+	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
 // ConfigServerChi is a struct that represents the configuration for ServerChi
@@ -36,11 +42,18 @@ type ServerChi struct {
 func (a *ServerChi) Run() (err error) {
 	fmt.Print(Title)
 	fmt.Printf("Starting server at port %s\n", a.serverAddress)
+	
 	// router
 	rt := chi.NewRouter()
 	// - middlewares
 	rt.Use(middleware.Logger)
 	rt.Use(middleware.Recoverer)
+
+	// build warehouses router
+	err = buildWarehousesRouter(rt)
+	if err != nil {
+		return
+	}
 
 	// run server
 	err = http.ListenAndServe(a.serverAddress, rt)
@@ -54,3 +67,25 @@ const Title string = `
 ▐▌   ▐▌ ▐▌▐▙▄▄▖▗▄▄▞▘▝▚▄▄▖▝▚▄▞▘▗▄▄▞▘    ▐▌ ▐▌▐▌  ▗▄█▄▖                                                                                       
 
 `
+
+func buildWarehousesRouter(rt *chi.Mux) (err error) {
+    // loads warehouses from warehouses.json file
+    path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "warehouses.json")
+    ld := loaders.NewWarehouseJSONFile(path)
+    warehouses, err := ld.Load()
+    if err != nil {
+        log.Fatal(err)
+		return
+    }
+	// repo
+    repo := warehouse_repository.NewWarehouse(warehouses)
+	// service
+	service := service.NewWarehouseDefault(repo)
+	//controller
+	controller := controllers.NewWarehouseDefault(service)
+	rt.Route("/api/v1/warehouses", func(r chi.Router ) {
+		r.Get("/", controller.GetAll())
+	})
+
+    return
+}
