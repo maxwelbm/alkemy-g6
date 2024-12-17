@@ -13,22 +13,23 @@ func (p *ProductsDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := make(map[int]ProductFullJSON)
-	for k, v := range prods {
-		data[k] = ProductFullJSON{
-			ID:             v.ID,
-			ProductCode:    v.ProductCode,
-			Description:    v.Description,
-			Height:         v.Height,
-			Length:         v.Length,
-			Width:          v.Width,
-			Weight:         v.Weight,
-			ExpirationRate: v.ExpirationRate,
-			FreezingRate:   v.FreezingRate,
-			RecomFreezTemp: v.RecomFreezTemp,
-			ProductTypeID:  v.ProductTypeID,
-			SellerID:       v.SellerID,
-		}
+	var data []ProductFullJSON
+	for _, p := range prods {
+		data = append(data,
+			ProductFullJSON{
+				ID:             p.ID,
+				ProductCode:    p.ProductCode,
+				Description:    p.Description,
+				Height:         p.Height,
+				Length:         p.Length,
+				Width:          p.Width,
+				Weight:         p.Weight,
+				ExpirationRate: p.ExpirationRate,
+				FreezingRate:   p.FreezingRate,
+				RecomFreezTemp: p.RecomFreezTemp,
+				ProductTypeID:  p.ProductTypeID,
+				SellerID:       p.SellerID,
+			})
 	}
 
 	response.JSON(w, http.StatusOK, data)

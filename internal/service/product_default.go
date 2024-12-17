@@ -13,7 +13,7 @@ func NewProductsDefault(repo repository.Products) *ProductsDefault {
 	return &ProductsDefault{repo: repo}
 }
 
-func (s *ProductsDefault) GetAll() (list map[int]models.Product, err error) {
+func (s *ProductsDefault) GetAll() (list []models.Product, err error) {
 	list, err = s.repo.GetAll()
 	return
 }
