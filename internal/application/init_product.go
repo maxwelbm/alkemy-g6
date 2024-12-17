@@ -2,6 +2,7 @@ package application
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/go-chi/chi/v5"
@@ -11,20 +12,25 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
-func buildApiV1ProductsRoutes(rt *chi.Mux, ct products_controller.ProductsDefault) {
+func buildApiV1ProductsRoutes(rt *chi.Mux) {
+	ct, err := initProductsController()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	rt.Route("/api/v1/products", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll())
 	})
 }
 
-func initProductsController() (ct *products_controller.ProductsDefault, err error) {
+func initProductsController() (ct products_controller.ProductsDefault, err error) {
 	repo, err := loadProductsRepository()
 	if err != nil {
 		return
 	}
 	sv := service.NewProductsDefault(repo)
 
-	ct = products_controller.NewProductsDefault(sv)
+	ct = *products_controller.NewProductsDefault(sv)
 	return
 }
 

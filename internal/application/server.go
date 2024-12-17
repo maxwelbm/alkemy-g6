@@ -2,7 +2,6 @@ package application
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -45,11 +44,6 @@ type ServerChi struct {
 func (a *ServerChi) Run() (err error) {
 	fmt.Print(Title)
 	fmt.Printf("Starting server at port %s\n", a.serverAddress)
-	// repository initialization
-	ct, err := initProductsController()
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	// router
 	rt := chi.NewRouter()
@@ -59,7 +53,7 @@ func (a *ServerChi) Run() (err error) {
 	rt.Use(middleware.Recoverer)
 
 	// routes
-	buildApiV1ProductsRoutes(rt, *ct)
+	buildApiV1ProductsRoutes(rt)
 
 	// run server
 	err = http.ListenAndServe(a.serverAddress, rt)
