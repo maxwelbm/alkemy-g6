@@ -1,16 +1,16 @@
 package products_controller
 
 import (
-	"encoding/json"
 	"net/http"
+
+	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
 func (p *ProductsDefault) GetAll() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		prods, err := p.sv.GetAll()
 		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(w).Encode(`{"message": "badbad :("}`)
+			response.Error(w, http.StatusBadRequest, err.Error())
 			return
 		}
 
@@ -32,7 +32,6 @@ func (p *ProductsDefault) GetAll() http.HandlerFunc {
 			}
 		}
 
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(data)
+		response.JSON(w, http.StatusOK, data)
 	}
 }

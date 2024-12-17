@@ -66,15 +66,15 @@ func (a *ServerChi) Run() (err error) {
 	rt.Use(middleware.Recoverer)
 
 	// routes
-	buildProductRoutes(rt, *ct)
+	buildApiV1ProductRoutes(rt, *ct)
 
 	// run server
 	err = http.ListenAndServe(a.serverAddress, rt)
 	return
 }
 
-func buildProductRoutes(rt *chi.Mux, ct products_controller.ProductsDefault) {
-	rt.Route("api/v1/products", func(rt chi.Router) {
+func buildApiV1ProductRoutes(rt *chi.Mux, ct products_controller.ProductsDefault) {
+	rt.Route("/api/v1/products", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll())
 	})
 }
