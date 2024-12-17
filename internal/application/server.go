@@ -4,14 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	products_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/products"
-	"github.com/maxwelbm/alkemy-g6/internal/loaders"
-	product_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
-	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
 const Title string = `
@@ -51,12 +46,10 @@ func (a *ServerChi) Run() (err error) {
 	fmt.Print(Title)
 	fmt.Printf("Starting server at port %s\n", a.serverAddress)
 	// repository initialization
-	repo, err := loadProductRepository()
+	ct, err := initProductsController()
 	if err != nil {
 		log.Fatal(err)
 	}
-	sv := service.NewProductsDefault(repo)
-	ct := products_controller.NewProductsDefault(sv)
 
 	// router
 	rt := chi.NewRouter()
@@ -66,29 +59,9 @@ func (a *ServerChi) Run() (err error) {
 	rt.Use(middleware.Recoverer)
 
 	// routes
-	buildApiV1ProductRoutes(rt, *ct)
+	buildApiV1ProductsRoutes(rt, *ct)
 
 	// run server
 	err = http.ListenAndServe(a.serverAddress, rt)
-	return
-}
-
-func buildApiV1ProductRoutes(rt *chi.Mux, ct products_controller.ProductsDefault) {
-	rt.Route("/api/v1/products", func(rt chi.Router) {
-		rt.Get("/", ct.GetAll())
-	})
-}
-
-func loadProductRepository() (repo product_repository.Products, err error) {
-	// loads products from products.json file
-	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "products.json")
-	ld := loaders.NewProductJSONFile(path)
-	prods, err := ld.Load()
-	if err != nil {
-		return
-	}
-
-	repo = *product_repository.NewProducts(prods)
-
 	return
 }
