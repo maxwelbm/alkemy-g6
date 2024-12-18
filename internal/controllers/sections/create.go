@@ -12,23 +12,27 @@ import (
 
 func (c *SectionsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	var secReqJson NewSectionReqJSON
-	json.NewDecoder(r.Body).Decode(&secReqJson)
+	err := json.NewDecoder(r.Body).Decode(&secReqJson)
+	if err != nil {
+		response.JSON(w, http.StatusBadRequest, nil)
+		return
+	}
 
-	err := secReqJson.validate()
+	err = secReqJson.validateCreate()
 	if err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
 	secDTO := models.SectionDTO{
-		SectionNumber:      *secReqJson.SectionNumber,
-		CurrentTemperature: *secReqJson.CurrentTemperature,
-		MinimumTemperature: *secReqJson.MinimumTemperature,
-		CurrentCapacity:    *secReqJson.CurrentCapacity,
-		MinimumCapacity:    *secReqJson.MinimumCapacity,
-		MaximumCapacity:    *secReqJson.MaximumCapacity,
-		WarehouseID:        *secReqJson.WarehouseID,
-		ProductTypeID:      *secReqJson.ProductTypeID,
+		SectionNumber:      secReqJson.SectionNumber,
+		CurrentTemperature: secReqJson.CurrentTemperature,
+		MinimumTemperature: secReqJson.MinimumTemperature,
+		CurrentCapacity:    secReqJson.CurrentCapacity,
+		MinimumCapacity:    secReqJson.MinimumCapacity,
+		MaximumCapacity:    secReqJson.MaximumCapacity,
+		WarehouseID:        secReqJson.WarehouseID,
+		ProductTypeID:      secReqJson.ProductTypeID,
 	}
 
 	newSection, err := c.sv.Create(secDTO)
