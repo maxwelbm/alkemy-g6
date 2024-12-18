@@ -1,6 +1,14 @@
 package repository
 
-import models "github.com/maxwelbm/alkemy-g6/internal/models/products"
+import (
+	"errors"
+
+	models "github.com/maxwelbm/alkemy-g6/internal/models/products"
+)
+
+var (
+	ErrProductNotFound = errors.New("Product not found")
+)
 
 type Products struct {
 	db map[int]models.Product
