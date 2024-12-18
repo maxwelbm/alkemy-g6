@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/maxwelbm/alkemy-g6/internal/models"
+import models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
 
 type Employees struct {
 	db map[int]models.Employees

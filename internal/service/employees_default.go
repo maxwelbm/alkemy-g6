@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/maxwelbm/alkemy-g6/internal/models"
+	models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
 	repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
 )
 
