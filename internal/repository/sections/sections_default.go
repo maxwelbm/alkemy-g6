@@ -7,11 +7,13 @@ import (
 )
 
 var (
-	ErrSectionNotFound = errors.New("Section not found")
+	ErrSectionNotFound       = errors.New("Section not found")
+	ErrSectionDuplicatedCode = errors.New("Section code already exists")
 )
 
 type Sections struct {
-	db map[int]models.Section
+	db     map[int]models.Section
+	lastId int
 }
 
 func NewSections(db map[int]models.Section) *Sections {
@@ -19,5 +21,16 @@ func NewSections(db map[int]models.Section) *Sections {
 	if db != nil {
 		defaultDb = db
 	}
-	return &Sections{db: defaultDb}
+
+	lastId := 0
+	for _, sec := range db {
+		if lastId < sec.ID {
+			lastId = sec.ID
+		}
+	}
+
+	return &Sections{
+		db:     defaultDb,
+		lastId: lastId,
+	}
 }
