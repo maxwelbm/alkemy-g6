@@ -12,22 +12,22 @@ import (
 
 func validateNewWarehouse(warehouse WarehouseReqJSON) error {
     if warehouse.Address == nil {
-        return errors.New("O campo address não pode estar vazio")
+        return errors.New("The address field cannot be empty")
     }
     if warehouse.Telephone == nil {
-        return errors.New("O campo telephone não pode estar vazio")
+        return errors.New("The telephone field cannot be empty")
     }
     if warehouse.WarehouseCode == nil {
-        return errors.New("O campo warehouse_code não pode estar vazio")
+        return errors.New("The warehouse_code field cannot be empty")
     }
     if warehouse.MinimumCapacity == nil {
-        return errors.New("O campo minimum_capacity não pode estar vazio")
+        return errors.New("The minimum_capacity field cannot be empty")
     }
     if *warehouse.MinimumCapacity <= 0 {
-        return errors.New("O campo minimum_capacity deve ser maior que zero")
+        return errors.New("The minimum_capacity field must be greater than zero")
     }
     if warehouse.MinimumTemperature == nil {
-        return errors.New("O campo minimum_temperature não pode estar vazio")
+        return errors.New("The minimum_temperature field cannot be empty")
     }
 
     return nil
