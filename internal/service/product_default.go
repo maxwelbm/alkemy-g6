@@ -22,3 +22,8 @@ func (s *ProductsDefault) GetById(id int) (prod models.Product, err error) {
 	prod, err = s.repo.GetById(id)
 	return
 }
+
+func (s *ProductsDefault) Create(prod models.ProductDTO) (newProd models.Product, err error) {
+	newProd, err = s.repo.Create(prod)
+	return
+}
