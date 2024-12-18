@@ -67,13 +67,13 @@ func (c *NewSectionReqJSON) validate() (err error) {
 
 	if c.CurrentCapacity == nil {
 		nilPointerErrors = append(nilPointerErrors, "error: attribute CurrentCapacity cannot be nil")
-	} else if *c.CurrentCapacity <= 0 {
+	} else if *c.CurrentCapacity < 0 {
 		validationErrors = append(validationErrors, "error: attribute CurrentCapacity cannot be negative")
 	}
 
 	if c.MinimumCapacity == nil {
 		nilPointerErrors = append(nilPointerErrors, "error: attribute MinimumCapacity cannot be nil")
-	} else if *c.MinimumCapacity <= 0 {
+	} else if *c.MinimumCapacity < 0 {
 		validationErrors = append(validationErrors, "error: attribute MinimumCapacity cannot be negative")
 	}
 
