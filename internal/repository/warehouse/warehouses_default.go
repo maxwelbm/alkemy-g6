@@ -2,7 +2,13 @@ package repository
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models/warehouse"
+	"errors"
 )
+
+var (
+	ErrWarehouseRepositoryNotFound = errors.New("Warehouse not found")
+)
+
 
 func NewWarehouses(db map[int]models.Warehouse) *Warehouses {
 	defaultDb := make(map[int]models.Warehouse)
