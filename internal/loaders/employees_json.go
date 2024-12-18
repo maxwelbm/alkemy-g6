@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/maxwelbm/alkemy-g6b/internal/models"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
 func NewEmployeesJSONFile(path string) *EmployeesJSONFile {

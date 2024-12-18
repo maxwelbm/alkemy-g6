@@ -1,4 +1,4 @@
-module github.com/maxwelbm/alkemy-g6b
+module github.com/maxwelbm/alkemy-g6
 
 go 1.23.4
 

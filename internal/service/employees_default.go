@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/maxwelbm/alkemy-g6b/internal/models"
-	repository "github.com/maxwelbm/alkemy-g6b/internal/repository/employees"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
+	repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
 )
 
 type EmployeesDefault struct {

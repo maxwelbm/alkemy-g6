@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"github.com/maxwelbm/alkemy-g6b/internal/service"
+	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
 type Employees struct {

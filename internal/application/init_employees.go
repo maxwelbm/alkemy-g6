@@ -6,10 +6,10 @@ import (
 	"os"
 
 	"github.com/go-chi/chi/v5"
-	controller "github.com/maxwelbm/alkemy-g6b/internal/controllers/employees"
-	"github.com/maxwelbm/alkemy-g6b/internal/loaders"
-	repository "github.com/maxwelbm/alkemy-g6b/internal/repository/employees"
-	"github.com/maxwelbm/alkemy-g6b/internal/service"
+	controller "github.com/maxwelbm/alkemy-g6/internal/controllers/employees"
+	"github.com/maxwelbm/alkemy-g6/internal/loaders"
+	repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
+	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
 func buildApiV1EmployeesRoutes(rt *chi.Mux) {

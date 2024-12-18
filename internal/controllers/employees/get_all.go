@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 
-	"github.com/maxwelbm/alkemy-g6b/pkg/response"
+	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
 func (c *Employees) GetAll(w http.ResponseWriter, r *http.Request) {
