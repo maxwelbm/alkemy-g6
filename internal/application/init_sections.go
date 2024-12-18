@@ -20,6 +20,7 @@ func buildApiV1SectionsRoutes(rt *chi.Mux) {
 
 	rt.Route("/api/v1/sections", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
+		rt.Get("/{id}", ct.GetById)
 	})
 }
 

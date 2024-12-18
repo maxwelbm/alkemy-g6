@@ -19,3 +19,8 @@ func (s *SectionsDefault) GetAll() (sections []models.Section, err error) {
 	sections, err = s.repo.GetAll()
 	return
 }
+
+func (s *SectionsDefault) GetById(id int) (section models.Section, err error) {
+	section, err = s.repo.GetById(id)
+	return
+}
