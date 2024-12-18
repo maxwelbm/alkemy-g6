@@ -1,4 +1,4 @@
-package sellerService
+package service
 
 import (
 	modelsSeller "github.com/maxwelbm/alkemy-g6/internal/models/seller"
@@ -20,6 +20,10 @@ func (s *SellerDefault) GetAll() ([]modelsSeller.Seller, error) {
 
 func (s *SellerDefault) GetById(id int) (sel modelsSeller.Seller, err error) {
 	return s.rp.GetById(id)
+}
+
+func (s *SellerDefault) PatchSeller(seller modelsSeller.Seller) error {
+	return s.rp.PatchSeller(seller)
 }
 
 func (s *SellerDefault) Delete(id int) (err error) {
