@@ -29,3 +29,8 @@ func (s *SectionsDefault) Create(sec models.SectionDTO) (newSection models.Secti
 	newSection, err = s.repo.Create(sec)
 	return
 }
+
+func (s *SectionsDefault) Delete(id int) (err error) {
+	err = s.repo.Delete(id)
+	return
+}
