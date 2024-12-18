@@ -57,3 +57,17 @@ RES:
     "data":{"ID":26,"ProductCode":"P001","Description":"Product 1","Height":10,"Length":15,"Width":5,"Weight":1,"ExpirationRate":0.1,"FreezingRate":0.3,"RecomFreezTemp":-18,"ProductTypeID":1,"SellerID":0}
 }
 ```
+
+### Delete Product
+
+REQ:
+
+```sh
+curl localhost:8080/api/v1/products/3
+```
+
+RES:
+
+```sh
+// no content, 204
+```

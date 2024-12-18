@@ -27,3 +27,8 @@ func (s *ProductsDefault) Create(prod models.ProductDTO) (newProd models.Product
 	newProd, err = s.repo.Create(prod)
 	return
 }
+
+func (s *ProductsDefault) Delete(id int) (err error) {
+	err = s.repo.Delete(id)
+	return
+}
