@@ -53,6 +53,7 @@ func (a *ServerChi) Run() (err error) {
 	rt.Use(middleware.Recoverer)
 
 	// resources
+	buildApiV1SellerRoutes(rt)
 	buildApiV1WarehousesRoutes(rt)
 	buildApiV1ProductsRoutes(rt)
 	buildApiV1SectionsRoutes(rt)
