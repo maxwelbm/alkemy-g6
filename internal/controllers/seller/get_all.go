@@ -1,24 +1,37 @@
 package sellerController
 
 import (
-	"encoding/json"
 	"net/http"
+
+	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (controller *SellerController) GetAll() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Add("Content-Type", "application/json")
+func (controller *SellerDefault) GetAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
 
-		sellers, err := controller.service.FindAll()
+	sellers, err := controller.sv.GetAll()
 
-		if err != nil {
-			w.WriteHeader(http.StatusOK)
-			json.NewEncoder(w).Encode(SellerResponse{Status: http.StatusOK, Message: "Get realizado com sucesso!", Data: nil})
-			return
+	if err != nil {
+		response.Error(w, http.StatusInternalServerError, "Failed to retrieve sellers")
+		return
+	}
+
+	var data []SellerDataResJSON
+	for _, value := range sellers {
+		new := SellerDataResJSON{
+			ID:          value.ID,
+			CID:         value.CID,
+			CompanyName: value.CompanyName,
+			Address:     value.Address,
+			Telephone:   value.Telephone,
 		}
 
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(SellerResponse{Status: http.StatusOK, Message: "Get realizado com sucesso!", Data: sellers})
-
+		data = append(data, new)
 	}
+	res := SellerResJSON{
+		Message: "Success",
+		Data:    data,
+	}
+	response.JSON(w, http.StatusOK, res)
+
 }

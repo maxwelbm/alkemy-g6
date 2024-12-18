@@ -9,9 +9,8 @@ type SellerRepository struct {
 
 func NewSellerRepository(db map[int]modelsSeller.Seller) *SellerRepository {
 	repo := &SellerRepository{
-		Sellers: make(map[int]modelsSeller.Seller),
+		Sellers: db,
 		NextID:  1,
 	}
-	//	repo.loadProducts(jsonPath)
 	return repo
 }

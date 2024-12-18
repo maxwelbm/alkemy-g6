@@ -1,12 +1,13 @@
 package sellerRepository
 
-import modelsSeller "github.com/maxwelbm/alkemy-g6/internal/models/seller"
+import (
+	modelsSeller "github.com/maxwelbm/alkemy-g6/internal/models/seller"
+)
 
-func (r *SellerRepository) FindAll() (sellerMap map[int]modelsSeller.Seller, err error) {
-	sellerMap = make(map[int]modelsSeller.Seller)
+func (r *SellerRepository) GetAll() (sellerMap []modelsSeller.Seller, err error) {
 
-	for key, value := range r.Sellers {
-		sellerMap[key] = value
+	for _, value := range r.Sellers {
+		sellerMap = append(sellerMap, value)
 	}
 
 	return

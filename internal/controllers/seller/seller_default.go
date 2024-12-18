@@ -1,19 +1,26 @@
 package sellerController
 
 import (
-	"net/http"
-
 	modelsSeller "github.com/maxwelbm/alkemy-g6/internal/models/seller"
 )
 
 type SellerResponse struct {
-	Status  int                         `json:"status"`
-	Message string                      `json:"message,omitempty"`
-	Data    map[int]modelsSeller.Seller `json:"data,omitempty"`
+	Status  int                   `json:"status"`
+	Message string                `json:"message,omitempty"`
+	Data    []modelsSeller.Seller `json:"data,omitempty"`
 }
 
-type SellerController struct {
-	service modelsSeller.SellerService
+type SellerResJSON struct {
+	Message string              `json:"message, omitempty"`
+	Data    []SellerDataResJSON `json:"data, omitempty"`
+}
+
+type SellerDataResJSON struct {
+	ID          int    `json:"id"`
+	CID         int    `json:"cid"`
+	CompanyName string `json:"company_name"`
+	Address     string `json:"address"`
+	Telephone   string `json:"telephone"`
 }
 
 type SellerDefault struct {
@@ -22,8 +29,4 @@ type SellerDefault struct {
 
 func NewSellerController(sellerService modelsSeller.SellerService) *SellerDefault {
 	return &SellerDefault{sv: sellerService}
-}
-
-func (controller *SellerDefault) FindAll() (w http.ResponseWriter, r *http.Request) {
-	return controller.FindAll()
 }
