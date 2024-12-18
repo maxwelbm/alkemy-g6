@@ -5,14 +5,14 @@ type Warehouse struct {
 	Address				string	`json:"address"`
 	Telephone			string	`json:"telephone"`
 	WarehouseCode		string	`json:"warehouse_code"`
-	MinimumCapacity		int		`json:"minimun_capacity"`
+	MinimumCapacity		int		`json:"minimum_capacity"`
 	MinimumTemperature	float64	`json:"minimum_temperature"`
 }
 
 type WarehouseDTO struct {
-	Address				string
-	Telephone			string
-	WarehouseCode		string
-	MinimumCapacity		int
-	MinimumTemperature	float64
+	Address				*string
+	Telephone			*string
+	WarehouseCode		*string
+	MinimumCapacity		*int
+	MinimumTemperature	*float64
 }

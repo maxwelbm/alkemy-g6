@@ -26,3 +26,8 @@ func (s *WarehouseDefault) Create(warehouse models.WarehouseDTO) (w models.Wareh
 	w, err = s.repo.Create(warehouse)
 	return
 }
+
+func (s *WarehouseDefault) Update(id int, warehouse models.WarehouseDTO) (w models.Warehouse, err error) {
+	w, err = s.repo.Update(id, warehouse)
+	return
+}
