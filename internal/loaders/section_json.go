@@ -2,8 +2,9 @@ package loaders
 
 import (
 	"encoding/json"
-	"frescos/models"
 	"os"
+
+	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
 )
 
 func NewSectionJSONFile(path string) *SectionJSONFile {
@@ -52,7 +53,7 @@ func (l *SectionJSONFile) Load() (sections map[int]models.Section, err error) {
 			CurrentTemperature: s.CurrentTemperature,
 			MinimumTemperature: s.MinimumTemperature,
 			CurrentCapacity:    s.CurrentCapacity,
-			MinimumCapacity:    s.MaximumCapacity,
+			MinimumCapacity:    s.MinimumCapacity,
 			MaximumCapacity:    s.MaximumCapacity,
 			WarehouseID:        s.WarehouseID,
 			ProductTypeID:      s.ProductTypeID,

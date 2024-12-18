@@ -36,11 +36,15 @@ type ServerChi struct {
 func (a *ServerChi) Run() (err error) {
 	fmt.Print(Title)
 	fmt.Printf("Starting server at port %s\n", a.serverAddress)
+
 	// router
 	rt := chi.NewRouter()
+
 	// - middlewares
 	rt.Use(middleware.Logger)
 	rt.Use(middleware.Recoverer)
+
+	buildApiV1SectionsRoutes(rt)
 
 	// run server
 	err = http.ListenAndServe(a.serverAddress, rt)
