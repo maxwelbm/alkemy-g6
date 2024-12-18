@@ -9,7 +9,7 @@ import (
 	sellerController "github.com/maxwelbm/alkemy-g6/internal/controllers/seller"
 	"github.com/maxwelbm/alkemy-g6/internal/loaders"
 	sellerRepository "github.com/maxwelbm/alkemy-g6/internal/repository/seller"
-	sellerService "github.com/maxwelbm/alkemy-g6/internal/service/seller"
+	sellerService "github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
 func buildApiV1SellerRoutes(rt *chi.Mux) {
@@ -21,7 +21,7 @@ func buildApiV1SellerRoutes(rt *chi.Mux) {
 	rt.Route("/api/v1/sellers", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetById)
-		//		rt.Patch("/{id}", ct.PatchSeller)
+		rt.Patch("/{id}", ct.PatchSeller)
 		rt.Delete("/{id}", ct.Delete)
 	})
 }
