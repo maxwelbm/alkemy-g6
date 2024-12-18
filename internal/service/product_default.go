@@ -23,6 +23,11 @@ func (s *ProductsDefault) GetById(id int) (prod models.Product, err error) {
 	return
 }
 
+func (s *ProductsDefault) Create(prod models.ProductDTO) (newProd models.Product, err error) {
+	newProd, err = s.repo.Create(prod)
+	return
+}
+
 func (s *ProductsDefault) Delete(id int) (err error) {
 	err = s.repo.Delete(id)
 	return

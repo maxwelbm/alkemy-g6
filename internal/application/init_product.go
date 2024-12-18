@@ -21,6 +21,7 @@ func buildApiV1ProductsRoutes(rt *chi.Mux) {
 	rt.Route("/api/v1/products", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetById)
+		rt.Post("/", ct.Create)
 		rt.Delete("/{id}", ct.Delete)
 	})
 }
