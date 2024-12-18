@@ -21,6 +21,7 @@ func buildApiV1WarehousesRoutes(rt *chi.Mux) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetById)
 		rt.Post("/", ct.Create)
+		rt.Patch("/{id}", ct.Update)
 	})
 }
 
