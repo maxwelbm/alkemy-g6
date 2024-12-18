@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	ErrSectionRepositoryNotFound = errors.New("Section not found")
+	ErrSectionNotFound = errors.New("Section not found")
 )
 
 type Sections struct {
