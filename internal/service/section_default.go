@@ -29,3 +29,8 @@ func (s *SectionsDefault) Create(sec models.SectionDTO) (newSection models.Secti
 	newSection, err = s.repo.Create(sec)
 	return
 }
+
+func (s *SectionsDefault) Update(id int, sec models.SectionDTO) (updateSection models.Section, err error) {
+	updateSection, err = s.repo.Update(id, sec)
+	return
+}
