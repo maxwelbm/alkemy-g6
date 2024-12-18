@@ -1,6 +1,14 @@
 package repository
 
-import models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
+import (
+	"errors"
+
+	models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
+)
+
+var (
+	ErrEmployeesRepositoryNotFound = errors.New("Employees not found")
+)
 
 type Employees struct {
 	db map[int]models.Employees

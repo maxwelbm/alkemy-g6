@@ -17,11 +17,11 @@ func (c *Employees) GetByID(w http.ResponseWriter, r *http.Request) {
 
 	employees, err := c.sv.GetByID(id)
 	if err != nil {
-		response.Error(w, http.StatusInternalServerError, err.Error())
+		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
 
-	list := EmployeesAttributes{
+	data := EmployeesAttributes{
 		ID:           employees.ID,
 		CardNumberID: employees.CardNumberID,
 		FirstName:    employees.FirstName,
@@ -29,9 +29,10 @@ func (c *Employees) GetByID(w http.ResponseWriter, r *http.Request) {
 		WarehouseID:  employees.WarehouseID,
 	}
 
-	responseEmp := EmployeesFinalJSON{
-		Data: list,
+	res := EmployeesResJSON{
+		Message: "Sucess",
+		Data:    data,
 	}
 
-	response.JSON(w, http.StatusOK, responseEmp)
+	response.JSON(w, http.StatusOK, res)
 }
