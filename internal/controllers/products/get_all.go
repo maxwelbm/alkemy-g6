@@ -32,5 +32,6 @@ func (p *ProductsDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 			})
 	}
 
-	response.JSON(w, http.StatusOK, data)
+	res := ProductResJSON{Data: data}
+	response.JSON(w, http.StatusOK, res)
 }

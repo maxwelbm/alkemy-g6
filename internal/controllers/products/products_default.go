@@ -10,6 +10,11 @@ func NewProductsDefault(sv models.ProductService) *ProductsDefault {
 	return &ProductsDefault{sv: sv}
 }
 
+type ProductResJSON struct {
+	Message string `json:"message,omitempty"`
+	Data    any    `json:"data,omitempty"`
+}
+
 type ProductFullJSON struct {
 	ID             int     `json:"id"`
 	ProductCode    string  `json:"product_code"`

@@ -19,6 +19,11 @@ type SectionFullJSON struct {
 	ProductTypeID      int     `json:"product_type_id"`
 }
 
+type SectionResJSON struct {
+	Message string `json:"message,omitempty"`
+	Data    any    `json:"data,omitempty"`
+}
+
 func NewSectionsDefault(sv models.SectionService) *SectionsDefault {
 	return &SectionsDefault{
 		sv: sv,

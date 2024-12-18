@@ -1,6 +1,14 @@
 package repository
 
-import models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
+import (
+	"errors"
+
+	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
+)
+
+var (
+	ErrSectionNotFound = errors.New("Section not found")
+)
 
 type Sections struct {
 	db map[int]models.Section
