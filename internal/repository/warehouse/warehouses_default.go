@@ -7,6 +7,7 @@ import (
 
 var (
 	ErrWarehouseRepositoryNotFound = errors.New("Warehouse not found")
+	ErrWarehouseRepositoryDuplicatedCode = errors.New("Warehouse code already exists")
 )
 
 
@@ -21,10 +22,10 @@ func NewWarehouses(db map[int]models.Warehouse) *Warehouses {
 			lastId = w.Id
 		}
 	}
-	return &Warehouses{db: defaultDb, lastId: lastId}
+	return &Warehouses{db: defaultDb, LastId: lastId}
 }
 
 type Warehouses struct {
 	db 		map[int]models.Warehouse
-	lastId	int
+	LastId	int
 }

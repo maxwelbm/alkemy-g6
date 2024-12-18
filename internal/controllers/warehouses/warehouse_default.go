@@ -13,14 +13,17 @@ type WarehouseDataResJSON struct {
     MinimumTemperature  float64 `json:"minimum_temperature"`
 }
 
-type WarehousesResJSON struct {
-    Message             string                  `json:"message"`
-    Data                []WarehouseDataResJSON  `json:"data"`
+type WarehouseResJSON struct {
+    Message             string      `json:"message,omitempty"`
+    Data                any         `json:"data,omitempty"`
 }
 
-type WarehouseResJSON struct {
-    Message             string                  `json:"message"`
-    Data                WarehouseDataResJSON    `json:"data"`
+type WarehouseReqJSON struct {
+    Address             *string  `json:"address"`
+    Telephone           *string  `json:"telephone"`
+    WarehouseCode       *string  `json:"warehouse_code"`
+    MinimumCapacity     *int     `json:"minimum_capacity"`
+    MinimumTemperature  *float64 `json:"minimum_temperature"`
 }
 
 func NewWarehouseDefault(service models.WarehouseService) *WarehouseDefault {

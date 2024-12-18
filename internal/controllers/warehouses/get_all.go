@@ -24,7 +24,7 @@ func (c *WarehouseDefault) GetAll(w http.ResponseWriter, r *http.Request) {
         }
         data = append(data, new)
     }
-    res := WarehousesResJSON{
+    res := WarehouseResJSON{
         Message: "Success",
         Data:    data,
     }
