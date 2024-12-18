@@ -3,6 +3,7 @@ package application
 import (
 	"log"
 	"net/http"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -43,19 +44,22 @@ type ServerChi struct {
 func (a *ServerChi) Run() (err error) {
 	log.Print(Title)
 	log.Printf("Starting server at port %s\n", a.serverAddress)
- 
+
 	// router
 	rt := chi.NewRouter()
 
 	// - middlewares
 	rt.Use(middleware.Logger)
 	rt.Use(middleware.Recoverer)
-  
-  // resources
+
+	// resources
 	buildApiV1WarehousesRoutes(rt)
 	buildApiV1ProductsRoutes(rt)
+	buildApiV1SectionsRoutes(rt)
 
 	// run server
 	err = http.ListenAndServe(a.serverAddress, rt)
 	return
+
+
 }
