@@ -14,7 +14,7 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 
 	err := prodJson.validate()
 	if err != nil {
-		response.Error(w, http.StatusBadRequest, err.Error())
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
@@ -41,5 +41,5 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	res := ProductResJSON{Message: "Created", Data: newProd}
-	response.JSON(w, http.StatusOK, res)
+	response.JSON(w, http.StatusCreated, res)
 }
