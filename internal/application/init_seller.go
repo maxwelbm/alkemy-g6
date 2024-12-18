@@ -20,6 +20,7 @@ func buildApiV1SellerRoutes(rt *chi.Mux) {
 
 	rt.Route("/api/v1/seller", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
+		rt.Get("/{id}", ct.GetById)
 	})
 }
 
