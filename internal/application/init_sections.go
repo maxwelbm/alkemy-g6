@@ -8,7 +8,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	controller "github.com/maxwelbm/alkemy-g6/internal/controllers/sections"
 	"github.com/maxwelbm/alkemy-g6/internal/loaders"
-	section_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
+	repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
@@ -19,7 +19,7 @@ func buildApiV1SectionsRoutes(rt *chi.Mux) {
 	}
 
 	rt.Route("/api/v1/sections", func(rt chi.Router) {
-		rt.Get("/", ct.GetAll())
+		rt.Get("/", ct.GetAll)
 	})
 }
 
@@ -34,7 +34,7 @@ func initSectionsController() (ct controller.SectionsDefault, err error) {
 	return
 }
 
-func loadSectionsRepository() (repo section_repository.Sections, err error) {
+func loadSectionsRepository() (repo repository.Sections, err error) {
 	// loads products from products.json file
 	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "sections.json")
 	ld := loaders.NewSectionJSONFile(path)
@@ -43,7 +43,7 @@ func loadSectionsRepository() (repo section_repository.Sections, err error) {
 		return
 	}
 
-	repo = *section_repository.NewSections(sections)
+	repo = *repository.NewSections(sections)
 
 	return
 }

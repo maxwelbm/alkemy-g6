@@ -1,7 +1,6 @@
 package application
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -46,9 +45,6 @@ func (a *ServerChi) Run() (err error) {
 	log.Print(Title)
 	log.Printf("Starting server at port %s\n", a.serverAddress)
 
-	fmt.Print(Title)
-	fmt.Printf("Starting server at port %s\n", a.serverAddress)
-
 	// router
 	rt := chi.NewRouter()
 
@@ -59,18 +55,9 @@ func (a *ServerChi) Run() (err error) {
 	// resources
 	buildApiV1WarehousesRoutes(rt)
 	buildApiV1ProductsRoutes(rt)
-
 	buildApiV1SectionsRoutes(rt)
 
 	// run server
 	err = http.ListenAndServe(a.serverAddress, rt)
 	return
 }
-
-const Title string = `
-▗▄▄▄▖▗▄▄▖ ▗▄▄▄▖ ▗▄▄▖ ▗▄▄▖ ▗▄▖  ▗▄▄▖     ▗▄▖ ▗▄▄▖▗▄▄▄▖
-▐▌   ▐▌ ▐▌▐▌   ▐▌   ▐▌   ▐▌ ▐▌▐▌       ▐▌ ▐▌▐▌ ▐▌ █  
-▐▛▀▀▘▐▛▀▚▖▐▛▀▀▘ ▝▀▚▖▐▌   ▐▌ ▐▌ ▝▀▚▖    ▐▛▀▜▌▐▛▀▘  █  
-▐▌   ▐▌ ▐▌▐▙▄▄▖▗▄▄▞▘▝▚▄▄▖▝▚▄▞▘▗▄▄▞▘    ▐▌ ▐▌▐▌  ▗▄█▄▖                                                                                       
-
-`

@@ -1,4 +1,4 @@
-package section_repository
+package repository
 
 import models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
 
