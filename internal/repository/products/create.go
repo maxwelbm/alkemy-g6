@@ -22,6 +22,10 @@ func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err e
 		SellerID:       prod.SellerID,
 	}
 
+	if err = p.validateProduct(newProd); err != nil {
+		return
+	}
+
 	p.db[nextId] = newProd
 	p.lastId = nextId
 	return
