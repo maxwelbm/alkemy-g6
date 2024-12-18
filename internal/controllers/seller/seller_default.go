@@ -10,9 +10,14 @@ type SellerResponse struct {
 	Data    []modelsSeller.Seller `json:"data,omitempty"`
 }
 
+type SellersResJSON struct {
+	Message string              `json:"message"`
+	Data    []SellerDataResJSON `json:"data"`
+}
+
 type SellerResJSON struct {
-	Message string              `json:"message, omitempty"`
-	Data    []SellerDataResJSON `json:"data, omitempty"`
+	Message string            `json:"message"`
+	Data    SellerDataResJSON `json:"data"`
 }
 
 type SellerDataResJSON struct {

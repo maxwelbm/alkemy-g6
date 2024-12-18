@@ -14,7 +14,10 @@ func NewSellerService(repositorySeller modelsSeller.SellerRepository) *SellerDef
 	}
 }
 
-func (s *SellerDefault) GetAll() (sellers []modelsSeller.Seller, err error) {
-	sellers, err = s.rp.GetAll()
-	return
+func (s *SellerDefault) GetAll() ([]modelsSeller.Seller, error) {
+	return s.rp.GetAll()
+}
+
+func (s *SellerDefault) GetById(id int) (sel modelsSeller.Seller, err error) {
+	return s.rp.GetById(id)
 }
