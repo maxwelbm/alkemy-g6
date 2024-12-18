@@ -17,3 +17,8 @@ func (e *EmployeesDefault) GetAll() (employees map[int]models.Employees, err err
 	employees, err = e.rp.GetAll()
 	return
 }
+
+func (e *EmployeesDefault) GetByID(id int) (employees models.Employees, err error) {
+	employees, err = e.rp.GetByID(id)
+	return
+}
