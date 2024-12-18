@@ -24,3 +24,8 @@ func (s *SectionsDefault) GetById(id int) (section models.Section, err error) {
 	section, err = s.repo.GetById(id)
 	return
 }
+
+func (s *SectionsDefault) Create(sec models.SectionDTO) (newSection models.Section, err error) {
+	newSection, err = s.repo.Create(sec)
+	return
+}
