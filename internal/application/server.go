@@ -60,4 +60,6 @@ func (a *ServerChi) Run() (err error) {
 	// run server
 	err = http.ListenAndServe(a.serverAddress, rt)
 	return
+
+
 }
