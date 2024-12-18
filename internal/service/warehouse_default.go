@@ -12,7 +12,12 @@ type WarehouseDefault struct {
 	repo models.WarehouseRepository
 }
 
-func (s *WarehouseDefault) GetAllWarehouses() (w []models.Warehouse, err error) {
+func (s *WarehouseDefault) GetAll() (w []models.Warehouse, err error) {
 	w, err = s.repo.GetAll()
+	return
+}
+
+func (s *WarehouseDefault) GetById(id int) (w models.Warehouse, err error) {
+	w, err = s.repo.GetById(id)
 	return
 }
