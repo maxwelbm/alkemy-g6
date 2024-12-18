@@ -18,9 +18,11 @@ func buildApiV1SellerRoutes(rt *chi.Mux) {
 		log.Fatal(err)
 	}
 
-	rt.Route("/api/v1/seller", func(rt chi.Router) {
+	rt.Route("/api/v1/sellers", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetById)
+		//		rt.Patch("/{id}", ct.PatchSeller)
+		rt.Delete("/{id}", ct.Delete)
 	})
 }
 
