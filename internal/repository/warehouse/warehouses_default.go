@@ -29,3 +29,13 @@ type Warehouses struct {
 	db 		map[int]models.Warehouse
 	LastId	int
 }
+
+func (r *Warehouses) validateWarehouseCode(warehouse models.WarehouseDTO) (err error) {
+	for _, wh := range r.db {
+		if wh.WarehouseCode == *warehouse.WarehouseCode {
+			err = ErrWarehouseRepositoryDuplicatedCode
+			return
+		}
+	}
+	return
+}

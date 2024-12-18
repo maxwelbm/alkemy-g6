@@ -22,11 +22,9 @@ func (r *Warehouses) Update(id int, warehouse models.WarehouseDTO) (w models.War
 		w.MinimumTemperature = *warehouse.MinimumTemperature
 	}
 	if warehouse.WarehouseCode != nil {
-		for _, wh := range r.db {
-			if wh.WarehouseCode == *warehouse.WarehouseCode && wh.Id != id {
-				err = ErrWarehouseRepositoryDuplicatedCode
-				return
-			}
+		err = r.validateWarehouseCode(warehouse)
+		if err != nil {
+			return
 		}
 		w.WarehouseCode = *warehouse.WarehouseCode
 	}
