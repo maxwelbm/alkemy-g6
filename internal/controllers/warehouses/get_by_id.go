@@ -1,10 +1,12 @@
 package controller
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouse"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -15,8 +17,12 @@ func (c *WarehouseDefault) GetById(w http.ResponseWriter, r *http.Request) {
         return
     }
     warehouse, err := c.service.GetById(id)
-    if err != nil {
+    if errors.Is(err, repository.ErrWarehouseRepositoryNotFound) {
         response.Error(w, http.StatusNotFound, err.Error())
+        return
+    }
+    if err != nil {
+        response.JSON(w, http.StatusInternalServerError, nil)
         return
     }
 
