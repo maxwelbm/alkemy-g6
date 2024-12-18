@@ -20,6 +20,7 @@ func buildApiV1WarehousesRoutes(rt *chi.Mux) {
 	rt.Route("/api/v1/warehouses", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetById)
+		rt.Post("/", ct.Create)
 	})
 }
 
