@@ -8,7 +8,8 @@ import (
 )
 
 var (
-	ErrProductNotFound = errors.New("Product not found")
+	ErrProductNotFound   = errors.New("Product not found")
+	ErrProductUniqueness = errors.New("Product attribute uniqueness")
 )
 
 type Products struct {
@@ -35,21 +36,11 @@ func NewProducts(db map[int]models.Product) *Products {
 }
 
 func (p *Products) validateProduct(prod models.Product) (err error) {
-	var validationErrors []string
-
 	// validate ProductCode uniqueness
 	for _, dbProd := range p.db {
 		if prod.ProductCode == dbProd.ProductCode {
-			validationErrors = append(validationErrors, "error: attribute ProductCode must be unique")
+			err = errors.Join(err, fmt.Errorf("%w: %s", ErrProductUniqueness, "Product Code"))
 		}
-	}
-
-	// joins all validation errors into a new error
-	if len(validationErrors) > 0 {
-		var allErrors []string
-		allErrors = append(allErrors, validationErrors...)
-
-		err = errors.New(fmt.Sprintf("validation errors: %v", allErrors))
 	}
 	return
 }

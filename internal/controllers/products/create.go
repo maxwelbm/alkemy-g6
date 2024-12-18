@@ -2,9 +2,11 @@ package controller
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 
 	models "github.com/maxwelbm/alkemy-g6/internal/models/products"
+	repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -35,6 +37,10 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	newProd, err := p.sv.Create(prodDTO)
+	if errors.Is(err, repository.ErrProductUniqueness) {
+		response.Error(w, http.StatusConflict, err.Error())
+		return
+	}
 	if err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
