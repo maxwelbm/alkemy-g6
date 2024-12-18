@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -17,7 +18,7 @@ func (p *ProductsDefault) GetById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	prod, err := p.sv.GetById(id)
-	if err == repository.ErrProductNotFound {
+	if errors.Is(err, repository.ErrProductNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
