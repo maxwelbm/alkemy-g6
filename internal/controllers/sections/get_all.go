@@ -27,5 +27,10 @@ func (c *SectionsDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 			ProductTypeID:      value.ProductTypeID,
 		})
 	}
-	response.JSON(w, http.StatusOK, data)
+
+	res := SectionResJSON{
+		Message: "Success",
+		Data:    data,
+	}
+	response.JSON(w, http.StatusOK, res)
 }
