@@ -22,6 +22,14 @@ func (s *SellerDefault) GetById(id int) (sel modelsSeller.Seller, err error) {
 	return s.rp.GetById(id)
 }
 
+func (s *SellerDefault) GetByCid(cid int) (sel modelsSeller.Seller, err error) {
+	return s.rp.GetByCid(cid)
+}
+
+func (s *SellerDefault) PostSeller(seller modelsSeller.Seller) error {
+	return s.rp.PostSeller(seller)
+}
+
 func (s *SellerDefault) PatchSeller(seller modelsSeller.Seller) error {
 	return s.rp.PatchSeller(seller)
 }
