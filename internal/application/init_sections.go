@@ -23,6 +23,7 @@ func buildApiV1SectionsRoutes(rt *chi.Mux) {
 		rt.Get("/{id}", ct.GetById)
 		rt.Post("/", ct.Create)
 		rt.Patch("/{id}", ct.Update)
+		rt.Delete("/{id}", ct.Delete)
 	})
 }
 

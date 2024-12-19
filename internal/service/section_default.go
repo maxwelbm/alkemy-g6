@@ -34,3 +34,8 @@ func (s *SectionsDefault) Update(id int, sec models.SectionDTO) (updateSection m
 	updateSection, err = s.repo.Update(id, sec)
 	return
 }
+
+func (s *SectionsDefault) Delete(id int) (err error) {
+	err = s.repo.Delete(id)
+	return
+}

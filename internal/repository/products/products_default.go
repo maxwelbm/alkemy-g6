@@ -36,8 +36,14 @@ func NewProducts(db map[int]models.Product) *Products {
 }
 
 func (p *Products) validateProduct(prod models.Product) (err error) {
-	// validate ProductCode uniqueness
+	// Uniqueness
 	for _, dbProd := range p.db {
+		// skips self
+		if prod.ID == dbProd.ID {
+			continue
+		}
+
+		// validate ProductCode uniqueness
 		if prod.ProductCode == dbProd.ProductCode {
 			err = errors.Join(err, fmt.Errorf("%w: %s", ErrProductUniqueness, "Product Code"))
 		}
