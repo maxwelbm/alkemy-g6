@@ -27,5 +27,5 @@ func (c *Employees) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response.JSON(w, http.StatusOK, "Sucess delete")
+	response.JSON(w, http.StatusNoContent, "Sucess delete")
 }
