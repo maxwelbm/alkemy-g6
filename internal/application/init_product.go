@@ -32,7 +32,7 @@ func initProductsController() (ct controller.ProductsDefault, err error) {
 	if err != nil {
 		return
 	}
-	sv := service.NewProductsDefault(repo)
+	sv := service.NewProductsDefault(&repo)
 
 	ct = *controller.NewProductsDefault(sv)
 	return
