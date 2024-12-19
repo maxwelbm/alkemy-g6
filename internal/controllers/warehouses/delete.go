@@ -29,5 +29,5 @@ func (c *WarehouseDefault) Delete(w http.ResponseWriter, r *http.Request) {
         Message: "Success",
         Data:    nil,
     }
-    response.JSON(w, http.StatusOK, res)
+    response.JSON(w, http.StatusNoContent, res)
 }
