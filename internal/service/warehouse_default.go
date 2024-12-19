@@ -21,3 +21,13 @@ func (s *WarehouseDefault) GetById(id int) (w models.Warehouse, err error) {
 	w, err = s.repo.GetById(id)
 	return
 }
+
+func (s *WarehouseDefault) Create(warehouse models.WarehouseDTO) (w models.Warehouse, err error) {
+	w, err = s.repo.Create(warehouse)
+	return
+}
+
+func (s *WarehouseDefault) Update(id int, warehouse models.WarehouseDTO) (w models.Warehouse, err error) {
+	w, err = s.repo.Update(id, warehouse)
+	return
+}

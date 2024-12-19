@@ -21,3 +21,7 @@ func (s *SellerDefault) GetAll() ([]modelsSeller.Seller, error) {
 func (s *SellerDefault) GetById(id int) (sel modelsSeller.Seller, err error) {
 	return s.rp.GetById(id)
 }
+
+func (s *SellerDefault) Delete(id int) (err error) {
+	return s.rp.Delete(id)
+}

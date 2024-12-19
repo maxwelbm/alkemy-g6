@@ -26,3 +26,18 @@ type Product struct {
 	// SellerID is the unique identifier of the seller
 	SellerID int
 }
+
+type ProductDTO struct {
+	ID             int
+	ProductCode    string
+	Description    string
+	Height         float64
+	Length         float64
+	Width          float64
+	Weight         float64
+	ExpirationRate float64
+	FreezingRate   float64
+	RecomFreezTemp float64
+	ProductTypeID  int
+	SellerID       int
+}
