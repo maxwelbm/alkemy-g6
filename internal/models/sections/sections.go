@@ -13,7 +13,6 @@ type Section struct {
 }
 
 type SectionDTO struct {
-	ID                 int
 	SectionNumber      int
 	CurrentTemperature float64
 	MinimumTemperature float64
