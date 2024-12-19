@@ -22,3 +22,8 @@ func (e *EmployeesDefault) GetByID(id int) (employees models.Employees, err erro
 	employees, err = e.rp.GetByID(id)
 	return
 }
+
+func (e *EmployeesDefault) Create(employees models.EmployeesDTO) (newEmployees models.Employees, err error) {
+	newEmployees, err = e.rp.Create(employees)
+	return
+}

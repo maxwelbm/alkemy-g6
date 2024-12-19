@@ -58,6 +58,25 @@ RES:
 }
 ```
 
+### Update Product
+
+REQ:
+
+```sh
+curl -X PATCH localhost:8080/api/v1/products/1 \
+-H "Content-Type=application/json" \
+-d '{"product_code": "P026", "description": "Product 26"}'
+```
+
+RES:
+
+```sh
+{
+    "message":"Updated",
+    "data":{"data":{"ID":1,"ProductCode":"P026","Description":"Product 1","Height":10,"Length":15,"Width":5,"Weight":1,"ExpirationRate":0.1,"FreezingRate":0.3,"RecomFreezTemp":-18,"ProductTypeID":1,"SellerID":101}}
+}
+```
+
 ### Delete Product
 
 REQ:
