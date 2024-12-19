@@ -1,4 +1,4 @@
-package buyerRepository
+package repository
 
 import (
 	"errors"

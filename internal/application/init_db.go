@@ -7,7 +7,6 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/loaders"
 	"github.com/maxwelbm/alkemy-g6/internal/repository"
 	buy_repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyer"
-	buyerRepository "github.com/maxwelbm/alkemy-g6/internal/repository/buyer"
 	emp_repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
 	prod_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
 	sec_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
@@ -54,6 +53,7 @@ func loadDB() (repo repository.RepoDB, err error) {
 }
 
 func loadEmployeesRepository() (repo *emp_repository.Employees, err error) {
+	// loads employees from employees.json file
 	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "employees.json")
 	ld := loaders.NewEmployeesJSONFile(path)
 	emp, err := ld.Load()
@@ -81,6 +81,7 @@ func loadProductsRepository() (repo *prod_repository.Products, err error) {
 }
 
 func loadWarehousesRepository() (repo *war_repository.Warehouses, err error) {
+	// loads warehouses from warehouses.json file
 	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "warehouses.json")
 	ld := loaders.NewWarehouseJSONFile(path)
 	prods, err := ld.Load()
@@ -94,7 +95,7 @@ func loadWarehousesRepository() (repo *war_repository.Warehouses, err error) {
 }
 
 func loadSectionsRepository() (repo *sec_repository.Sections, err error) {
-	// loads products from products.json file
+	// loads sections from sections.json file
 	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "sections.json")
 	ld := loaders.NewSectionJSONFile(path)
 	sections, err := ld.Load()
@@ -108,7 +109,7 @@ func loadSectionsRepository() (repo *sec_repository.Sections, err error) {
 }
 
 func loadSellersRepository() (repo *sel_repository.SellerRepository, err error) {
-	// loads products from products.json file
+	// loads sellers from sellers.json file
 	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "sellers.json")
 	ld := loaders.NewSellerJSONFile(path)
 	sellers, err := ld.Load()
@@ -122,7 +123,7 @@ func loadSellersRepository() (repo *sel_repository.SellerRepository, err error) 
 }
 
 func loadBuyersRepository() (repo *buy_repository.BuyerRepository, err error) {
-	// loads products from products.json file
+	// loads buyers from buyers.json file
 	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "buyers.json")
 	ld := loaders.NewBuyerJSONFile(path)
 	buyers, err := ld.Load()
@@ -130,7 +131,7 @@ func loadBuyersRepository() (repo *buy_repository.BuyerRepository, err error) {
 		return
 	}
 
-	repo = buyerRepository.NewBuyerRepository(buyers)
+	repo = buy_repository.NewBuyerRepository(buyers)
 
 	return
 }
