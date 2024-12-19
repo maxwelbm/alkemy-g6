@@ -14,7 +14,13 @@ func (c *Employees) Create(w http.ResponseWriter, r *http.Request) {
 	var employeesJson EmployeesReqJSON
 	err := json.NewDecoder(r.Body).Decode(&employeesJson)
 	if err != nil {
-		response.JSON(w, http.StatusBadRequest, nil)
+		response.JSON(w, http.StatusBadRequest, "Body invalid")
+		return
+	}
+
+	err = validateNewEmployees(employeesJson)
+	if err != nil {
+		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
@@ -42,4 +48,28 @@ func (c *Employees) Create(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 	response.JSON(w, http.StatusCreated, data)
+}
+
+func validateNewEmployees(employees EmployeesReqJSON) error {
+
+	if employees.CardNumberID == nil || *employees.CardNumberID == "" {
+		return errors.New("CardNumberID cannot be empty")
+	}
+
+	if employees.FirstName == nil || *employees.FirstName == "" {
+		return errors.New("FirstName cannot be empty")
+	}
+
+	if employees.LastName == nil || *employees.LastName == "" {
+		return errors.New("LastName cannot be empty")
+	}
+
+	if employees.WarehouseID == nil {
+		return errors.New("WarehouseID cannot be empty")
+	}
+
+	if *employees.WarehouseID <= 0 {
+		return errors.New("WarehouseID invalid")
+	}
+	return nil
 }

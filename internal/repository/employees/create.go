@@ -1,6 +1,8 @@
 package repository
 
-import models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
+import (
+	models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
+)
 
 func (e *Employees) Create(employees models.EmployeesDTO) (newEmployees models.Employees, err error) {
 	id := e.lastID + 1
@@ -10,7 +12,6 @@ func (e *Employees) Create(employees models.EmployeesDTO) (newEmployees models.E
 			err = ErrEmployeesRepositoryDuplicatedCode
 			return
 		}
-
 	}
 
 	newEmployees = models.Employees{
