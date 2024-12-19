@@ -29,3 +29,7 @@ func (s *BuyerDefault) GetByCardNumberId(cardNumberId string) (modelsBuyer.Buyer
 func (s *BuyerDefault) PostBuyer(buyer modelsBuyer.Buyer) (modelsBuyer.Buyer, error) {
 	return s.rp.PostBuyer(buyer)
 }
+
+func (s *BuyerDefault) PatchBuyer(buyer modelsBuyer.Buyer) error {
+	return s.rp.PatchBuyer(buyer)
+}
