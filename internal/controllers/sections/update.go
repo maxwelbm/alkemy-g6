@@ -25,7 +25,7 @@ func (c *SectionsDefault) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	err = secReqJson.validateUpdate()
-	// err = validateUpdateWarehouse(secReqJson)
+
 	if err != nil {
 		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
 		return
