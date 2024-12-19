@@ -2,38 +2,38 @@ package service
 
 import (
 	models "github.com/maxwelbm/alkemy-g6/internal/models/products"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
+	repository "github.com/maxwelbm/alkemy-g6/internal/repository"
 )
 
 type ProductsDefault struct {
-	repo repository.Products
+	repo repository.RepoDB
 }
 
-func NewProductsDefault(repo repository.Products) *ProductsDefault {
+func NewProductsDefault(repo repository.RepoDB) *ProductsDefault {
 	return &ProductsDefault{repo: repo}
 }
 
 func (s *ProductsDefault) GetAll() (list []models.Product, err error) {
-	list, err = s.repo.GetAll()
+	list, err = s.repo.ProductsDB.GetAll()
 	return
 }
 
 func (s *ProductsDefault) GetById(id int) (prod models.Product, err error) {
-	prod, err = s.repo.GetById(id)
+	prod, err = s.repo.ProductsDB.GetById(id)
 	return
 }
 
 func (s *ProductsDefault) Create(prod models.ProductDTO) (newProd models.Product, err error) {
-	newProd, err = s.repo.Create(prod)
+	newProd, err = s.repo.ProductsDB.Create(prod)
 	return
 }
 
 func (s *ProductsDefault) Update(id int, prod models.ProductDTO) (updatedProd models.Product, err error) {
-	updatedProd, err = s.repo.Update(id, prod)
+	updatedProd, err = s.repo.ProductsDB.Update(id, prod)
 	return
 }
 
 func (s *ProductsDefault) Delete(id int) (err error) {
-	err = s.repo.Delete(id)
+	err = s.repo.ProductsDB.Delete(id)
 	return
 }

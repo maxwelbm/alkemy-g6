@@ -1,18 +1,16 @@
 package application
 
 import (
-	"fmt"
 	"log"
-	"os"
+
 	"github.com/go-chi/chi/v5"
-	"github.com/maxwelbm/alkemy-g6/internal/controllers/warehouses"
-	"github.com/maxwelbm/alkemy-g6/internal/loaders"
-	"github.com/maxwelbm/alkemy-g6/internal/repository/warehouse"
+	controller "github.com/maxwelbm/alkemy-g6/internal/controllers/warehouses"
+	"github.com/maxwelbm/alkemy-g6/internal/repository"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
-func buildApiV1WarehousesRoutes(rt *chi.Mux) {
-	ct, err := initWarehousesController()
+func buildApiV1WarehousesRoutes(db repository.RepoDB, rt *chi.Mux) {
+	ct, err := initWarehousesController(db)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -25,26 +23,9 @@ func buildApiV1WarehousesRoutes(rt *chi.Mux) {
 	})
 }
 
-func initWarehousesController() (ct controller.WarehouseDefault, err error) {
-	repo, err := loadWarehousesRepository()
-	if err != nil {
-		return
-	}
-	sv := service.NewWarehouseDefault(repo)
+func initWarehousesController(db repository.RepoDB) (ct controller.WarehouseDefault, err error) {
+	sv := service.NewWarehouseDefault(db)
 
 	ct = *controller.NewWarehouseDefault(sv)
-	return
-}
-
-func loadWarehousesRepository() (repo *repository.Warehouses, err error) {
-	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "warehouses.json")
-	ld := loaders.NewWarehouseJSONFile(path)
-	prods, err := ld.Load()
-	if err != nil {
-		return
-	}
-
-	repo = repository.NewWarehouses(prods)
-
 	return
 }

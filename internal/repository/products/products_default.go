@@ -13,31 +13,31 @@ var (
 )
 
 type Products struct {
-	db     map[int]models.Product
+	prods  map[int]models.Product
 	lastId int
 }
 
-func NewProducts(db map[int]models.Product) *Products {
+func NewProducts(prods map[int]models.Product) *Products {
 	// initializes db map
 	defaultDb := make(map[int]models.Product)
-	if db != nil {
-		defaultDb = db
+	if prods != nil {
+		defaultDb = prods
 	}
 
 	// assigns last id
 	lastId := 0
-	for _, p := range db {
+	for _, p := range prods {
 		if lastId < p.ID {
 			lastId = p.ID
 		}
 	}
 
-	return &Products{db: defaultDb, lastId: lastId}
+	return &Products{prods: defaultDb, lastId: lastId}
 }
 
 func (p *Products) validateProduct(prod models.Product) (err error) {
 	// Uniqueness
-	for _, dbProd := range p.db {
+	for _, dbProd := range p.prods {
 		// skips self
 		if prod.ID == dbProd.ID {
 			continue
