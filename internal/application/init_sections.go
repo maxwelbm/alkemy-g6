@@ -19,6 +19,8 @@ func buildApiV1SectionsRoutes(db repository.RepoDB, rt *chi.Mux) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetById)
 		rt.Post("/", ct.Create)
+		rt.Patch("/{id}", ct.Update)
+		rt.Delete("/{id}", ct.Delete)
 	})
 }
 

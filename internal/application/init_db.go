@@ -6,6 +6,8 @@ import (
 
 	"github.com/maxwelbm/alkemy-g6/internal/loaders"
 	"github.com/maxwelbm/alkemy-g6/internal/repository"
+	buy_repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyer"
+	buyerRepository "github.com/maxwelbm/alkemy-g6/internal/repository/buyer"
 	emp_repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
 	prod_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
 	sec_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
@@ -14,6 +16,10 @@ import (
 )
 
 func loadDB() (repo repository.RepoDB, err error) {
+	buy, err := loadBuyersRepository()
+	if err != nil {
+		return
+	}
 	emp, err := loadEmployeesRepository()
 	if err != nil {
 		return
@@ -36,6 +42,7 @@ func loadDB() (repo repository.RepoDB, err error) {
 	}
 
 	repo = repository.RepoDB{
+		BuyersDB:    buy,
 		EmployeesDB: emp,
 		ProductsDB:  prod,
 		SectionsDB:  sec,
@@ -73,6 +80,19 @@ func loadProductsRepository() (repo *prod_repository.Products, err error) {
 	return
 }
 
+func loadWarehousesRepository() (repo *war_repository.Warehouses, err error) {
+	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "warehouses.json")
+	ld := loaders.NewWarehouseJSONFile(path)
+	prods, err := ld.Load()
+	if err != nil {
+		return
+	}
+
+	repo = war_repository.NewWarehouses(prods)
+
+	return
+}
+
 func loadSectionsRepository() (repo *sec_repository.Sections, err error) {
 	// loads products from products.json file
 	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "sections.json")
@@ -101,15 +121,16 @@ func loadSellersRepository() (repo *sel_repository.SellerRepository, err error) 
 	return
 }
 
-func loadWarehousesRepository() (repo *repository.Warehouses, err error) {
-	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "warehouses.json")
-	ld := loaders.NewWarehouseJSONFile(path)
-	prods, err := ld.Load()
+func loadBuyersRepository() (repo *buy_repository.BuyerRepository, err error) {
+	// loads products from products.json file
+	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "buyers.json")
+	ld := loaders.NewBuyerJSONFile(path)
+	buyers, err := ld.Load()
 	if err != nil {
 		return
 	}
 
-	repo = war_repository.NewWarehouses(prods)
+	repo = buyerRepository.NewBuyerRepository(buyers)
 
 	return
 }

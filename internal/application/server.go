@@ -64,7 +64,7 @@ func (a *ServerChi) Run() (err error) {
 	buildApiV1ProductsRoutes(db, rt)
 	buildApiV1SectionsRoutes(db, rt)
 	buildApiV1EmployeesRoutes(db, rt)
-
+	buildApiV1BuyerRoutes(db, rt)
 	// run server
 	err = http.ListenAndServe(a.serverAddress, rt)
 	return
