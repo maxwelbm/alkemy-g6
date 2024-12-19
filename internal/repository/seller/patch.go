@@ -1,4 +1,4 @@
-package sellerRepository
+package repository
 
 import modelsSeller "github.com/maxwelbm/alkemy-g6/internal/models/seller"
 

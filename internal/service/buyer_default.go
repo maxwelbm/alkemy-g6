@@ -1,39 +1,40 @@
 package service
 
 import (
-	modelsBuyer "github.com/maxwelbm/alkemy-g6/internal/models/buyer"
+	models "github.com/maxwelbm/alkemy-g6/internal/models/buyer"
+	"github.com/maxwelbm/alkemy-g6/internal/repository"
 )
 
 type BuyerDefault struct {
-	rp modelsBuyer.BuyerRepository
+	repo repository.RepoDB
 }
 
-func NewBuyerService(repositoryBuyer modelsBuyer.BuyerRepository) *BuyerDefault {
+func NewBuyerService(repo repository.RepoDB) *BuyerDefault {
 	return &BuyerDefault{
-		rp: repositoryBuyer,
+		repo: repo,
 	}
 }
 
-func (s *BuyerDefault) GetAll() ([]modelsBuyer.Buyer, error) {
-	return s.rp.GetAll()
+func (s *BuyerDefault) GetAll() ([]models.Buyer, error) {
+	return s.repo.BuyersDB.GetAll()
 }
 
-func (s *BuyerDefault) GetById(id int) (modelsBuyer.Buyer, error) {
-	return s.rp.GetById(id)
+func (s *BuyerDefault) GetById(id int) (models.Buyer, error) {
+	return s.repo.BuyersDB.GetById(id)
 }
 
-func (s *BuyerDefault) GetByCardNumberId(cardNumberId string) (modelsBuyer.Buyer, error) {
-	return s.rp.GetByCardNumberId(cardNumberId)
+func (s *BuyerDefault) GetByCardNumberId(cardNumberId string) (models.Buyer, error) {
+	return s.repo.BuyersDB.GetByCardNumberId(cardNumberId)
 }
 
-func (s *BuyerDefault) PostBuyer(buyer modelsBuyer.Buyer) (modelsBuyer.Buyer, error) {
-	return s.rp.PostBuyer(buyer)
+func (s *BuyerDefault) PostBuyer(buyer models.Buyer) (models.Buyer, error) {
+	return s.repo.BuyersDB.PostBuyer(buyer)
 }
 
-func (s *BuyerDefault) PatchBuyer(buyer modelsBuyer.BuyerDTO) (modelsBuyer.Buyer, error) {
-	return s.rp.PatchBuyer(buyer)
+func (s *BuyerDefault) PatchBuyer(buyer models.BuyerDTO) (models.Buyer, error) {
+	return s.repo.BuyersDB.PatchBuyer(buyer)
 }
 
 func (s *BuyerDefault) Delete(id int) (err error) {
-	return s.rp.Delete(id)
+	return s.repo.BuyersDB.Delete(id)
 }

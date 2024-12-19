@@ -7,8 +7,8 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	modelsBuyer "github.com/maxwelbm/alkemy-g6/internal/models/buyer"
-	buyerRepository "github.com/maxwelbm/alkemy-g6/internal/repository/buyer"
+	models "github.com/maxwelbm/alkemy-g6/internal/models/buyer"
+	repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyer"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -27,7 +27,7 @@ func (controller *BuyerDefault) PatchBuyer(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	buyerToUpdate := modelsBuyer.BuyerDTO{
+	buyerToUpdate := models.BuyerDTO{
 		Id:           &id,
 		CardNumberId: buyerRequest.CardNumberId,
 		FirstName:    buyerRequest.FirstName,
@@ -36,7 +36,7 @@ func (controller *BuyerDefault) PatchBuyer(w http.ResponseWriter, r *http.Reques
 
 	buyerReturn, err := controller.sv.PatchBuyer(buyerToUpdate)
 
-	if errors.Is(err, buyerRepository.ErrorIdNotFound) {
+	if errors.Is(err, repository.ErrorIdNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}

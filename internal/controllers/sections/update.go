@@ -15,19 +15,19 @@ import (
 func (c *SectionsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
-		response.Error(w, http.StatusBadRequest, "Invalid ID format")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	var secReqJson NewSectionReqJSON
 	err = json.NewDecoder(r.Body).Decode(&secReqJson)
 	if err != nil {
-		response.JSON(w, http.StatusBadRequest, nil)
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 	err = secReqJson.validateUpdate()
 
 	if err != nil {
-		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 	secDTO := models.SectionDTO{
@@ -51,7 +51,7 @@ func (c *SectionsDefault) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err != nil {
-		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 

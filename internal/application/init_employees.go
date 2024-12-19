@@ -1,19 +1,16 @@
 package application
 
 import (
-	"fmt"
 	"log"
-	"os"
 
 	"github.com/go-chi/chi/v5"
 	controller "github.com/maxwelbm/alkemy-g6/internal/controllers/employees"
-	"github.com/maxwelbm/alkemy-g6/internal/loaders"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
+	"github.com/maxwelbm/alkemy-g6/internal/repository"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
-func buildApiV1EmployeesRoutes(rt *chi.Mux) {
-	ct, err := initEmployeesController()
+func buildApiV1EmployeesRoutes(db repository.RepoDB, rt *chi.Mux) {
+	ct, err := initEmployeesController(db)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,26 +24,9 @@ func buildApiV1EmployeesRoutes(rt *chi.Mux) {
 	})
 }
 
-func initEmployeesController() (ct controller.Employees, err error) {
-	rp, err := loadEmployeesRepository()
-	if err != nil {
-		return
-	}
-	sv := *service.NewEmployeesDefault(&rp)
+func initEmployeesController(db repository.RepoDB) (ct controller.Employees, err error) {
+	sv := *service.NewEmployeesDefault(db)
 
 	ct = *controller.NewEmployeesDefault(&sv)
-	return
-}
-
-func loadEmployeesRepository() (repo repository.Employees, err error) {
-	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "employees.json")
-	ld := loaders.NewEmployeesJSONFile(path)
-	emp, err := ld.Load()
-	if err != nil {
-		return
-	}
-
-	repo = *repository.NewEmployees(emp)
-
 	return
 }

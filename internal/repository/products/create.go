@@ -26,7 +26,7 @@ func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err e
 		return
 	}
 
-	p.db[nextId] = newProd
+	p.prods[nextId] = newProd
 	p.lastId = nextId
 	return
 }

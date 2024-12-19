@@ -45,6 +45,12 @@ func (a *ServerChi) Run() (err error) {
 	log.Print(Title)
 	log.Printf("Starting server at port %s\n", a.serverAddress)
 
+	db, err := loadDB()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
 	// router
 	rt := chi.NewRouter()
 
@@ -53,13 +59,12 @@ func (a *ServerChi) Run() (err error) {
 	rt.Use(middleware.Recoverer)
 
 	// resources
-	buildApiV1SellerRoutes(rt)
-	buildApiV1WarehousesRoutes(rt)
-	buildApiV1ProductsRoutes(rt)
-	buildApiV1SectionsRoutes(rt)
-	buildApiV1EmployeesRoutes(rt)
-	buildApiV1BuyerRoutes(rt)
-
+	buildApiV1SellerRoutes(db, rt)
+	buildApiV1WarehousesRoutes(db, rt)
+	buildApiV1ProductsRoutes(db, rt)
+	buildApiV1SectionsRoutes(db, rt)
+	buildApiV1EmployeesRoutes(db, rt)
+	buildApiV1BuyerRoutes(db, rt)
 	// run server
 	err = http.ListenAndServe(a.serverAddress, rt)
 	return

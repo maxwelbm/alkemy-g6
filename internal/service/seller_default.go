@@ -2,38 +2,39 @@ package service
 
 import (
 	modelsSeller "github.com/maxwelbm/alkemy-g6/internal/models/seller"
+	"github.com/maxwelbm/alkemy-g6/internal/repository"
 )
 
 type SellerDefault struct {
-	rp modelsSeller.SellerRepository
+	repo repository.RepoDB
 }
 
-func NewSellerService(repositorySeller modelsSeller.SellerRepository) *SellerDefault {
+func NewSellerService(repositorySeller repository.RepoDB) *SellerDefault {
 	return &SellerDefault{
-		rp: repositorySeller,
+		repo: repositorySeller,
 	}
 }
 
 func (s *SellerDefault) GetAll() ([]modelsSeller.Seller, error) {
-	return s.rp.GetAll()
+	return s.repo.SellersDB.GetAll()
 }
 
 func (s *SellerDefault) GetById(id int) (sel modelsSeller.Seller, err error) {
-	return s.rp.GetById(id)
+	return s.repo.SellersDB.GetById(id)
 }
 
 func (s *SellerDefault) GetByCid(cid int) (sel modelsSeller.Seller, err error) {
-	return s.rp.GetByCid(cid)
+	return s.repo.SellersDB.GetByCid(cid)
 }
 
 func (s *SellerDefault) PostSeller(seller modelsSeller.Seller) error {
-	return s.rp.PostSeller(seller)
+	return s.repo.SellersDB.PostSeller(seller)
 }
 
 func (s *SellerDefault) PatchSeller(seller modelsSeller.Seller) error {
-	return s.rp.PatchSeller(seller)
+	return s.repo.SellersDB.PatchSeller(seller)
 }
 
 func (s *SellerDefault) Delete(id int) (err error) {
-	return s.rp.Delete(id)
+	return s.repo.SellersDB.Delete(id)
 }

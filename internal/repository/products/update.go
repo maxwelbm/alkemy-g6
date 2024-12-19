@@ -3,7 +3,7 @@ package repository
 import models "github.com/maxwelbm/alkemy-g6/internal/models/products"
 
 func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Product, err error) {
-	updatedProd, ok := p.db[id]
+	updatedProd, ok := p.prods[id]
 	// Checks if product is present
 	if !ok {
 		err = ErrProductNotFound
@@ -51,6 +51,6 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 	}
 
 	// updated record in the database
-	p.db[id] = updatedProd
+	p.prods[id] = updatedProd
 	return
 }

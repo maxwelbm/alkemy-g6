@@ -1,19 +1,16 @@
 package application
 
 import (
-	"fmt"
 	"log"
-	"os"
 
 	"github.com/go-chi/chi/v5"
 	controller "github.com/maxwelbm/alkemy-g6/internal/controllers/sections"
-	"github.com/maxwelbm/alkemy-g6/internal/loaders"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
+	"github.com/maxwelbm/alkemy-g6/internal/repository"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
-func buildApiV1SectionsRoutes(rt *chi.Mux) {
-	ct, err := initSectionsController()
+func buildApiV1SectionsRoutes(db repository.RepoDB, rt *chi.Mux) {
+	ct, err := initSectionsController(db)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,27 +24,9 @@ func buildApiV1SectionsRoutes(rt *chi.Mux) {
 	})
 }
 
-func initSectionsController() (ct controller.SectionsDefault, err error) {
-	repo, err := loadSectionsRepository()
-	if err != nil {
-		return
-	}
-	sv := service.NewSectionDefault(&repo)
+func initSectionsController(db repository.RepoDB) (ct controller.SectionsDefault, err error) {
+	sv := service.NewSectionDefault(db)
 
 	ct = *controller.NewSectionsDefault(sv)
-	return
-}
-
-func loadSectionsRepository() (repo repository.Sections, err error) {
-	// loads products from products.json file
-	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "sections.json")
-	ld := loaders.NewSectionJSONFile(path)
-	sections, err := ld.Load()
-	if err != nil {
-		return
-	}
-
-	repo = *repository.NewSections(sections)
-
 	return
 }
