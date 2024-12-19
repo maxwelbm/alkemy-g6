@@ -1,7 +1,7 @@
 package controller
 
 import (
-    "github.com/maxwelbm/alkemy-g6/internal/models/warehouse"
+    "github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
 )
 
 type WarehouseDataResJSON struct {

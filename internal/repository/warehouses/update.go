@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/maxwelbm/alkemy-g6/internal/models/warehouse"
+	"github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
 )
 
 func (r *Warehouses) Update(id int, warehouse models.WarehouseDTO) (w models.Warehouse, err error) {

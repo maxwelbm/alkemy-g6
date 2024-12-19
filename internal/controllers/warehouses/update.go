@@ -5,8 +5,8 @@ import (
 	"errors"
 	"net/http"
     "strconv"
-	"github.com/maxwelbm/alkemy-g6/internal/models/warehouse"
-	"github.com/maxwelbm/alkemy-g6/internal/repository/warehouse"
+	"github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
+	"github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
     "github.com/go-chi/chi/v5"
 )
