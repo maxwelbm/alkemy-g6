@@ -20,6 +20,7 @@ func buildApiV1BuyerRoutes(rt *chi.Mux) {
 
 	rt.Route("/api/v1/buyers", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
+		rt.Get("/{id}", ct.GetById)
 	})
 }
 
@@ -42,7 +43,6 @@ func loadBuyersRepository() (repo *buyerRepository.BuyerRepository, err error) {
 	if err != nil {
 		return
 	}
-	fmt.Printf("buyers: %+v", buyers)
 
 	repo = buyerRepository.NewBuyerRepository(buyers)
 
