@@ -2,14 +2,13 @@ package service
 
 import (
 	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 )
 
 type SectionsDefault struct {
-	repo repository.Sections
+	repo models.SectionRepository
 }
 
-func NewSectionDefault(repo repository.Sections) *SectionsDefault {
+func NewSectionDefault(repo models.SectionRepository) *SectionsDefault {
 	return &SectionsDefault{
 		repo: repo,
 	}
