@@ -21,3 +21,11 @@ func (s *BuyerDefault) GetAll() ([]modelsBuyer.Buyer, error) {
 func (s *BuyerDefault) GetById(id int) (modelsBuyer.Buyer, error) {
 	return s.rp.GetById(id)
 }
+
+func (s *BuyerDefault) GetByCardNumberId(cardNumberId string) (modelsBuyer.Buyer, error) {
+	return s.rp.GetByCardNumberId(cardNumberId)
+}
+
+func (s *BuyerDefault) PostBuyer(buyer modelsBuyer.Buyer) (modelsBuyer.Buyer, error) {
+	return s.rp.PostBuyer(buyer)
+}
