@@ -22,6 +22,8 @@ func buildApiV1SectionsRoutes(rt *chi.Mux) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetById)
 		rt.Post("/", ct.Create)
+		rt.Patch("/{id}", ct.Update)
+		rt.Delete("/{id}", ct.Delete)
 	})
 }
 
@@ -30,7 +32,7 @@ func initSectionsController() (ct controller.SectionsDefault, err error) {
 	if err != nil {
 		return
 	}
-	sv := service.NewSectionDefault(repo)
+	sv := service.NewSectionDefault(&repo)
 
 	ct = *controller.NewSectionsDefault(sv)
 	return

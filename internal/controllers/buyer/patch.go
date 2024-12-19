@@ -2,11 +2,13 @@ package buyerController
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	modelsBuyer "github.com/maxwelbm/alkemy-g6/internal/models/buyer"
+	buyerRepository "github.com/maxwelbm/alkemy-g6/internal/repository/buyer"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -19,51 +21,36 @@ func (controller *BuyerDefault) PatchBuyer(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	buyer, err := controller.sv.GetById(id)
-
-	if err != nil {
-		response.Error(w, http.StatusNotFound, err.Error())
-		return
-	}
-
 	var buyerRequest BuyerRequestPatch
 	if err := json.NewDecoder(r.Body).Decode(&buyerRequest); err != nil {
 		response.JSON(w, http.StatusBadRequest, "Error ao decodificarJSON")
 		return
 	}
 
-	if buyerRequest.Id == nil {
-		buyerRequest.Id = &buyer.Id
-	}
-	if buyerRequest.CardNumberId == nil {
-		buyerRequest.CardNumberId = &buyer.CardNumberId
-	}
-	if buyerRequest.FirstName == nil {
-		buyerRequest.FirstName = &buyer.FirstName
-	}
-	if buyerRequest.LastName == nil {
-		buyerRequest.LastName = &buyer.LastName
+	buyerToUpdate := modelsBuyer.BuyerDTO{
+		Id:           &id,
+		CardNumberId: buyerRequest.CardNumberId,
+		FirstName:    buyerRequest.FirstName,
+		LastName:     buyerRequest.LastName,
 	}
 
-	buyerToUpdate := modelsBuyer.Buyer{
-		Id:           id,
-		CardNumberId: *buyerRequest.CardNumberId,
-		FirstName:    *buyerRequest.FirstName,
-		LastName:     *&buyer.LastName,
+	buyerReturn, err := controller.sv.PatchBuyer(buyerToUpdate)
+
+	if errors.Is(err, buyerRepository.ErrorIdNotFound) {
+		response.Error(w, http.StatusNotFound, err.Error())
+		return
 	}
 
-	errToPatch := controller.sv.PatchBuyer(buyerToUpdate)
-
-	if errToPatch != nil {
-		response.Error(w, http.StatusInternalServerError, "Failed to done the patch")
+	if err != nil {
+		response.Error(w, http.StatusInternalServerError, "Internal error! Failed to done the patch")
 		return
 	}
 
 	data := BuyerDataResJSON{
-		Id:           buyerToUpdate.Id,
-		CardNumberId: buyerToUpdate.CardNumberId,
-		FirstName:    buyerToUpdate.FirstName,
-		LastName:     buyerToUpdate.LastName,
+		Id:           buyerReturn.Id,
+		CardNumberId: buyerReturn.CardNumberId,
+		FirstName:    buyerReturn.FirstName,
+		LastName:     buyerReturn.LastName,
 	}
 
 	res := BuyerResJSON{

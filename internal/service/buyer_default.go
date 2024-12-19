@@ -30,7 +30,7 @@ func (s *BuyerDefault) PostBuyer(buyer modelsBuyer.Buyer) (modelsBuyer.Buyer, er
 	return s.rp.PostBuyer(buyer)
 }
 
-func (s *BuyerDefault) PatchBuyer(buyer modelsBuyer.Buyer) error {
+func (s *BuyerDefault) PatchBuyer(buyer modelsBuyer.BuyerDTO) (modelsBuyer.Buyer, error) {
 	return s.rp.PatchBuyer(buyer)
 }
 

@@ -22,6 +22,8 @@ func buildApiV1EmployeesRoutes(rt *chi.Mux) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetByID)
 		rt.Post("/", ct.Create)
+		rt.Patch("/{id}", ct.Update)
+		rt.Delete("/{id}", ct.Delete)
 	})
 }
 
@@ -30,9 +32,9 @@ func initEmployeesController() (ct controller.Employees, err error) {
 	if err != nil {
 		return
 	}
-	sv := *service.NewEmployeesDefault(rp)
+	sv := *service.NewEmployeesDefault(&rp)
 
-	ct = *controller.NewEmployeesDefault(sv)
+	ct = *controller.NewEmployeesDefault(&sv)
 	return
 }
 

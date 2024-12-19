@@ -2,14 +2,13 @@ package service
 
 import (
 	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 )
 
 type SectionsDefault struct {
-	repo repository.Sections
+	repo models.SectionRepository
 }
 
-func NewSectionDefault(repo repository.Sections) *SectionsDefault {
+func NewSectionDefault(repo models.SectionRepository) *SectionsDefault {
 	return &SectionsDefault{
 		repo: repo,
 	}
@@ -27,5 +26,15 @@ func (s *SectionsDefault) GetById(id int) (section models.Section, err error) {
 
 func (s *SectionsDefault) Create(sec models.SectionDTO) (newSection models.Section, err error) {
 	newSection, err = s.repo.Create(sec)
+	return
+}
+
+func (s *SectionsDefault) Update(id int, sec models.SectionDTO) (updateSection models.Section, err error) {
+	updateSection, err = s.repo.Update(id, sec)
+	return
+}
+
+func (s *SectionsDefault) Delete(id int) (err error) {
+	err = s.repo.Delete(id)
 	return
 }
