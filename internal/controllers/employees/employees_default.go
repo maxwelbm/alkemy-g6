@@ -23,3 +23,8 @@ type EmployeesAttributes struct {
 type EmployeesFinalJSON struct {
 	Data []EmployeesAttributes `json:"data"`
 }
+
+type EmployeesResJSON struct {
+	Message string              `json:"message"`
+	Data    EmployeesAttributes `json:"data"`
+}
