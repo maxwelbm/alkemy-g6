@@ -25,8 +25,8 @@ type EmployeesFinalJSON struct {
 }
 
 type EmployeesResJSON struct {
-	Message string              `json:"message"`
-	Data    EmployeesAttributes `json:"data"`
+	Message string `json:"message,omitempty"`
+	Data    any    `json:"data",omitempty`
 }
 
 type EmployeesReqJSON struct {

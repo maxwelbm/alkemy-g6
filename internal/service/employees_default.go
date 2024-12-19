@@ -27,3 +27,8 @@ func (e *EmployeesDefault) Create(employees models.EmployeesDTO) (newEmployees m
 	newEmployees, err = e.rp.Create(employees)
 	return
 }
+
+func (e *EmployeesDefault) Delete(id int) (err error) {
+	err = e.rp.Delete(id)
+	return
+}
