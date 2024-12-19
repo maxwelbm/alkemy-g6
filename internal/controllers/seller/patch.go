@@ -1,6 +1,15 @@
 package sellerController
 
-/*
+import (
+	"encoding/json"
+	"net/http"
+	"strconv"
+
+	"github.com/go-chi/chi/v5"
+	modelsSeller "github.com/maxwelbm/alkemy-g6/internal/models/seller"
+	"github.com/maxwelbm/alkemy-g6/pkg/response"
+)
+
 func (controller *SellerDefault) PatchSeller(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
@@ -26,19 +35,19 @@ func (controller *SellerDefault) PatchSeller(w http.ResponseWriter, r *http.Requ
 	response.JSON(w, http.StatusNoContent, nil)
 
 	if sellerRequest.ID == nil {
-		sellerRequest.ID = seller.ID
+		sellerRequest.ID = &seller.ID
 	}
 	if sellerRequest.CID == nil {
-		sellerRequest.CID = seller.CID
+		sellerRequest.CID = &seller.CID
 	}
 	if sellerRequest.CompanyName == nil {
-		sellerRequest.CompanyName = seller.CompanyName
+		sellerRequest.CompanyName = &seller.CompanyName
 	}
 	if sellerRequest.Address == nil {
-		sellerRequest.Address = seller.Address
+		sellerRequest.Address = &seller.Address
 	}
 	if sellerRequest.Telephone == nil {
-		sellerRequest.Telephone = seller.Telephone
+		sellerRequest.Telephone = &seller.Telephone
 	}
 
 	sellerToUpdate := modelsSeller.Seller{
@@ -49,11 +58,25 @@ func (controller *SellerDefault) PatchSeller(w http.ResponseWriter, r *http.Requ
 		Telephone:   *sellerRequest.Telephone,
 	}
 
-	errToPatch := controller.sv.PatchSeller(&sellerToUpdate)
+	errToPatch := controller.sv.PatchSeller(sellerToUpdate)
 
 	if errToPatch != nil {
-
+		response.Error(w, http.StatusInternalServerError, "Failed to done the patch")
+		return
 	}
 
+	data := SellerDataResJSON{
+		ID:          sellerToUpdate.ID,
+		CID:         sellerToUpdate.CID,
+		CompanyName: sellerToUpdate.CompanyName,
+		Address:     sellerToUpdate.Address,
+		Telephone:   sellerToUpdate.Telephone,
+	}
+
+	res := SellerResJSON{
+		Message: "Success",
+		Data:    data,
+	}
+	response.JSON(w, http.StatusOK, res)
+
 }
-*/
