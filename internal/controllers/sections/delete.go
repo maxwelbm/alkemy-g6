@@ -18,7 +18,7 @@ func (c *SectionsDefault) Delete(w http.ResponseWriter, r *http.Request) {
 	err = c.sv.Delete(id)
 
 	if err != nil {
-		response.JSON(w, http.StatusNotFound, err.Error())
+		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
 

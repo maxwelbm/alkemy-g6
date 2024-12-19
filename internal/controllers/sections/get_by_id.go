@@ -12,7 +12,7 @@ import (
 func (c *SectionsDefault) GetById(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi((chi.URLParam(r, "id")))
 	if err != nil {
-		response.Error(w, http.StatusBadRequest, "Invalid Id format ")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
