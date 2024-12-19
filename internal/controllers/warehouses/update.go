@@ -14,11 +14,11 @@ import (
 func validateUpdateWarehouse(w WarehouseReqJSON) error {
     if w.MinimumCapacity != nil {
         if *w.MinimumCapacity <= 0 {
-            return errors.New("O campo minimum_capacity deve ser maior que zero")
+            return errors.New("The minimum_capacity field must be greater than zero")
         }
     }   
     if w.Address == nil && w.Telephone == nil && w.WarehouseCode == nil && w.MinimumCapacity == nil && w.MinimumTemperature == nil {
-        return errors.New("Ao menos um campo deve estar presente na requisição")
+        return errors.New("At least one field should be present")
     }
 
     return nil

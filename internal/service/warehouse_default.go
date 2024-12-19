@@ -31,3 +31,8 @@ func (s *WarehouseDefault) Update(id int, warehouse models.WarehouseDTO) (w mode
 	w, err = s.repo.Update(id, warehouse)
 	return
 }
+
+func (s *WarehouseDefault) Delete(id int) (err error) {
+	err = s.repo.Delete(id)
+	return
+}

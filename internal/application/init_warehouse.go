@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/maxwelbm/alkemy-g6/internal/controllers/warehouses"
 	"github.com/maxwelbm/alkemy-g6/internal/loaders"
@@ -22,6 +23,7 @@ func buildApiV1WarehousesRoutes(rt *chi.Mux) {
 		rt.Get("/{id}", ct.GetById)
 		rt.Post("/", ct.Create)
 		rt.Patch("/{id}", ct.Update)
+		rt.Delete("/{id}", ct.Delete)
 	})
 }
 
