@@ -33,3 +33,7 @@ func (s *BuyerDefault) PostBuyer(buyer modelsBuyer.Buyer) (modelsBuyer.Buyer, er
 func (s *BuyerDefault) PatchBuyer(buyer modelsBuyer.BuyerDTO) (modelsBuyer.Buyer, error) {
 	return s.rp.PatchBuyer(buyer)
 }
+
+func (s *BuyerDefault) Delete(id int) (err error) {
+	return s.rp.Delete(id)
+}
