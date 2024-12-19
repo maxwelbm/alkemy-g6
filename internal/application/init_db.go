@@ -11,7 +11,7 @@ import (
 	prod_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
 	sec_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 	sel_repository "github.com/maxwelbm/alkemy-g6/internal/repository/seller"
-	war_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouse"
+	war_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
 )
 
 func loadDB() (repo repository.RepoDB, err error) {

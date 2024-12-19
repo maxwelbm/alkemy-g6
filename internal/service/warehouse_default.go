@@ -3,7 +3,7 @@ package service
 import (
 	"errors"
 
-	models "github.com/maxwelbm/alkemy-g6/internal/models/warehouse"
+	"github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
 	"github.com/maxwelbm/alkemy-g6/internal/repository"
 )
 
