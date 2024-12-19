@@ -6,9 +6,9 @@ import (
 	"os"
 
 	"github.com/go-chi/chi/v5"
-	controller "github.com/maxwelbm/alkemy-g6/internal/controllers/warehouses"
+	"github.com/maxwelbm/alkemy-g6/internal/controllers/warehouses"
 	"github.com/maxwelbm/alkemy-g6/internal/loaders"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouse"
+	"github.com/maxwelbm/alkemy-g6/internal/repository/warehouse"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
