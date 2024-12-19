@@ -32,7 +32,7 @@ func initSectionsController() (ct controller.SectionsDefault, err error) {
 	if err != nil {
 		return
 	}
-	sv := service.NewSectionDefault(repo)
+	sv := service.NewSectionDefault(&repo)
 
 	ct = *controller.NewSectionsDefault(sv)
 	return
