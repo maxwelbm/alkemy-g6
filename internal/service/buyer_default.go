@@ -30,3 +30,11 @@ func (s *BuyerDefault) GetByCardNumberId(cardNumberId string) (models.Buyer, err
 func (s *BuyerDefault) PostBuyer(buyer models.Buyer) (models.Buyer, error) {
 	return s.repo.BuyersDB.PostBuyer(buyer)
 }
+
+func (s *BuyerDefault) PatchBuyer(buyer models.BuyerDTO) (models.Buyer, error) {
+	return s.repo.BuyersDB.PatchBuyer(buyer)
+}
+
+func (s *BuyerDefault) Delete(id int) (err error) {
+	return s.repo.BuyersDB.Delete(id)
+}

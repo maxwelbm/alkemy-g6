@@ -1,7 +1,6 @@
 package buyerController
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
@@ -11,7 +10,6 @@ func (controller *BuyerDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
 	buyers, err := controller.sv.GetAll()
-	fmt.Printf("data: %+v", buyers)
 
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, "Failed to retrieve buyers")

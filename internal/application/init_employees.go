@@ -19,6 +19,7 @@ func buildApiV1EmployeesRoutes(db repository.RepoDB, rt *chi.Mux) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetByID)
 		rt.Post("/", ct.Create)
+		rt.Patch("/{id}", ct.Update)
 		rt.Delete("/{id}", ct.Delete)
 	})
 }
@@ -26,6 +27,6 @@ func buildApiV1EmployeesRoutes(db repository.RepoDB, rt *chi.Mux) {
 func initEmployeesController(db repository.RepoDB) (ct controller.Employees, err error) {
 	sv := *service.NewEmployeesDefault(db)
 
-	ct = *controller.NewEmployeesDefault(sv)
+	ct = *controller.NewEmployeesDefault(&sv)
 	return
 }

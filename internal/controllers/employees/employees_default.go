@@ -1,14 +1,14 @@
 package controller
 
 import (
-	"github.com/maxwelbm/alkemy-g6/internal/service"
+	models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
 )
 
 type Employees struct {
-	sv service.EmployeesDefault
+	sv models.EmployeesService
 }
 
-func NewEmployeesDefault(sv service.EmployeesDefault) *Employees {
+func NewEmployeesDefault(sv models.EmployeesService) *Employees {
 	return &Employees{sv: sv}
 }
 
@@ -26,7 +26,7 @@ type EmployeesFinalJSON struct {
 
 type EmployeesResJSON struct {
 	Message string `json:"message,omitempty"`
-	Data    any    `json:"data",omitempty`
+	Data    any    `json:"data,omitempty"`
 }
 
 type EmployeesReqJSON struct {

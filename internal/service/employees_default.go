@@ -28,6 +28,11 @@ func (e *EmployeesDefault) Create(employees models.EmployeesDTO) (newEmployees m
 	return
 }
 
+func (e *EmployeesDefault) Update(employees models.EmployeesDTO, id int) (newEmployees models.Employees, err error) {
+	newEmployees, err = e.repo.EmployeesDB.Update(employees, id)
+	return
+}
+
 func (e *EmployeesDefault) Delete(id int) (err error) {
 	err = e.repo.EmployeesDB.Delete(id)
 	return

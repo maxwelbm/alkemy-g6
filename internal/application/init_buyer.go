@@ -19,6 +19,8 @@ func buildApiV1BuyerRoutes(db repository.RepoDB, rt *chi.Mux) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetById)
 		rt.Post("/", ct.PostBuyer)
+		rt.Patch("/{id}", ct.PatchBuyer)
+		rt.Delete("/{id}", ct.DeleteBuyer)
 	})
 }
 
