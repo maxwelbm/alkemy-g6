@@ -24,7 +24,7 @@ func main() {
 	app := application.NewServerChi(cfg)
 
 	if err := app.Run(); err != nil {
-		log.Fatalf("Error initializint server %s", err)
+		log.Fatalf("Error initializing server %s", err)
 		return
 	}
 }
