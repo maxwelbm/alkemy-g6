@@ -23,6 +23,7 @@ func buildApiV1BuyerRoutes(rt *chi.Mux) {
 		rt.Get("/{id}", ct.GetById)
 		rt.Post("/", ct.PostBuyer)
 		rt.Patch("/{id}", ct.PatchBuyer)
+		rt.Delete("/{id}", ct.DeleteBuyer)
 	})
 }
 
