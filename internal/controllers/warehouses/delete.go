@@ -4,8 +4,10 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/maxwelbm/alkemy-g6/internal/repository/warehouse"
+	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -18,6 +20,10 @@ func (c *WarehouseDefault) Delete(w http.ResponseWriter, r *http.Request) {
     err = c.service.Delete(id)
     if errors.Is(err, repository.ErrWarehouseRepositoryNotFound) {
         response.Error(w, http.StatusNotFound, err.Error())
+        return
+    }
+    if errors.Is(err, service.ErrWarehouseServiceEmployeesAssociated) || errors.Is(err, service.ErrWarehouseServiceSectionsAssociated) {
+        response.Error(w, http.StatusConflict, err.Error())
         return
     }
     if err != nil {
