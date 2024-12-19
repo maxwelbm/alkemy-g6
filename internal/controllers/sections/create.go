@@ -14,7 +14,7 @@ func (c *SectionsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	var secReqJson NewSectionReqJSON
 	err := json.NewDecoder(r.Body).Decode(&secReqJson)
 	if err != nil {
-		response.JSON(w, http.StatusBadRequest, nil)
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 

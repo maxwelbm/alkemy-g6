@@ -4,9 +4,9 @@ import (
 	"log"
 
 	"github.com/go-chi/chi/v5"
-	buyerController "github.com/maxwelbm/alkemy-g6/internal/controllers/buyer"
+	controller "github.com/maxwelbm/alkemy-g6/internal/controllers/buyer"
 	"github.com/maxwelbm/alkemy-g6/internal/repository"
-	buyerService "github.com/maxwelbm/alkemy-g6/internal/service"
+	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
 func buildApiV1BuyerRoutes(db repository.RepoDB, rt *chi.Mux) {
@@ -24,9 +24,9 @@ func buildApiV1BuyerRoutes(db repository.RepoDB, rt *chi.Mux) {
 	})
 }
 
-func initBuyerController(db repository.RepoDB) (ct buyerController.BuyerDefault, err error) {
-	sv := buyerService.NewBuyerService(db)
+func initBuyerController(db repository.RepoDB) (ct controller.BuyerDefault, err error) {
+	sv := service.NewBuyerService(db)
 
-	ct = *buyerController.NewBuyerController(sv)
+	ct = *controller.NewBuyerController(sv)
 	return
 }
