@@ -21,6 +21,8 @@ func buildApiV1EmployeesRoutes(rt *chi.Mux) {
 	rt.Route("/api/v1/employees", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetByID)
+		rt.Post("/", ct.Create)
+		rt.Delete("/{id}", ct.Delete)
 	})
 }
 

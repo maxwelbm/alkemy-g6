@@ -25,6 +25,14 @@ type EmployeesFinalJSON struct {
 }
 
 type EmployeesResJSON struct {
-	Message string              `json:"message"`
-	Data    EmployeesAttributes `json:"data"`
+	Message string `json:"message,omitempty"`
+	Data    any    `json:"data",omitempty`
+}
+
+type EmployeesReqJSON struct {
+	ID           *int    `json:"id"`
+	CardNumberID *string `json:"card_number_id"`
+	FirstName    *string `json:"first_name"`
+	LastName     *string `json:"last_name"`
+	WarehouseID  *int    `json:"warehouse_id"`
 }

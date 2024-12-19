@@ -46,7 +46,7 @@ func NewSectionsDefault(sv models.SectionService) *SectionsDefault {
 	}
 }
 
-func (c *NewSectionReqJSON) validate() (err error) {
+func (c *NewSectionReqJSON) validateCreate() (err error) {
 	var validationErrors []string
 	var nilPointerErrors []string
 
@@ -99,6 +99,44 @@ func (c *NewSectionReqJSON) validate() (err error) {
 	if len(nilPointerErrors) > 0 || len(validationErrors) > 0 {
 		var allErrors []string
 		allErrors = append(allErrors, nilPointerErrors...)
+		allErrors = append(allErrors, validationErrors...)
+
+		err = errors.New(fmt.Sprintf("validation errors: %v", allErrors))
+	}
+	return
+}
+
+func (c *NewSectionReqJSON) validateUpdate() (err error) {
+	var validationErrors []string
+
+	// Check for nil pointers and collect their errors
+	if c.SectionNumber != nil && *c.SectionNumber <= 0 {
+		validationErrors = append(validationErrors, "error: attribute SectionNumber cannot be empty")
+	}
+
+	if c.CurrentCapacity != nil && *c.CurrentCapacity < 0 {
+		validationErrors = append(validationErrors, "error: attribute CurrentCapacity cannot be negative")
+	}
+
+	if c.MinimumCapacity != nil && *c.MinimumCapacity < 0 {
+		validationErrors = append(validationErrors, "error: attribute MinimumCapacity cannot be negative")
+	}
+
+	if c.MaximumCapacity != nil && *c.MaximumCapacity <= 0 {
+		validationErrors = append(validationErrors, "error: attribute MaximumCapacity cannot be negative")
+	}
+
+	if c.WarehouseID != nil && *c.WarehouseID <= 0 {
+		validationErrors = append(validationErrors, "error: attribute WarehouseID must be positive")
+	}
+
+	if c.ProductTypeID != nil && *c.ProductTypeID <= 0 {
+		validationErrors = append(validationErrors, "error: attribute ProductTypeID must be positive")
+	}
+
+	// Combine all errors before returning
+	if len(validationErrors) > 0 {
+		var allErrors []string
 		allErrors = append(allErrors, validationErrors...)
 
 		err = errors.New(fmt.Sprintf("validation errors: %v", allErrors))
