@@ -17,3 +17,7 @@ func NewBuyerService(repositoryBuyer modelsBuyer.BuyerRepository) *BuyerDefault 
 func (s *BuyerDefault) GetAll() ([]modelsBuyer.Buyer, error) {
 	return s.rp.GetAll()
 }
+
+func (s *BuyerDefault) GetById(id int) (modelsBuyer.Buyer, error) {
+	return s.rp.GetById(id)
+}
