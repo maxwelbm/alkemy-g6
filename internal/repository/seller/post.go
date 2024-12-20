@@ -6,6 +6,7 @@ func (r *SellerRepository) PostSeller(seller modelsSeller.Seller) (sellerToRetur
 	nextId := r.LastId + 1
 	seller.ID = nextId
 	r.Sellers[seller.ID] = seller
+	r.LastId++
 	sellerToReturn = seller
 	return
 }
