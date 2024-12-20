@@ -24,8 +24,7 @@ func (controller *SellerDefault) Delete(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	err = controller.sv.Delete(id)
-	if errors.Is(err, service.ErrSellerServiceProductsAssociated) {
+	err = controller.sv.Delete(id); if errors.Is(err, service.ErrSellerServiceProductsAssociated) {
 		response.Error(w, http.StatusConflict, err.Error())
 		return
 	}
