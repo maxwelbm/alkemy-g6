@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 	"github.com/go-chi/chi/v5"
-	"github.com/maxwelbm/alkemy-g6/internal/repository/warehouse"
+	"github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 

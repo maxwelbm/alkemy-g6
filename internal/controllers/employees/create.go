@@ -7,6 +7,7 @@ import (
 
 	models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
 	repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
+	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -34,6 +35,11 @@ func (c *Employees) Create(w http.ResponseWriter, r *http.Request) {
 	emp, err := c.sv.Create(employees)
 	if errors.Is(err, repository.ErrEmployeesRepositoryDuplicatedCode) {
 		response.Error(w, http.StatusConflict, err.Error())
+		return
+	}
+
+	if errors.Is(err, service.ErrWareHousesServiceNotFound) {
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 

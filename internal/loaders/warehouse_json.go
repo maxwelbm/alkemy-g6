@@ -3,7 +3,7 @@ package loaders
 import (
 	"encoding/json"
 	"os"   
-    "github.com/maxwelbm/alkemy-g6/internal/models/warehouse"
+    "github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
 )
 
 func NewWarehouseJSONFile(path string) *WarehouseJSONFile {
