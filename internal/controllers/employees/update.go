@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
 	repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
+	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -37,6 +38,7 @@ func (c *Employees) Update(w http.ResponseWriter, r *http.Request) {
 		employees.LastName = *employeesJSON.LastName
 	}
 	if employeesJSON.WarehouseID != nil {
+
 		employees.WarehouseID = *employeesJSON.WarehouseID
 		if employees.WarehouseID <= 0 {
 			response.Error(w, http.StatusBadRequest, "WarehouseID invalid")
@@ -53,6 +55,12 @@ func (c *Employees) Update(w http.ResponseWriter, r *http.Request) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
+
+	if errors.Is(err, service.ErrWareHousesServiceNotFound) {
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		return
+	}
+
 	if err != nil {
 		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
 		return
