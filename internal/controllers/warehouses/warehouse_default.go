@@ -80,10 +80,10 @@ func validateUpdateWarehouse(w WarehouseReqJSON) (err error) {
     if w.Address != nil && *w.Address == "" {
         validationErrors = append(validationErrors, "error: the address field cannot be empty")
     }
-    if w.Telephone == nil && *w.Telephone == "" {
+    if w.Telephone != nil && *w.Telephone == "" {
         validationErrors = append(validationErrors, "error: the telephone field cannot be empty")
     }
-    if w.WarehouseCode == nil && *w.WarehouseCode == "" {
+    if w.WarehouseCode != nil && *w.WarehouseCode == "" {
         validationErrors = append(validationErrors, "error: the warehouse_code field cannot be empty")
     }
     if w.MinimumCapacity != nil && *w.MinimumCapacity <= 0 {
