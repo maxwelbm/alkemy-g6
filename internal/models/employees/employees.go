@@ -9,9 +9,9 @@ type Employees struct {
 }
 
 type EmployeesDTO struct {
-	ID           int
-	CardNumberID string
-	FirstName    string
-	LastName     string
-	WarehouseID  int
+	ID           *int
+	CardNumberID *string
+	FirstName    *string
+	LastName     *string
+	WarehouseID  *int
 }

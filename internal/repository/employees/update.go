@@ -9,26 +9,26 @@ func (e *Employees) Update(employees models.EmployeesDTO, id int) (newEmployees 
 		return
 	}
 
-	if employees.CardNumberID != "" {
+	if employees.CardNumberID != nil {
 		for _, value := range e.db {
-			if value.CardNumberID == employees.CardNumberID && value.ID != employees.ID {
+			if value.CardNumberID == *employees.CardNumberID && value.ID != *employees.ID {
 				err = ErrEmployeesRepositoryDuplicatedCode
 				return
 			}
 		}
-		newEmployees.CardNumberID = employees.CardNumberID
+		newEmployees.CardNumberID = *employees.CardNumberID
 	}
 
-	if employees.FirstName != "" {
-		newEmployees.FirstName = employees.FirstName
+	if employees.FirstName != nil && *employees.FirstName != "" {
+		newEmployees.FirstName = *employees.FirstName
 	}
 
-	if employees.LastName != "" {
-		newEmployees.LastName = employees.LastName
+	if employees.LastName != nil && *employees.LastName != "" {
+		newEmployees.LastName = *employees.LastName
 	}
 
-	if employees.WarehouseID != 0 {
-		newEmployees.WarehouseID = employees.WarehouseID
+	if employees.WarehouseID != nil && *employees.WarehouseID != 0 {
+		newEmployees.WarehouseID = *employees.WarehouseID
 	}
 
 	e.db[id] = newEmployees

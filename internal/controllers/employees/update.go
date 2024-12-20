@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -26,27 +27,32 @@ func (c *Employees) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var employees models.EmployeesDTO
-	employees.ID = id
+	err = validateUpdateEmployees(employeesJSON)
+	if err != nil {
+		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+		return
+	}
+
+	newEmployees := models.EmployeesDTO{}
+
+	newEmployees.ID = employeesJSON.ID
 	if employeesJSON.CardNumberID != nil {
-		employees.CardNumberID = *employeesJSON.CardNumberID
+		newEmployees.CardNumberID = employeesJSON.CardNumberID
 	}
+
 	if employeesJSON.FirstName != nil {
-		employees.FirstName = *employeesJSON.FirstName
+		newEmployees.FirstName = employeesJSON.FirstName
 	}
+
 	if employeesJSON.LastName != nil {
-		employees.LastName = *employeesJSON.LastName
+		newEmployees.LastName = employeesJSON.LastName
 	}
+
 	if employeesJSON.WarehouseID != nil {
-
-		employees.WarehouseID = *employeesJSON.WarehouseID
-		if employees.WarehouseID <= 0 {
-			response.Error(w, http.StatusBadRequest, "WarehouseID invalid")
-			return
-		}
+		newEmployees.WarehouseID = employeesJSON.WarehouseID
 	}
 
-	emp, err := c.sv.Update(employees, id)
+	emp, err := c.sv.Update(newEmployees, id)
 	if errors.Is(err, repository.ErrEmployeesRepositoryDuplicatedCode) {
 		response.Error(w, http.StatusConflict, err.Error())
 		return
@@ -67,7 +73,7 @@ func (c *Employees) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := EmployeesResJSON{
-		Message: "Sucess created",
+		Message: "Sucess",
 		Data: EmployeesAttributes{
 			ID:           emp.ID,
 			CardNumberID: emp.CardNumberID,
@@ -78,4 +84,48 @@ func (c *Employees) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response.JSON(w, http.StatusOK, data)
+}
+
+func validateUpdateEmployees(e EmployeesReqJSON) (err error) {
+
+	var errosEmp []string
+	con := false
+	if e.CardNumberID != nil && *e.CardNumberID == "" {
+		errosEmp = append(errosEmp, "error: attribute CardNumberID cannot be empty")
+		con = true
+	}
+
+	// FirstName
+	if e.FirstName != nil && *e.FirstName == "" {
+		if !con {
+			errosEmp = append(errosEmp, "error: attribute FirstName cannot be empty")
+		} else {
+			errosEmp = append(errosEmp, "- error: attribute FirstName cannot be empty")
+		}
+		con = true
+	}
+
+	// LastName
+	if e.LastName != nil && *e.LastName == "" {
+		if !con {
+			errosEmp = append(errosEmp, "error: attribute LastName cannot be empty")
+		} else {
+			errosEmp = append(errosEmp, "- error: attribute LastName cannot be empty")
+		}
+		con = true
+	}
+
+	// WarehouseID
+	if e.WarehouseID != nil && *e.WarehouseID <= 0 {
+		if !con {
+			errosEmp = append(errosEmp, "error: attribute WarehouseID must be positive")
+		} else {
+			errosEmp = append(errosEmp, "- error: attribute WarehouseID must be positive")
+		}
+	}
+
+	if len(errosEmp) > 0 {
+		err = errors.New(fmt.Sprintf("validation errors: %v", errosEmp))
+	}
+	return
 }
