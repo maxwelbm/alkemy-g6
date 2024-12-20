@@ -27,18 +27,29 @@ func (c *Employees) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = validateNewEmployees(employeesJSON)
+	err = validateUpdateEmployees(employeesJSON)
 	if err != nil {
 		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
-	newEmployees := models.EmployeesDTO{
-		ID:           employeesJSON.ID,
-		CardNumberID: employeesJSON.CardNumberID,
-		FirstName:    employeesJSON.FirstName,
-		LastName:     employeesJSON.LastName,
-		WarehouseID:  employeesJSON.WarehouseID,
+	newEmployees := models.EmployeesDTO{}
+
+	newEmployees.ID = employeesJSON.ID
+	if employeesJSON.CardNumberID != nil {
+		newEmployees.CardNumberID = employeesJSON.CardNumberID
+	}
+
+	if employeesJSON.FirstName != nil {
+		newEmployees.FirstName = employeesJSON.FirstName
+	}
+
+	if employeesJSON.LastName != nil {
+		newEmployees.LastName = employeesJSON.LastName
+	}
+
+	if employeesJSON.WarehouseID != nil {
+		newEmployees.WarehouseID = employeesJSON.WarehouseID
 	}
 
 	emp, err := c.sv.Update(newEmployees, id)
@@ -78,30 +89,38 @@ func (c *Employees) Update(w http.ResponseWriter, r *http.Request) {
 func validateUpdateEmployees(e EmployeesReqJSON) (err error) {
 
 	var errosEmp []string
-	if e.CardNumberID == nil {
-		errosEmp = append(errosEmp, "CardNumberID cannot be nil")
-	} else if *e.CardNumberID == "" {
+	con := false
+	if e.CardNumberID != nil && *e.CardNumberID == "" {
 		errosEmp = append(errosEmp, "CardNumberID cannot be empty")
+		con = true
 	}
 
 	// FirstName
-	if e.FirstName == nil {
-		errosEmp = append(errosEmp, "FirstName cannot be nil")
-	} else if *e.CardNumberID == "" {
-		errosEmp = append(errosEmp, "FirstName cannot be empty")
+	if e.FirstName != nil && *e.FirstName == "" {
+		if !con {
+			errosEmp = append(errosEmp, "FirstName cannot be empty")
+		} else {
+			errosEmp = append(errosEmp, "- FirstName cannot be empty")
+		}
+		con = true
 	}
 
 	// LastName
-	if e.LastName == nil {
-		errosEmp = append(errosEmp, "LastName cannot be empty")
-	} else if *e.CardNumberID == "" {
-		errosEmp = append(errosEmp, "LastName cannot be empty")
+	if e.LastName != nil && *e.LastName == "" {
+		if !con {
+			errosEmp = append(errosEmp, "LastName cannot be empty")
+		} else {
+			errosEmp = append(errosEmp, "- LastName cannot be empty")
+		}
+		con = true
 	}
 
 	// WarehouseID
-	if e.WarehouseID != nil {
-		if *e.WarehouseID <= 0 {
-			errosEmp = append(errosEmp, "WarehouseID invalid")
+	if e.WarehouseID != nil && *e.WarehouseID <= 0 {
+		if !con {
+			errosEmp = append(errosEmp, "WarehouseID must be positive")
+		} else {
+			errosEmp = append(errosEmp, "- WarehouseID must be positive")
 		}
 	}
 
