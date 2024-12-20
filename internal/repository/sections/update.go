@@ -10,7 +10,8 @@ func (r *Sections) Update(id int, sec models.SectionDTO) (updateSection models.S
 
 	if sec.CurrentTemperature != nil {
 		updateSection.CurrentTemperature = *sec.CurrentTemperature
-	} else if sec.MinimumTemperature != nil {
+	}
+	if sec.MinimumTemperature != nil {
 		updateSection.MinimumTemperature = *sec.MinimumTemperature
 	}
 	if sec.CurrentCapacity != nil {
