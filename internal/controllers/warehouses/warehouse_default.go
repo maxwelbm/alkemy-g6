@@ -91,7 +91,7 @@ func validateUpdateWarehouse(w WarehouseReqJSON) (err error) {
             validationErrors = append(validationErrors, "error: the minimum_capacity field must be greater than zero")
         }
     }   
-    if w.Address != nil && w.Telephone == nil && w.WarehouseCode == nil && w.MinimumCapacity == nil && w.MinimumTemperature == nil {
+    if w.Address == nil && w.Telephone == nil && w.WarehouseCode == nil && w.MinimumCapacity == nil && w.MinimumTemperature == nil {
         validationErrors = append(validationErrors, "error: at least one field should be present")
     }
 
