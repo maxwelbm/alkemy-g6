@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
 	repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
+	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -48,6 +49,10 @@ func (c *SectionsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	}
 	if errors.Is(err, repository.ErrSectionNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
+		return
+	}
+	if errors.Is(err, service.ErrWareHousesNotFound) {
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 	if err != nil {
