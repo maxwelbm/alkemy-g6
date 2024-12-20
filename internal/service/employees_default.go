@@ -31,8 +31,7 @@ func (e *EmployeesDefault) GetByID(id int) (employees models.Employees, err erro
 
 func (e *EmployeesDefault) Create(employees models.EmployeesDTO) (newEmployees models.Employees, err error) {
 
-	_, err = e.repo.WarehouseDB.GetById(employees.WarehouseID)
-	if err != nil {
+	if _, err = e.repo.WarehouseDB.GetById(employees.WarehouseID); err != nil {
 		err = ErrWareHousesServiceNotFound
 		return
 	}
@@ -43,8 +42,7 @@ func (e *EmployeesDefault) Create(employees models.EmployeesDTO) (newEmployees m
 
 func (e *EmployeesDefault) Update(employees models.EmployeesDTO, id int) (newEmployees models.Employees, err error) {
 
-	_, err = e.repo.WarehouseDB.GetById(employees.WarehouseID)
-	if err != nil {
+	if _, err = e.repo.WarehouseDB.GetById(employees.WarehouseID); err != nil {
 		err = ErrWareHousesServiceNotFound
 		return
 	}
