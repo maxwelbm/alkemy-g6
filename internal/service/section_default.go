@@ -42,9 +42,11 @@ func (s *SectionsDefault) Create(sec models.SectionDTO) (newSection models.Secti
 }
 
 func (s *SectionsDefault) Update(id int, sec models.SectionDTO) (updateSection models.Section, err error) {
-	if _, err = s.repo.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
-		err = ErrWareHousesServiceNotFound
-		return
+	if sec.WarehouseID != nil {
+		if _, err = s.repo.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
+			err = ErrWareHousesNotFound
+			return
+		}
 	}
 
 	updateSection, err = s.repo.SectionsDB.Update(id, sec)
