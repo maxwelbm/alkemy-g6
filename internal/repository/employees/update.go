@@ -11,7 +11,7 @@ func (e *Employees) Update(employees models.EmployeesDTO, id int) (newEmployees 
 
 	if employees.CardNumberID != nil {
 		for _, value := range e.db {
-			if value.CardNumberID == *employees.CardNumberID && value.ID != *employees.ID {
+			if value.CardNumberID == *employees.CardNumberID && value.ID != id {
 				err = ErrEmployeesRepositoryDuplicatedCode
 				return
 			}
