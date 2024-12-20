@@ -1,9 +1,10 @@
 package service
 
 import (
+	"errors"
+
 	modelsSeller "github.com/maxwelbm/alkemy-g6/internal/models/seller"
 	"github.com/maxwelbm/alkemy-g6/internal/repository"
-	"errors"
 )
 
 var (
@@ -32,7 +33,7 @@ func (s *SellerDefault) GetByCid(cid int) (sel modelsSeller.Seller, err error) {
 	return s.repo.SellersDB.GetByCid(cid)
 }
 
-func (s *SellerDefault) PostSeller(seller modelsSeller.Seller) error {
+func (s *SellerDefault) PostSeller(seller modelsSeller.Seller) (sellerToReturn modelsSeller.Seller, err error) {
 	return s.repo.SellersDB.PostSeller(seller)
 }
 

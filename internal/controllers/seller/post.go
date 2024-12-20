@@ -17,15 +17,8 @@ func (controller *SellerDefault) PostSeller(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	if sellerRequest.ID == nil || sellerRequest.CID == nil {
-		response.JSON(w, http.StatusUnprocessableEntity, "Id or Cid inexists in requests!")
-		return
-	}
-
-	_, errId := controller.sv.GetById(*sellerRequest.ID)
-
-	if errId == nil {
-		response.Error(w, http.StatusConflict, "Id already exists!")
+	if sellerRequest.CID == nil {
+		response.JSON(w, http.StatusUnprocessableEntity, "Cid inexists in requests!")
 		return
 	}
 
@@ -37,14 +30,14 @@ func (controller *SellerDefault) PostSeller(w http.ResponseWriter, r *http.Reque
 	}
 
 	sellerToCreate := modelsSeller.Seller{
-		ID:          *sellerRequest.ID,
+		ID:          0,
 		CID:         *sellerRequest.CID,
 		CompanyName: *sellerRequest.CompanyName,
 		Address:     *sellerRequest.Address,
 		Telephone:   *sellerRequest.Telephone,
 	}
 
-	errToPost := controller.sv.PostSeller(sellerToCreate)
+	sellerCreated, errToPost := controller.sv.PostSeller(sellerToCreate)
 
 	if errToPost != nil {
 		response.Error(w, http.StatusInternalServerError, "Failed to done the post")
@@ -52,11 +45,11 @@ func (controller *SellerDefault) PostSeller(w http.ResponseWriter, r *http.Reque
 	}
 
 	data := SellerDataResJSON{
-		ID:          sellerToCreate.ID,
-		CID:         sellerToCreate.CID,
-		CompanyName: sellerToCreate.CompanyName,
-		Address:     sellerToCreate.Address,
-		Telephone:   sellerToCreate.Telephone,
+		ID:          sellerCreated.ID,
+		CID:         sellerCreated.CID,
+		CompanyName: sellerCreated.CompanyName,
+		Address:     sellerCreated.Address,
+		Telephone:   sellerCreated.Telephone,
 	}
 
 	res := SellerResJSON{

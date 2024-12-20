@@ -1,5 +1,5 @@
 [
-    {"id": 1, "product_code": "P001", "description": "Product 1", "height": 10.0, "length": 15.0, "width": 5.0, "weight": 1.0, "expiration_rate": 0.1, "freezing_rate": 0.3, "recommended_freezing_temp": -18.0, "product_type_id": 1, "seller_id": 101},
+    {"id": 1, "product_code": "P001", "description": "Product 1", "height": 10.0, "length": 15.0, "width": 5.0, "weight": 1.0, "expiration_rate": 0.1, "freezing_rate": 0.3, "recommended_freezing_temp": -18.0, "product_type_id": 1, "seller_id": 1},
     {"id": 2, "product_code": "P002", "description": "Product 2", "height": 20.0, "length": 25.0, "width": 10.0, "weight": 2.0, "expiration_rate": 0.2, "freezing_rate": 0.4, "recommended_freezing_temp": -20.0, "product_type_id": 2, "seller_id": 102},
     {"id": 3, "product_code": "P003", "description": "Product 3", "height": 15.0, "length": 10.0, "width": 8.0, "weight": 1.5, "expiration_rate": 0.15, "freezing_rate": 0.25, "recommended_freezing_temp": -15.0, "product_type_id": 3, "seller_id": 103},
     {"id": 4, "product_code": "P004", "description": "Product 4", "height": 12.0, "length": 18.0, "width": 6.0, "weight": 1.2, "expiration_rate": 0.05, "freezing_rate": 0.2, "recommended_freezing_temp": -17.0, "product_type_id": 1, "seller_id": 104},
