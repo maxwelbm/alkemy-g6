@@ -26,10 +26,10 @@ func (c *Employees) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	employees := models.EmployeesDTO{
-		CardNumberID: *employeesJson.CardNumberID,
-		FirstName:    *employeesJson.FirstName,
-		LastName:     *employeesJson.LastName,
-		WarehouseID:  *employeesJson.WarehouseID,
+		CardNumberID: employeesJson.CardNumberID,
+		FirstName:    employeesJson.FirstName,
+		LastName:     employeesJson.LastName,
+		WarehouseID:  employeesJson.WarehouseID,
 	}
 
 	emp, err := c.sv.Create(employees)

@@ -8,7 +8,8 @@ import (
 )
 
 var (
-	ErrWareHousesServiceNotFound = errors.New("Warehouse not found")
+	ErrWareHousesServiceNotFound   = errors.New("Warehouse not found")
+	ErrEmployeesRepositoryNotFound = errors.New("Employees not found")
 )
 
 type EmployeesDefault struct {
@@ -31,7 +32,7 @@ func (e *EmployeesDefault) GetByID(id int) (employees models.Employees, err erro
 
 func (e *EmployeesDefault) Create(employees models.EmployeesDTO) (newEmployees models.Employees, err error) {
 
-	if _, err = e.repo.WarehouseDB.GetById(employees.WarehouseID); err != nil {
+	if _, err = e.repo.WarehouseDB.GetById(*employees.WarehouseID); err != nil {
 		err = ErrWareHousesServiceNotFound
 		return
 	}
@@ -42,9 +43,11 @@ func (e *EmployeesDefault) Create(employees models.EmployeesDTO) (newEmployees m
 
 func (e *EmployeesDefault) Update(employees models.EmployeesDTO, id int) (newEmployees models.Employees, err error) {
 
-	if _, err = e.repo.WarehouseDB.GetById(employees.WarehouseID); err != nil {
-		err = ErrWareHousesServiceNotFound
-		return
+	if employees.WarehouseID != nil {
+		if _, err = e.repo.WarehouseDB.GetById(*employees.WarehouseID); err != nil {
+			err = ErrWareHousesServiceNotFound
+			return
+		}
 	}
 
 	newEmployees, err = e.repo.EmployeesDB.Update(employees, id)
