@@ -128,15 +128,68 @@ func (p *NewProductAttributesJSON) validate() (err error) {
 }
 
 type UpdateProductAttributesJSON struct {
-	ProductCode    string  `json:"product_code,omitempty"`
-	Description    string  `json:"description,omitempty"`
-	Height         float64 `json:"height,omitempty"`
-	Length         float64 `json:"length,omitempty"`
-	Width          float64 `json:"width,omitempty"`
-	Weight         float64 `json:"weight,omitempty"`
-	ExpirationRate float64 `json:"expiration_rate,omitempty"`
-	FreezingRate   float64 `json:"freezing_rate,omitempty"`
-	RecomFreezTemp float64 `json:"recommended_freezing_temp,omitempty"`
-	ProductTypeID  int     `json:"product_type_id,omitempty"`
-	SellerID       int     `json:"seller_id,omitempty"`
+	ProductCode    *string  `json:"product_code,omitempty"`
+	Description    *string  `json:"description,omitempty"`
+	Height         *float64 `json:"height,omitempty"`
+	Length         *float64 `json:"length,omitempty"`
+	Width          *float64 `json:"width,omitempty"`
+	Weight         *float64 `json:"weight,omitempty"`
+	ExpirationRate *float64 `json:"expiration_rate,omitempty"`
+	FreezingRate   *float64 `json:"freezing_rate,omitempty"`
+	RecomFreezTemp *float64 `json:"recommended_freezing_temp,omitempty"`
+	ProductTypeID  *int     `json:"product_type_id,omitempty"`
+	SellerID       *int     `json:"seller_id,omitempty"`
+}
+
+func (p *UpdateProductAttributesJSON) validate() (err error) {
+	var validationErrors []string
+
+	if p.ProductCode != nil && *p.ProductCode == "" {
+		validationErrors = append(validationErrors, "error: attribute ProductCode cannot be empty")
+	}
+
+	if p.Description != nil && *p.Description == "" {
+		validationErrors = append(validationErrors, "error: attribute Description cannot be empty")
+	}
+
+	if p.Height != nil && *p.Height <= 0 {
+		validationErrors = append(validationErrors, "error: attribute Height cannot be negative")
+	}
+
+	if p.Length != nil && *p.Length <= 0 {
+		validationErrors = append(validationErrors, "error: attribute Length cannot be negative")
+	}
+
+	if p.Width != nil && *p.Width <= 0 {
+		validationErrors = append(validationErrors, "error: attribute Width cannot be negative")
+	}
+
+	if p.Weight != nil && *p.Weight <= 0 {
+		validationErrors = append(validationErrors, "error: attribute Weight cannot be negative")
+	}
+
+	if p.ExpirationRate != nil && *p.ExpirationRate < 0 {
+		validationErrors = append(validationErrors, "error: attribute ExpirationRate cannot be negative")
+	}
+
+	if p.FreezingRate != nil && *p.FreezingRate < 0 {
+		validationErrors = append(validationErrors, "error: attribute FreezingRate cannot be negative")
+	}
+
+	if p.ProductTypeID != nil && *p.ProductTypeID <= 0 {
+		validationErrors = append(validationErrors, "error: attribute ProductTypeID must be positive")
+	}
+
+	if p.SellerID != nil && *p.SellerID < 0 {
+		validationErrors = append(validationErrors, "error: attribute SellerID must be non-negative")
+	}
+
+	if p.SellerID != nil && *p.SellerID == 0 {
+		validationErrors = append(validationErrors, "error: cannot nullify SellerID")
+	}
+
+	if len(validationErrors) > 0 {
+		err = errors.New(fmt.Sprintf("validation errors: %v", validationErrors))
+	}
+	return
 }
