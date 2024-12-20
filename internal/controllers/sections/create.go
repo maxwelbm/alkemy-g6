@@ -7,6 +7,7 @@ import (
 
 	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
 	repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
+	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -38,6 +39,10 @@ func (c *SectionsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	newSection, err := c.sv.Create(secDTO)
 	if errors.Is(err, repository.ErrSectionDuplicatedCode) {
 		response.Error(w, http.StatusConflict, err.Error())
+		return
+	}
+	if errors.Is(err, service.ErrWareHousesNotFound) {
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 	if err != nil {

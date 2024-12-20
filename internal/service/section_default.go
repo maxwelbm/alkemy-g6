@@ -1,6 +1,8 @@
 package service
 
 import (
+	"errors"
+
 	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
 	"github.com/maxwelbm/alkemy-g6/internal/repository"
 )
@@ -8,6 +10,10 @@ import (
 type SectionsDefault struct {
 	repo repository.RepoDB
 }
+
+var (
+	ErrWareHousesNotFound = errors.New("Warehouse not found")
+)
 
 func NewSectionDefault(repo repository.RepoDB) *SectionsDefault {
 	return &SectionsDefault{
@@ -26,11 +32,21 @@ func (s *SectionsDefault) GetById(id int) (section models.Section, err error) {
 }
 
 func (s *SectionsDefault) Create(sec models.SectionDTO) (newSection models.Section, err error) {
+	if _, err = s.repo.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
+		err = ErrWareHousesServiceNotFound
+		return
+	}
+
 	newSection, err = s.repo.SectionsDB.Create(sec)
 	return
 }
 
 func (s *SectionsDefault) Update(id int, sec models.SectionDTO) (updateSection models.Section, err error) {
+	if _, err = s.repo.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
+		err = ErrWareHousesServiceNotFound
+		return
+	}
+
 	updateSection, err = s.repo.SectionsDB.Update(id, sec)
 	return
 }

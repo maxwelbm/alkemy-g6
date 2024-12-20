@@ -1,6 +1,7 @@
 package sections
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -18,7 +19,7 @@ func (c *SectionsDefault) GetById(w http.ResponseWriter, r *http.Request) {
 
 	sec, err := c.sv.GetById(id)
 
-	if err == repository.ErrSectionNotFound {
+	if errors.Is(err, repository.ErrSectionNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
