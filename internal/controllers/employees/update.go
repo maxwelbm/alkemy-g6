@@ -91,16 +91,16 @@ func validateUpdateEmployees(e EmployeesReqJSON) (err error) {
 	var errosEmp []string
 	con := false
 	if e.CardNumberID != nil && *e.CardNumberID == "" {
-		errosEmp = append(errosEmp, "CardNumberID cannot be empty")
+		errosEmp = append(errosEmp, "error: attribute CardNumberID cannot be empty")
 		con = true
 	}
 
 	// FirstName
 	if e.FirstName != nil && *e.FirstName == "" {
 		if !con {
-			errosEmp = append(errosEmp, "FirstName cannot be empty")
+			errosEmp = append(errosEmp, "error: attribute FirstName cannot be empty")
 		} else {
-			errosEmp = append(errosEmp, "- FirstName cannot be empty")
+			errosEmp = append(errosEmp, "- error: attribute FirstName cannot be empty")
 		}
 		con = true
 	}
@@ -108,9 +108,9 @@ func validateUpdateEmployees(e EmployeesReqJSON) (err error) {
 	// LastName
 	if e.LastName != nil && *e.LastName == "" {
 		if !con {
-			errosEmp = append(errosEmp, "LastName cannot be empty")
+			errosEmp = append(errosEmp, "error: attribute LastName cannot be empty")
 		} else {
-			errosEmp = append(errosEmp, "- LastName cannot be empty")
+			errosEmp = append(errosEmp, "- error: attribute LastName cannot be empty")
 		}
 		con = true
 	}
@@ -118,9 +118,9 @@ func validateUpdateEmployees(e EmployeesReqJSON) (err error) {
 	// WarehouseID
 	if e.WarehouseID != nil && *e.WarehouseID <= 0 {
 		if !con {
-			errosEmp = append(errosEmp, "WarehouseID must be positive")
+			errosEmp = append(errosEmp, "error: attribute WarehouseID must be positive")
 		} else {
-			errosEmp = append(errosEmp, "- WarehouseID must be positive")
+			errosEmp = append(errosEmp, "- error: attribute WarehouseID must be positive")
 		}
 	}
 

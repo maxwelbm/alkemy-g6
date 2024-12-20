@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
@@ -56,26 +57,29 @@ func (c *Employees) Create(w http.ResponseWriter, r *http.Request) {
 	response.JSON(w, http.StatusCreated, data)
 }
 
-func validateNewEmployees(employees EmployeesReqJSON) error {
+func validateNewEmployees(employees EmployeesReqJSON) (err error) {
 
+	var errosEmp []string
 	if employees.CardNumberID == nil || *employees.CardNumberID == "" {
-		return errors.New("CardNumberID cannot be empty")
+		errosEmp = append(errosEmp, "error: attribute CardNumberID cannot be empty")
 	}
 
 	if employees.FirstName == nil || *employees.FirstName == "" {
-		return errors.New("FirstName cannot be empty")
+		errosEmp = append(errosEmp, "error: attribute FirstName cannot be empty")
 	}
 
 	if employees.LastName == nil || *employees.LastName == "" {
-		return errors.New("LastName cannot be empty")
+		errosEmp = append(errosEmp, "error: attribute LastName cannot be empty")
 	}
 
 	if employees.WarehouseID == nil {
-		return errors.New("WarehouseID cannot be empty")
+		errosEmp = append(errosEmp, "error: attribute WarehouseID cannot be empty")
+	} else if employees.WarehouseID == nil && *employees.WarehouseID <= 0 {
+		errosEmp = append(errosEmp, "error: attribute WarehouseID invalid")
 	}
 
-	if *employees.WarehouseID <= 0 {
-		return errors.New("WarehouseID invalid")
+	if len(errosEmp) > 0 {
+		err = errors.New(fmt.Sprintf("validation errors: %v", errosEmp))
 	}
-	return nil
+	return
 }
