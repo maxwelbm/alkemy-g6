@@ -11,19 +11,6 @@ import (
     "github.com/go-chi/chi/v5"
 )
 
-func validateUpdateWarehouse(w WarehouseReqJSON) error {
-    if w.MinimumCapacity != nil {
-        if *w.MinimumCapacity <= 0 {
-            return errors.New("The minimum_capacity field must be greater than zero")
-        }
-    }   
-    if w.Address == nil && w.Telephone == nil && w.WarehouseCode == nil && w.MinimumCapacity == nil && w.MinimumTemperature == nil {
-        return errors.New("At least one field should be present")
-    }
-
-    return nil
-}
-
 func (c *WarehouseDefault) Update(w http.ResponseWriter, r *http.Request) {
     id, err := strconv.Atoi(chi.URLParam(r, "id"))
     if err != nil {
@@ -38,7 +25,7 @@ func (c *WarehouseDefault) Update(w http.ResponseWriter, r *http.Request) {
     }
     err = validateUpdateWarehouse(warehouseJSON)
     if err != nil {
-        response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+        response.Error(w, http.StatusUnprocessableEntity, err.Error())
         return
     }
     warehouse := models.WarehouseDTO{
