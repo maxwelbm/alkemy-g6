@@ -32,8 +32,6 @@ func (controller *SellerDefault) PatchSeller(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	response.JSON(w, http.StatusNoContent, nil)
-
 	if sellerRequest.ID == nil {
 		sellerRequest.ID = &seller.ID
 	}
