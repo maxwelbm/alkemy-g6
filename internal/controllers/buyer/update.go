@@ -1,4 +1,4 @@
-package buyerController
+package buyers_controller
 
 import (
 	"encoding/json"
@@ -7,42 +7,40 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	models "github.com/maxwelbm/alkemy-g6/internal/models/buyer"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyer"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (controller *BuyerDefault) PatchBuyer(w http.ResponseWriter, r *http.Request) {
+func (ct *BuyersController) Update(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil || id < 1 {
-		response.Error(w, http.StatusBadRequest, "Failed to convert request id")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	var buyerRequest BuyerRequestPatch
 	if err := json.NewDecoder(r.Body).Decode(&buyerRequest); err != nil {
-		response.JSON(w, http.StatusBadRequest, "Error ao decodificarJSON")
+		response.JSON(w, http.StatusBadRequest, err)
 		return
 	}
 
 	buyerToUpdate := models.BuyerDTO{
-		Id:           &id,
 		CardNumberId: buyerRequest.CardNumberId,
 		FirstName:    buyerRequest.FirstName,
 		LastName:     buyerRequest.LastName,
 	}
 
-	buyerReturn, err := controller.sv.PatchBuyer(buyerToUpdate)
+	buyerReturn, err := ct.SV.Update(id, buyerToUpdate)
 
-	if errors.Is(err, repository.ErrorIdNotFound) {
+	if errors.Is(err, models.ErrorIdNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
 
 	if err != nil {
-		response.Error(w, http.StatusInternalServerError, "Internal error! Failed to done the patch")
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 

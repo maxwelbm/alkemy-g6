@@ -1,4 +1,4 @@
-package buyerController
+package buyers_controller
 
 import (
 	"net/http"
@@ -8,15 +8,15 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (controller *BuyerDefault) GetById(w http.ResponseWriter, r *http.Request) {
+func (ct *BuyersController) GetById(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil || id < 1 {
-		response.Error(w, http.StatusBadRequest, "Failed to convert request id")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	buyer, err := controller.sv.GetById(id)
+	buyer, err := ct.SV.GetById(id)
 
 	if err != nil {
 		response.Error(w, http.StatusNotFound, err.Error())

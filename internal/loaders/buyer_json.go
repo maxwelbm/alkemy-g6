@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
-	modelsBuyer "github.com/maxwelbm/alkemy-g6/internal/models/buyer"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
 func NewBuyerJSONFile(path string) *BuyerJSONFile {
@@ -24,7 +24,7 @@ type BuyerJSON struct {
 	LastName     string `json:"last_name"`
 }
 
-func (l *BuyerJSONFile) Load() (buyers map[int]modelsBuyer.Buyer, err error) {
+func (l *BuyerJSONFile) Load() (buyers map[int]models.Buyer, err error) {
 	// open file
 	file, err := os.Open(l.path)
 	if err != nil {
@@ -40,9 +40,9 @@ func (l *BuyerJSONFile) Load() (buyers map[int]modelsBuyer.Buyer, err error) {
 	}
 
 	// serialize sections
-	buyers = make(map[int]modelsBuyer.Buyer)
+	buyers = make(map[int]models.Buyer)
 	for _, s := range buyersJSON {
-		buyers[s.Id] = modelsBuyer.Buyer{
+		buyers[s.Id] = models.Buyer{
 
 			Id:           s.Id,
 			CardNumberId: s.CardNumberId,

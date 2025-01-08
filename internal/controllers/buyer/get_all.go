@@ -1,4 +1,4 @@
-package buyerController
+package buyers_controller
 
 import (
 	"net/http"
@@ -6,13 +6,13 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (controller *BuyerDefault) GetAll(w http.ResponseWriter, r *http.Request) {
+func (ct *BuyersController) GetAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
-	buyers, err := controller.sv.GetAll()
+	buyers, err := ct.SV.GetAll()
 
 	if err != nil {
-		response.Error(w, http.StatusInternalServerError, "Failed to retrieve buyers")
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
