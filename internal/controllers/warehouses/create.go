@@ -13,7 +13,7 @@ func (c *WarehouseDefault) Create(w http.ResponseWriter, r *http.Request) {
     var warehouseJSON WarehouseReqJSON
     err := json.NewDecoder(r.Body).Decode(&warehouseJSON)
     if err != nil {
-        response.JSON(w, http.StatusBadRequest, nil)
+        response.Error(w, http.StatusBadRequest, "Invalid request body format")
         return
     }
     err = validateNewWarehouse(warehouseJSON)
