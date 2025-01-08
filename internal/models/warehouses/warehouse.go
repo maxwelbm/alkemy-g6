@@ -1,5 +1,7 @@
 package models
 
+import "errors"
+
 type Warehouse struct {
 	Id					int		`json:"id"`
 	Address				string	`json:"address"`
@@ -16,3 +18,8 @@ type WarehouseDTO struct {
 	MinimumCapacity		*int
 	MinimumTemperature	*float64
 }
+
+var (
+	ErrWarehouseRepositoryNotFound = errors.New("Warehouse not found")
+	ErrWarehouseRepositoryDuplicatedCode = errors.New("Warehouse code already exists")
+)

@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
+	"github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
@@ -14,11 +14,11 @@ import (
 func (c *WarehouseDefault) Delete(w http.ResponseWriter, r *http.Request) {
     id, err := strconv.Atoi(chi.URLParam(r, "id"))
     if err != nil {
-        response.Error(w, http.StatusBadRequest, "Invalid ID format")
+        response.Error(w, http.StatusBadRequest, err.Error())
         return
     }
     err = c.service.Delete(id)
-    if errors.Is(err, repository.ErrWarehouseRepositoryNotFound) {
+    if errors.Is(err, models.ErrWarehouseRepositoryNotFound) {
         response.Error(w, http.StatusNotFound, err.Error())
         return
     }

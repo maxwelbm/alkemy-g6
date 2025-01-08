@@ -7,7 +7,7 @@ import (
 func (r *Warehouses) GetById(id int) (w models.Warehouse, err error) {
 	w, ok := r.db[id]
 	if !ok {
-		err = ErrWarehouseRepositoryNotFound
+		err = models.ErrWarehouseRepositoryNotFound
 	}
 	return
 }

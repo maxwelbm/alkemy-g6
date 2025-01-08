@@ -8,7 +8,7 @@ import (
 func (c *WarehouseDefault) GetAll(w http.ResponseWriter, r *http.Request) {
     v, err := c.service.GetAll()
     if err != nil {
-        response.Error(w, http.StatusInternalServerError, "Failed to retrieve warehouses")
+        response.Error(w, http.StatusInternalServerError, err.Error())
         return
     }
 
