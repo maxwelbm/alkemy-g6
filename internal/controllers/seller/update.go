@@ -68,6 +68,7 @@ func (j *SellerUpdateJSON) validate() (err error) {
 // @Param seller body SellerUpdateJSON true "Seller update data"
 // @Success 200 {object} SellerResJSON "Success - The seller was successfully updated"
 // @Failure 400 {object} ErrorResponse "Bad Request - The request ID is invalid, less than 1, or the request body is invalid"
+// @Failure 400 {object} ErrorResponse "Bad Request - The seller cannot be updated due to a MySQL cannot add or update child row error"
 // @Failure 409 {object} ErrorResponse "Conflict - The seller cannot be updated due to a MySQL duplicate entry error"
 // @Failure 500 {object} ErrorResponse "Internal Server Error - An unexpected error occurred during the update process"
 // @Router /api/v1/sellers/{id} [put]
