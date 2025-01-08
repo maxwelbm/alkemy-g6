@@ -19,7 +19,7 @@ import (
 // @Failure 400 {object} ErrorResponse "Bad Request - The request ID is invalid or less than 1"
 // @Failure 404 {object} ErrorResponse "Not Found - The seller with the specified ID does not exist"
 // @Router /api/v1/sellers/{id} [get]
-func (controller *SellersController) GetById(w http.ResponseWriter, r *http.Request) {
+func (controller *SellersDefault) GetById(w http.ResponseWriter, r *http.Request) {
 	// Set the response header to indicate JSON content
 	w.Header().Add("Content-Type", "application/json")
 

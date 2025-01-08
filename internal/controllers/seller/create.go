@@ -65,7 +65,7 @@ func (j *SellerCreateJSON) validate() (err error) {
 // @Failure 409 {object} ErrorResponse "Conflict - Duplicate entry"
 // @Failure 500 {object} ErrorResponse "Internal server error"
 // @Router /api/v1/sellers [post]
-func (controller *SellersController) Create(w http.ResponseWriter, r *http.Request) {
+func (controller *SellersDefault) Create(w http.ResponseWriter, r *http.Request) {
 	// Decode the JSON request body into sellerRequest
 	var sellerRequest SellerCreateJSON
 	if err := json.NewDecoder(r.Body).Decode(&sellerRequest); err != nil {

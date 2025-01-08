@@ -4,12 +4,12 @@ import (
 	models "github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-type SellersController struct {
+type SellersDefault struct {
 	SV models.SellersService
 }
 
-func NewSellerController(SV models.SellersService) *SellersController {
-	return &SellersController{SV: SV}
+func NewSellersController(SV models.SellersService) *SellersDefault {
+	return &SellersDefault{SV: SV}
 }
 
 type SellerResJSON struct {

@@ -13,7 +13,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (ct *BuyersController) Update(w http.ResponseWriter, r *http.Request) {
+func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))

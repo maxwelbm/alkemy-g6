@@ -23,7 +23,7 @@ import (
 // @Failure 409 {object} ErrorResponse "Conflict - The seller cannot be deleted due to a MySQL foreign key constraint error"
 // @Failure 500 {object} ErrorResponse "Internal Server Error - An unexpected error occurred during the deletion process"
 // @Router /api/v1/sellers/{id} [delete]
-func (controller *SellersController) Delete(w http.ResponseWriter, r *http.Request) {
+func (controller *SellersDefault) Delete(w http.ResponseWriter, r *http.Request) {
 	// Set the response header to indicate JSON content
 	w.Header().Add("Content-Type", "application/json")
 

@@ -6,7 +6,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (ct *BuyersController) GetAll(w http.ResponseWriter, r *http.Request) {
+func (ct *BuyersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
 	buyers, err := ct.SV.GetAll()

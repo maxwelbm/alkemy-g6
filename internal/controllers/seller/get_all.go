@@ -15,7 +15,7 @@ import (
 // @Success 200 {object} SellerResJSON "OK - The sellers were successfully retrieved"
 // @Failure 500 {object} ErrorResponse "Internal Server Error - An unexpected error occurred during the retrieval process"
 // @Router /api/v1/sellers [get]
-func (controller *SellersController) GetAll(w http.ResponseWriter, r *http.Request) {
+func (controller *SellersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	// Retrieve all sellers using the service layer
 	sellers, err := controller.SV.GetAll()
 

@@ -10,7 +10,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (ct *BuyersController) Create(w http.ResponseWriter, r *http.Request) {
+func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
 	var buyerRequest BuyerRequestPost
