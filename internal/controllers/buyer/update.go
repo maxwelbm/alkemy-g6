@@ -1,4 +1,4 @@
-package buyerController
+package buyers_controller
 
 import (
 	"encoding/json"
@@ -7,12 +7,11 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	models "github.com/maxwelbm/alkemy-g6/internal/models/buyer"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyer"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (controller *BuyerDefault) PatchBuyer(w http.ResponseWriter, r *http.Request) {
+func (ct *BuyersController) Update(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
@@ -34,9 +33,9 @@ func (controller *BuyerDefault) PatchBuyer(w http.ResponseWriter, r *http.Reques
 		LastName:     buyerRequest.LastName,
 	}
 
-	buyerReturn, err := controller.sv.PatchBuyer(buyerToUpdate)
+	buyerReturn, err := ct.SV.Update(buyerToUpdate)
 
-	if errors.Is(err, repository.ErrorIdNotFound) {
+	if errors.Is(err, models.ErrorIdNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}

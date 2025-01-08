@@ -1,14 +1,14 @@
-package buyerController
+package buyers_controller
 
 import (
 	"encoding/json"
 	"net/http"
 
-	modelsBuyer "github.com/maxwelbm/alkemy-g6/internal/models/buyer"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (controller *BuyerDefault) PostBuyer(w http.ResponseWriter, r *http.Request) {
+func (ct *BuyersController) Create(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
 	var buyerRequest BuyerRequestPost
@@ -22,20 +22,20 @@ func (controller *BuyerDefault) PostBuyer(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	_, errCardNumberId := controller.sv.GetByCardNumberId(*buyerRequest.CardNumberId)
+	_, errCardNumberId := ct.SV.GetByCardNumberId(*buyerRequest.CardNumberId)
 
 	if errCardNumberId == nil {
 		response.Error(w, http.StatusConflict, "Card Number Id already exists!")
 		return
 	}
 
-	buyerToCreate := modelsBuyer.Buyer{
-		CardNumberId: *buyerRequest.CardNumberId,
-		FirstName:    *buyerRequest.FirstName,
-		LastName:     *buyerRequest.LastName,
+	buyerToCreate := models.BuyerDTO{
+		CardNumberId: buyerRequest.CardNumberId,
+		FirstName:    buyerRequest.FirstName,
+		LastName:     buyerRequest.LastName,
 	}
 
-	buyerCreated, errToPost := controller.sv.PostBuyer(buyerToCreate)
+	buyerCreated, errToPost := ct.SV.Create(buyerToCreate)
 
 	if errToPost != nil {
 		response.Error(w, http.StatusInternalServerError, "Failed to done the post")

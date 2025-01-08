@@ -8,6 +8,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-sql-driver/mysql"
+	"github.com/maxwelbm/alkemy-g6/internal/application/resources"
 )
 
 const Title string = `
@@ -70,6 +71,7 @@ func (a *ServerChi) Run() (err error) {
 	if err != nil {
 		return
 	}
+	defer a.db.Close()
 
 	// router
 	rt := chi.NewRouter()
@@ -84,7 +86,7 @@ func (a *ServerChi) Run() (err error) {
 	buildApiV1ProductsRoutes(jsonDB, rt)
 	buildApiV1SectionsRoutes(jsonDB, rt)
 	buildApiV1EmployeesRoutes(jsonDB, rt)
-	buildApiV1BuyerRoutes(jsonDB, rt)
+	resources.InitLocalities(a.db, rt)
 	// run server
 	err = http.ListenAndServe(a.Addr, rt)
 	return

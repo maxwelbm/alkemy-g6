@@ -1,4 +1,4 @@
-package buyerController
+package buyers_controller
 
 import (
 	"net/http"
@@ -8,7 +8,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (controller *BuyerDefault) DeleteBuyer(w http.ResponseWriter, r *http.Request) {
+func (ct *BuyersController) DeleteBuyer(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
@@ -17,14 +17,14 @@ func (controller *BuyerDefault) DeleteBuyer(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	_, err = controller.sv.GetById(id)
+	_, err = ct.SV.GetById(id)
 
 	if err != nil {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
 
-	controller.sv.Delete(id)
+	ct.SV.Delete(id)
 
 	response.JSON(w, http.StatusNoContent, nil)
 
