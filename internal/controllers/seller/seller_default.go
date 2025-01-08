@@ -23,4 +23,5 @@ type FullSellerJSON struct {
 	CompanyName string `json:"company_name"`
 	Address     string `json:"address"`
 	Telephone   string `json:"telephone"`
+	LocalityID  int    `json:"locality_id"`
 }

@@ -18,6 +18,7 @@ type SellerUpdateJSON struct {
 	CompanyName *string `json:"company_name,omitempty"`
 	Address     *string `json:"address,omitempty"`
 	Telephone   *string `json:"telephone,omitempty"`
+	LocalityID  *int    `json:"locality_id,omitempty"`
 }
 
 func (j *SellerUpdateJSON) validate() (err error) {
@@ -41,6 +42,11 @@ func (j *SellerUpdateJSON) validate() (err error) {
 	// Validate Telephone: cannot be empty if provided
 	if j.Telephone != nil && *j.Telephone == "" {
 		validationErrors = append(validationErrors, "error: attribute Telephone cannot be empty")
+	}
+
+	// Validate LocalityID: must be positive if provided
+	if j.LocalityID != nil && *j.LocalityID < 1 {
+		validationErrors = append(validationErrors, "error: attribute LocalityID must be positive")
 	}
 
 	// If there are validation errors, create an error with the details
@@ -87,11 +93,21 @@ func (controller *SellersController) Update(w http.ResponseWriter, r *http.Reque
 	}
 
 	// Create a SellerDTO object with the validated data
-	sellerToUpdate := models.SellerDTO{
-		CID:         *sellerRequest.CID,
-		CompanyName: *sellerRequest.CompanyName,
-		Address:     *sellerRequest.Address,
-		Telephone:   *sellerRequest.Telephone,
+	sellerToUpdate := models.SellerDTO{}
+	if sellerRequest.CID != nil {
+		sellerToUpdate.CID = *sellerRequest.CID
+	}
+	if sellerRequest.CompanyName != nil {
+		sellerToUpdate.CompanyName = *sellerRequest.CompanyName
+	}
+	if sellerRequest.Address != nil {
+		sellerToUpdate.Address = *sellerRequest.Address
+	}
+	if sellerRequest.Telephone != nil {
+		sellerToUpdate.Telephone = *sellerRequest.Telephone
+	}
+	if sellerRequest.LocalityID != nil {
+		sellerToUpdate.LocalityID = *sellerRequest.LocalityID
 	}
 
 	// Attempt to update the seller in the database
@@ -100,6 +116,10 @@ func (controller *SellersController) Update(w http.ResponseWriter, r *http.Reque
 		// Handle MySQL duplicate entry error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
 			response.Error(w, http.StatusConflict, err.Error())
+			return
+		}
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
+			response.Error(w, http.StatusBadRequest, err.Error())
 			return
 		}
 		// Handle other internal server errors
@@ -114,6 +134,7 @@ func (controller *SellersController) Update(w http.ResponseWriter, r *http.Reque
 		CompanyName: sellerUpdated.CompanyName,
 		Address:     sellerUpdated.Address,
 		Telephone:   sellerUpdated.Telephone,
+		LocalityID:  sellerUpdated.LocalityID,
 	}
 
 	// Create the response JSON

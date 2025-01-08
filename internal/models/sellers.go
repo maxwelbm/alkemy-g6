@@ -12,6 +12,7 @@ type Seller struct {
 	CompanyName string
 	Address     string
 	Telephone   string
+	LocalityID  int
 }
 
 type SellerDTO struct {
@@ -20,6 +21,7 @@ type SellerDTO struct {
 	CompanyName string `json:"company_name"`
 	Address     string `json:"address"`
 	Telephone   string `json:"telephone"`
+	LocalityID  int    `json:"locality_id"`
 }
 
 type SellersService interface {

@@ -16,6 +16,7 @@ type SellerCreateJSON struct {
 	CompanyName *string `json:"company_name,omitempty"`
 	Address     *string `json:"address,omitempty"`
 	Telephone   *string `json:"telephone,omitempty"`
+	LocalityID  *int    `json:"locality_id,omitempty"`
 }
 
 func (j *SellerCreateJSON) validate() (err error) {
@@ -37,6 +38,10 @@ func (j *SellerCreateJSON) validate() (err error) {
 	// Check if Telephone is nil and add an error message if it is
 	if j.Telephone == nil {
 		validationErrors = append(validationErrors, "error: telephone is required")
+	}
+	// Check if LocalityID is nil and add an error message if it is
+	if j.LocalityID == nil {
+		validationErrors = append(validationErrors, "error: locality_id is required")
 	}
 	// If there are any validation errors, create an error with all messages
 	if len(validationErrors) > 0 {
@@ -82,6 +87,7 @@ func (controller *SellersController) Create(w http.ResponseWriter, r *http.Reque
 		CompanyName: *sellerRequest.CompanyName,
 		Address:     *sellerRequest.Address,
 		Telephone:   *sellerRequest.Telephone,
+		LocalityID:  *sellerRequest.LocalityID,
 	}
 
 	// Call the service layer to create the seller
@@ -89,7 +95,6 @@ func (controller *SellersController) Create(w http.ResponseWriter, r *http.Reque
 	if err != nil {
 		// Check if the error is a MySQL duplicate entry error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
-			// If it's a duplicate entry error, respond with a conflict status
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
@@ -105,6 +110,7 @@ func (controller *SellersController) Create(w http.ResponseWriter, r *http.Reque
 		CompanyName: sellerCreated.CompanyName,
 		Address:     sellerCreated.Address,
 		Telephone:   sellerCreated.Telephone,
+		LocalityID:  sellerCreated.LocalityID,
 	}
 
 	// Create the response JSON

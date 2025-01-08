@@ -36,6 +36,7 @@ func (controller *SellersController) GetAll(w http.ResponseWriter, r *http.Reque
 			CompanyName: value.CompanyName,
 			Address:     value.Address,
 			Telephone:   value.Telephone,
+			LocalityID:  value.LocalityID,
 		}
 
 		// Append the new object to the data slice

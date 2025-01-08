@@ -27,6 +27,10 @@ func (r *SellersDefault) Update(id int, seller models.SellerDTO) (sellerReturn m
 		fields = append(fields, "telephone = ?")
 		values = append(values, seller.Telephone)
 	}
+	if seller.LocalityID != 0 {
+		fields = append(fields, "locality_id = ?")
+		values = append(values, seller.LocalityID)
+	}
 	if len(fields) == 0 {
 		return
 	}
@@ -52,8 +56,8 @@ func (r *SellersDefault) Update(id int, seller models.SellerDTO) (sellerReturn m
 	}
 
 	// Retrieve the updated seller
-	err = r.DB.QueryRow("SELECT id, cid, company_name, address, telephone FROM sellers WHERE id = ?", id).Scan(
-		&sellerReturn.ID, &sellerReturn.CID, &sellerReturn.CompanyName, &sellerReturn.Address, &sellerReturn.Telephone)
+	err = r.DB.QueryRow("SELECT id, cid, company_name, address, telephone, locality_id FROM sellers WHERE id = ?", id).Scan(
+		&sellerReturn.ID, &sellerReturn.CID, &sellerReturn.CompanyName, &sellerReturn.Address, &sellerReturn.Telephone, &sellerReturn.LocalityID)
 	if err != nil {
 		return
 	}

@@ -47,6 +47,7 @@ func (controller *SellersController) GetById(w http.ResponseWriter, r *http.Requ
 		CompanyName: seller.CompanyName,
 		Address:     seller.Address,
 		Telephone:   seller.Telephone,
+		LocalityID:  seller.LocalityID,
 	}
 
 	// Create a response struct with a success message and the seller data
