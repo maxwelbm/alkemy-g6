@@ -2,14 +2,7 @@ package repository
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
-	"errors"
 )
-
-var (
-	ErrWarehouseRepositoryNotFound = errors.New("Warehouse not found")
-	ErrWarehouseRepositoryDuplicatedCode = errors.New("Warehouse code already exists")
-)
-
 
 func NewWarehouses(db map[int]models.Warehouse) *Warehouses {
 	defaultDb := make(map[int]models.Warehouse)
@@ -33,7 +26,7 @@ type Warehouses struct {
 func (r *Warehouses) validateWarehouseCode(warehouse models.WarehouseDTO) (err error) {
 	for _, wh := range r.db {
 		if wh.WarehouseCode == *warehouse.WarehouseCode {
-			err = ErrWarehouseRepositoryDuplicatedCode
+			err = models.ErrWarehouseRepositoryDuplicatedCode
 			return
 		}
 	}
