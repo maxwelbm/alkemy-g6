@@ -16,24 +16,23 @@ func (ct *BuyersController) Update(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil || id < 1 {
-		response.Error(w, http.StatusBadRequest, "Failed to convert request id")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	var buyerRequest BuyerRequestPatch
 	if err := json.NewDecoder(r.Body).Decode(&buyerRequest); err != nil {
-		response.JSON(w, http.StatusBadRequest, "Error ao decodificarJSON")
+		response.JSON(w, http.StatusBadRequest, err)
 		return
 	}
 
 	buyerToUpdate := models.BuyerDTO{
-		Id:           &id,
 		CardNumberId: buyerRequest.CardNumberId,
 		FirstName:    buyerRequest.FirstName,
 		LastName:     buyerRequest.LastName,
 	}
 
-	buyerReturn, err := ct.SV.Update(buyerToUpdate)
+	buyerReturn, err := ct.SV.Update(id, buyerToUpdate)
 
 	if errors.Is(err, models.ErrorIdNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
@@ -41,7 +40,7 @@ func (ct *BuyersController) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err != nil {
-		response.Error(w, http.StatusInternalServerError, "Internal error! Failed to done the patch")
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 

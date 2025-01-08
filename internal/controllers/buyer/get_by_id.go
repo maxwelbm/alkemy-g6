@@ -12,7 +12,7 @@ func (ct *BuyersController) GetById(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil || id < 1 {
-		response.Error(w, http.StatusBadRequest, "Failed to convert request id")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 

@@ -13,7 +13,7 @@ func (ct *BuyersController) DeleteBuyer(w http.ResponseWriter, r *http.Request) 
 
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil || id < 1 {
-		response.Error(w, http.StatusBadRequest, "Failed to convert request id")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 

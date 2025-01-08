@@ -3,7 +3,6 @@ package repository
 import (
 	"database/sql"
 
-	buy_models "github.com/maxwelbm/alkemy-g6/internal/models/buyer"
 	emp_models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
 	prod_models "github.com/maxwelbm/alkemy-g6/internal/models/products"
 	sec_models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
@@ -13,7 +12,6 @@ import (
 )
 
 type RepoDB struct {
-	BuyersDB    buy_models.BuyerRepository
 	EmployeesDB emp_models.EmployeesRepository
 	ProductsDB  prod_models.ProductRepository
 	SectionsDB  sec_models.SectionRepository

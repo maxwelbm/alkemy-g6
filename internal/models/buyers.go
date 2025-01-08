@@ -23,7 +23,7 @@ type BuyerService interface {
 	GetById(id int) (buyer Buyer, err error)
 	GetByCardNumberId(cardNumberId string) (buyer Buyer, err error)
 	Create(buyer BuyerDTO) (buyerReturn Buyer, err error)
-	Update(buyer BuyerDTO) (buyerReturn Buyer, err error)
+	Update(id int, buyer BuyerDTO) (buyerReturn Buyer, err error)
 	Delete(id int) (err error)
 }
 
@@ -32,6 +32,6 @@ type BuyerRepository interface {
 	GetById(id int) (buyer Buyer, err error)
 	GetByCardNumberId(cardNumberId string) (buyer Buyer, err error)
 	Create(buyer BuyerDTO) (buyerReturn Buyer, err error)
-	Update(buyer BuyerDTO) (buyerReturn Buyer, err error)
+	Update(id int, buyer BuyerDTO) (buyerReturn Buyer, err error)
 	Delete(id int) (err error)
 }

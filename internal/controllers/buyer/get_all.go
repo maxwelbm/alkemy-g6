@@ -12,7 +12,7 @@ func (ct *BuyersController) GetAll(w http.ResponseWriter, r *http.Request) {
 	buyers, err := ct.SV.GetAll()
 
 	if err != nil {
-		response.Error(w, http.StatusInternalServerError, "Failed to retrieve buyers")
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 

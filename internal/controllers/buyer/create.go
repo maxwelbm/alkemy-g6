@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -13,19 +15,7 @@ func (ct *BuyersController) Create(w http.ResponseWriter, r *http.Request) {
 
 	var buyerRequest BuyerRequestPost
 	if err := json.NewDecoder(r.Body).Decode(&buyerRequest); err != nil {
-		response.JSON(w, http.StatusBadRequest, "Error ao decodificarJSON")
-		return
-	}
-
-	if buyerRequest.CardNumberId == nil {
-		response.JSON(w, http.StatusUnprocessableEntity, "CardNumberId inexists in requests!")
-		return
-	}
-
-	_, errCardNumberId := ct.SV.GetByCardNumberId(*buyerRequest.CardNumberId)
-
-	if errCardNumberId == nil {
-		response.Error(w, http.StatusConflict, "Card Number Id already exists!")
+		response.JSON(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -35,10 +25,13 @@ func (ct *BuyersController) Create(w http.ResponseWriter, r *http.Request) {
 		LastName:     buyerRequest.LastName,
 	}
 
-	buyerCreated, errToPost := ct.SV.Create(buyerToCreate)
+	buyerCreated, err := ct.SV.Create(buyerToCreate)
 
-	if errToPost != nil {
-		response.Error(w, http.StatusInternalServerError, "Failed to done the post")
+	if err != nil {
+		if err.(*mysql.MySQLError).Number == mysqlerr.CodeDuplicateEntry {
+			response.Error(w, http.StatusConflict, err.Error())
+		}
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 

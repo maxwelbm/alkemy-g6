@@ -34,8 +34,8 @@ func (s *BuyerDefault) Create(buyer models.BuyerDTO) (buyerReturn models.Buyer, 
 	return
 }
 
-func (s *BuyerDefault) Update(buyer models.BuyerDTO) (buyerReturn models.Buyer, err error) {
-	buyerReturn, err = s.rp.Update(buyer)
+func (s *BuyerDefault) Update(id int, buyer models.BuyerDTO) (buyerReturn models.Buyer, err error) {
+	buyerReturn, err = s.rp.Update(id, buyer)
 	return
 }
 
