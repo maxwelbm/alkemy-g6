@@ -1,53 +1,26 @@
-package sellerController
+package sellers_controller
 
 import (
-	modelsSeller "github.com/maxwelbm/alkemy-g6/internal/models/seller"
+	models "github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-type SellerResponse struct {
-	Status  int                   `json:"status"`
-	Message string                `json:"message,omitempty"`
-	Data    []modelsSeller.Seller `json:"data,omitempty"`
+type SellersController struct {
+	SV models.SellersService
 }
 
-type SellersResJSON struct {
-	Message string              `json:"message"`
-	Data    []SellerDataResJSON `json:"data"`
+func NewSellerController(SV models.SellersService) *SellersController {
+	return &SellersController{SV: SV}
 }
 
 type SellerResJSON struct {
-	Message string            `json:"message"`
-	Data    SellerDataResJSON `json:"data"`
+	Message string `json:"message"`
+	Data    any    `json:"data,omitempty"`
 }
 
-type SellerDataResJSON struct {
+type FullSellerJSON struct {
 	ID          int    `json:"id"`
-	CID         int    `json:"cid"`
+	CID         string `json:"cid"`
 	CompanyName string `json:"company_name"`
 	Address     string `json:"address"`
 	Telephone   string `json:"telephone"`
-}
-
-type SellerRequestPatch struct {
-	ID          *int    `json:"id,omitempty"`
-	CID         *int    `json:"cid,omitempty"`
-	CompanyName *string `json:"company_name,omitempty"`
-	Address     *string `json:"address,omitempty"`
-	Telephone   *string `json:"telephone,omitempty"`
-}
-
-type SellerRequestPost struct {
-	ID          *int    `json:"id,omitempty"`
-	CID         *int    `json:"cid,omitempty"`
-	CompanyName *string `json:"company_name,omitempty"`
-	Address     *string `json:"address,omitempty"`
-	Telephone   *string `json:"telephone,omitempty"`
-}
-
-type SellerDefault struct {
-	sv modelsSeller.SellerService
-}
-
-func NewSellerController(sellerService modelsSeller.SellerService) *SellerDefault {
-	return &SellerDefault{sv: sellerService}
 }

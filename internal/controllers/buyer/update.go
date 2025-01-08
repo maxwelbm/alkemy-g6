@@ -7,7 +7,9 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -40,6 +42,10 @@ func (ct *BuyersController) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err != nil {
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
+		}
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}

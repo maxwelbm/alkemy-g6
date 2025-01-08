@@ -28,8 +28,9 @@ func (ct *BuyersController) Create(w http.ResponseWriter, r *http.Request) {
 	buyerCreated, err := ct.SV.Create(buyerToCreate)
 
 	if err != nil {
-		if err.(*mysql.MySQLError).Number == mysqlerr.CodeDuplicateEntry {
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
 			response.Error(w, http.StatusConflict, err.Error())
+			return
 		}
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return

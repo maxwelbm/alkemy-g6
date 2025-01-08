@@ -51,7 +51,7 @@ CREATE TABLE localities (
 -- Create a table to store seller information
 CREATE TABLE sellers (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    cid INT UNIQUE,
+    cid VARCHAR(255) UNIQUE,
     company_name VARCHAR(255),
     address VARCHAR(255),
     telephone VARCHAR(255),
@@ -71,8 +71,9 @@ CREATE TABLE products (
     expiration_rate FLOAT,
     freezing_rate FLOAT,
     recom_freez_temp FLOAT,
+    seller_id INT,
     product_type_id INT,
-    seller_id INT
+    FOREIGN KEY (seller_id) REFERENCES sellers(id)
     -- FOREIGN KEY (product_type_id) REFERENCES product_types(id)
 );
 
