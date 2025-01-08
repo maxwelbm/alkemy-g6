@@ -1,18 +1,18 @@
-package controller
+package products_controller
 
 import (
 	"errors"
 	"fmt"
 
-	models "github.com/maxwelbm/alkemy-g6/internal/models/products"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
 type ProductsDefault struct {
-	sv models.ProductService
+	SV models.ProductService
 }
 
-func NewProductsDefault(sv models.ProductService) *ProductsDefault {
-	return &ProductsDefault{sv: sv}
+func NewProductsController(sv models.ProductService) *ProductsDefault {
+	return &ProductsDefault{SV: sv}
 }
 
 type ProductResJSON struct {

@@ -1,56 +1,109 @@
 package repository
 
-import models "github.com/maxwelbm/alkemy-g6/internal/models/products"
+import (
+	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"strings"
+)
 
 func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Product, err error) {
-	updatedProd, ok := p.prods[id]
-	// Checks if product is present
-	if !ok {
-		err = ErrProductNotFound
+	// Validate all attributes
+	if err = p.validateProduct(prod); err != nil {
 		return
 	}
 
-	// Updates attributes that are present
+	// Prepare fields and values for the update query
+	fields := []string{}
+	values := []interface{}{}
+
 	if prod.ProductCode != "" {
-		updatedProd.ProductCode = prod.ProductCode
+		fields = append(fields, "product_code = ?")
+		values = append(values, prod.ProductCode)
 	}
 	if prod.Description != "" {
-		updatedProd.Description = prod.Description
+		fields = append(fields, "description = ?")
+		values = append(values, prod.Description)
 	}
 	if prod.Height != 0 {
-		updatedProd.Height = prod.Height
+		fields = append(fields, "height = ?")
+		values = append(values, prod.Height)
 	}
 	if prod.Length != 0 {
-		updatedProd.Length = prod.Length
+		fields = append(fields, "length = ?")
+		values = append(values, prod.Length)
 	}
 	if prod.Width != 0 {
-		updatedProd.Width = prod.Width
+		fields = append(fields, "width = ?")
+		values = append(values, prod.Width)
 	}
 	if prod.Weight != 0 {
-		updatedProd.Weight = prod.Weight
+		fields = append(fields, "weight = ?")
+		values = append(values, prod.Weight)
 	}
 	if prod.ExpirationRate != 0 {
-		updatedProd.ExpirationRate = prod.ExpirationRate
+		fields = append(fields, "expiration_rate = ?")
+		values = append(values, prod.ExpirationRate)
 	}
 	if prod.FreezingRate != 0 {
-		updatedProd.FreezingRate = prod.FreezingRate
+		fields = append(fields, "freezing_rate = ?")
+		values = append(values, prod.FreezingRate)
 	}
 	if prod.RecomFreezTemp != 0 {
-		updatedProd.RecomFreezTemp = prod.RecomFreezTemp
+		fields = append(fields, "recom_freez_temp = ?")
+		values = append(values, prod.RecomFreezTemp)
 	}
 	if prod.ProductTypeID != 0 {
-		updatedProd.ProductTypeID = prod.ProductTypeID
+		fields = append(fields, "product_type_id = ?")
+		values = append(values, prod.ProductTypeID)
 	}
 	if prod.SellerID != 0 {
-		updatedProd.SellerID = prod.SellerID
+		fields = append(fields, "seller_id = ?")
+		values = append(values, prod.SellerID)
 	}
 
-	// Validate all attributes at once
-	if err = p.validateProduct(updatedProd); err != nil {
+	// If no fields are specified, nothing to update
+	if len(fields) == 0 {
+		return 
+	}
+
+	query := "UPDATE products SET " + strings.Join(fields, ", ") + " WHERE id = ?"
+	values = append(values, id)
+
+	// Execute the update query
+	res, err := p.DB.Exec(query, values...)
+	if err != nil {
 		return
 	}
 
-	// updated record in the database
-	p.prods[id] = updatedProd
+	// Check how many rows were affected
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return
+	}
+
+	// Check if the update affected any rows
+	if rowsAffected == 0 {
+		err = models.ErrProductNotFound
+		return
+	}
+
+	query = "SELECT id, product_code, description, height, length, width, weight, expiration_rate, freezing_rate, recom_freez_temp, product_type_id, seller_id FROM products WHERE id = ?"
+	err = p.DB.QueryRow(query, id).Scan(
+		&updatedProd.ID,
+		&updatedProd.ProductCode,
+		&updatedProd.Description,
+		&updatedProd.Height,
+		&updatedProd.Length,
+		&updatedProd.Width,
+		&updatedProd.Weight,
+		&updatedProd.ExpirationRate,
+		&updatedProd.FreezingRate,
+		&updatedProd.RecomFreezTemp,
+		&updatedProd.ProductTypeID,
+		&updatedProd.SellerID,
+	)
+	if err != nil {
+		return
+	}
+
 	return
 }

@@ -1,32 +1,56 @@
 package repository
 
 import (
-	models "github.com/maxwelbm/alkemy-g6/internal/models/products"
+	models "github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
 func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err error) {
-	nextId := p.lastId + 1
-
-	newProd = models.Product{
-		ID:             nextId,
-		ProductCode:    prod.ProductCode,
-		Description:    prod.Description,
-		Height:         prod.Height,
-		Length:         prod.Length,
-		Width:          prod.Width,
-		Weight:         prod.Weight,
-		ExpirationRate: prod.ExpirationRate,
-		FreezingRate:   prod.FreezingRate,
-		RecomFreezTemp: prod.RecomFreezTemp,
-		ProductTypeID:  prod.ProductTypeID,
-		SellerID:       prod.SellerID,
-	}
-
-	if err = p.validateProduct(newProd); err != nil {
+	if err = p.validateProduct(prod); err != nil {
 		return
 	}
 
-	p.prods[nextId] = newProd
-	p.lastId = nextId
+	query := "INSERT INTO products (product_code, description, height, length, width, weight, expiration_rate, freezing_rate, recom_freez_temp, product_type_id, seller_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+	
+	result, err := p.DB.Exec(query, 
+		newProd.ProductCode,
+		newProd.Description,
+		newProd.Height,
+		newProd.Length,
+		newProd.Width,
+		newProd.Weight,
+		newProd.ExpirationRate,
+		newProd.FreezingRate,
+		newProd.RecomFreezTemp,
+		newProd.ProductTypeID,
+		newProd.SellerID,
+	)
+
+	if err != nil {
+		return
+	}
+
+	lastInsertId, err := result.LastInsertId()
+	if err != nil {
+		return
+	}
+	query = "SELECT id, product_code, description, height, length, width, weight, expiration_rate, freezing_rate, recom_freez_temp, product_type_id, seller_id FROM products WHERE id = ?"
+	err = p.DB.QueryRow(query, lastInsertId).Scan(
+		&newProd.ID,
+		&newProd.ProductCode,
+		&newProd.Description,
+		&newProd.Height,
+		&newProd.Length,
+		&newProd.Width,
+		&newProd.Weight,
+		&newProd.ExpirationRate,
+		&newProd.FreezingRate,
+		&newProd.RecomFreezTemp,
+		&newProd.ProductTypeID,
+		&newProd.SellerID,
+	)
+	if err != nil {
+		return
+	}
+
 	return
 }

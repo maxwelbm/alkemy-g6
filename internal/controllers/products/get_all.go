@@ -1,4 +1,4 @@
-package controller
+package products_controller
 
 import (
 	"net/http"
@@ -7,7 +7,7 @@ import (
 )
 
 func (p *ProductsDefault) GetAll(w http.ResponseWriter, r *http.Request) {
-	prods, err := p.sv.GetAll()
+	prods, err := p.SV.GetAll()
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return

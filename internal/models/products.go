@@ -1,5 +1,12 @@
 package models
 
+import "errors"
+
+var (
+	ErrProductNotFound   = errors.New("Product not found")
+	ErrProductUniqueness = errors.New("Product attribute uniqueness")
+)
+
 type Product struct {
 	// ID is the unique identifier of the product
 	ID int
@@ -40,4 +47,20 @@ type ProductDTO struct {
 	RecomFreezTemp float64
 	ProductTypeID  int
 	SellerID       int
+}
+
+type ProductService interface {
+	GetAll() (list []Product, err error)
+	GetById(id int) (prod Product, err error)
+	Create(prod ProductDTO) (newProd Product, err error)
+	Update(id int, prod ProductDTO) (updatedProd Product, err error)
+	Delete(id int) (err error)
+}
+
+type ProductRepository interface {
+	GetAll() (list []Product, err error)
+	GetById(id int) (prod Product, err error)
+	Create(prod ProductDTO) (newProd Product, err error)
+	Update(id int, prod ProductDTO) (updatedProd Product, err error)
+	Delete(id int) (err error)
 }

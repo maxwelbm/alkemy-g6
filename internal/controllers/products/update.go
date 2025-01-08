@@ -1,4 +1,4 @@
-package controller
+package products_controller
 
 import (
 	"encoding/json"
@@ -7,8 +7,9 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	models "github.com/maxwelbm/alkemy-g6/internal/models/products"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
+	"github.com/go-sql-driver/mysql"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -68,16 +69,27 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Update the product
-	updatedProd, err := p.sv.Update(id, prodDTO)
-	if errors.Is(err, repository.ErrProductNotFound) {
+	updatedProd, err := p.SV.Update(id, prodDTO)
+	if errors.Is(err, models.ErrProductNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
-	if errors.Is(err, repository.ErrProductUniqueness) {
+	if errors.Is(err, models.ErrProductUniqueness) {
 		response.Error(w, http.StatusConflict, err.Error())
 		return
 	}
+
 	if err != nil {
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
+			switch mysqlErr.Number {
+			case mysqlerr.CodeDuplicateEntry:
+				response.Error(w, http.StatusConflict, "Duplicate entry found.")
+				return
+			case mysqlerr.CodeCannotAddOrUpdateChildRow:
+				response.Error(w, http.StatusBadRequest, "Cannot update: referenced parent does not exist.")
+				return
+			}
+		}
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}

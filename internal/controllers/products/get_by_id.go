@@ -1,4 +1,4 @@
-package controller
+package products_controller
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -17,8 +17,8 @@ func (p *ProductsDefault) GetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	prod, err := p.sv.GetById(id)
-	if errors.Is(err, repository.ErrProductNotFound) {
+	prod, err := p.SV.GetById(id)
+	if errors.Is(err, models.ErrProductNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}

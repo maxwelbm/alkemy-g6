@@ -7,7 +7,6 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/loaders"
 	"github.com/maxwelbm/alkemy-g6/internal/repository"
 	emp_repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
-	prod_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
 	sec_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 	sel_repository "github.com/maxwelbm/alkemy-g6/internal/repository/seller"
 	war_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
@@ -15,10 +14,6 @@ import (
 
 func loadDB() (repo repository.RepoDB, err error) {
 	emp, err := loadEmployeesRepository()
-	if err != nil {
-		return
-	}
-	prod, err := loadProductsRepository()
 	if err != nil {
 		return
 	}
@@ -37,7 +32,6 @@ func loadDB() (repo repository.RepoDB, err error) {
 
 	repo = repository.RepoDB{
 		EmployeesDB: emp,
-		ProductsDB:  prod,
 		SectionsDB:  sec,
 		SellersDB:   sell,
 		WarehouseDB: ware,
@@ -56,20 +50,6 @@ func loadEmployeesRepository() (repo *emp_repository.Employees, err error) {
 	}
 
 	repo = emp_repository.NewEmployees(emp)
-
-	return
-}
-
-func loadProductsRepository() (repo *prod_repository.Products, err error) {
-	// loads products from products.json file
-	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "products.json")
-	ld := loaders.NewProductJSONFile(path)
-	prods, err := ld.Load()
-	if err != nil {
-		return
-	}
-
-	repo = prod_repository.NewProducts(prods)
 
 	return
 }

@@ -1,52 +1,34 @@
 package repository
 
 import (
-	"errors"
-	"fmt"
-
-	models "github.com/maxwelbm/alkemy-g6/internal/models/products"
-)
-
-var (
-	ErrProductNotFound   = errors.New("Product not found")
-	ErrProductUniqueness = errors.New("Product attribute uniqueness")
+	"database/sql"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
 type Products struct {
-	prods  map[int]models.Product
-	lastId int
+	DB *sql.DB
 }
 
-func NewProducts(prods map[int]models.Product) *Products {
-	// initializes db map
-	defaultDb := make(map[int]models.Product)
-	if prods != nil {
-		defaultDb = prods
+func NewProducts(db *sql.DB) *Products {
+	repo := &Products{
+		DB: db,
 	}
-
-	// assigns last id
-	lastId := 0
-	for _, p := range prods {
-		if lastId < p.ID {
-			lastId = p.ID
-		}
-	}
-
-	return &Products{prods: defaultDb, lastId: lastId}
+	return repo
 }
 
-func (p *Products) validateProduct(prod models.Product) (err error) {
-	// Uniqueness
-	for _, dbProd := range p.prods {
-		// skips self
-		if prod.ID == dbProd.ID {
-			continue
-		}
+func (p *Products) validateProduct(prod models.ProductDTO) (err error) {
+	var count int
 
-		// validate ProductCode uniqueness
-		if prod.ProductCode == dbProd.ProductCode {
-			err = errors.Join(err, fmt.Errorf("%w: %s", ErrProductUniqueness, "Product Code"))
-		}
+	// validate ProductCode uniqueness
+	query := "SELECT COUNT(*) FROM products WHERE product_code = ?"
+	err = p.DB.QueryRow(query, prod.ProductCode).Scan(&count)
+	if err != nil {
+		return
 	}
-	return
+
+	if count > 0 {
+		return models.ErrProductUniqueness
+	}
+
+	return nil
 }
