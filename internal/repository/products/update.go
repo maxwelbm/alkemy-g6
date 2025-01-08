@@ -86,7 +86,7 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 		return
 	}
 
-	query = "SELECT id, product_code, description, height, length, width, weight, expiration_rate, freezing_rate, recom_freez_temp, product_type_id, seller_id FROM products WHERE id = ?"
+	query = "SELECT `id`, `product_code`, `description`, `height`, `length`, `width`, `weight`, `expiration_rate`, `freezing_rate`, `recom_freez_temp`, `product_type_id`, `seller_id` FROM products WHERE `id` = ?"
 	err = p.DB.QueryRow(query, id).Scan(
 		&updatedProd.ID,
 		&updatedProd.ProductCode,
