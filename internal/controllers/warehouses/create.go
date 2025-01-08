@@ -5,7 +5,6 @@ import (
 	"errors"
 	"net/http"
 	"github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
-	"github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -13,7 +12,7 @@ func (c *WarehouseDefault) Create(w http.ResponseWriter, r *http.Request) {
     var warehouseJSON WarehouseReqJSON
     err := json.NewDecoder(r.Body).Decode(&warehouseJSON)
     if err != nil {
-        response.JSON(w, http.StatusBadRequest, nil)
+        response.Error(w, http.StatusBadRequest, err.Error())
         return
     }
     err = validateNewWarehouse(warehouseJSON)
@@ -29,7 +28,7 @@ func (c *WarehouseDefault) Create(w http.ResponseWriter, r *http.Request) {
         MinimumTemperature: warehouseJSON.MinimumTemperature,
     }
     wh, err := c.service.Create(warehouse)
-    if errors.Is(err, repository.ErrWarehouseRepositoryDuplicatedCode) {
+    if errors.Is(err, models.ErrWarehouseRepositoryDuplicatedCode) {
         response.Error(w, http.StatusConflict, err.Error())
         return
     }
