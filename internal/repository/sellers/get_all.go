@@ -7,7 +7,7 @@ import (
 func (r *SellersDefault) GetAll() (sellers []models.Seller, err error) {
 	// query to get all sellers
 	query := "SELECT id, cid, company_name, address, telephone, locality_id FROM sellers"
-	rows, err := r.DB.Query(query)
+	rows, err := r.db.Query(query)
 	if err != nil {
 		return
 	}

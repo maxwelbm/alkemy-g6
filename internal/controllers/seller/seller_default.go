@@ -5,11 +5,11 @@ import (
 )
 
 type SellersDefault struct {
-	SV models.SellersService
+	sv models.SellersService
 }
 
-func NewSellersController(SV models.SellersService) *SellersDefault {
-	return &SellersDefault{SV: SV}
+func NewSellersController(sv models.SellersService) *SellersDefault {
+	return &SellersDefault{sv: sv}
 }
 
 type SellerResJSON struct {

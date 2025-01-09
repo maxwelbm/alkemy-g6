@@ -35,7 +35,7 @@ func (controller *SellersDefault) Delete(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Attempt to delete the seller by id
-	err = controller.SV.Delete(id)
+	err = controller.sv.Delete(id)
 	if err != nil {
 		// If the seller is not found, return a not found error
 		if errors.Is(err, models.ErrSellerNotFound) {

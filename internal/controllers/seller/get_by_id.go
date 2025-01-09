@@ -29,7 +29,7 @@ func (controller *SellersDefault) GetById(w http.ResponseWriter, r *http.Request
 	}
 
 	// Call the service layer to get the seller by id
-	seller, err := controller.SV.GetById(id)
+	seller, err := controller.sv.GetById(id)
 	if err != nil {
 		// If the seller is not found, return a not found error
 		response.Error(w, http.StatusNotFound, err.Error())

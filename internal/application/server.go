@@ -84,6 +84,7 @@ func (a *ServerChi) Run() (err error) {
 	buildApiV1EmployeesRoutes(jsonDB, rt)
 	resources.InitBuyers(a.db, rt)
 	resources.InitSellers(a.db, rt)
+	resources.InitLocalities(a.db, rt)
 	resources.InitProducts(a.db, rt)
 	resources.InitWarehouses(a.db, rt)
 	resources.InitSections(a.db, rt)
