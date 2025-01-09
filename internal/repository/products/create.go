@@ -10,20 +10,20 @@ func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err e
 	}
 
 	query := "INSERT INTO products (`product_code`, `description`, `height`, `length`, `width`, `weight`, `expiration_rate`, `freezing_rate`, `recom_freez_temp`, `product_type_id`, `seller_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-	
-	result, err := p.DB.Exec(query, 
-		newProd.ProductCode,
-		newProd.Description,
-		newProd.Height,
-		newProd.Length,
-		newProd.Width,
-		newProd.Weight,
-		newProd.ExpirationRate,
-		newProd.FreezingRate,
-		newProd.RecomFreezTemp,
-		newProd.ProductTypeID,
-		newProd.SellerID,
-	)
+    
+    result, err := p.DB.Exec(query, 
+        prod.ProductCode,
+        prod.Description,
+        prod.Height,
+        prod.Length,
+        prod.Width,
+        prod.Weight,
+        prod.ExpirationRate,
+        prod.FreezingRate,
+        prod.RecomFreezTemp,
+        prod.ProductTypeID,
+        prod.SellerID,
+    )
 
 	if err != nil {
 		return

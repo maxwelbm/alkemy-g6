@@ -1,6 +1,8 @@
 package repository
 
-import "database/sql"
+import (
+	"github.com/maxwelbm/alkemy-g6/internal/models"
+)
 
 func (p *Products) Delete(id int) (err error) {
 	query := "DELETE FROM products WHERE `id` = ?"
@@ -13,7 +15,7 @@ func (p *Products) Delete(id int) (err error) {
 		return
 	}
 	if rowsAffected == 0 {
-		return sql.ErrNoRows
+		return models.ErrProductNotFound
 	}
 	return nil
 }

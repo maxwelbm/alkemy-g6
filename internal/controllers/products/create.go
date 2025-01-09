@@ -32,9 +32,7 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 		FreezingRate:   *prodJson.FreezingRate,
 		RecomFreezTemp: *prodJson.RecomFreezTemp,
 		ProductTypeID:  *prodJson.ProductTypeID,
-	}
-	if prodJson.SellerID != nil {
-		prodDTO.SellerID = *prodJson.SellerID
+		SellerID: 		*prodJson.SellerID,
 	}
 
 	newProd, err := p.SV.Create(prodDTO)

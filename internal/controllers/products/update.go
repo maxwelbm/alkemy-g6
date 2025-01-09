@@ -17,7 +17,7 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	// Get the ID from the URL
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
-		response.Error(w, http.StatusBadRequest, "Invalid ID format")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 

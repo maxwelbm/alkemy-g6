@@ -2,7 +2,6 @@ package repository
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
-	"strings"
 )
 
 func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Product, err error) {
@@ -11,65 +10,35 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 		return
 	}
 
-	// Prepare fields and values for the update query
-	fields := []string{}
-	values := []interface{}{}
-
-	if prod.ProductCode != "" {
-		fields = append(fields, "product_code = ?")
-		values = append(values, prod.ProductCode)
-	}
-	if prod.Description != "" {
-		fields = append(fields, "description = ?")
-		values = append(values, prod.Description)
-	}
-	if prod.Height != 0 {
-		fields = append(fields, "height = ?")
-		values = append(values, prod.Height)
-	}
-	if prod.Length != 0 {
-		fields = append(fields, "length = ?")
-		values = append(values, prod.Length)
-	}
-	if prod.Width != 0 {
-		fields = append(fields, "width = ?")
-		values = append(values, prod.Width)
-	}
-	if prod.Weight != 0 {
-		fields = append(fields, "weight = ?")
-		values = append(values, prod.Weight)
-	}
-	if prod.ExpirationRate != 0 {
-		fields = append(fields, "expiration_rate = ?")
-		values = append(values, prod.ExpirationRate)
-	}
-	if prod.FreezingRate != 0 {
-		fields = append(fields, "freezing_rate = ?")
-		values = append(values, prod.FreezingRate)
-	}
-	if prod.RecomFreezTemp != 0 {
-		fields = append(fields, "recom_freez_temp = ?")
-		values = append(values, prod.RecomFreezTemp)
-	}
-	if prod.ProductTypeID != 0 {
-		fields = append(fields, "product_type_id = ?")
-		values = append(values, prod.ProductTypeID)
-	}
-	if prod.SellerID != 0 {
-		fields = append(fields, "seller_id = ?")
-		values = append(values, prod.SellerID)
-	}
-
-	// If no fields are specified, nothing to update
-	if len(fields) == 0 {
-		return 
-	}
-
-	query := "UPDATE products SET " + strings.Join(fields, ", ") + " WHERE id = ?"
-	values = append(values, id)
+	query := `UPDATE products SET 
+			product_code = COALESCE(NULLIF(?, ''), product_code), 
+			description = COALESCE(NULLIF(?, ''), description),
+			height = COALESCE(NULLIF(?, 0), height),
+			length = COALESCE(NULLIF(?, 0), length),
+			width = COALESCE(NULLIF(?, 0), width),
+			weight = COALESCE(NULLIF(?, 0), weight),
+			expiration_rate = COALESCE(NULLIF(?, 0), expiration_rate),
+			freezing_rate = COALESCE(NULLIF(?, 0), freezing_rate),
+			recom_freez_temp = COALESCE(NULLIF(?, 0), recom_freez_temp),
+			product_type_id = COALESCE(NULLIF(?, 0), product_type_id),
+			seller_id = COALESCE(NULLIF(?, 0), seller_id)
+			WHERE id = ?`
 
 	// Execute the update query
-	res, err := p.DB.Exec(query, values...)
+	res, err := p.DB.Exec(query, 
+		prod.ProductCode, 
+		prod.Description, 
+		prod.Height, 
+		prod.Length, 
+		prod.Width, 
+		prod.Weight, 
+		prod.ExpirationRate, 
+		prod.FreezingRate, 
+		prod.RecomFreezTemp, 
+		prod.ProductTypeID, 
+		prod.SellerID,
+		id)
+
 	if err != nil {
 		return
 	}
