@@ -1,24 +1,26 @@
-package repository
+package warehouses_repository
 
-import (
-	"github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
-)
+import "github.com/maxwelbm/alkemy-g6/internal/models"
 
-func (r *Warehouses) Create(warehouse models.WarehouseDTO) (w models.Warehouse, err error) {
-	err = r.validateWarehouseCode(warehouse)
+func (r *WarehouseRepository) Create(warehouse models.WarehouseDTO) (w models.Warehouse, err error) {
+	query := "INSERT INTO frescos_db.warehouses (`address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature`) VALUES (?, ?, ?, ?, ?)"
+
+	result, err := r.DB.Exec(query, warehouse.Address, warehouse.Telephone, warehouse.WarehouseCode, warehouse.MinimumCapacity, warehouse.MinimumTemperature)
 	if err != nil {
 		return
 	}
-	w = models.Warehouse{
-		Id: r.LastId + 1,
-		Address: *warehouse.Address,
-		Telephone: *warehouse.Telephone,
-		WarehouseCode: *warehouse.WarehouseCode,
-		MinimumCapacity: *warehouse.MinimumCapacity,
-		MinimumTemperature: *warehouse.MinimumTemperature,
+
+	lastInsertId, err := result.LastInsertId()
+	if err != nil {
+		return
 	}
-	r.db[w.Id] = w
-	r.LastId = w.Id
+
+	query = "SELECT `id`,`address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM frescos_db.warehouses WHERE `id`=?"
+	err = r.DB.
+		QueryRow(query, lastInsertId).Scan(&w.Id, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature)
+	if err != nil {
+		return
+	}
 
 	return
 }

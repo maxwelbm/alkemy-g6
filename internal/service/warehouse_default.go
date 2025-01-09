@@ -3,8 +3,7 @@ package service
 import (
 	"errors"
 
-	models "github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
-	"github.com/maxwelbm/alkemy-g6/internal/repository"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
 var (
@@ -12,55 +11,35 @@ var (
 	ErrWarehouseServiceSectionsAssociated  = errors.New("Cannot delete warehouse: sections are still associated. Please remove or reassign associated sections before deleting.")
 )
 
-func NewWarehouseDefault(repo repository.RepoDB) *WarehouseDefault {
+func NewWarehousesService(repo models.WarehouseRepository) *WarehouseDefault {
 	return &WarehouseDefault{repo: repo}
 }
 
 type WarehouseDefault struct {
-	repo repository.RepoDB
+	repo models.WarehouseRepository
 }
 
 func (s *WarehouseDefault) GetAll() (w []models.Warehouse, err error) {
-	w, err = s.repo.WarehouseDB.GetAll()
+	w, err = s.repo.GetAll()
 	return
 }
 
 func (s *WarehouseDefault) GetById(id int) (w models.Warehouse, err error) {
-	w, err = s.repo.WarehouseDB.GetById(id)
+	w, err = s.repo.GetById(id)
 	return
 }
 
 func (s *WarehouseDefault) Create(warehouse models.WarehouseDTO) (w models.Warehouse, err error) {
-	w, err = s.repo.WarehouseDB.Create(warehouse)
+	w, err = s.repo.Create(warehouse)
 	return
 }
 
 func (s *WarehouseDefault) Update(id int, warehouse models.WarehouseDTO) (w models.Warehouse, err error) {
-	w, err = s.repo.WarehouseDB.Update(id, warehouse)
+	w, err = s.repo.Update(id, warehouse)
 	return
 }
 
 func (s *WarehouseDefault) Delete(id int) (err error) {
-	allSections, err := s.repo.SectionsDB.GetAll()
-	if err != nil {
-		return
-	}
-	for _, section := range allSections {
-		if section.WarehouseID == id {
-			err = ErrWarehouseServiceSectionsAssociated
-			return
-		}
-	} /*
-		allEmployees, err := s.repo.EmployeesDB.GetAll()
-		if err != nil {
-			return
-		}
-		for _, employee := range allEmployees {
-			if employee.WarehouseID == id {
-				err = ErrWarehouseServiceEmployeesAssociated
-				return
-			}
-		}*/
-	err = s.repo.WarehouseDB.Delete(id)
+	err = s.repo.Delete(id)
 	return
 }

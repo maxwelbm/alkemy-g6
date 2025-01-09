@@ -1,30 +1,23 @@
-package sections
+package sections_controller
 
 import (
-	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (c *SectionsDefault) GetById(w http.ResponseWriter, r *http.Request) {
+func (c *SectionsController) GetById(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi((chi.URLParam(r, "id")))
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	sec, err := c.sv.GetById(id)
-
-	if errors.Is(err, repository.ErrSectionNotFound) {
-		response.Error(w, http.StatusNotFound, err.Error())
-		return
-	}
+	sec, err := c.SV.GetById(id)
 	if err != nil {
-		response.Error(w, http.StatusInternalServerError, err.Error())
+		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
 
