@@ -27,7 +27,7 @@ type ProductFullJSON struct {
 	Height         float64 `json:"height"`
 	Length         float64 `json:"length"`
 	Width          float64 `json:"width"`
-	Weight         float64 `json:"weight"`
+	Weight         float64 `json:"net_weight"`
 	ExpirationRate float64 `json:"expiration_rate"`
 	FreezingRate   float64 `json:"freezing_rate"`
 	RecomFreezTemp float64 `json:"recommended_freezing_temp"`

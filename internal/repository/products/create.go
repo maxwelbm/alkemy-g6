@@ -5,7 +5,7 @@ import (
 )
 
 func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err error) {
-	query := "INSERT INTO products (`product_code`, `description`, `height`, `length`, `width`, `weight`, `expiration_rate`, `freezing_rate`, `recom_freez_temp`, `product_type_id`, `seller_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+	query := "INSERT INTO products (`product_code`, `description`, `height`, `length`, `width`, `net_weight`, `expiration_rate`, `freezing_rate`, `recommended_freezing_temperature`, `product_type_id`, `seller_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     
     result, err := p.DB.Exec(query, 
         prod.ProductCode,
@@ -29,7 +29,7 @@ func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err e
 	if err != nil {
 		return
 	}
-	query = "SELECT `id`, `product_code`, `description`, `height`, `length`, `width`, `weight`, `expiration_rate`, `freezing_rate`, `recom_freez_temp`, `product_type_id`, `seller_id` FROM products WHERE `id` = ?"
+	query = "SELECT `id`, `product_code`, `description`, `height`, `length`, `width`, `net_weight`, `expiration_rate`, `freezing_rate`, `recommended_freezing_temperature`, `product_type_id`, `seller_id` FROM products WHERE `id` = ?"
 	err = p.DB.QueryRow(query, lastInsertId).Scan(
 		&newProd.ID,
 		&newProd.ProductCode,

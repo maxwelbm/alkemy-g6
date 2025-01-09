@@ -26,10 +26,10 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 			height = COALESCE(NULLIF(?, 0), height),
 			length = COALESCE(NULLIF(?, 0), length),
 			width = COALESCE(NULLIF(?, 0), width),
-			weight = COALESCE(NULLIF(?, 0), weight),
+			net_weight = COALESCE(NULLIF(?, 0), net_weight),
 			expiration_rate = COALESCE(NULLIF(?, 0), expiration_rate),
 			freezing_rate = COALESCE(NULLIF(?, 0), freezing_rate),
-			recom_freez_temp = COALESCE(NULLIF(?, 0), recom_freez_temp),
+			recommended_freezing_temperature = COALESCE(NULLIF(?, 0), recommended_freezing_temperature),
 			product_type_id = COALESCE(NULLIF(?, 0), product_type_id),
 			seller_id = COALESCE(NULLIF(?, 0), seller_id)
 			WHERE id = ?`
@@ -64,7 +64,7 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 		return
 	}
 
-	query = "SELECT `id`, `product_code`, `description`, `height`, `length`, `width`, `weight`, `expiration_rate`, `freezing_rate`, `recom_freez_temp`, `product_type_id`, `seller_id` FROM products WHERE `id` = ?"
+	query = "SELECT `id`, `product_code`, `description`, `height`, `length`, `width`, `net_weight`, `expiration_rate`, `freezing_rate`, `recommended_freezing_temperature`, `product_type_id`, `seller_id` FROM products WHERE `id` = ?"
 	err = p.DB.QueryRow(query, id).Scan(
 		&updatedProd.ID,
 		&updatedProd.ProductCode,
