@@ -1,9 +1,9 @@
-package buyers_repository
+package sellers_repository
 
 import "github.com/maxwelbm/alkemy-g6/internal/models"
 
-func (r *BuyerRepository) Delete(id int) (err error) {
-	query := "DELETE FROM buyers WHERE id = ?"
+func (r *SellersDefault) Delete(id int) (err error) {
+	query := "DELETE FROM sellers WHERE id = ?"
 	result, err := r.DB.Exec(query, id)
 	if err != nil {
 		return
@@ -15,7 +15,7 @@ func (r *BuyerRepository) Delete(id int) (err error) {
 	}
 
 	if rowsAffected == 0 {
-		err = models.ErrBuyerNotFound
+		err = models.ErrSellerNotFound
 		return
 	}
 

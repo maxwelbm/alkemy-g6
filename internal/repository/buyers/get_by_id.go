@@ -15,7 +15,7 @@ func (r *BuyerRepository) GetById(id int) (buyer models.Buyer, err error) {
 	err = row.Scan(&buyer.Id, &buyer.CardNumberId, &buyer.FirstName, &buyer.LastName)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			err = models.ErrorIdNotFound
+			err = models.ErrBuyerNotFound
 			return
 		}
 		return

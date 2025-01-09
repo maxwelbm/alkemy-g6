@@ -4,20 +4,21 @@ import (
 	"database/sql"
 
 	"github.com/go-chi/chi/v5"
+
 	"github.com/maxwelbm/alkemy-g6/internal/controllers"
 	"github.com/maxwelbm/alkemy-g6/internal/repository"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
-func InitBuyers(db *sql.DB, router *chi.Mux) {
-	rp := repository.NewBuyersRepository(db)
+func InitSellers(db *sql.DB, router *chi.Mux) {
+	rp := repository.NewSellersRepository(db)
 	// - service
-	sv := service.NewBuyersService(rp)
+	sv := service.NewSellersService(rp)
 	// - handler
-	ct := controllers.NewBuyersController(sv)
+	ct := controllers.NewSellersController(sv)
 
 	// - endpoints
-	router.Route("/api/v1/buyers", func(rt chi.Router) {
+	router.Route("/api/v1/sellers", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetById)
 		rt.Post("/", ct.Create)

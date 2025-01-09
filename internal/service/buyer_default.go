@@ -8,7 +8,7 @@ type BuyerDefault struct {
 	rp models.BuyerRepository
 }
 
-func NewBuyerService(rp models.BuyerRepository) *BuyerDefault {
+func NewBuyersService(rp models.BuyerRepository) *BuyerDefault {
 	return &BuyerDefault{
 		rp: rp,
 	}
