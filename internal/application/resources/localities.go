@@ -18,6 +18,7 @@ func InitLocalities(db *sql.DB, router *chi.Mux) {
 
 	// - endpoints
 	router.Route("/api/v1/localities", func(r chi.Router) {
+		r.Get("/reportSellers", ct.ReportSellers)
 		r.Post("/", ct.Create)
 	})
 }

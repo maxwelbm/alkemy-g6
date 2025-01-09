@@ -9,3 +9,8 @@ type LocalityController struct {
 func NewLocalityController(sv models.LocalityService) *LocalityController {
 	return &LocalityController{sv: sv}
 }
+
+type LocalityResJSON struct {
+	Message string `json:"message,omitempty"`
+	Data    any    `json:"data,omitempty,omitempty"`
+}
