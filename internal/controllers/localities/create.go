@@ -37,6 +37,18 @@ func (j *NewLocalityJson) validate() (err error) {
 	return
 }
 
+// Create handles the creation of a new locality.
+// @Summary Create a new locality
+// @Description Create a new locality with the provided JSON payload
+// @Tags localities
+// @Accept json
+// @Produce json
+// @Param locality body NewLocalityJson true "New Locality JSON"
+// @Success 201 {object} models.LocalityDTO "Created"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /localities [post]
 func (c *LocalityController) Create(w http.ResponseWriter, r *http.Request) {
 	// parse json
 	var locJson NewLocalityJson
