@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
-	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
 func NewSectionJSONFile(path string) *SectionJSONFile {
@@ -19,7 +19,7 @@ type SectionJSONFile struct {
 
 type SectionJSON struct {
 	ID                 int     `json:"id"`
-	SectionNumber      int     `json:"section_number"`
+	SectionNumber      string  `json:"section_number"`
 	CurrentTemperature float64 `json:"current_temperature"`
 	MinimumTemperature float64 `json:"minimum_temperature"`
 	CurrentCapacity    int     `json:"current_capacity"`

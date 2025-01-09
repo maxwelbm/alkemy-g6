@@ -26,6 +26,6 @@ services:
       - ./docs/db/dump.sql:/docker-entrypoint-initdb.d/dump.sql
 
 networks:
-  defaukt:
+  default:
     driver: bridge
     name: frescos-net

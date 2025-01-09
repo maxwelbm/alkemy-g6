@@ -1,17 +1,14 @@
-package sections
+package sections_controller
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
 
-	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
-	"github.com/maxwelbm/alkemy-g6/internal/service"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (c *SectionsDefault) Create(w http.ResponseWriter, r *http.Request) {
+func (c *SectionsController) Create(w http.ResponseWriter, r *http.Request) {
 	var secReqJson NewSectionReqJSON
 	err := json.NewDecoder(r.Body).Decode(&secReqJson)
 	if err != nil {
@@ -36,15 +33,8 @@ func (c *SectionsDefault) Create(w http.ResponseWriter, r *http.Request) {
 		ProductTypeID:      secReqJson.ProductTypeID,
 	}
 
-	newSection, err := c.sv.Create(secDTO)
-	if errors.Is(err, repository.ErrSectionDuplicatedCode) {
-		response.Error(w, http.StatusConflict, err.Error())
-		return
-	}
-	if errors.Is(err, service.ErrWareHousesNotFound) {
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
-		return
-	}
+	newSection, err := c.SV.Create(secDTO)
+
 	if err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return

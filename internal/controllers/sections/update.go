@@ -1,4 +1,4 @@
-package sections
+package sections_controller
 
 import (
 	"encoding/json"
@@ -7,13 +7,11 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
-	"github.com/maxwelbm/alkemy-g6/internal/service"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (c *SectionsDefault) Update(w http.ResponseWriter, r *http.Request) {
+func (c *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
@@ -42,23 +40,29 @@ func (c *SectionsDefault) Update(w http.ResponseWriter, r *http.Request) {
 		ProductTypeID:      secReqJson.ProductTypeID,
 	}
 
-	updateSection, err := c.sv.Update(id, secDTO)
-	if errors.Is(err, repository.ErrSectionDuplicatedCode) {
-		response.Error(w, http.StatusConflict, err.Error())
-		return
-	}
-	if errors.Is(err, repository.ErrSectionNotFound) {
+	updateSection, err := c.SV.Update(id, secDTO)
+
+	if errors.Is(err, models.ErrorIdNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
-	if errors.Is(err, service.ErrWareHousesNotFound) {
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
-		return
-	}
+
 	if err != nil {
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
+	// if errors.Is(err, repository.ErrSectionDuplicatedCode) {
+	// 	response.Error(w, http.StatusConflict, err.Error())
+	// 	return
+	// }
+	// if errors.Is(err, repository.ErrSectionNotFound) {
+	// 	response.Error(w, http.StatusNotFound, err.Error())
+	// 	return
+	// }
+	// if err != nil {
+	// 	response.Error(w, http.StatusUnprocessableEntity, err.Error())
+	// 	return
+	// }
 
 	res := SectionResJSON{
 		Message: "Success",

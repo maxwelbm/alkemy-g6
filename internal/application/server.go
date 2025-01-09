@@ -83,10 +83,10 @@ func (a *ServerChi) Run() (err error) {
 	// resources
 	buildApiV1WarehousesRoutes(jsonDB, rt)
 	buildApiV1ProductsRoutes(jsonDB, rt)
-	buildApiV1SectionsRoutes(jsonDB, rt)
 	buildApiV1EmployeesRoutes(jsonDB, rt)
 	resources.InitBuyers(a.db, rt)
 	resources.InitSellers(a.db, rt)
+	resources.InitSections(a.db, rt)
 	// run server
 	err = http.ListenAndServe(a.Addr, rt)
 	return

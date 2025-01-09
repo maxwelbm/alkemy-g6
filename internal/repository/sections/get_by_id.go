@@ -1,11 +1,25 @@
-package repository
+package sections_repository
 
-import models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
+import (
+	"database/sql"
+	"errors"
 
-func (r *Sections) GetById(id int) (sec models.Section, err error) {
-	sec, ok := r.db[id]
-	if !ok {
-		err = ErrSectionNotFound
+	"github.com/maxwelbm/alkemy-g6/internal/models"
+)
+
+func (r *SectionRepository) GetById(id int) (sec models.Section, err error) {
+	query := "SELECT id, section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id FROM sections WHERE id = ?"
+
+	row := r.DB.QueryRow(query, id)
+
+	err = row.Scan(&sec.ID, &sec.SectionNumber, &sec.CurrentTemperature, &sec.MinimumTemperature, &sec.CurrentCapacity, &sec.MinimumCapacity, &sec.MaximumCapacity, &sec.WarehouseID, &sec.ProductTypeID)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			err = models.ErrorIdNotFound
+			return
+		}
+		return
 	}
 
 	return

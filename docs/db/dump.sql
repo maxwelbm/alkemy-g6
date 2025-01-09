@@ -29,14 +29,16 @@ CREATE TABLE employees (
 -- Create a table to store section information
 CREATE TABLE sections (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    section_number INT,
+    section_number VARCHAR(255) NOT NULL UNIQUE,
     current_temperature FLOAT,
     minimum_temperature FLOAT,
     current_capacity INT,
     minimum_capacity INT,
     maximum_capacity INT,
     warehouse_id INT,
-    product_type_id INT
+    product_type_id INT,
+    FOREIGN KEY (warehouse_id) REFERENCES warehouses(id)
+    -- FOREIGN KEY (product_type_id) REFERENCES product_types(id)
 );
 
 -- Create a table to store locality information
@@ -159,11 +161,11 @@ INSERT INTO employees (card_number_id, first_name, last_name, warehouse_id) VALU
 INSERT INTO employees (card_number_id, first_name, last_name, warehouse_id) VALUES ('EMP005', 'Charlie', 'Davis', 5);
 
 -- Insert data into sections
-INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES (1, -10.0, -20.0, 50, 10, 100, 1, 1);
-INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES (2, -15.0, -25.0, 60, 20, 200, 2, 2);
-INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES (3, -20.0, -30.0, 70, 30, 300, 3, 3);
-INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES (4, -25.0, -35.0, 80, 40, 400, 4, 4);
-INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES (5, -30.0, -40.0, 90, 50, 500, 5, 5);
+INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES ('SC-001', -10.0, -20.0, 50, 10, 100, 1, 1);
+INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES ('SC-002', -15.0, -25.0, 60, 20, 200, 2, 2);
+INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES ('SC-003', -20.0, -30.0, 70, 30, 300, 3, 3);
+INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES ('SC-004', -25.0, -35.0, 80, 40, 400, 4, 4);
+INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES ('SC-005', -30.0, -40.0, 90, 50, 500, 5, 5);
 
 -- Insert data into localities
 INSERT INTO localities (locality_name, province_name, country_name) VALUES ('Locality1', 'Province1', 'Country1');

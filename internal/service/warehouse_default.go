@@ -3,13 +3,13 @@ package service
 import (
 	"errors"
 
-	"github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
+	models "github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
 	"github.com/maxwelbm/alkemy-g6/internal/repository"
 )
 
 var (
-	ErrWarehouseServiceEmployeesAssociated= errors.New("Cannot delete warehouse: employees are still associated. Please remove or reassign associated sections before deleting.")
-	ErrWarehouseServiceSectionsAssociated= errors.New("Cannot delete warehouse: sections are still associated. Please remove or reassign associated sections before deleting.")
+	ErrWarehouseServiceEmployeesAssociated = errors.New("Cannot delete warehouse: employees are still associated. Please remove or reassign associated sections before deleting.")
+	ErrWarehouseServiceSectionsAssociated  = errors.New("Cannot delete warehouse: sections are still associated. Please remove or reassign associated sections before deleting.")
 )
 
 func NewWarehouseDefault(repo repository.RepoDB) *WarehouseDefault {
@@ -41,26 +41,26 @@ func (s *WarehouseDefault) Update(id int, warehouse models.WarehouseDTO) (w mode
 }
 
 func (s *WarehouseDefault) Delete(id int) (err error) {
-	allSections, err := s.repo.SectionsDB.GetAll()
-	if err != nil {
-		return
-	}
-	for _, section := range allSections {
-		if section.WarehouseID == id {
-			err = ErrWarehouseServiceSectionsAssociated
-			return
-		}
-	}
-	allEmployees, err := s.repo.EmployeesDB.GetAll()
-	if err != nil {
-		return
-	}
-	for _, employee := range allEmployees {
-		if employee.WarehouseID == id {
-			err = ErrWarehouseServiceEmployeesAssociated
-			return
-		}
-	}
+	// allSections, err := s.repo.SectionsDB.GetAll()
+	// if err != nil {
+	// 	return
+	// }
+	// for _, section := range allSections {
+	// 	if section.WarehouseID == id {
+	// 		err = ErrWarehouseServiceSectionsAssociated
+	// 		return
+	// 	}
+	// }
+	// allEmployees, err := s.repo.EmployeesDB.GetAll()
+	// if err != nil {
+	// 	return
+	// }
+	// for _, employee := range allEmployees {
+	// 	if employee.WarehouseID == id {
+	// 		err = ErrWarehouseServiceEmployeesAssociated
+	// 		return
+	// 	}
+	// }
 	err = s.repo.WarehouseDB.Delete(id)
 	return
 }

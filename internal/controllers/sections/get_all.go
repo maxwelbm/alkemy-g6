@@ -1,4 +1,4 @@
-package sections
+package sections_controller
 
 import (
 	"net/http"
@@ -6,8 +6,8 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (c *SectionsDefault) GetAll(w http.ResponseWriter, r *http.Request) {
-	sec, err := c.sv.GetAll()
+func (c *SectionsController) GetAll(w http.ResponseWriter, r *http.Request) {
+	sec, err := c.SV.GetAll()
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return

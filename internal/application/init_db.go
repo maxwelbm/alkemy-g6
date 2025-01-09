@@ -8,7 +8,6 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/repository"
 	emp_repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
 	prod_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
-	sec_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 	war_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
 )
 
@@ -21,10 +20,6 @@ func loadDB() (repo repository.RepoDB, err error) {
 	if err != nil {
 		return
 	}
-	sec, err := loadSectionsRepository()
-	if err != nil {
-		return
-	}
 	ware, err := loadWarehousesRepository()
 	if err != nil {
 		return
@@ -33,7 +28,6 @@ func loadDB() (repo repository.RepoDB, err error) {
 	repo = repository.RepoDB{
 		EmployeesDB: emp,
 		ProductsDB:  prod,
-		SectionsDB:  sec,
 		WarehouseDB: ware,
 	}
 
@@ -78,20 +72,6 @@ func loadWarehousesRepository() (repo *war_repository.Warehouses, err error) {
 	}
 
 	repo = war_repository.NewWarehouses(warehouses)
-
-	return
-}
-
-func loadSectionsRepository() (repo *sec_repository.Sections, err error) {
-	// loads sections from sections.json file
-	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "sections.json")
-	ld := loaders.NewSectionJSONFile(path)
-	sections, err := ld.Load()
-	if err != nil {
-		return
-	}
-
-	repo = sec_repository.NewSections(sections)
 
 	return
 }

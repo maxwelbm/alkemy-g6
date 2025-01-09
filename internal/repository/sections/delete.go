@@ -1,14 +1,22 @@
-package repository
+package sections_repository
 
-func (r *Sections) Delete(id int) (err error) {
-	_, ok := r.db[id]
+import "database/sql"
 
-	if !ok {
-		err = ErrSectionNotFound
+func (r *SectionRepository) Delete(id int) (err error) {
+	query := "DELETE FROM sections WHERE id = ?"
+	result, err := r.DB.Exec(query, id)
+	if err != nil {
 		return
 	}
 
-	delete(r.db, id)
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return
+	}
 
-	return
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
 }

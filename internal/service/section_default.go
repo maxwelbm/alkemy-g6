@@ -1,59 +1,52 @@
 package service
 
 import (
-	"errors"
-
-	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
-	"github.com/maxwelbm/alkemy-g6/internal/repository"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-type SectionsDefault struct {
-	repo repository.RepoDB
+type SectionsController struct {
+	rp models.SectionRepository
 }
 
-var (
-	ErrWareHousesNotFound = errors.New("Warehouse not found")
-)
-
-func NewSectionDefault(repo repository.RepoDB) *SectionsDefault {
-	return &SectionsDefault{
-		repo: repo,
+func NewSectionService(rp models.SectionRepository) *SectionsController {
+	return &SectionsController{
+		rp: rp,
 	}
 }
 
-func (s *SectionsDefault) GetAll() (sections []models.Section, err error) {
-	sections, err = s.repo.SectionsDB.GetAll()
+func (s *SectionsController) GetAll() (sections []models.Section, err error) {
+	sections, err = s.rp.GetAll()
 	return
 }
 
-func (s *SectionsDefault) GetById(id int) (section models.Section, err error) {
-	section, err = s.repo.SectionsDB.GetById(id)
+func (s *SectionsController) GetById(id int) (section models.Section, err error) {
+	section, err = s.rp.GetById(id)
 	return
 }
 
-func (s *SectionsDefault) Create(sec models.SectionDTO) (newSection models.Section, err error) {
-	if _, err = s.repo.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
-		err = ErrWareHousesServiceNotFound
-		return
-	}
+func (s *SectionsController) Create(sec models.SectionDTO) (newSection models.Section, err error) {
+	// if _, err = s.rp.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
+	// 	err = ErrWareHousesServiceNotFound
+	// 	return
+	// }
 
-	newSection, err = s.repo.SectionsDB.Create(sec)
+	newSection, err = s.rp.Create(sec)
 	return
 }
 
-func (s *SectionsDefault) Update(id int, sec models.SectionDTO) (updateSection models.Section, err error) {
-	if sec.WarehouseID != nil {
-		if _, err = s.repo.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
-			err = ErrWareHousesNotFound
-			return
-		}
-	}
+func (s *SectionsController) Update(id int, sec models.SectionDTO) (updateSection models.Section, err error) {
+	// if sec.WarehouseID != nil {
+	// 	if _, err = s.rp.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
+	// 		err = ErrWareHousesNotFound
+	// 		return
+	// 	}
+	// }
 
-	updateSection, err = s.repo.SectionsDB.Update(id, sec)
+	updateSection, err = s.rp.Update(id, sec)
 	return
 }
 
-func (s *SectionsDefault) Delete(id int) (err error) {
-	err = s.repo.SectionsDB.Delete(id)
+func (s *SectionsController) Delete(id int) (err error) {
+	err = s.rp.Delete(id)
 	return
 }
