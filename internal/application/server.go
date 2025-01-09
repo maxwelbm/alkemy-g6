@@ -86,6 +86,7 @@ func (a *ServerChi) Run() (err error) {
 	buildApiV1EmployeesRoutes(jsonDB, rt)
 	resources.InitBuyers(a.db, rt)
 	resources.InitSellers(a.db, rt)
+	resources.InitLocalities(a.db, rt)
 	resources.InitWarehouses(a.db, rt)
 	// run server
 	err = http.ListenAndServe(a.Addr, rt)

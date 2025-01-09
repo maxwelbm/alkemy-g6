@@ -7,8 +7,9 @@ import (
 	prod_models "github.com/maxwelbm/alkemy-g6/internal/models/products"
 	sec_models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
 	buyers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyers"
-	warehouse_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
+	localities_repository "github.com/maxwelbm/alkemy-g6/internal/repository/localities"
 	sellers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sellers"
+	warehouse_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
 )
 
 // Deprecated, create sql repositories for each model instead
@@ -28,6 +29,10 @@ func NewWarehousesRepository(DB *sql.DB) *warehouse_repository.WarehouseReposito
 	return &warehouse_repository.WarehouseRepository{
 		DB: DB,
 	}
+}
+
+func NewLocalityRepository(db *sql.DB) *localities_repository.LocalityRepository {
+	return localities_repository.NewLocalityRepository(db)
 }
 
 func NewSellersRepository(DB *sql.DB) *sellers_repository.SellersDefault {
