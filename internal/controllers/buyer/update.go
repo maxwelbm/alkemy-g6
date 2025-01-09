@@ -7,11 +7,13 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (ct *BuyersController) Update(w http.ResponseWriter, r *http.Request) {
+func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
@@ -34,12 +36,16 @@ func (ct *BuyersController) Update(w http.ResponseWriter, r *http.Request) {
 
 	buyerReturn, err := ct.SV.Update(id, buyerToUpdate)
 
-	if errors.Is(err, models.ErrorIdNotFound) {
-		response.Error(w, http.StatusNotFound, err.Error())
+	if errors.Is(err, models.ErrorNoChangesMade) {
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	if err != nil {
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
+		}
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}

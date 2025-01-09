@@ -81,11 +81,11 @@ func (a *ServerChi) Run() (err error) {
 	rt.Use(middleware.Recoverer)
 
 	// resources
-	buildApiV1SellerRoutes(jsonDB, rt)
 	buildApiV1WarehousesRoutes(jsonDB, rt)
 	buildApiV1SectionsRoutes(jsonDB, rt)
 	buildApiV1EmployeesRoutes(jsonDB, rt)
-	resources.InitLocalities(a.db, rt)
+	resources.InitBuyers(a.db, rt)
+	resources.InitSellers(a.db, rt)
 	resources.InitProducts(a.db, rt)
 	// run server
 	err = http.ListenAndServe(a.Addr, rt)

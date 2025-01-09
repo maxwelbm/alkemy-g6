@@ -1,56 +1,39 @@
 package service
 
 import (
-	"errors"
-
-	modelsSeller "github.com/maxwelbm/alkemy-g6/internal/models/seller"
-	"github.com/maxwelbm/alkemy-g6/internal/repository"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-var (
-	ErrSellerServiceProductsAssociated = errors.New("Cannot delete seller: products are still associated. Please remove or reassign associated products before deleting.")
-)
-
-type SellerDefault struct {
-	repo repository.RepoDB
+type SellersDefault struct {
+	rp models.SellersRepository
 }
 
-func NewSellerService(repositorySeller repository.RepoDB) *SellerDefault {
-	return &SellerDefault{
-		repo: repositorySeller,
+func NewSellersService(rp models.SellersRepository) *SellersDefault {
+	return &SellersDefault{
+		rp: rp,
 	}
 }
 
-func (s *SellerDefault) GetAll() ([]modelsSeller.Seller, error) {
-	return s.repo.SellersDB.GetAll()
+func (s *SellersDefault) GetAll() ([]models.Seller, error) {
+	return s.rp.GetAll()
 }
 
-func (s *SellerDefault) GetById(id int) (sel modelsSeller.Seller, err error) {
-	return s.repo.SellersDB.GetById(id)
+func (s *SellersDefault) GetById(id int) (seller models.Seller, err error) {
+	return s.rp.GetById(id)
 }
 
-func (s *SellerDefault) GetByCid(cid int) (sel modelsSeller.Seller, err error) {
-	return s.repo.SellersDB.GetByCid(cid)
+func (s *SellersDefault) GetByCid(cid int) (seller models.Seller, err error) {
+	return s.rp.GetByCid(cid)
 }
 
-func (s *SellerDefault) PostSeller(seller modelsSeller.Seller) (sellerToReturn modelsSeller.Seller, err error) {
-	return s.repo.SellersDB.PostSeller(seller)
+func (s *SellersDefault) Create(seller models.SellerDTO) (sellerToReturn models.Seller, err error) {
+	return s.rp.Create(seller)
 }
 
-func (s *SellerDefault) PatchSeller(seller modelsSeller.Seller) error {
-	return s.repo.SellersDB.PatchSeller(seller)
+func (s *SellersDefault) Update(id int, seller models.SellerDTO) (sellerToReturn models.Seller, err error) {
+	return s.rp.Update(id, seller)
 }
 
-func (s *SellerDefault) Delete(id int) (err error) {
-	allProducts, err := s.repo.ProductsDB.GetAll()
-	if err != nil {
-		return
-	}
-	for _, product := range allProducts {
-		if product.SellerID == id {
-			err = ErrSellerServiceProductsAssociated
-			return
-		}
-	}
-	return s.repo.SellersDB.Delete(id)
+func (s *SellersDefault) Delete(id int) (err error) {
+	return s.rp.Delete(id)
 }
