@@ -14,8 +14,8 @@ func (r *WarehouseRepository) Update(id int, warehouse models.WarehouseDTO) (w m
 			return
 		}
 
-		if !exists {
-			err = models.ErrWareHouseNotFound
+		if exists {
+			err = models.ErrWareHouseCodeExist
 			return
 		}
 

@@ -2,6 +2,7 @@ package warehouses_controller
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -41,11 +42,16 @@ func (c *WarehouseDefault) Update(w http.ResponseWriter, r *http.Request) {
 
 	resWarehouse, err := c.Service.Update(id, warehouse)
 	if err != nil {
+		if errors.Is(err, models.ErrWareHouseCodeExist) {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
+		}
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
 		response.Error(w, http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	data := WarehouseDataResJSON{
