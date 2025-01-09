@@ -30,7 +30,7 @@ func (p *ProductsDefault) Delete(w http.ResponseWriter, r *http.Request) {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 

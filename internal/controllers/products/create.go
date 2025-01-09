@@ -52,7 +52,7 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 		}
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
