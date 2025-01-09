@@ -41,26 +41,6 @@ func (s *WarehouseDefault) Update(id int, warehouse models.WarehouseDTO) (w mode
 }
 
 func (s *WarehouseDefault) Delete(id int) (err error) {
-	// allSections, err := s.repo.SectionsDB.GetAll()
-	// if err != nil {
-	// 	return
-	// }
-	// for _, section := range allSections {
-	// 	if section.WarehouseID == id {
-	// 		err = ErrWarehouseServiceSectionsAssociated
-	// 		return
-	// 	}
-	// }
-	// allEmployees, err := s.repo.EmployeesDB.GetAll()
-	// if err != nil {
-	// 	return
-	// }
-	// for _, employee := range allEmployees {
-	// 	if employee.WarehouseID == id {
-	// 		err = ErrWarehouseServiceEmployeesAssociated
-	// 		return
-	// 	}
-	// }
 	err = s.repo.WarehouseDB.Delete(id)
 	return
 }

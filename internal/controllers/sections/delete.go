@@ -1,11 +1,13 @@
 package sections_controller
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-sql-driver/mysql"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
@@ -17,21 +19,25 @@ func (c *SectionsController) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = c.SV.GetById(id)
-	if err != nil {
-		response.Error(w, http.StatusNotFound, err.Error())
-		return
-	}
-
 	err = c.SV.Delete(id)
+
 	if err != nil {
-		// Check if the error is a MySQL foreign key constraint error
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotDeleteOrUpdateParentRow {
-			// If it is, return a conflict error
+		// Handle if section not found
+		if errors.Is(err, models.ErrSectionNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+			return
+		}
+		// Handle no changes made
+		if errors.Is(err, models.ErrorNoChangesMade) {
+			response.Error(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		// Handle MySQL duplicate entry error
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
-		// For any other error, return an internal server error
+		// Handle other internal server errors
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
