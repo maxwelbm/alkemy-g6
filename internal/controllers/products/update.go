@@ -49,8 +49,8 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	if prodJson.Width != nil {
 		prodDTO.Width = *prodJson.Width
 	}
-	if prodJson.Weight != nil {
-		prodDTO.Weight = *prodJson.Weight
+	if prodJson.NetWeight != nil {
+		prodDTO.NetWeight = *prodJson.NetWeight
 	}
 	if prodJson.ExpirationRate != nil {
 		prodDTO.ExpirationRate = *prodJson.ExpirationRate

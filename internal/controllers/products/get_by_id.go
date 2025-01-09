@@ -34,7 +34,7 @@ func (p *ProductsDefault) GetById(w http.ResponseWriter, r *http.Request) {
 		Height:         prod.Height,
 		Length:         prod.Length,
 		Width:          prod.Width,
-		Weight:         prod.Weight,
+		NetWeight:         prod.NetWeight,
 		ExpirationRate: prod.ExpirationRate,
 		FreezingRate:   prod.FreezingRate,
 		RecomFreezTemp: prod.RecomFreezTemp,

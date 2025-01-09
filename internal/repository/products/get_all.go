@@ -21,7 +21,7 @@ func (p *Products) GetAll() (list []models.Product, err error) {
 			&product.Height,
 			&product.Length,
 			&product.Width,
-			&product.Weight,
+			&product.NetWeight,
 			&product.ExpirationRate,
 			&product.FreezingRate,
 			&product.RecomFreezTemp,

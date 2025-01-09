@@ -26,7 +26,7 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 		Height:         *prodJson.Height,
 		Length:         *prodJson.Length,
 		Width:          *prodJson.Width,
-		Weight:         *prodJson.Weight,
+		NetWeight:      *prodJson.NetWeight,
 		ExpirationRate: *prodJson.ExpirationRate,
 		FreezingRate:   *prodJson.FreezingRate,
 		RecomFreezTemp: *prodJson.RecomFreezTemp,

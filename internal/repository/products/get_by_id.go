@@ -17,7 +17,7 @@ func (p *Products) GetById(id int) (prod models.Product, err error) {
 		&prod.Height,
 		&prod.Length,
 		&prod.Width,
-		&prod.Weight,
+		&prod.NetWeight,
 		&prod.ExpirationRate,
 		&prod.FreezingRate,
 		&prod.RecomFreezTemp,
