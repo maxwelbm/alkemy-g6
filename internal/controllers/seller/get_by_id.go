@@ -20,9 +20,6 @@ import (
 // @Failure 404 {object} ErrorResponse "Not Found - The seller with the specified ID does not exist"
 // @Router /api/v1/sellers/{id} [get]
 func (controller *SellersDefault) GetById(w http.ResponseWriter, r *http.Request) {
-	// Set the response header to indicate JSON content
-	w.Header().Add("Content-Type", "application/json")
-
 	// Extract the "id" parameter from the URL and convert it to an integer
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil || id < 1 {

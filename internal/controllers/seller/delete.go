@@ -1,11 +1,13 @@
 package sellers_controller
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-sql-driver/mysql"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
@@ -24,9 +26,6 @@ import (
 // @Failure 500 {object} ErrorResponse "Internal Server Error - An unexpected error occurred during the deletion process"
 // @Router /api/v1/sellers/{id} [delete]
 func (controller *SellersDefault) Delete(w http.ResponseWriter, r *http.Request) {
-	// Set the response header to indicate JSON content
-	w.Header().Add("Content-Type", "application/json")
-
 	// Convert the URL parameter "id" to an integer
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil || id < 1 {
@@ -35,17 +34,14 @@ func (controller *SellersDefault) Delete(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	// Check if the seller exists by id
-	_, err = controller.SV.GetById(id)
-	if err != nil {
-		// If the seller is not found, return a not found error
-		response.Error(w, http.StatusNotFound, err.Error())
-		return
-	}
-
 	// Attempt to delete the seller by id
 	err = controller.SV.Delete(id)
 	if err != nil {
+		// If the seller is not found, return a not found error
+		if errors.Is(err, models.ErrSellerNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+			return
+		}
 		// Check if the error is a MySQL foreign key constraint error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotDeleteOrUpdateParentRow {
 			// If it is, return a conflict error

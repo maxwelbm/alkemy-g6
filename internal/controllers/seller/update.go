@@ -116,6 +116,11 @@ func (controller *SellersDefault) Update(w http.ResponseWriter, r *http.Request)
 	sellerUpdated, err := controller.SV.Update(id, sellerToUpdate)
 
 	if err != nil {
+		// Handle seller not found
+		if errors.Is(err, models.ErrSellerNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+			return
+		}
 		// Handle no changes made
 		if errors.Is(err, models.ErrorNoChangesMade) {
 			response.Error(w, http.StatusBadRequest, err.Error())
