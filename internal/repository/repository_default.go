@@ -39,10 +39,8 @@ func NewLocalityRepository(db *sql.DB) *localities_repository.LocalityRepository
 	return localities_repository.NewLocalityRepository(db)
 }
 
-func NewSellersRepository(DB *sql.DB) *sellers_repository.SellersDefault {
-	return &sellers_repository.SellersDefault{
-		DB: DB,
-	}
+func NewSellersRepository(db *sql.DB) *sellers_repository.SellersDefault {
+	return sellers_repository.NewSellersRepository(db)
 }
 
 func NewSectionsRepository(DB *sql.DB) *sec_repository.SectionRepository {

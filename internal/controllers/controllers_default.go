@@ -28,10 +28,8 @@ func NewSectionsController(SV models.SectionService) *sections_controller.Sectio
 	}
 }
 
-func NewSellersController(SV models.SellersService) *sellers_controller.SellersDefault {
-	return &sellers_controller.SellersDefault{
-		SV: SV,
-	}
+func NewSellersController(sv models.SellersService) *sellers_controller.SellersDefault {
+	return sellers_controller.NewSellersController(sv)
 }
 
 func NewLocalityController(sv models.LocalityService) *localities_controller.LocalityController {
