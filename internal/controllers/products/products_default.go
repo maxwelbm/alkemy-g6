@@ -1,18 +1,18 @@
-package controller
+package products_controller
 
 import (
 	"errors"
 	"fmt"
 
-	models "github.com/maxwelbm/alkemy-g6/internal/models/products"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
 type ProductsDefault struct {
-	sv models.ProductService
+	SV models.ProductService
 }
 
-func NewProductsDefault(sv models.ProductService) *ProductsDefault {
-	return &ProductsDefault{sv: sv}
+func NewProductsController(sv models.ProductService) *ProductsDefault {
+	return &ProductsDefault{SV: sv}
 }
 
 type ProductResJSON struct {
@@ -27,7 +27,7 @@ type ProductFullJSON struct {
 	Height         float64 `json:"height"`
 	Length         float64 `json:"length"`
 	Width          float64 `json:"width"`
-	Weight         float64 `json:"weight"`
+	NetWeight      float64 `json:"net_weight"`
 	ExpirationRate float64 `json:"expiration_rate"`
 	FreezingRate   float64 `json:"freezing_rate"`
 	RecomFreezTemp float64 `json:"recommended_freezing_temp"`
@@ -41,7 +41,7 @@ type NewProductAttributesJSON struct {
 	Height         *float64 `json:"height"`
 	Length         *float64 `json:"length"`
 	Width          *float64 `json:"width"`
-	Weight         *float64 `json:"weight"`
+	NetWeight      *float64 `json:"net_weight"`
 	ExpirationRate *float64 `json:"expiration_rate"`
 	FreezingRate   *float64 `json:"freezing_rate"`
 	RecomFreezTemp *float64 `json:"recommended_freezing_temp"`
@@ -84,10 +84,10 @@ func (p *NewProductAttributesJSON) validate() (err error) {
 		validationErrors = append(validationErrors, "error: attribute Width cannot be negative")
 	}
 
-	if p.Weight == nil {
-		nilPointerErrors = append(nilPointerErrors, "error: attribute Weight cannot be nil")
-	} else if *p.Weight <= 0 {
-		validationErrors = append(validationErrors, "error: attribute Weight cannot be negative")
+	if p.NetWeight == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute NetWeight cannot be nil")
+	} else if *p.NetWeight <= 0 {
+		validationErrors = append(validationErrors, "error: attribute NetWeight cannot be negative")
 	}
 
 	if p.ExpirationRate == nil {
@@ -133,7 +133,7 @@ type UpdateProductAttributesJSON struct {
 	Height         *float64 `json:"height,omitempty"`
 	Length         *float64 `json:"length,omitempty"`
 	Width          *float64 `json:"width,omitempty"`
-	Weight         *float64 `json:"weight,omitempty"`
+	NetWeight      *float64 `json:"net_weight,omitempty"`
 	ExpirationRate *float64 `json:"expiration_rate,omitempty"`
 	FreezingRate   *float64 `json:"freezing_rate,omitempty"`
 	RecomFreezTemp *float64 `json:"recommended_freezing_temp,omitempty"`
@@ -164,8 +164,8 @@ func (p *UpdateProductAttributesJSON) validate() (err error) {
 		validationErrors = append(validationErrors, "error: attribute Width cannot be negative")
 	}
 
-	if p.Weight != nil && *p.Weight <= 0 {
-		validationErrors = append(validationErrors, "error: attribute Weight cannot be negative")
+	if p.NetWeight != nil && *p.NetWeight <= 0 {
+		validationErrors = append(validationErrors, "error: attribute NetWeight cannot be negative")
 	}
 
 	if p.ExpirationRate != nil && *p.ExpirationRate < 0 {

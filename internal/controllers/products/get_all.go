@@ -1,4 +1,4 @@
-package controller
+package products_controller
 
 import (
 	"net/http"
@@ -7,9 +7,9 @@ import (
 )
 
 func (p *ProductsDefault) GetAll(w http.ResponseWriter, r *http.Request) {
-	prods, err := p.sv.GetAll()
+	prods, err := p.SV.GetAll()
 	if err != nil {
-		response.Error(w, http.StatusBadRequest, err.Error())
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
@@ -23,7 +23,7 @@ func (p *ProductsDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 				Height:         p.Height,
 				Length:         p.Length,
 				Width:          p.Width,
-				Weight:         p.Weight,
+				NetWeight:      p.NetWeight,
 				ExpirationRate: p.ExpirationRate,
 				FreezingRate:   p.FreezingRate,
 				RecomFreezTemp: p.RecomFreezTemp,
