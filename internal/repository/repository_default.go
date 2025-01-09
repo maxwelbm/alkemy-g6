@@ -7,8 +7,8 @@ import (
 	prod_models "github.com/maxwelbm/alkemy-g6/internal/models/products"
 	sec_models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
 	sell_models "github.com/maxwelbm/alkemy-g6/internal/models/seller"
-	ware_models "github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
 	buyers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyers"
+	warehouse_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
 )
 
 type RepoDB struct {
@@ -16,11 +16,16 @@ type RepoDB struct {
 	ProductsDB  prod_models.ProductRepository
 	SectionsDB  sec_models.SectionRepository
 	SellersDB   sell_models.SellerRepository
-	WarehouseDB ware_models.WarehouseRepository
 }
 
 func NewBuyersRepository(DB *sql.DB) *buyers_repository.BuyerRepository {
 	return &buyers_repository.BuyerRepository{
+		DB: DB,
+	}
+}
+
+func NewWarehousesRepository(DB *sql.DB) *warehouse_repository.WarehouseRepository {
+	return &warehouse_repository.WarehouseRepository{
 		DB: DB,
 	}
 }

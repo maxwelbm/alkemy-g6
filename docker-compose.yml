@@ -8,16 +8,16 @@ services:
     ports:
      - 8080:8080
     depends_on:
-    - frescos-db
+    - frescos_db
     working_dir: /usr/src/alkemy-g6
     command: sh -c "sleep 1 && go run cmd/main.go"
 
-  frescos-db:
-    container_name: frescos-db
+  frescos_db:
+    container_name: frescos_db
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: frescos-db
+      MYSQL_DATABASE: frescos_db
       MYSQL_USER: user
       MYSQL_PASSWORD: user
     ports:

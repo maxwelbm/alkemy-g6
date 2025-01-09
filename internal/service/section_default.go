@@ -32,23 +32,23 @@ func (s *SectionsDefault) GetById(id int) (section models.Section, err error) {
 }
 
 func (s *SectionsDefault) Create(sec models.SectionDTO) (newSection models.Section, err error) {
-	if _, err = s.repo.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
+	/*if _, err = s.repo.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
 		err = ErrWareHousesServiceNotFound
 		return
-	}
+	}*/
 
 	newSection, err = s.repo.SectionsDB.Create(sec)
 	return
 }
 
 func (s *SectionsDefault) Update(id int, sec models.SectionDTO) (updateSection models.Section, err error) {
-	if sec.WarehouseID != nil {
+	/*if sec.WarehouseID != nil {
 		if _, err = s.repo.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
 			err = ErrWareHousesNotFound
 			return
 		}
 	}
-
+	*/
 	updateSection, err = s.repo.SectionsDB.Update(id, sec)
 	return
 }

@@ -1,11 +1,22 @@
-package repository
+package warehouses_repository
 
-func (r *Warehouses) Delete(id int) (err error) {
-	_, ok := r.db[id]
-	if !ok {
-		err = ErrWarehouseRepositoryNotFound
+import "database/sql"
+
+func (r *WarehouseRepository) Delete(id int) (err error) {
+	query := "DELETE FROM frescos_db.warehouses WHERE `id`=?"
+	result, err := r.DB.Exec(query, id)
+	if err != nil {
+		return
 	}
-	delete(r.db, id)
 
-	return
+	rowAffected, err := result.RowsAffected()
+	if err != nil {
+		return
+	}
+
+	if rowAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
 }
