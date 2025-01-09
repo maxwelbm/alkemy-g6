@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/go-sql-driver/mysql"
 	models "github.com/maxwelbm/alkemy-g6/internal/models"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -34,13 +35,18 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	emp, err := c.SV.Create(employees)
-	if errors.Is(err, repository.ErrEmployeesRepositoryDuplicatedCode) {
-		response.Error(w, http.StatusConflict, err.Error())
-		return
-	}
-
-	if errors.Is(err, service.ErrWareHousesServiceNotFound) {
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+	if err != nil {
+		if errors.Is(err, service.ErrWareHousesServiceNotFound) {
+			response.Error(w, http.StatusUnprocessableEntity, err.Error())
+			return
+		}
+		// Check if the error is a MySQL duplicate entry error
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
+		}
+		// For any other error, respond with an internal server error status
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 

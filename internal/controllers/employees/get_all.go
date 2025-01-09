@@ -8,7 +8,7 @@ import (
 
 func (c *EmployeesController) GetAll(w http.ResponseWriter, r *http.Request) {
 	employees, err := c.SV.GetAll()
-	if err == nil {
+	if err != nil {
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}

@@ -21,7 +21,7 @@ func InitEmployees(db *sql.DB, router *chi.Mux) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetByID)
 		rt.Post("/", ct.Create)
-		//		rt.Patch("/{id}", ct.Update)
+		rt.Patch("/{id}", ct.Update)
 		rt.Delete("/{id}", ct.Delete)
 	})
 }
