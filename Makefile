@@ -9,4 +9,4 @@ down:
 	docker-compose down
 
 mysql:
-	docker exec -it frescos_db mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME}
+	docker exec -it frescos-db mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME}

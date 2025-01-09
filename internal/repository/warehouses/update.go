@@ -6,18 +6,23 @@ import (
 
 func (r *WarehouseRepository) Update(id int, warehouse models.WarehouseDTO) (w models.Warehouse, err error) {
 	if warehouse.WarehouseCode != nil {
-		query := "SELECT COUNT(*) FROM frescos_db.warehouses WHERE `warehouse_code`=?"
-		var count int
+		query := "SELECT EXISTS(SELECT 1 FROM frescos_db.warehouses WHERE `warehouse_code`=?)"
+		var exists bool
 
-		err = r.DB.QueryRow(query, *warehouse.WarehouseCode).Scan(&count)
+		err = r.DB.QueryRow(query, *warehouse.WarehouseCode).Scan(&exists)
 		if err != nil {
+			return
+		}
+
+		if !exists {
+			err = models.ErrWareHouseNotFound
 			return
 		}
 
 		w.WarehouseCode = *warehouse.WarehouseCode
 	}
 
-	//COALESCE: utilizado para manter o valor atual do campo, caso o novo valor seja nulo ou não aplicável
+	//COALESCE: used to retain the current value of the field if the new value is null or not applicable
 	query := `UPDATE frescos_db.warehouses SET 
 				address = COALESCE(NULLIF(?, ''), address), 
 				telephone = COALESCE(NULLIF(?, ''), telephone),

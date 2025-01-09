@@ -7,8 +7,6 @@ import (
 )
 
 func (c *WarehouseDefault) GetAll(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
-
 	warehouses, err := c.Service.GetAll()
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, err.Error())

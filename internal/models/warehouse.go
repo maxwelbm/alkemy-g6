@@ -1,5 +1,11 @@
 package models
 
+import "errors"
+
+var (
+	ErrWareHouseNotFound = errors.New("Warehouse not found")
+)
+
 type Warehouse struct {
 	Id                 int     `json:"id"`
 	Address            string  `json:"address"`

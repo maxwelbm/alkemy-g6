@@ -11,8 +11,6 @@ import (
 )
 
 func (c *WarehouseDefault) Create(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
-
 	var warehouseJSON WarehouseReqJSON
 	err := json.NewDecoder(r.Body).Decode(&warehouseJSON)
 	if err != nil {

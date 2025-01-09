@@ -1,6 +1,6 @@
 package warehouses_repository
 
-import "database/sql"
+import "github.com/maxwelbm/alkemy-g6/internal/models"
 
 func (r *WarehouseRepository) Delete(id int) (err error) {
 	query := "DELETE FROM frescos_db.warehouses WHERE `id`=?"
@@ -15,8 +15,9 @@ func (r *WarehouseRepository) Delete(id int) (err error) {
 	}
 
 	if rowAffected == 0 {
-		return sql.ErrNoRows
+		err = models.ErrWareHouseNotFound
+		return
 	}
 
-	return nil
+	return
 }

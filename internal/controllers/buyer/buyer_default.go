@@ -2,6 +2,14 @@ package buyers_controller
 
 import "github.com/maxwelbm/alkemy-g6/internal/models"
 
+type BuyersDefault struct {
+	SV models.BuyerService
+}
+
+func NewBuyersController(SV models.BuyerService) *BuyersDefault {
+	return &BuyersDefault{SV: SV}
+}
+
 type BuyerResponse struct {
 	Status  int            `json:"status"`
 	Message string         `json:"message,omitempty"`
@@ -37,12 +45,4 @@ type BuyerRequestPatch struct {
 	CardNumberId *string `json:"card_number_id,omitempty"`
 	FirstName    *string `json:"first_name,omitempty"`
 	LastName     *string `json:"last_name,omitempty"`
-}
-
-type BuyersController struct {
-	SV models.BuyerService
-}
-
-func NewBuyersController(SV models.BuyerService) *BuyersController {
-	return &BuyersController{SV: SV}
 }
