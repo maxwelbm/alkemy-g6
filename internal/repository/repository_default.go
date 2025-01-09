@@ -3,20 +3,17 @@ package repository
 import (
 	"database/sql"
 
-	prod_models "github.com/maxwelbm/alkemy-g6/internal/models" //remove this when sellers is done
 	emp_models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
-	sec_models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
 	buyers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyers"
 	products_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
-	warehouse_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
+	sec_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 	sellers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sellers"
+	warehouse_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
 )
 
 // Deprecated, create sql repositories for each model instead
 type RepoDB struct {
 	EmployeesDB emp_models.EmployeesRepository
-	ProductsDB  prod_models.ProductRepository
-	SectionsDB  sec_models.SectionRepository
 }
 
 func NewBuyersRepository(DB *sql.DB) *buyers_repository.BuyerRepository {
@@ -39,6 +36,12 @@ func NewWarehousesRepository(DB *sql.DB) *warehouse_repository.WarehouseReposito
 
 func NewSellersRepository(DB *sql.DB) *sellers_repository.SellersDefault {
 	return &sellers_repository.SellersDefault{
+		DB: DB,
+	}
+}
+
+func NewSectionsRepository(DB *sql.DB) *sec_repository.SectionRepository {
+	return &sec_repository.SectionRepository{
 		DB: DB,
 	}
 }
