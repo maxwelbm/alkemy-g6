@@ -32,8 +32,8 @@ func (c *SectionsController) Delete(w http.ResponseWriter, r *http.Request) {
 			response.Error(w, http.StatusBadRequest, err.Error())
 			return
 		}
-		// Handle MySQL duplicate entry error
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
+		// Handle MySQL conflict dependencies
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}

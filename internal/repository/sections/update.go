@@ -7,7 +7,7 @@ import (
 func (r *SectionRepository) Update(id int, sec models.SectionDTO) (updateSection models.Section, err error) {
 	// Check if the section exists
 	var exists bool
-	err = r.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM sellers WHERE id = ?)", id).Scan(&exists)
+	err = r.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM sections WHERE id = ?)", id).Scan(&exists)
 	if err != nil {
 		return
 	}
