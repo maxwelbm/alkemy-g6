@@ -4,7 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/go-chi/chi/v5"
-	controllers "github.com/maxwelbm/alkemy-g6/internal/controllers/sections"
+	"github.com/maxwelbm/alkemy-g6/internal/controllers"
 	"github.com/maxwelbm/alkemy-g6/internal/repository"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
