@@ -1,4 +1,4 @@
-package controller
+package products_controller
 
 import (
 	"encoding/json"
@@ -7,8 +7,9 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	models "github.com/maxwelbm/alkemy-g6/internal/models/products"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
+	"github.com/go-sql-driver/mysql"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -16,7 +17,7 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	// Get the ID from the URL
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
-		response.Error(w, http.StatusBadRequest, "Invalid ID format")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -48,8 +49,8 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	if prodJson.Width != nil {
 		prodDTO.Width = *prodJson.Width
 	}
-	if prodJson.Weight != nil {
-		prodDTO.Weight = *prodJson.Weight
+	if prodJson.NetWeight != nil {
+		prodDTO.NetWeight = *prodJson.NetWeight
 	}
 	if prodJson.ExpirationRate != nil {
 		prodDTO.ExpirationRate = *prodJson.ExpirationRate
@@ -68,17 +69,25 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Update the product
-	updatedProd, err := p.sv.Update(id, prodDTO)
-	if errors.Is(err, repository.ErrProductNotFound) {
+	updatedProd, err := p.SV.Update(id, prodDTO)
+
+	if errors.Is(err, models.ErrProductNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
-	if errors.Is(err, repository.ErrProductUniqueness) {
-		response.Error(w, http.StatusConflict, err.Error())
-		return
-	}
+
 	if err != nil {
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
+			switch mysqlErr.Number {
+			case mysqlerr.CodeDuplicateEntry:
+				response.Error(w, http.StatusConflict, err.Error())
+				return
+			case mysqlerr.CodeCannotAddOrUpdateChildRow:
+				response.Error(w, http.StatusBadRequest, err.Error())
+				return
+			}
+		}
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 

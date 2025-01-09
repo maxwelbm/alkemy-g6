@@ -1,14 +1,23 @@
-package repository
+package sections_repository
 
-func (r *Sections) Delete(id int) (err error) {
-	_, ok := r.db[id]
+import "github.com/maxwelbm/alkemy-g6/internal/models"
 
-	if !ok {
-		err = ErrSectionNotFound
+func (r *SectionRepository) Delete(id int) (err error) {
+	var exists bool
+	err = r.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM sections WHERE id = ?)", id).Scan(&exists)
+	if err != nil {
+		return
+	}
+	if !exists {
+		err = models.ErrSectionNotFound
 		return
 	}
 
-	delete(r.db, id)
+	query := "DELETE FROM sections WHERE id = ?"
+	_, err = r.DB.Exec(query, id)
+	if err != nil {
+		return
+	}
 
-	return
+	return nil
 }
