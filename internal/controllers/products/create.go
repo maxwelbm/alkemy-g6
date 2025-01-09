@@ -2,7 +2,6 @@ package products_controller
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
 
 	"github.com/go-sql-driver/mysql"
@@ -36,10 +35,6 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	newProd, err := p.SV.Create(prodDTO)
-	if errors.Is(err, models.ErrProductUniqueness) {
-		response.Error(w, http.StatusConflict, err.Error())
-		return
-	}
 
 	if err != nil {
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok {

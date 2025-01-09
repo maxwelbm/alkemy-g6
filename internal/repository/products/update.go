@@ -5,10 +5,20 @@ import (
 )
 
 func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Product, err error) {
-	// Validate all attributes
-	if err = p.validateProduct(prod); err != nil {
-		return
-	}
+	if prod.ProductCode != "" {
+		var exists bool
+
+		query := "SELECT EXISTS(SELECT 1 FROM products WHERE `product_code`=?)"
+		err = p.DB.QueryRow(query, prod.ProductCode).Scan(&exists)
+		if err != nil {
+			return
+		}
+
+		if !exists {
+			err = models.ErrProductNotFound
+			return
+		}
+    }
 
 	query := `UPDATE products SET 
 			product_code = COALESCE(NULLIF(?, ''), product_code), 
@@ -42,7 +52,6 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 	if err != nil {
 		return
 	}
-
 	// Check how many rows were affected
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {

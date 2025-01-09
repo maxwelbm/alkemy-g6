@@ -70,12 +70,9 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 
 	// Update the product
 	updatedProd, err := p.SV.Update(id, prodDTO)
+
 	if errors.Is(err, models.ErrProductNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
-		return
-	}
-	if errors.Is(err, models.ErrProductUniqueness) {
-		response.Error(w, http.StatusConflict, err.Error())
 		return
 	}
 
@@ -83,10 +80,10 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
 			switch mysqlErr.Number {
 			case mysqlerr.CodeDuplicateEntry:
-				response.Error(w, http.StatusConflict, "Duplicate entry found.")
+				response.Error(w, http.StatusConflict, err.Error())
 				return
 			case mysqlerr.CodeCannotAddOrUpdateChildRow:
-				response.Error(w, http.StatusBadRequest, "Cannot update: referenced parent does not exist.")
+				response.Error(w, http.StatusBadRequest, err.Error())
 				return
 			}
 		}

@@ -4,7 +4,6 @@ import "errors"
 
 var (
 	ErrProductNotFound   = errors.New("Product not found")
-	ErrProductUniqueness = errors.New("Product attribute uniqueness")
 )
 
 type Product struct {

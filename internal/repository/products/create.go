@@ -5,10 +5,6 @@ import (
 )
 
 func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err error) {
-	if err = p.validateProduct(prod); err != nil {
-		return
-	}
-
 	query := "INSERT INTO products (`product_code`, `description`, `height`, `length`, `width`, `weight`, `expiration_rate`, `freezing_rate`, `recom_freez_temp`, `product_type_id`, `seller_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     
     result, err := p.DB.Exec(query, 

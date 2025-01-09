@@ -15,7 +15,8 @@ func (p *Products) Delete(id int) (err error) {
 		return
 	}
 	if rowsAffected == 0 {
-		return models.ErrProductNotFound
+		err = models.ErrProductNotFound
+		return
 	}
 	return nil
 }
