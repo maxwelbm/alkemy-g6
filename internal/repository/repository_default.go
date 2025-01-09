@@ -11,6 +11,7 @@ import (
 	sellers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sellers"
 )
 
+// Deprecated, create sql repositories for each model instead
 type RepoDB struct {
 	EmployeesDB emp_models.EmployeesRepository
 	ProductsDB  prod_models.ProductRepository

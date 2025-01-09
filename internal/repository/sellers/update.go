@@ -1,45 +1,19 @@
 package sellers_repository
 
 import (
-	"strings"
-
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
 func (r *SellersDefault) Update(id int, seller models.SellerDTO) (sellerReturn models.Seller, err error) {
-	// Creates update query with the fields that are not empty
-	fields := []string{}
-	values := []interface{}{}
-
-	if seller.CID != "" {
-		fields = append(fields, "cid = ?")
-		values = append(values, seller.CID)
-	}
-	if seller.CompanyName != "" {
-		fields = append(fields, "company_name = ?")
-		values = append(values, seller.CompanyName)
-	}
-	if seller.Address != "" {
-		fields = append(fields, "address = ?")
-		values = append(values, seller.Address)
-	}
-	if seller.Telephone != "" {
-		fields = append(fields, "telephone = ?")
-		values = append(values, seller.Telephone)
-	}
-	if seller.LocalityID != 0 {
-		fields = append(fields, "locality_id = ?")
-		values = append(values, seller.LocalityID)
-	}
-	if len(fields) == 0 {
-		return
-	}
-
-	query := "UPDATE sellers SET " + strings.Join(fields, ", ") + " WHERE id = ?"
-	values = append(values, id)
-
 	// Update the seller
-	res, err := r.DB.Exec(query, values...)
+	query := `UPDATE sellers SET 
+		cid = COALESCE(NULLIF(?, ''), cid), 
+		company_name = COALESCE(NULLIF(?, ''), company_name),
+		address = COALESCE(NULLIF(?, ''), address),
+		telephone = COALESCE(NULLIF(?, ''), telephone),
+		locality_id = COALESCE(NULLIF(?, 0), locality_id)
+	WHERE id = ?`
+	res, err := r.DB.Exec(query, seller.CID, seller.CompanyName, seller.Address, seller.Telephone, seller.LocalityID, id)
 	// Check for errors
 	if err != nil {
 		return
@@ -51,7 +25,7 @@ func (r *SellersDefault) Update(id int, seller models.SellerDTO) (sellerReturn m
 	}
 	// If the seller was not updated, return an error
 	if rowsAffected == 0 {
-		err = models.ErrorIdNotFound
+		err = models.ErrorNoChangesMade
 		return
 	}
 

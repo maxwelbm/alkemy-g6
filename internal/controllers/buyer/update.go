@@ -36,8 +36,8 @@ func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 
 	buyerReturn, err := ct.SV.Update(id, buyerToUpdate)
 
-	if errors.Is(err, models.ErrorIdNotFound) {
-		response.Error(w, http.StatusNotFound, err.Error())
+	if errors.Is(err, models.ErrorNoChangesMade) {
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
