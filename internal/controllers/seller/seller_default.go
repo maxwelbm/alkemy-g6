@@ -13,7 +13,7 @@ func NewSellersController(sv models.SellersService) *SellersDefault {
 }
 
 type SellerResJSON struct {
-	Message string `json:"message"`
+	Message string `json:"message,omitempty"`
 	Data    any    `json:"data,omitempty"`
 }
 

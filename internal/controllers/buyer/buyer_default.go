@@ -10,15 +10,9 @@ func NewBuyersController(SV models.BuyerService) *BuyersDefault {
 	return &BuyersDefault{SV: SV}
 }
 
-type BuyerResponse struct {
-	Status  int            `json:"status"`
-	Message string         `json:"message,omitempty"`
-	Data    []models.Buyer `json:"data,omitempty"`
-}
-
 type BuyerResJSON struct {
-	Message string `json:"message"`
-	Data    any    `json:"data"`
+	Message string `json:"message,omitempty"`
+	Data    any    `json:"data,omitempty"`
 }
 
 type FullBuyerJSON struct {
