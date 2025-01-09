@@ -17,7 +17,7 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: frescos-db
+      MYSQL_DATABASE: frescos_db
       MYSQL_USER: user
       MYSQL_PASSWORD: user
     ports:
@@ -26,6 +26,6 @@ services:
       - ./docs/db/dump.sql:/docker-entrypoint-initdb.d/dump.sql
 
 networks:
-  defaukt:
+  default:
     driver: bridge
     name: frescos-net

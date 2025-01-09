@@ -9,7 +9,6 @@ import (
 	emp_repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
 	prod_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
 	sec_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
-	war_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
 )
 
 func loadDB() (repo repository.RepoDB, err error) {
@@ -25,16 +24,11 @@ func loadDB() (repo repository.RepoDB, err error) {
 	if err != nil {
 		return
 	}
-	ware, err := loadWarehousesRepository()
-	if err != nil {
-		return
-	}
 
 	repo = repository.RepoDB{
 		EmployeesDB: emp,
 		ProductsDB:  prod,
 		SectionsDB:  sec,
-		WarehouseDB: ware,
 	}
 
 	return
@@ -64,20 +58,6 @@ func loadProductsRepository() (repo *prod_repository.Products, err error) {
 	}
 
 	repo = prod_repository.NewProducts(prods)
-
-	return
-}
-
-func loadWarehousesRepository() (repo *war_repository.Warehouses, err error) {
-	// loads warehouses from warehouses.json file
-	path := fmt.Sprintf("%s%s", os.Getenv("DB_PATH"), "warehouses.json")
-	ld := loaders.NewWarehouseJSONFile(path)
-	warehouses, err := ld.Load()
-	if err != nil {
-		return
-	}
-
-	repo = war_repository.NewWarehouses(warehouses)
 
 	return
 }
