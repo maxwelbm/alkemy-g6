@@ -29,7 +29,7 @@ CREATE TABLE employees (
 -- Create a table to store section information
 CREATE TABLE sections (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    section_number INT,
+    section_number VARCHAR(255),
     current_temperature DECIMAL(19,2),
     minimum_temperature DECIMAL(19,2),
     current_capacity INT,
@@ -63,19 +63,19 @@ CREATE TABLE sellers (
 CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     product_code VARCHAR(255) NOT NULL UNIQUE,
-    description TEXT,
-    height FLOAT,
-    length FLOAT,
-    width FLOAT,
-    weight FLOAT,
-    expiration_rate FLOAT,
-    freezing_rate FLOAT,
-    recom_freez_temp FLOAT,
+    description VARCHAR(255),
+    height DECIMAL(19,2),
+    length DECIMAL(19,2),
+    width DECIMAL(19,2),
+    net_weight DECIMAL(19,2),
+    expiration_rate DECIMAL(19,2),
+    freezing_rate DECIMAL(19,2),
+    recommended_freezing_temperature DECIMAL(19,2),
+    seller_id INT,
     product_type_id INT,
     seller_id INT
     -- FOREIGN KEY (product_type_id) REFERENCES product_types(id)
 );
-
 
 -- Create a table to store carrier information
 CREATE TABLE carries (
@@ -179,11 +179,11 @@ INSERT INTO sellers (cid, company_name, address, telephone, locality_id) VALUES 
 INSERT INTO sellers (cid, company_name, address, telephone, locality_id) VALUES (5, 'Company5', '202 Maple St', '555-7890', 5);
 
 -- Insert data into products
-INSERT INTO products (product_code, description, height, length, width, weight, expiration_rate, freezing_rate, recom_freez_temp, product_type_id, seller_id) VALUES ('P001', 'Product 1', 10.0, 20.0, 30.0, 40.0, 0.1, 0.2, -10.0, 1, 1);
-INSERT INTO products (product_code, description, height, length, width, weight, expiration_rate, freezing_rate, recom_freez_temp, product_type_id, seller_id) VALUES ('P002', 'Product 2', 15.0, 25.0, 35.0, 45.0, 0.2, 0.3, -15.0, 2, 2);
-INSERT INTO products (product_code, description, height, length, width, weight, expiration_rate, freezing_rate, recom_freez_temp, product_type_id, seller_id) VALUES ('P003', 'Product 3', 20.0, 30.0, 40.0, 50.0, 0.3, 0.4, -20.0, 3, 3);
-INSERT INTO products (product_code, description, height, length, width, weight, expiration_rate, freezing_rate, recom_freez_temp, product_type_id, seller_id) VALUES ('P004', 'Product 4', 25.0, 35.0, 45.0, 55.0, 0.4, 0.5, -25.0, 4, 4);
-INSERT INTO products (product_code, description, height, length, width, weight, expiration_rate, freezing_rate, recom_freez_temp, product_type_id, seller_id) VALUES ('P005', 'Product 5', 30.0, 40.0, 50.0, 60.0, 0.5, 0.6, -30.0, 5, 5);
+INSERT INTO products (product_code, description, height, length, width, net_weight, expiration_rate, freezing_rate, recommended_freezing_temperature, product_type_id, seller_id) VALUES ('P001', 'Product 1', 10.0, 20.0, 30.0, 40.0, 0.1, 0.2, -10.0, 1, 1);
+INSERT INTO products (product_code, description, height, length, width, net_weight, expiration_rate, freezing_rate, recommended_freezing_temperature, product_type_id, seller_id) VALUES ('P002', 'Product 2', 15.0, 25.0, 35.0, 45.0, 0.2, 0.3, -15.0, 2, 2);
+INSERT INTO products (product_code, description, height, length, width, net_weight, expiration_rate, freezing_rate, recommended_freezing_temperature, product_type_id, seller_id) VALUES ('P003', 'Product 3', 20.0, 30.0, 40.0, 50.0, 0.3, 0.4, -20.0, 3, 3);
+INSERT INTO products (product_code, description, height, length, width, net_weight, expiration_rate, freezing_rate, recommended_freezing_temperature, product_type_id, seller_id) VALUES ('P004', 'Product 4', 25.0, 35.0, 45.0, 55.0, 0.4, 0.5, -25.0, 4, 4);
+INSERT INTO products (product_code, description, height, length, width, net_weight, expiration_rate, freezing_rate, recommended_freezing_temperature, product_type_id, seller_id) VALUES ('P005', 'Product 5', 30.0, 40.0, 50.0, 60.0, 0.5, 0.6, -30.0, 5, 5);
 
 -- Insert data into carries
 INSERT INTO carries (cid, company_name, address, phone_number, locality_id) VALUES (1, 'Carrier1', '123 Main St', '555-1234', 1);

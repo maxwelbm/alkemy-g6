@@ -1,13 +1,23 @@
-package repository
+package warehouses_repository
 
-import models "github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
+import "github.com/maxwelbm/alkemy-g6/internal/models"
 
-func (r *Warehouses) Delete(id int) (err error) {
-	_, ok := r.db[id]
-	if !ok {
-		err = models.ErrWarehouseRepositoryNotFound
+func (r *WarehouseRepository) Delete(id int) (err error) {
+	query := "DELETE FROM frescos_db.warehouses WHERE `id`=?"
+	result, err := r.DB.Exec(query, id)
+	if err != nil {
+		return
 	}
-	delete(r.db, id)
+
+	rowAffected, err := result.RowsAffected()
+	if err != nil {
+		return
+	}
+
+	if rowAffected == 0 {
+		err = models.ErrWareHouseNotFound
+		return
+	}
 
 	return
 }

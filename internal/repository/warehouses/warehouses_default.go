@@ -1,34 +1,21 @@
-package repository
+package warehouses_repository
 
 import (
-	"github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
+	"database/sql"
+	"errors"
 )
 
-func NewWarehouses(db map[int]models.Warehouse) *Warehouses {
-	defaultDb := make(map[int]models.Warehouse)
-	if db != nil {
-		defaultDb = db
-	}
-	lastId := 0
-	for _, w := range db {
-		if lastId < w.Id {
-			lastId = w.Id
-		}
-	}
-	return &Warehouses{db: defaultDb, LastId: lastId}
+var (
+	ErrWarehouseRepositoryNotFound = errors.New("Warehouse not found")
+)
+
+type WarehouseRepository struct {
+	DB *sql.DB
 }
 
-type Warehouses struct {
-	db 		map[int]models.Warehouse
-	LastId	int
-}
-
-func (r *Warehouses) validateWarehouseCode(warehouse models.WarehouseDTO) (err error) {
-	for _, wh := range r.db {
-		if wh.WarehouseCode == *warehouse.WarehouseCode {
-			err = models.ErrWarehouseRepositoryDuplicatedCode
-			return
-		}
+func NewWarehouseRepository(DB *sql.DB) *WarehouseRepository {
+	repo := &WarehouseRepository{
+		DB: DB,
 	}
-	return
+	return repo
 }

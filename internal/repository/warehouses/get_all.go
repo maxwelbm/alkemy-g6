@@ -1,12 +1,27 @@
-package repository
+package warehouses_repository
 
-import (
-	"github.com/maxwelbm/alkemy-g6/internal/models/warehouses"
-)
+import "github.com/maxwelbm/alkemy-g6/internal/models"
 
-func (r *Warehouses) GetAll() (w []models.Warehouse, err error) {
-	for _, value := range r.db {
-		w = append(w, value)
+func (r *WarehouseRepository) GetAll() (w []models.Warehouse, err error) {
+	query := "SELECT `id`, `address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM frescos_db.warehouses"
+
+	rows, err := r.DB.Query(query)
+	if err != nil {
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var warehouse models.Warehouse
+		if err = rows.Scan(&warehouse.Id, &warehouse.Address, &warehouse.Telephone, &warehouse.WarehouseCode, &warehouse.MinimumCapacity, &warehouse.MinimumTemperature); err != nil {
+			return
+		}
+		w = append(w, warehouse)
+	}
+
+	// Check for errors after rows iteration
+	if err = rows.Err(); err != nil {
+		return
 	}
 
 	return

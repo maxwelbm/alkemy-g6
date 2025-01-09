@@ -17,7 +17,7 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: frescos-db
+      MYSQL_DATABASE: frescos_db
       MYSQL_USER: user
       MYSQL_PASSWORD: user
     ports:
