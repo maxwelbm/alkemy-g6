@@ -45,6 +45,11 @@ func (c *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 	updateSection, err := c.SV.Update(id, secDTO)
 
 	if err != nil {
+		// Handle if section not found
+		if errors.Is(err, models.ErrSectionNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+			return
+		}
 		// Handle no changes made
 		if errors.Is(err, models.ErrorNoChangesMade) {
 			response.Error(w, http.StatusBadRequest, err.Error())
@@ -55,18 +60,26 @@ func (c *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
-			response.Error(w, http.StatusBadRequest, err.Error())
-			return
-		}
 		// Handle other internal server errors
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
+	data := SectionFullJSON{
+		ID:                 updateSection.ID,
+		SectionNumber:      updateSection.SectionNumber,
+		CurrentTemperature: updateSection.CurrentTemperature,
+		MinimumTemperature: updateSection.MinimumTemperature,
+		CurrentCapacity:    updateSection.CurrentCapacity,
+		MinimumCapacity:    updateSection.MinimumCapacity,
+		MaximumCapacity:    updateSection.MaximumCapacity,
+		WarehouseID:        updateSection.WarehouseID,
+		ProductTypeID:      updateSection.ProductTypeID,
+	}
+
 	res := SectionResJSON{
 		Message: "Success",
-		Data:    updateSection,
+		Data:    data,
 	}
 	response.JSON(w, http.StatusOK, res)
 }

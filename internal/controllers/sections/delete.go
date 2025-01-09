@@ -13,7 +13,7 @@ import (
 func (c *SectionsController) Delete(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
-		response.Error(w, http.StatusBadRequest, "Invalid Id format ")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -36,8 +36,5 @@ func (c *SectionsController) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res := SectionResJSON{
-		Message: "No content",
-	}
-	response.JSON(w, http.StatusNoContent, res)
+	response.JSON(w, http.StatusNoContent, nil)
 }

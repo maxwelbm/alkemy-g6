@@ -45,9 +45,21 @@ func (c *SectionsController) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	data := SectionFullJSON{
+		ID:                 newSection.ID,
+		SectionNumber:      newSection.SectionNumber,
+		CurrentTemperature: newSection.CurrentTemperature,
+		MinimumTemperature: newSection.MinimumTemperature,
+		CurrentCapacity:    newSection.CurrentCapacity,
+		MinimumCapacity:    newSection.MinimumCapacity,
+		MaximumCapacity:    newSection.MaximumCapacity,
+		WarehouseID:        newSection.WarehouseID,
+		ProductTypeID:      newSection.ProductTypeID,
+	}
+
 	res := SectionResJSON{
 		Message: "Created",
-		Data:    newSection,
+		Data:    data,
 	}
 
 	response.JSON(w, http.StatusCreated, res)

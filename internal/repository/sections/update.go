@@ -5,6 +5,17 @@ import (
 )
 
 func (r *SectionRepository) Update(id int, sec models.SectionDTO) (updateSection models.Section, err error) {
+	// Check if the section exists
+	var exists bool
+	err = r.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM sellers WHERE id = ?)", id).Scan(&exists)
+	if err != nil {
+		return
+	}
+	if !exists {
+		err = models.ErrSectionNotFound
+		return
+	}
+
 	query := `UPDATE sections SET
 		section_number = COALESCE(NULLIF(?, ''), section_number),
 		current_temperature = COALESCE(NULLIF(?, ''), current_temperature),
@@ -16,7 +27,7 @@ func (r *SectionRepository) Update(id int, sec models.SectionDTO) (updateSection
 		product_type_id = COALESCE(NULLIF(?, ''), product_type_id)
 	WHERE id = ?`
 
-	res, err := r.DB.Exec(query, sec.SectionNumber, sec.CurrentTemperature, sec.MinimumTemperature, sec.CurrentCapacity, sec.MinimumCapacity, sec.MaximumCapacity, sec.WarehouseID, id)
+	res, err := r.DB.Exec(query, sec.SectionNumber, sec.CurrentTemperature, sec.MinimumTemperature, sec.CurrentCapacity, sec.MinimumCapacity, sec.MaximumCapacity, sec.WarehouseID, sec.ProductTypeID, id)
 
 	// Check for errors
 	if err != nil {
