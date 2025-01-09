@@ -4,6 +4,7 @@ import (
 	buyers_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/buyer"
 	products_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/products"
 	sellers_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/seller"
+	warehouses_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/warehouses"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
@@ -23,4 +24,7 @@ func NewSellersController(SV models.SellersService) *sellers_controller.SellersD
 	return &sellers_controller.SellersDefault{
 		SV: SV,
 	}
+}
+func NewWarehousesController(service models.WarehouseService) *warehouses_controller.WarehouseDefault {
+	return &warehouses_controller.WarehouseDefault{Service: service}
 }
