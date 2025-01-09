@@ -2,7 +2,9 @@ package models
 
 import "errors"
 
-var ErrorIdNotFound = errors.New("Id not found")
+var (
+	ErrorIdNotFound = errors.New("Id not found")
+)
 
 type Buyer struct {
 	Id           int

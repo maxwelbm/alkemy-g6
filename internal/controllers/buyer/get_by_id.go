@@ -8,7 +8,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (ct *BuyersController) GetById(w http.ResponseWriter, r *http.Request) {
+func (ct *BuyersDefault) GetById(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil || id < 1 {

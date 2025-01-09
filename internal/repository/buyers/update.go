@@ -38,7 +38,7 @@ func (r *BuyerRepository) Update(id int, buyerRequest models.BuyerDTO) (buyer mo
 		return
 	}
 	if rowsAffected == 0 {
-		err = models.ErrorIdNotFound
+		err = models.ErrorNoChangesMade
 		return
 	}
 
