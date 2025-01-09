@@ -1,8 +1,8 @@
 package repository
 
-import models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
-
-func (e *Employees) Update(employees models.EmployeesDTO, id int) (newEmployees models.Employees, err error) {
+//TODO FAZER O UPDATE
+/*
+func (e *EmployeesRepository) Update(employees models.EmployeesDTO, id int) (newEmployees models.Employees, err error) {
 	newEmployees, err = e.GetByID(id)
 	if err != nil {
 		err = ErrEmployeesRepositoryNotFound
@@ -34,3 +34,4 @@ func (e *Employees) Update(employees models.EmployeesDTO, id int) (newEmployees 
 	e.db[id] = newEmployees
 	return
 }
+*/

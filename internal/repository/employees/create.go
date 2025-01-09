@@ -1,28 +1,29 @@
 package repository
 
 import (
-	models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
+	models "github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (e *Employees) Create(employees models.EmployeesDTO) (newEmployees models.Employees, err error) {
-	id := e.lastID + 1
+func (e *EmployeesRepository) Create(employees models.EmployeesDTO) (newEmployees models.Employees, err error) {
+	query := "INSERT INTO employees (card_number_id, first_name, last_name, warehouse_id) VALUES (?, ?, ?, ?)"
 
-	for _, value := range e.db {
-		if *employees.CardNumberID == value.CardNumberID {
-			err = ErrEmployeesRepositoryDuplicatedCode
-			return
-		}
+	result, err := e.DB.Exec(query, employees.CardNumberID, employees.FirstName, employees.LastName, employees.WarehouseID)
+	if err != nil {
+		return
 	}
 
-	newEmployees = models.Employees{
-		ID:           id,
-		CardNumberID: *employees.CardNumberID,
-		FirstName:    *employees.FirstName,
-		LastName:     *employees.LastName,
-		WarehouseID:  *employees.WarehouseID,
+	lastInsertId, err := result.LastInsertId()
+	if err != nil {
+		return
 	}
-	e.db[id] = newEmployees
-	e.lastID = id
+
+	query = "SELECT id, card_number_id, first_name, last_name FROM buyers WHERE id = ?"
+	err = e.DB.
+		QueryRow(query, lastInsertId).
+		Scan(&newEmployees.ID, &newEmployees.CardNumberID, &newEmployees.FirstName, &newEmployees.LastName, &newEmployees.WarehouseID)
+	if err != nil {
+		return
+	}
 
 	return
 }

@@ -1,4 +1,4 @@
-package controller
+package employees_controller
 
 import (
 	"errors"
@@ -10,14 +10,14 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (c *Employees) Delete(w http.ResponseWriter, r *http.Request) {
+func (c *EmployeesController) Delete(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, "Invalid ID format")
 		return
 	}
 
-	err = c.sv.Delete(id)
+	err = c.SV.Delete(id)
 	if errors.Is(err, repository.ErrEmployeesRepositoryNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return

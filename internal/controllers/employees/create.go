@@ -1,4 +1,4 @@
-package controller
+package employees_controller
 
 import (
 	"encoding/json"
@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"net/http"
 
-	models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
+	models "github.com/maxwelbm/alkemy-g6/internal/models"
 	repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (c *Employees) Create(w http.ResponseWriter, r *http.Request) {
+func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 	var employeesJson EmployeesReqJSON
 	err := json.NewDecoder(r.Body).Decode(&employeesJson)
 	if err != nil {
@@ -33,7 +33,7 @@ func (c *Employees) Create(w http.ResponseWriter, r *http.Request) {
 		WarehouseID:  employeesJson.WarehouseID,
 	}
 
-	emp, err := c.sv.Create(employees)
+	emp, err := c.SV.Create(employees)
 	if errors.Is(err, repository.ErrEmployeesRepositoryDuplicatedCode) {
 		response.Error(w, http.StatusConflict, err.Error())
 		return

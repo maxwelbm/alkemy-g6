@@ -1,13 +1,22 @@
 package repository
 
-func (e *Employees) Delete(id int) (err error) {
+import "database/sql"
 
-	_, ok := e.db[id]
-	if !ok {
-		err = ErrEmployeesRepositoryNotFound
+func (e *EmployeesRepository) Delete(id int) (err error) {
+	query := "DELETE FROM employees WHERE id = ?"
+	result, err := e.DB.Exec(query, id)
+	if err != nil {
 		return
 	}
 
-	delete(e.db, id)
-	return
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return
+	}
+
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
 }

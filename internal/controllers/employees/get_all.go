@@ -1,4 +1,4 @@
-package controller
+package employees_controller
 
 import (
 	"net/http"
@@ -6,9 +6,9 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (c *Employees) GetAll(w http.ResponseWriter, r *http.Request) {
-	employees, err := c.sv.GetAll()
-	if err != nil {
+func (c *EmployeesController) GetAll(w http.ResponseWriter, r *http.Request) {
+	employees, err := c.SV.GetAll()
+	if err == nil {
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
