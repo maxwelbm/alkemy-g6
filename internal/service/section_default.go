@@ -15,38 +15,26 @@ func NewSectionService(rp models.SectionRepository) *SectionsController {
 }
 
 func (s *SectionsController) GetAll() (sections []models.Section, err error) {
-	sections, err = s.rp.GetAll()
-	return
+	return s.rp.GetAll()
+
 }
 
 func (s *SectionsController) GetById(id int) (section models.Section, err error) {
-	section, err = s.rp.GetById(id)
-	return
+	return s.rp.GetById(id)
+
 }
 
 func (s *SectionsController) Create(sec models.SectionDTO) (newSection models.Section, err error) {
-	// if _, err = s.rp.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
-	// 	err = ErrWareHousesServiceNotFound
-	// 	return
-	// }
+	return s.rp.Create(sec)
 
-	newSection, err = s.rp.Create(sec)
-	return
 }
 
 func (s *SectionsController) Update(id int, sec models.SectionDTO) (updateSection models.Section, err error) {
-	// if sec.WarehouseID != nil {
-	// 	if _, err = s.rp.WarehouseDB.GetById(*sec.WarehouseID); err != nil {
-	// 		err = ErrWareHousesNotFound
-	// 		return
-	// 	}
-	// }
+	return s.rp.Update(id, sec)
 
-	updateSection, err = s.rp.Update(id, sec)
-	return
 }
 
 func (s *SectionsController) Delete(id int) (err error) {
-	err = s.rp.Delete(id)
-	return
+	return s.rp.Delete(id)
+
 }

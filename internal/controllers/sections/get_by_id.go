@@ -16,20 +16,10 @@ func (c *SectionsController) GetById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sec, err := c.SV.GetById(id)
-
 	if err != nil {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
-
-	// if errors.Is(err, repository.ErrSectionNotFound) {
-	// 	response.Error(w, http.StatusNotFound, err.Error())
-	// 	return
-	// }
-	// if err != nil {
-	// 	response.Error(w, http.StatusInternalServerError, err.Error())
-	// 	return
-	// }
 
 	data := SectionFullJSON{
 		ID:                 sec.ID,

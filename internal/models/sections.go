@@ -1,5 +1,11 @@
 package models
 
+import "errors"
+
+var (
+	ErrSectionNotFound = errors.New("Section not found")
+)
+
 type Section struct {
 	ID                 int
 	SectionNumber      string

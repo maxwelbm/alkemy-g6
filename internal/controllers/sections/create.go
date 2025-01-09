@@ -4,20 +4,20 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
 func (c *SectionsController) Create(w http.ResponseWriter, r *http.Request) {
 	var secReqJson NewSectionReqJSON
-	err := json.NewDecoder(r.Body).Decode(&secReqJson)
-	if err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&secReqJson); err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	err = secReqJson.validateCreate()
-	if err != nil {
+	if err := secReqJson.validateCreate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
@@ -34,9 +34,14 @@ func (c *SectionsController) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	newSection, err := c.SV.Create(secDTO)
-
 	if err != nil {
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		// Check if the error is a MySQL duplicate entry error
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
+		}
+		// For any other error, respond with an internal server error status
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
@@ -44,6 +49,6 @@ func (c *SectionsController) Create(w http.ResponseWriter, r *http.Request) {
 		Message: "Created",
 		Data:    newSection,
 	}
+
 	response.JSON(w, http.StatusCreated, res)
-	return
 }

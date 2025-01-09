@@ -16,7 +16,7 @@ func (r *SectionRepository) GetById(id int) (sec models.Section, err error) {
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			err = models.ErrorIdNotFound
+			err = models.ErrSectionNotFound
 			return
 		}
 		return

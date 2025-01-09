@@ -7,7 +7,9 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -17,18 +19,18 @@ func (c *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
+
 	var secReqJson NewSectionReqJSON
-	err = json.NewDecoder(r.Body).Decode(&secReqJson)
-	if err != nil {
+	if err = json.NewDecoder(r.Body).Decode(&secReqJson); err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	err = secReqJson.validateUpdate()
 
-	if err != nil {
+	if err = secReqJson.validateUpdate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
+
 	secDTO := models.SectionDTO{
 		SectionNumber:      secReqJson.SectionNumber,
 		CurrentTemperature: secReqJson.CurrentTemperature,
@@ -42,32 +44,29 @@ func (c *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 
 	updateSection, err := c.SV.Update(id, secDTO)
 
-	if errors.Is(err, models.ErrorIdNotFound) {
-		response.Error(w, http.StatusNotFound, err.Error())
-		return
-	}
-
 	if err != nil {
+		// Handle no changes made
+		if errors.Is(err, models.ErrorNoChangesMade) {
+			response.Error(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		// Handle MySQL duplicate entry error
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
+		}
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
+			response.Error(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		// Handle other internal server errors
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	// if errors.Is(err, repository.ErrSectionDuplicatedCode) {
-	// 	response.Error(w, http.StatusConflict, err.Error())
-	// 	return
-	// }
-	// if errors.Is(err, repository.ErrSectionNotFound) {
-	// 	response.Error(w, http.StatusNotFound, err.Error())
-	// 	return
-	// }
-	// if err != nil {
-	// 	response.Error(w, http.StatusUnprocessableEntity, err.Error())
-	// 	return
-	// }
 
 	res := SectionResJSON{
 		Message: "Success",
 		Data:    updateSection,
 	}
 	response.JSON(w, http.StatusOK, res)
-	return
 }

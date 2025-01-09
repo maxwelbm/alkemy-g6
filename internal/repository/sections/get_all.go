@@ -10,6 +10,7 @@ func (r *SectionRepository) GetAll() (sec []models.Section, err error) {
 		return
 	}
 	defer rows.Close()
+
 	for rows.Next() {
 		var section models.Section
 		if err = rows.Scan(&section.ID, &section.SectionNumber, &section.CurrentTemperature, &section.MinimumTemperature, &section.CurrentCapacity, &section.MinimumCapacity, &section.MaximumCapacity, &section.WarehouseID, &section.ProductTypeID); err != nil {
