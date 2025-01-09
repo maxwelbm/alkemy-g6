@@ -5,6 +5,16 @@ import (
 )
 
 func (r *SellersDefault) Update(id int, seller models.SellerDTO) (sellerReturn models.Seller, err error) {
+	// Check if the seller exists
+	var exists bool
+	err = r.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM sellers WHERE id = ?)", id).Scan(&exists)
+	if err != nil {
+		return
+	}
+	if !exists {
+		err = models.ErrSellerNotFound
+		return
+	}
 	// Update the seller
 	query := `UPDATE sellers SET 
 		cid = COALESCE(NULLIF(?, ''), cid), 
