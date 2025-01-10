@@ -48,8 +48,8 @@ func (j *NewLocalityJson) validate() (err error) {
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
-// @Router /localities [post]
-func (ct *LocalityController) Create(w http.ResponseWriter, r *http.Request) {
+// @Router /api/v1/localities [post]
+func (ct *LocalitiesController) Create(w http.ResponseWriter, r *http.Request) {
 	// parse json
 	var locJson NewLocalityJson
 	err := json.NewDecoder(r.Body).Decode(&locJson)

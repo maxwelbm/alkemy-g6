@@ -38,8 +38,8 @@ func NewCarriesController(sv models.CarriesService) *carries_controller.CarriesD
 	return carries_controller.NewCarriesDefault(sv)
 }
 
-func NewLocalityController(sv models.LocalityService) *localities_controller.LocalityController {
-	return localities_controller.NewLocalityController(sv)
+func NewLocalityController(sv models.LocalityService) *localities_controller.LocalitiesController {
+	return localities_controller.NewLocalitiesController(sv)
 }
 
 func NewWarehousesController(service models.WarehouseService) *warehouses_controller.WarehouseDefault {

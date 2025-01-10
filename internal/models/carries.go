@@ -1,5 +1,11 @@
 package models
 
+import "errors"
+
+var (
+	ErrCarryNotFound = errors.New("Seller not found")
+)
+
 type Carry struct {
 	ID          int
 	CID         string

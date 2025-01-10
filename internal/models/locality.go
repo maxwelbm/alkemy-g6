@@ -25,12 +25,20 @@ type LocalitySellersReport struct {
 	SellersCount int
 }
 
+type LocalityCarriesReport struct {
+	ID           int
+	LocalityName string
+	CarriesCount int
+}
+
 type LocalityService interface {
 	Create(locDTO LocalityDTO) (loc Locality, err error)
 	ReportSellers(id int) (reports []LocalitySellersReport, err error)
+	ReportCarries(id int) (reports []LocalityCarriesReport, err error)
 }
 
 type LocalityRepository interface {
 	Create(locDTO LocalityDTO) (loc Locality, err error)
 	ReportSellers(id int) (reports []LocalitySellersReport, err error)
+	ReportCarries(id int) (reports []LocalityCarriesReport, err error)
 }
