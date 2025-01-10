@@ -44,8 +44,6 @@ func NewSectionsRepository(DB *sql.DB) *sec_repository.SectionRepository {
 	}
 }
 
-func NewEmployeesRepository(DB *sql.DB) *employees_repository.EmployeesRepository {
-	return &employees_repository.EmployeesRepository{
-		DB: DB,
-	}
+func NewEmployeesRepository(db *sql.DB) *employees_repository.EmployeesRepository {
+	return employees_repository.NewEmployeesRepository(db)
 }

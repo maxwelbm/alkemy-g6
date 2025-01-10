@@ -41,8 +41,6 @@ func NewWarehousesController(service models.WarehouseService) *warehouses_contro
 	return &warehouses_controller.WarehouseDefault{Service: service}
 }
 
-func NewEmployeesController(SV models.EmployeesService) *employees_controller.EmployeesController {
-	return &employees_controller.EmployeesController{
-		SV: SV,
-	}
+func NewEmployeesController(sv models.EmployeesService) *employees_controller.EmployeesController {
+	return employees_controller.NewEmployeesDefault(sv)
 }
