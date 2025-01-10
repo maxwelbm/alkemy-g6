@@ -20,6 +20,10 @@ type ProductResJSON struct {
 	Data    any    `json:"data,omitempty"`
 }
 
+type ReportRecordsResJSON struct {
+	Data    any    `json:"data,omitempty"`
+}
+
 type ProductFullJSON struct {
 	ID             int     `json:"id"`
 	ProductCode    string  `json:"product_code"`
@@ -47,6 +51,12 @@ type NewProductAttributesJSON struct {
 	RecomFreezTemp *float64 `json:"recommended_freezing_temp"`
 	ProductTypeID  *int     `json:"product_type_id"`
 	SellerID       *int     `json:"seller_id,omitempty"`
+}
+
+type ReportRecordFullJSON struct {
+	ProductId      int     `json:"product_id"`
+	Description    string  `json:"description"`
+	RecordsCount   int     `json:"records_count"`
 }
 
 func (p *NewProductAttributesJSON) validate() (err error) {

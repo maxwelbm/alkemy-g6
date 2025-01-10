@@ -3,7 +3,7 @@ package warehouses_repository
 import "github.com/maxwelbm/alkemy-g6/internal/models"
 
 func (r *WarehouseRepository) GetAll() (w []models.Warehouse, err error) {
-	query := "SELECT `id`, `address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM frescos_db.warehouses"
+	query := "SELECT `id`, `address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM warehouses"
 
 	rows, err := r.DB.Query(query)
 	if err != nil {
