@@ -1,20 +1,15 @@
-package sections
+package sections_controller
 
 import (
 	"errors"
 	"fmt"
 
-	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
-
-type SectionsDefault struct {
-	// sv is the service used by the handler
-	sv models.SectionService
-}
 
 type SectionFullJSON struct {
 	ID                 int     `json:"id"`
-	SectionNumber      int     `json:"section_number"`
+	SectionNumber      string  `json:"section_number"`
 	CurrentTemperature float64 `json:"current_temperature"`
 	MinimumTemperature float64 `json:"minimum_temperature"`
 	CurrentCapacity    int     `json:"current_capacity"`
@@ -25,7 +20,7 @@ type SectionFullJSON struct {
 }
 
 type NewSectionReqJSON struct {
-	SectionNumber      *int     `json:"section_number"`
+	SectionNumber      *string  `json:"section_number"`
 	CurrentTemperature *float64 `json:"current_temperature"`
 	MinimumTemperature *float64 `json:"minimum_temperature"`
 	CurrentCapacity    *int     `json:"current_capacity"`
@@ -40,12 +35,6 @@ type SectionResJSON struct {
 	Data    any    `json:"data,omitempty"`
 }
 
-func NewSectionsDefault(sv models.SectionService) *SectionsDefault {
-	return &SectionsDefault{
-		sv: sv,
-	}
-}
-
 func (c *NewSectionReqJSON) validateCreate() (err error) {
 	var validationErrors []string
 	var nilPointerErrors []string
@@ -53,7 +42,7 @@ func (c *NewSectionReqJSON) validateCreate() (err error) {
 	// Check for nil pointers and collect their errors
 	if c.SectionNumber == nil {
 		nilPointerErrors = append(nilPointerErrors, "error: attribute SectionNumber cannot be nil")
-	} else if *c.SectionNumber <= 0 {
+	} else if *c.SectionNumber == "" {
 		validationErrors = append(validationErrors, "error: attribute SectionNumber cannot be empty")
 	}
 
@@ -110,7 +99,7 @@ func (c *NewSectionReqJSON) validateUpdate() (err error) {
 	var validationErrors []string
 
 	// Check for nil pointers and collect their errors
-	if c.SectionNumber != nil && *c.SectionNumber <= 0 {
+	if c.SectionNumber != nil && *c.SectionNumber == "" {
 		validationErrors = append(validationErrors, "error: attribute SectionNumber cannot be empty")
 	}
 
@@ -142,4 +131,12 @@ func (c *NewSectionReqJSON) validateUpdate() (err error) {
 		err = errors.New(fmt.Sprintf("validation errors: %v", allErrors))
 	}
 	return
+}
+
+type SectionsController struct {
+	SV models.SectionService
+}
+
+func NewSectionsController(SV models.SectionService) *SectionsController {
+	return &SectionsController{SV: SV}
 }

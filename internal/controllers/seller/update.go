@@ -113,7 +113,7 @@ func (controller *SellersDefault) Update(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Attempt to update the seller in the database
-	sellerUpdated, err := controller.SV.Update(id, sellerToUpdate)
+	sellerUpdated, err := controller.sv.Update(id, sellerToUpdate)
 
 	if err != nil {
 		// Handle seller not found

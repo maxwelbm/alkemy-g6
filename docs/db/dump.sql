@@ -29,14 +29,15 @@ CREATE TABLE employees (
 -- Create a table to store section information
 CREATE TABLE sections (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    section_number INT,
-    current_temperature FLOAT,
-    minimum_temperature FLOAT,
+    section_number VARCHAR(255) UNIQUE,
+    current_temperature DECIMAL(19,2),
+    minimum_temperature DECIMAL(19,2),
     current_capacity INT,
     minimum_capacity INT,
     maximum_capacity INT,
     warehouse_id INT,
-    product_type_id INT
+    product_type_id INT,
+    FOREIGN KEY (warehouse_id) REFERENCES warehouses(id)
 );
 
 -- Create a table to store locality information
@@ -51,7 +52,7 @@ CREATE TABLE localities (
 -- Create a table to store seller information
 CREATE TABLE sellers (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    cid VARCHAR(255) UNIQUE,
+    cid INT UNIQUE,
     company_name VARCHAR(255),
     address VARCHAR(255),
     telephone VARCHAR(255),
@@ -91,14 +92,14 @@ CREATE TABLE carries (
 -- Create a table to store product batch information
 CREATE TABLE product_batches (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    batch_number INT,
-    current_quantity INT,
-    current_temperature INT,
-    due_date DATE,
+    batch_number VARCHAR(255),
     initial_quantity INT,
+    current_quantity INT,
+    current_temperature DECIMAL(19,2),
+    minimum_temperature DECIMAL(19,2),
+    due_date DATE,
     manufacturing_date DATE,
     manufacturing_hour TIME,
-    mininum_temperature INT,
     product_id INT,
     section_id INT,
     FOREIGN KEY (product_id) REFERENCES products(id),
@@ -158,11 +159,11 @@ INSERT INTO employees (card_number_id, first_name, last_name, warehouse_id) VALU
 INSERT INTO employees (card_number_id, first_name, last_name, warehouse_id) VALUES ('EMP005', 'Charlie', 'Davis', 5);
 
 -- Insert data into sections
-INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES (1, -10.0, -20.0, 50, 10, 100, 1, 1);
-INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES (2, -15.0, -25.0, 60, 20, 200, 2, 2);
-INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES (3, -20.0, -30.0, 70, 30, 300, 3, 3);
-INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES (4, -25.0, -35.0, 80, 40, 400, 4, 4);
-INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES (5, -30.0, -40.0, 90, 50, 500, 5, 5);
+INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES ('SC-001', -10.0, -20.0, 50, 10, 100, 1, 1);
+INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES ('SC-002', -15.0, -25.0, 60, 20, 200, 2, 2);
+INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES ('SC-003', -20.0, -30.0, 70, 30, 300, 3, 3);
+INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES ('SC-004', -25.0, -35.0, 80, 40, 400, 4, 4);
+INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES ('SC-005', -30.0, -40.0, 90, 50, 500, 5, 5);
 
 -- Insert data into localities
 INSERT INTO localities (locality_name, province_name, country_name) VALUES ('Locality1', 'Province1', 'Country1');
@@ -193,11 +194,11 @@ INSERT INTO carries (cid, company_name, address, phone_number, locality_id) VALU
 INSERT INTO carries (cid, company_name, address, phone_number, locality_id) VALUES (5, 'Carrier5', '202 Maple St', '555-7890', 5);
 
 -- Insert data into product_batches
-INSERT INTO product_batches (batch_number, current_quantity, current_temperature, due_date, initial_quantity, manufacturing_date, manufacturing_hour, mininum_temperature, product_id, section_id) VALUES (1, 100, -10, '2023-12-31', 200, '2023-01-01', '08:00:00', -20, 1, 1);
-INSERT INTO product_batches (batch_number, current_quantity, current_temperature, due_date, initial_quantity, manufacturing_date, manufacturing_hour, mininum_temperature, product_id, section_id) VALUES (2, 150, -15, '2023-11-30', 250, '2023-02-01', '09:00:00', -25, 2, 2);
-INSERT INTO product_batches (batch_number, current_quantity, current_temperature, due_date, initial_quantity, manufacturing_date, manufacturing_hour, mininum_temperature, product_id, section_id) VALUES (3, 200, -20, '2023-10-31', 300, '2023-03-01', '10:00:00', -30, 3, 3);
-INSERT INTO product_batches (batch_number, current_quantity, current_temperature, due_date, initial_quantity, manufacturing_date, manufacturing_hour, mininum_temperature, product_id, section_id) VALUES (4, 250, -25, '2023-09-30', 350, '2023-04-01', '11:00:00', -35, 4, 4);
-INSERT INTO product_batches (batch_number, current_quantity, current_temperature, due_date, initial_quantity, manufacturing_date, manufacturing_hour, mininum_temperature, product_id, section_id) VALUES (5, 300, -30, '2023-08-31', 400, '2023-05-01', '12:00:00', -40, 5, 5);
+INSERT INTO product_batches (batch_number, initial_quantity, current_quantity, current_temperature, minimum_temperature, due_date, manufacturing_date, manufacturing_hour, product_id, section_id) VALUES ('1', 200, 100, -10, -20, '2023-12-31', '2023-01-01', '08:00:00', 1, 1);
+INSERT INTO product_batches (batch_number, initial_quantity, current_quantity, current_temperature, minimum_temperature, due_date, manufacturing_date, manufacturing_hour, product_id, section_id) VALUES ('2', 250, 150, -15, -25, '2023-11-30', '2023-02-01', '09:00:00', 2, 2);
+INSERT INTO product_batches (batch_number, initial_quantity, current_quantity, current_temperature, minimum_temperature, due_date, manufacturing_date, manufacturing_hour, product_id, section_id) VALUES ('3', 300, 200, -20, -30, '2023-10-31', '2023-03-01', '10:00:00', 3, 3);
+INSERT INTO product_batches (batch_number, initial_quantity, current_quantity, current_temperature, minimum_temperature, due_date, manufacturing_date, manufacturing_hour, product_id, section_id) VALUES ('4', 350, 250, -25, -35, '2023-09-30', '2023-04-01', '11:00:00', 4, 4);
+INSERT INTO product_batches (batch_number, initial_quantity, current_quantity, current_temperature, minimum_temperature, due_date, manufacturing_date, manufacturing_hour, product_id, section_id) VALUES ('5', 400, 300, -30, -40, '2023-08-31', '2023-05-01', '12:00:00', 5, 5);
 
 -- Insert data into product_records
 INSERT INTO product_records (last_update_date, purchase_price, sale_price, product_id) VALUES ('2023-01-01', 10.00, 20.00, 1);
