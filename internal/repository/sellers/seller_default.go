@@ -5,12 +5,12 @@ import (
 )
 
 type SellersDefault struct {
-	DB *sql.DB
+	db *sql.DB
 }
 
-func NewSellersRepository(DB *sql.DB) *SellersDefault {
+func NewSellersRepository(db *sql.DB) *SellersDefault {
 	rp := &SellersDefault{
-		DB: DB,
+		db: db,
 	}
 	return rp
 }

@@ -1,12 +1,12 @@
-package controller
+package products_controller
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
 
-	models "github.com/maxwelbm/alkemy-g6/internal/models/products"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
+	"github.com/go-sql-driver/mysql"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -26,23 +26,28 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 		Height:         *prodJson.Height,
 		Length:         *prodJson.Length,
 		Width:          *prodJson.Width,
-		Weight:         *prodJson.Weight,
+		NetWeight:      *prodJson.NetWeight,
 		ExpirationRate: *prodJson.ExpirationRate,
 		FreezingRate:   *prodJson.FreezingRate,
 		RecomFreezTemp: *prodJson.RecomFreezTemp,
 		ProductTypeID:  *prodJson.ProductTypeID,
-	}
-	if prodJson.SellerID != nil {
-		prodDTO.SellerID = *prodJson.SellerID
+		SellerID: 		*prodJson.SellerID,
 	}
 
-	newProd, err := p.sv.Create(prodDTO)
-	if errors.Is(err, repository.ErrProductUniqueness) {
-		response.Error(w, http.StatusConflict, err.Error())
-		return
-	}
+	newProd, err := p.SV.Create(prodDTO)
+
 	if err != nil {
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
+			switch mysqlErr.Number {
+			case mysqlerr.CodeDuplicateEntry:
+				response.Error(w, http.StatusConflict, err.Error())
+				return
+			case mysqlerr.CodeCannotAddOrUpdateChildRow:
+				response.Error(w, http.StatusBadRequest, err.Error())
+				return
+			}
+		}
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 

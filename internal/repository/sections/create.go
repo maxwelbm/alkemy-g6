@@ -1,29 +1,29 @@
-package repository
+package sections_repository
 
-import models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
+import (
+	"github.com/maxwelbm/alkemy-g6/internal/models"
+)
 
-func (r *Sections) Create(sec models.SectionDTO) (newSection models.Section, err error) {
-	for _, section := range r.db {
-		if section.SectionNumber == *sec.SectionNumber {
-			err = ErrSectionDuplicatedCode
-			return
-		}
+func (r *SectionRepository) Create(sec models.SectionDTO) (newSection models.Section, err error) {
+	query := "INSERT INTO sections (section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+
+	result, err := r.DB.Exec(query, sec.SectionNumber, sec.CurrentTemperature, sec.MinimumTemperature, sec.CurrentCapacity, sec.MinimumCapacity, sec.MaximumCapacity, sec.WarehouseID, sec.ProductTypeID)
+	if err != nil {
+		return
 	}
 
-	newSection = models.Section{
-		ID:                 r.lastId + 1,
-		SectionNumber:      *sec.SectionNumber,
-		CurrentTemperature: *sec.CurrentTemperature,
-		MinimumTemperature: *sec.MinimumTemperature,
-		CurrentCapacity:    *sec.CurrentCapacity,
-		MinimumCapacity:    *sec.MinimumCapacity,
-		MaximumCapacity:    *sec.MaximumCapacity,
-		WarehouseID:        *sec.WarehouseID,
-		ProductTypeID:      *sec.ProductTypeID,
+	lastInsertId, err := result.LastInsertId()
+	if err != nil {
+		return
 	}
 
-	r.db[newSection.ID] = newSection
-	r.lastId = newSection.ID
+	query = "SELECT id, section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id FROM sections WHERE id = ?"
+	err = r.DB.
+		QueryRow(query, lastInsertId).
+		Scan(&newSection.ID, &newSection.SectionNumber, &newSection.CurrentTemperature, &newSection.MinimumTemperature, &newSection.CurrentCapacity, &newSection.MinimumCapacity, &newSection.MaximumCapacity, &newSection.WarehouseID, &newSection.ProductTypeID)
+	if err != nil {
+		return
+	}
 
 	return
 }

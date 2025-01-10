@@ -1,4 +1,4 @@
-package sections
+package sections_controller
 
 import (
 	"encoding/json"
@@ -7,30 +7,30 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
-	"github.com/maxwelbm/alkemy-g6/internal/service"
+	"github.com/go-sql-driver/mysql"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (c *SectionsDefault) Update(w http.ResponseWriter, r *http.Request) {
+func (c *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
+
 	var secReqJson NewSectionReqJSON
-	err = json.NewDecoder(r.Body).Decode(&secReqJson)
-	if err != nil {
+	if err = json.NewDecoder(r.Body).Decode(&secReqJson); err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	err = secReqJson.validateUpdate()
 
-	if err != nil {
+	if err = secReqJson.validateUpdate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
+
 	secDTO := models.SectionDTO{
 		SectionNumber:      secReqJson.SectionNumber,
 		CurrentTemperature: secReqJson.CurrentTemperature,
@@ -42,28 +42,44 @@ func (c *SectionsDefault) Update(w http.ResponseWriter, r *http.Request) {
 		ProductTypeID:      secReqJson.ProductTypeID,
 	}
 
-	updateSection, err := c.sv.Update(id, secDTO)
-	if errors.Is(err, repository.ErrSectionDuplicatedCode) {
-		response.Error(w, http.StatusConflict, err.Error())
-		return
-	}
-	if errors.Is(err, repository.ErrSectionNotFound) {
-		response.Error(w, http.StatusNotFound, err.Error())
-		return
-	}
-	if errors.Is(err, service.ErrWareHousesNotFound) {
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
-		return
-	}
+	updateSection, err := c.SV.Update(id, secDTO)
+
 	if err != nil {
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		// Handle if section not found
+		if errors.Is(err, models.ErrSectionNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+			return
+		}
+		// Handle no changes made
+		if errors.Is(err, models.ErrorNoChangesMade) {
+			response.Error(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		// Handle MySQL duplicate entry error
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
+		}
+		// Handle other internal server errors
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
+	}
+
+	data := SectionFullJSON{
+		ID:                 updateSection.ID,
+		SectionNumber:      updateSection.SectionNumber,
+		CurrentTemperature: updateSection.CurrentTemperature,
+		MinimumTemperature: updateSection.MinimumTemperature,
+		CurrentCapacity:    updateSection.CurrentCapacity,
+		MinimumCapacity:    updateSection.MinimumCapacity,
+		MaximumCapacity:    updateSection.MaximumCapacity,
+		WarehouseID:        updateSection.WarehouseID,
+		ProductTypeID:      updateSection.ProductTypeID,
 	}
 
 	res := SectionResJSON{
 		Message: "Success",
-		Data:    updateSection,
+		Data:    data,
 	}
 	response.JSON(w, http.StatusOK, res)
-	return
 }

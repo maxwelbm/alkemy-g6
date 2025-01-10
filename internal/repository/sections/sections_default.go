@@ -1,36 +1,14 @@
-package repository
+package sections_repository
 
-import (
-	"errors"
+import "database/sql"
 
-	models "github.com/maxwelbm/alkemy-g6/internal/models/sections"
-)
-
-var (
-	ErrSectionNotFound       = errors.New("Section not found")
-	ErrSectionDuplicatedCode = errors.New("Section code already exists")
-)
-
-type Sections struct {
-	db     map[int]models.Section
-	lastId int
+type SectionRepository struct {
+	DB *sql.DB
 }
 
-func NewSections(db map[int]models.Section) *Sections {
-	defaultDb := make(map[int]models.Section)
-	if db != nil {
-		defaultDb = db
+func NewSectionsRepository(DB *sql.DB) *SectionRepository {
+	repo := &SectionRepository{
+		DB: DB,
 	}
-
-	lastId := 0
-	for _, sec := range db {
-		if lastId < sec.ID {
-			lastId = sec.ID
-		}
-	}
-
-	return &Sections{
-		db:     defaultDb,
-		lastId: lastId,
-	}
+	return repo
 }

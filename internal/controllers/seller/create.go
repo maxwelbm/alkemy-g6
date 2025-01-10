@@ -91,10 +91,14 @@ func (controller *SellersDefault) Create(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Call the service layer to create the seller
-	sellerCreated, err := controller.SV.Create(sellerToCreate)
+	sellerCreated, err := controller.sv.Create(sellerToCreate)
 	if err != nil {
 		// Check if the error is a MySQL duplicate entry error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
+		}
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
