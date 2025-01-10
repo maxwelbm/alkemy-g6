@@ -7,7 +7,7 @@ import (
 func (r *SellersDefault) Update(id int, seller models.SellerDTO) (sellerReturn models.Seller, err error) {
 	// Check if the seller exists
 	var exists bool
-	err = r.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM sellers WHERE id = ?)", id).Scan(&exists)
+	err = r.db.QueryRow("SELECT EXISTS(SELECT 1 FROM sellers WHERE id = ?)", id).Scan(&exists)
 	if err != nil {
 		return
 	}
@@ -23,7 +23,7 @@ func (r *SellersDefault) Update(id int, seller models.SellerDTO) (sellerReturn m
 		telephone = COALESCE(NULLIF(?, ''), telephone),
 		locality_id = COALESCE(NULLIF(?, 0), locality_id)
 	WHERE id = ?`
-	res, err := r.DB.Exec(query, seller.CID, seller.CompanyName, seller.Address, seller.Telephone, seller.LocalityID, id)
+	res, err := r.db.Exec(query, seller.CID, seller.CompanyName, seller.Address, seller.Telephone, seller.LocalityID, id)
 	// Check for errors
 	if err != nil {
 		return
@@ -40,7 +40,7 @@ func (r *SellersDefault) Update(id int, seller models.SellerDTO) (sellerReturn m
 	}
 
 	// Retrieve the updated seller
-	err = r.DB.QueryRow("SELECT id, cid, company_name, address, telephone, locality_id FROM sellers WHERE id = ?", id).Scan(
+	err = r.db.QueryRow("SELECT id, cid, company_name, address, telephone, locality_id FROM sellers WHERE id = ?", id).Scan(
 		&sellerReturn.ID, &sellerReturn.CID, &sellerReturn.CompanyName, &sellerReturn.Address, &sellerReturn.Telephone, &sellerReturn.LocalityID)
 	if err != nil {
 		return

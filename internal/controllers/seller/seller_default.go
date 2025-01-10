@@ -5,15 +5,15 @@ import (
 )
 
 type SellersDefault struct {
-	SV models.SellersService
+	sv models.SellersService
 }
 
-func NewSellersController(SV models.SellersService) *SellersDefault {
-	return &SellersDefault{SV: SV}
+func NewSellersController(sv models.SellersService) *SellersDefault {
+	return &SellersDefault{sv: sv}
 }
 
 type SellerResJSON struct {
-	Message string `json:"message"`
+	Message string `json:"message,omitempty"`
 	Data    any    `json:"data,omitempty"`
 }
 
