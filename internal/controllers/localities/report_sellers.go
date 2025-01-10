@@ -25,19 +25,23 @@ type LocalityReportJSON struct {
 // @Router /localities/report_sellers [get]
 func (ct *LocalityController) ReportSellers(w http.ResponseWriter, r *http.Request) {
 	// Extract the "id" parameter from the URL query and convert it to an integer
+	var id int
+	var err error
 	paramsId := r.URL.Query().Get("id")
-	id, err := strconv.Atoi(paramsId)
-	if err != nil {
-		response.Error(w, http.StatusBadRequest, err.Error())
-		return
-	}
-	if id < 1 {
-		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
-		return
+	if paramsId != "" {
+		id, err = strconv.Atoi(paramsId)
+		if err != nil {
+			response.Error(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if id < 1 {
+			response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+			return
+		}
 	}
 
 	// Call the service layer to get the locality sellers report by id
-	loc, err := ct.sv.ReportSellers(id)
+	locs, err := ct.sv.ReportSellers(id)
 	if err != nil {
 		// If an error occurs, return an internal server error
 		response.Error(w, http.StatusInternalServerError, err.Error())
@@ -45,13 +49,22 @@ func (ct *LocalityController) ReportSellers(w http.ResponseWriter, r *http.Reque
 	}
 
 	// Populate the response JSON with the locality report data
-	data := LocalityReportJSON{
-		ID:           loc.ID,
-		LocalityName: loc.LocalityName,
-		SellersCount: loc.SellersCount,
+	var data []LocalityReportJSON
+	for _, loc := range locs {
+		locJson := LocalityReportJSON{
+			ID:           loc.ID,
+			LocalityName: loc.LocalityName,
+			SellersCount: loc.SellersCount,
+		}
+		data = append(data, locJson)
 	}
 
 	// Create the response JSON and send it with status OK
-	res := LocalityResJSON{Data: data}
+	var res LocalityResJSON
+	if len(data) == 1 {
+		res = LocalityResJSON{Message: "OK", Data: data[0]}
+	} else {
+		res = LocalityResJSON{Data: data}
+	}
 	response.JSON(w, http.StatusOK, res)
 }
