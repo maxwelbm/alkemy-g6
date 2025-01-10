@@ -49,7 +49,7 @@ func (j *NewLocalityJson) validate() (err error) {
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /localities [post]
-func (c *LocalityController) Create(w http.ResponseWriter, r *http.Request) {
+func (ct *LocalityController) Create(w http.ResponseWriter, r *http.Request) {
 	// parse json
 	var locJson NewLocalityJson
 	err := json.NewDecoder(r.Body).Decode(&locJson)
@@ -69,7 +69,7 @@ func (c *LocalityController) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// insert
-	loc, err := c.sv.Create(*locDTO)
+	loc, err := ct.sv.Create(*locDTO)
 	if err != nil {
 		// handles conflict error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
