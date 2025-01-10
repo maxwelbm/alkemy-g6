@@ -130,13 +130,14 @@ CREATE TABLE inbound_orders (
 -- Create a table to store purchase order information
 CREATE TABLE purchase_orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    order_number INT UNIQUE,
-    order_date DATE,
-    tracking_code INT,
+    order_number VARCHAR(255),
+    order_date DATETIME(6),
+    tracking_code VARCHAR(255),
     buyer_id INT,
     product_record_id INT,
     FOREIGN KEY (product_record_id) REFERENCES product_records(id)
 );
+
 -- Insert data into warehouses
 INSERT INTO warehouses (address, telephone, warehouse_code, minimum_capacity, minimum_temperature) VALUES ('123 Main St', '555-1234', 'WH001', 100, -10.0);
 INSERT INTO warehouses (address, telephone, warehouse_code, minimum_capacity, minimum_temperature) VALUES ('456 Elm St', '555-5678', 'WH002', 200, -20.0);
