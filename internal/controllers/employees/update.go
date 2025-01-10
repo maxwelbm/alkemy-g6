@@ -1,4 +1,4 @@
-package controller
+package employees_controller
 
 import (
 	"encoding/json"
@@ -8,13 +8,13 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
+	models "github.com/maxwelbm/alkemy-g6/internal/models"
 	repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-func (c *Employees) Update(w http.ResponseWriter, r *http.Request) {
+func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, "Invalid ID format")
@@ -52,7 +52,7 @@ func (c *Employees) Update(w http.ResponseWriter, r *http.Request) {
 		newEmployees.WarehouseID = employeesJSON.WarehouseID
 	}
 
-	emp, err := c.sv.Update(newEmployees, id)
+	emp, err := c.SV.Update(newEmployees, id)
 	if errors.Is(err, repository.ErrEmployeesRepositoryDuplicatedCode) {
 		response.Error(w, http.StatusConflict, err.Error())
 		return

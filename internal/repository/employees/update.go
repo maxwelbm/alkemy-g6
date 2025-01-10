@@ -1,36 +1,49 @@
 package repository
 
-import models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
+import (
+	models "github.com/maxwelbm/alkemy-g6/internal/models"
+)
 
-func (e *Employees) Update(employees models.EmployeesDTO, id int) (newEmployees models.Employees, err error) {
-	newEmployees, err = e.GetByID(id)
+func (e *EmployeesRepository) Update(employees models.EmployeesDTO, id int) (newEmployees models.Employees, err error) {
+	// Check if the employee exists
+	var exists bool
+	err = e.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM employees WHERE id = ?)", id).Scan(&exists)
 	if err != nil {
-		err = ErrEmployeesRepositoryNotFound
+		return
+	}
+	if !exists {
+		err = models.ErrEmployeesNotFound
+		return
+	}
+	// Update the employees
+	query := `UPDATE employees SET 
+		card_number_id = COALESCE(NULLIF(?, ''), card_number_id), 
+		first_name = COALESCE(NULLIF(?, ''), first_name),
+		last_name = COALESCE(NULLIF(?, ''), last_name),
+		warehouse_id = COALESCE(NULLIF(?, ''), warehouse_id)
+	WHERE id = ?`
+	res, err := e.DB.Exec(query, employees.CardNumberID, employees.FirstName, employees.LastName, employees.WarehouseID, id)
+	// Check for errors
+	if err != nil {
+		return
+	}
+	// Check if the employee was updated
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return
+	}
+	// If the employee was not updated, return an error
+	if rowsAffected == 0 {
+		err = models.ErrorNoChangesMade
 		return
 	}
 
-	if employees.CardNumberID != nil {
-		for _, value := range e.db {
-			if value.CardNumberID == *employees.CardNumberID && value.ID != id {
-				err = ErrEmployeesRepositoryDuplicatedCode
-				return
-			}
-		}
-		newEmployees.CardNumberID = *employees.CardNumberID
+	// Retrieve the updated employee
+	err = e.DB.QueryRow("SELECT id, card_number_id, first_name, last_name, warehouse_id FROM employees WHERE id = ?", id).Scan(
+		&newEmployees.ID, &newEmployees.CardNumberID, &newEmployees.FirstName, &newEmployees.LastName, &newEmployees.WarehouseID)
+	if err != nil {
+		return
 	}
 
-	if employees.FirstName != nil && *employees.FirstName != "" {
-		newEmployees.FirstName = *employees.FirstName
-	}
-
-	if employees.LastName != nil && *employees.LastName != "" {
-		newEmployees.LastName = *employees.LastName
-	}
-
-	if employees.WarehouseID != nil && *employees.WarehouseID != 0 {
-		newEmployees.WarehouseID = *employees.WarehouseID
-	}
-
-	e.db[id] = newEmployees
 	return
 }
