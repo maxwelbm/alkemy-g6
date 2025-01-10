@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
@@ -22,6 +21,13 @@ func (p *Products) GetReportRecords(id int) (list []models.ProductReportRecords,
 		return
 	}
 	defer rows.Close()
+
+	if id != 0 {
+		if !rows.Next() {
+			err = models.ErrProductNotFound
+			return
+		}
+	}
 
 	for rows.Next() {
 		var productRecord models.ProductReportRecords

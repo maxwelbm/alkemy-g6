@@ -1,6 +1,7 @@
 package products_controller
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -17,15 +18,20 @@ func (p *ProductsDefault) GetReportRecords(w http.ResponseWriter, r *http.Reques
 	if id == "" {
 		reportRecords, err = p.SV.GetReportRecords(0)
 	} else {
-		productId, err := strconv.Atoi(id)
-		if err != nil {
-			response.Error(w, http.StatusInternalServerError, err.Error())
+		productId, convErr := strconv.Atoi(id)
+		if convErr != nil {
+			response.Error(w, http.StatusInternalServerError, convErr.Error())
 			return
 		}
 
 		reportRecords, err = p.SV.GetReportRecords(productId)
 	}
+
 	if err != nil {
+		if errors.Is(err, models.ErrProductNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+			return
+		}
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
