@@ -10,22 +10,24 @@ import (
 )
 
 func (p *ProductsDefault) GetReportRecords(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
-
-	var reportRecords []models.ProductReportRecords
+	var productId int
 	var err error
 
-	if id == "" {
-		reportRecords, err = p.SV.GetReportRecords(0)
-	} else {
-		productId, convErr := strconv.Atoi(id)
-		if convErr != nil {
-			response.Error(w, http.StatusInternalServerError, convErr.Error())
+	id := r.URL.Query().Get("id")
+	if id != "" {
+		productId, err = strconv.Atoi(id)
+		if err != nil {
+			response.Error(w, http.StatusBadRequest, err.Error())
 			return
 		}
-
-		reportRecords, err = p.SV.GetReportRecords(productId)
-	}
+		if productId < 1 {
+			response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+			return
+		}
+	}	
+	
+	var reportRecords []models.ProductReportRecords
+	reportRecords, err = p.SV.GetReportRecords(productId)
 
 	if err != nil {
 		if errors.Is(err, models.ErrProductNotFound) {
