@@ -1,0 +1,13 @@
+# .air.toml
+root = "cmd"
+
+[color]
+  main = "yellow"
+  watch = "green"
+
+[build]
+  cmd = "go build -o ./tmp/main ./cmd/main.go"
+  bin = "./tmp/main"
+
+[run]
+  cmd = "./tmp/main"

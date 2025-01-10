@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  frescos-db:
+    image: mysql:5.7
+    container_name: frescos-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: frescos_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docs/db/dump.sql:/docker-entrypoint-initdb.d/dump.sql
