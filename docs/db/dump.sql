@@ -92,7 +92,7 @@ CREATE TABLE carries (
 -- Create a table to store product batch information
 CREATE TABLE product_batches (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    batch_number VARCHAR(255),
+    batch_number VARCHAR(255) UNIQUE,
     initial_quantity INT,
     current_quantity INT,
     current_temperature DECIMAL(19,2),
