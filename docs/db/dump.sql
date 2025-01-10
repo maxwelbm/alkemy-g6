@@ -131,7 +131,7 @@ CREATE TABLE inbound_orders (
 CREATE TABLE purchase_orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_number VARCHAR(255),
-    order_date DATETIME(6),
+    order_date DATE,
     tracking_code VARCHAR(255),
     buyer_id INT,
     product_record_id INT,

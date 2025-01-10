@@ -4,4 +4,5 @@ const (
 	CodeDuplicateEntry                = 1062
 	CodeCannotDeleteOrUpdateParentRow = 1451
 	CodeCannotAddOrUpdateChildRow     = 1452
+	CodeIncorrectDateValue            = 1292
 )
