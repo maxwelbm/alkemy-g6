@@ -33,7 +33,7 @@ func (c *SectionsController) Create(w http.ResponseWriter, r *http.Request) {
 		ProductTypeID:      secReqJson.ProductTypeID,
 	}
 
-	newSection, err := c.SV.Create(secDTO)
+	newSection, err := c.sv.Create(secDTO)
 	if err != nil {
 		// Check if the error is a MySQL duplicate entry error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
