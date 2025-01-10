@@ -10,8 +10,8 @@ func NewLocalityDefault(rp models.LocalityRepository) *LocalityDefault {
 	return &LocalityDefault{rp: rp}
 }
 
-func (s *LocalityDefault) ReportSellers(id int) (report models.LocalitySellersReport, err error) {
-	report, err = s.rp.ReportSellers(id)
+func (s *LocalityDefault) ReportSellers(id int) (reports []models.LocalitySellersReport, err error) {
+	reports, err = s.rp.ReportSellers(id)
 	return
 }
 
