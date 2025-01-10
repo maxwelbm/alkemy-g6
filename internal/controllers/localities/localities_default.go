@@ -12,5 +12,5 @@ func NewLocalityController(sv models.LocalityService) *LocalityController {
 
 type LocalityResJSON struct {
 	Message string `json:"message,omitempty"`
-	Data    any    `json:"data,omitempty,omitempty"`
+	Data    any    `json:"data,omitempty"`
 }
