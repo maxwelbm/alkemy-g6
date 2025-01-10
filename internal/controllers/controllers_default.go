@@ -2,6 +2,7 @@ package controllers
 
 import (
 	buyers_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/buyer"
+	carries_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/carries"
 	localities_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/localities"
 	products_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/products"
 	sections_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/sections"
@@ -30,6 +31,10 @@ func NewSectionsController(SV models.SectionService) *sections_controller.Sectio
 
 func NewSellersController(sv models.SellersService) *sellers_controller.SellersDefault {
 	return sellers_controller.NewSellersController(sv)
+}
+
+func NewCarriesController(sv models.CarriesService) *carries_controller.CarriesDefault {
+	return carries_controller.NewCarriesDefault(sv)
 }
 
 func NewLocalityController(sv models.LocalityService) *localities_controller.LocalityController {
