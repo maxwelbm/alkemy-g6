@@ -2,6 +2,7 @@ package controllers
 
 import (
 	buyers_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/buyer"
+	employees_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/employees"
 	localities_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/localities"
 	products_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/products"
 	purchase_orders_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/purchase_orders"
@@ -39,6 +40,10 @@ func NewLocalityController(sv models.LocalityService) *localities_controller.Loc
 
 func NewWarehousesController(service models.WarehouseService) *warehouses_controller.WarehouseDefault {
 	return &warehouses_controller.WarehouseDefault{Service: service}
+}
+
+func NewEmployeesController(sv models.EmployeesService) *employees_controller.EmployeesController {
+	return employees_controller.NewEmployeesDefault(sv)
 }
 
 func NewPurchaseOrdersController(service models.PurchaseOrdersService) *purchase_orders_controller.PurchaseOrdersController {

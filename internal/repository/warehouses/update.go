@@ -6,7 +6,7 @@ import (
 
 func (r *WarehouseRepository) Update(id int, warehouse models.WarehouseDTO) (w models.Warehouse, err error) {
 	if warehouse.WarehouseCode != nil {
-		query := "SELECT EXISTS(SELECT 1 FROM frescos_db.warehouses WHERE `warehouse_code`=?)"
+		query := "SELECT EXISTS(SELECT 1 FROM warehouses WHERE `warehouse_code`=?)"
 		var exists bool
 
 		err = r.DB.QueryRow(query, *warehouse.WarehouseCode).Scan(&exists)
@@ -23,7 +23,7 @@ func (r *WarehouseRepository) Update(id int, warehouse models.WarehouseDTO) (w m
 	}
 
 	//COALESCE: used to retain the current value of the field if the new value is null or not applicable
-	query := `UPDATE frescos_db.warehouses SET 
+	query := `UPDATE warehouses SET 
 				address = COALESCE(NULLIF(?, ''), address), 
 				telephone = COALESCE(NULLIF(?, ''), telephone),
 				warehouse_code = COALESCE(NULLIF(?, ''), warehouse_code),
@@ -36,7 +36,7 @@ func (r *WarehouseRepository) Update(id int, warehouse models.WarehouseDTO) (w m
 		return
 	}
 
-	query = "SELECT `id`,`address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM frescos_db.warehouses WHERE `id`=?"
+	query = "SELECT `id`,`address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM warehouses WHERE `id`=?"
 	err = r.DB.
 		QueryRow(query, id).Scan(&w.Id, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature)
 	if err != nil {

@@ -9,20 +9,19 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 )
 
-func InitProducts(db *sql.DB, router *chi.Mux) {
-	rp := repository.NewProductsRepository(db)
+func InitEmployees(db *sql.DB, router *chi.Mux) {
+	rp := repository.NewEmployeesRepository(db)
 	// - service
-	sv := service.NewProductsService(rp)
+	sv := service.NewEmployeesService(rp)
 	// - handler
-	ct := controllers.NewProductsController(sv)
+	ct := controllers.NewEmployeesController(sv)
 
 	// - endpoints
-	router.Route("/api/v1/products", func(rt chi.Router) {
+	router.Route("/api/v1/employees", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
-		rt.Get("/{id}", ct.GetById)
+		rt.Get("/{id}", ct.GetByID)
 		rt.Post("/", ct.Create)
 		rt.Patch("/{id}", ct.Update)
 		rt.Delete("/{id}", ct.Delete)
-		rt.Get("/reportRecords", ct.GetReportRecords)
 	})
 }

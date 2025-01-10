@@ -1,9 +1,11 @@
 package localities_controller
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -18,9 +20,10 @@ type LocalityReportJSON struct {
 // @Description Retrieve the number of sellers in a locality by ID
 // @Tags localities
 // @Produce json
-// @Param id query int true "Locality ID"
+// @Param id query int true "Locality ID" 
 // @Success 200 {object} LocalityResJSON "OK"
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 404 {object} response.ErrorResponse "Not Found"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /localities/report_sellers [get]
 func (ct *LocalityController) ReportSellers(w http.ResponseWriter, r *http.Request) {
@@ -43,6 +46,11 @@ func (ct *LocalityController) ReportSellers(w http.ResponseWriter, r *http.Reque
 	// Call the service layer to get the locality sellers report by id
 	locs, err := ct.sv.ReportSellers(id)
 	if err != nil {
+		// If an id does not exist, return status not found
+		if errors.Is(err, models.ErrLocalityNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+			return
+		}
 		// If an error occurs, return an internal server error
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
@@ -61,10 +69,6 @@ func (ct *LocalityController) ReportSellers(w http.ResponseWriter, r *http.Reque
 
 	// Create the response JSON and send it with status OK
 	var res LocalityResJSON
-	if len(data) == 1 {
-		res = LocalityResJSON{Message: "OK", Data: data[0]}
-	} else {
-		res = LocalityResJSON{Data: data}
-	}
+	res = LocalityResJSON{Data: data}
 	response.JSON(w, http.StatusOK, res)
 }
