@@ -11,9 +11,11 @@ func (r *SectionRepository) GetReportProducts(sectionId int) (reportProducts []m
 	var rows *sql.Rows
 
 	// Refazer a query
-	query = ` SELECT s.id, s.section_number, COUNT(p.id) AS products_count
-		FROM sections s LEFT JOIN products p ON s.product_id = p.id
-		WHERE (? = 0 OR s.id = ?)
+	query = ` 
+		SELECT s.id, s.section_number, COUNT(pb.id) AS products_count
+		FROM sections s 
+		LEFT JOIN product_batches pb ON s.id = pb.section_id
+		WHERE (? = 0 OR s.id = ?) 
 		GROUP BY s.id
 	`
 
