@@ -24,6 +24,11 @@ func (s *SectionsController) GetById(id int) (section models.Section, err error)
 
 }
 
+func (s *SectionsController) GetReportProducts(sectionId int) (reportProducts []models.ProductReport, err error) {
+	reportProducts, err = s.rp.GetReportProducts(sectionId)
+	return
+}
+
 func (s *SectionsController) Create(sec models.SectionDTO) (newSection models.Section, err error) {
 	return s.rp.Create(sec)
 

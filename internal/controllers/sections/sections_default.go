@@ -35,6 +35,17 @@ type SectionResJSON struct {
 	Data    any    `json:"data,omitempty"`
 }
 
+type ProductReportResJSON struct {
+	Message string `json:"message,omitempty"`
+	Data    any    `json:"data,omitempty"`
+}
+
+type ReportProductFullJSON struct {
+	SectionId     int    `json:"section_id"`
+	SectionNumber string `json:"section_number"`
+	ProductsCount int    `json:"products_count"`
+}
+
 func (c *NewSectionReqJSON) validateCreate() (err error) {
 	var validationErrors []string
 	var nilPointerErrors []string
