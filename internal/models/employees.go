@@ -3,7 +3,6 @@ package models
 import "errors"
 
 var (
-	ErrEmployeeNotFound  = errors.New("Employee not found")
 	ErrEmployeesNotFound = errors.New("Seller not found")
 )
 

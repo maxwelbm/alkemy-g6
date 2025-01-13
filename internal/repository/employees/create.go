@@ -1,7 +1,7 @@
 package repository
 
 import (
-	models "github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
 func (e *EmployeesRepository) Create(employees models.EmployeesDTO) (newEmployees models.Employees, err error) {

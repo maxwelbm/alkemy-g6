@@ -49,9 +49,7 @@ func NewWarehousesController(service models.WarehouseService) *warehouses_contro
 }
 
 func NewInboundOrdersController(SV models.InboundOrdersService) *inbound_orders_controller.InboundOrdersController {
-	return &inbound_orders_controller.InboundOrdersController{
-		SV: SV,
-	}
+	return inbound_orders_controller.NewInboundOrdersDefault(SV)
 }
 
 func NewProductRecordsController(sv models.ProductRecordsService) *product_records_controller.ProductRecordsDefault {

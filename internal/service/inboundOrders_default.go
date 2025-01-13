@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	ErrEmployeeIdNotFound = errors.New("Employee Id not found")
+	ErrEmployeeNotFound = errors.New("Employee not found")
 )
 
 type InboundOrdersDefault struct {
