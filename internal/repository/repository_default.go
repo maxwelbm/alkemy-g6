@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	buyers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyers"
+	carries_repository "github.com/maxwelbm/alkemy-g6/internal/repository/carries"
 	employees_repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
 	localities_repository "github.com/maxwelbm/alkemy-g6/internal/repository/localities"
 	products_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
@@ -37,6 +38,10 @@ func NewLocalityRepository(db *sql.DB) *localities_repository.LocalityRepository
 
 func NewSellersRepository(db *sql.DB) *sellers_repository.SellersDefault {
 	return sellers_repository.NewSellersRepository(db)
+}
+
+func NewCarriesRepository(db *sql.DB) *carries_repository.CarriesDefault {
+	return carries_repository.NewCarriesRepository(db)
 }
 
 func NewSectionsRepository(DB *sql.DB) *sec_repository.SectionRepository {

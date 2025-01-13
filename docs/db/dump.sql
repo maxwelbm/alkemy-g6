@@ -81,7 +81,7 @@ CREATE TABLE products (
 -- Create a table to store carrier information
 CREATE TABLE carries (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    cid INT UNIQUE,
+    cid VARCHAR(255) UNIQUE,
     company_name VARCHAR(255),
     address VARCHAR(255),
     phone_number VARCHAR(255),
