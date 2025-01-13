@@ -40,7 +40,7 @@ func (r *SectionRepository) GetReportProducts(sectionId int) (reportProducts []m
 	}
 
 	if len(reportProducts) == 0 {
-		err = models.ErrProductNotFound
+		err = models.ErrSectionNotFound
 		return
 	}
 

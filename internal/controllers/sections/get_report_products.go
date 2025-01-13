@@ -27,10 +27,10 @@ func (p *SectionsController) GetReportProducts(w http.ResponseWriter, r *http.Re
 	}
 
 	var reportProducts []models.ProductReport
-	reportProducts, err = p.SV.GetReportProducts(sectionId)
+	reportProducts, err = p.sv.GetReportProducts(sectionId)
 
 	if err != nil {
-		if errors.Is(err, models.ErrProductNotFound) {
+		if errors.Is(err, models.ErrSectionNotFound) {
 			response.Error(w, http.StatusNotFound, err.Error())
 			return
 		}
