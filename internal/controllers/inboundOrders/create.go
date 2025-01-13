@@ -22,7 +22,7 @@ func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request)
 
 	err = validateNewInboundOrders(inboundOrdersJson)
 	if err != nil {
-		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
