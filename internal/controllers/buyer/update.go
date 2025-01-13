@@ -50,10 +50,10 @@ func (j *BuyerUpdateJSON) validate() (err error) {
 // @Param id path int true "Buyer ID"
 // @Param buyer body BuyerUpdateJSON true "Buyer Update JSON"
 // @Success 200 {object} BuyerResJSON "Success"
-// @Failure 400 {object} ErrorResponse "Bad Request"
-// @Failure 409 {object} ErrorResponse "Conflict"
-// @Failure 500 {object} ErrorResponse "Internal Server Error"
-// @Router /buyers/{id} [put]
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/buyers/{id} [patch]
 func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 	// Parse the buyer ID from the URL parameter and validate it
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))

@@ -12,6 +12,19 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Create handles the creation of a new inbound order.
+// @Summary Create a new inbound order
+// @Description Create a new inbound order with the provided JSON data
+// @Tags inbound_orders
+// @Accept json
+// @Produce json
+// @Param inboundOrder body InboundOrdersReqJSON true "Inbound Order JSON"
+// @Success 201 {object} InboundOrdersResJSON "Created"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 422 {object} response.ErrorResponse "Unprocessable Entity"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/inboundOrders [post]
 func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request) {
 	var inboundOrdersJson InboundOrdersReqJSON
 	err := json.NewDecoder(r.Body).Decode(&inboundOrdersJson)

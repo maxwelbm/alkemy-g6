@@ -7,23 +7,17 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-// GetReportInboundOrdersById handles the HTTP request to retrieve a report of inbound orders by employee ID.
-// It expects an "id" query parameter in the request URL. If the "id" parameter is not provided or is invalid,
-// it returns a 400 Bad Request response. If no employees are found for the given ID, it returns a 404 Not Found response.
-// On success, it returns a JSON response with the list of employees and a 200 OK status.
-//
-// @Summary Retrieve employee by ID
-// @Description Get employee details by their ID
+// @Summary Retrieve report of inbound orders for an employee by their ID
+// @Description Get report of inbound orders for an employee by their ID
 // @Tags employees
 // @Accept json
 // @Produce json
-// @param w http.ResponseWriter - the response writer to send the HTTP response
-// @param r *http.Request - the HTTP request containing the query parameter "id"
-// @Success 200 {object} EmployeesResJSON "Success"
-// @Failure 400 {object} ErrorResponse "Invalid ID format"
-// @Failure 404 {object} ErrorResponse "Employee not found"
-// @Router /api/v1/employees/reportInboundOrders?id={} [get]
-
+// @Param id query int true "Employee ID"
+// @Success 200 {object} EmployeesResJSON "OK"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 404 {object} response.ErrorResponse "Employee not found"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/employees/reportInboundOrders [get]
 func (c *EmployeesController) GetReportInboundOrdersById(w http.ResponseWriter, r *http.Request) {
 	idString := r.URL.Query().Get("id")
 	var id int

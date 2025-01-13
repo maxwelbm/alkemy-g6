@@ -16,10 +16,10 @@ import (
 // @Produce json
 // @Param id query int true "Product ID"
 // @Success 200 {object} ReportRecordsResJSON "Successfully retrieved report records"
-// @Failure 400 {object} ErrorResponse "Invalid product ID or bad request"
-// @Failure 404 {object} ErrorResponse "Product not found"
-// @Failure 500 {object} ErrorResponse "Internal server error"
-// @Router /products/report-records [get]
+// @Failure 400 {object} response.ErrorResponse "Invalid product ID or bad request"
+// @Failure 404 {object} response.ErrorResponse "Product not found"
+// @Failure 500 {object} response.ErrorResponse "Internal server error"
+// @Router /api/v1/products/reportRecords [get]
 func (p *ProductsDefault) GetReportRecords(w http.ResponseWriter, r *http.Request) {
 	var productId int
 	var err error
@@ -35,8 +35,8 @@ func (p *ProductsDefault) GetReportRecords(w http.ResponseWriter, r *http.Reques
 			response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 			return
 		}
-	}	
-	
+	}
+
 	var reportRecords []models.ProductReportRecords
 	reportRecords, err = p.SV.GetReportRecords(productId)
 

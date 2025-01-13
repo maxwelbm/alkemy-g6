@@ -13,7 +13,7 @@ import (
 // @Tags sellers
 // @Produce json
 // @Success 200 {object} SellerResJSON "OK - The sellers were successfully retrieved"
-// @Failure 500 {object} ErrorResponse "Internal Server Error - An unexpected error occurred during the retrieval process"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error - An unexpected error occurred during the retrieval process"
 // @Router /api/v1/sellers [get]
 func (controller *SellersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	// Retrieve all sellers using the service layer

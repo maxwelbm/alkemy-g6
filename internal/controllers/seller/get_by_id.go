@@ -16,8 +16,8 @@ import (
 // @Produce json
 // @Param id path int true "Seller ID"
 // @Success 200 {object} SellerResJSON "Success - The seller was successfully retrieved"
-// @Failure 400 {object} ErrorResponse "Bad Request - The request ID is invalid or less than 1"
-// @Failure 404 {object} ErrorResponse "Not Found - The seller with the specified ID does not exist"
+// @Failure 400 {object} response.ErrorResponse "Bad Request - The request ID is invalid or less than 1"
+// @Failure 404 {object} response.ErrorResponse "Not Found - The seller with the specified ID does not exist"
 // @Router /api/v1/sellers/{id} [get]
 func (controller *SellersDefault) GetById(w http.ResponseWriter, r *http.Request) {
 	// Extract the "id" parameter from the URL and convert it to an integer

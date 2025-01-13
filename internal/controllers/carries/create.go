@@ -51,6 +51,17 @@ func (j *CarriesCreateJSON) validate() (err error) {
 	return
 }
 
+// Create creates a new carry
+// @Summary Create a new carry
+// @Description Create a new carry in the database
+// @Tags carries
+// @Produce json
+// @Param carry body CarriesCreateJSON true "Carry to create"
+// @Success 201 {object} CarriesCreateJSON "OK"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/carries [post]
 func (controller *CarriesDefault) Create(w http.ResponseWriter, r *http.Request) {
 	// Decode the JSON request body into sellerRequest
 	var carryRequest CarriesCreateJSON

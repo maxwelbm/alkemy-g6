@@ -21,7 +21,7 @@ import (
 // @Success 204 {object} nil "No Content"
 // @Failure 400 {object} map[string]string "Bad Request"
 // @Failure 404 {object} map[string]string "Not Found"
-// @Router /buyers/{id} [delete]
+// @Router /api/v1/buyers/{id} [delete]
 func (ct *BuyersDefault) Delete(w http.ResponseWriter, r *http.Request) {
 	// Parse the buyer ID from the URL parameter and convert it to an integer.
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))

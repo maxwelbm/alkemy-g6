@@ -12,6 +12,18 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// @Summary Delete a section
+// @Description Delete a section by ID
+// @Tags sections
+// @Accept json
+// @Produce json
+// @Param id path int true "Section ID"
+// @Success 204
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 404 {object} response.ErrorResponse "Not Found"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/sections/{id} [delete]
 func (c *SectionsController) Delete(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {

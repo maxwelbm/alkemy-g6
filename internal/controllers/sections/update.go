@@ -13,6 +13,18 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// @Summary Update a section
+// @Description Update a section by ID
+// @Tags sections
+// @Accept json
+// @Produce json
+// @Param id path int true "Section ID"
+// @Param section body NewSectionReqJSON true "New Section JSON"
+// @Success 200 {object} models.SectionDTO "Updated"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 404 {object} response.ErrorResponse "Not Found"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/sections/{id} [patch]
 func (c *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {

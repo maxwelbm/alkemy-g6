@@ -9,6 +9,17 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// GetReportProducts handles the HTTP request to retrieve report products for a specific section.
+// @Summary Retrieve report products for a section
+// @Description Retrieves report products for a section based on the provided section ID.
+// @Tags sections
+// @Produce json
+// @Param id query int true "Section ID"
+// @Success 200 {array} ReportProductFullJSON "Successfully retrieved report products"
+// @Failure 400 {object} response.ErrorResponse "Invalid section ID or bad request"
+// @Failure 404 {object} response.ErrorResponse "Section not found"
+// @Failure 500 {object} response.ErrorResponse "Internal server error"
+// @Router /api/v1/sections/reportProducts [get]
 func (p *SectionsController) GetReportProducts(w http.ResponseWriter, r *http.Request) {
 	var sectionId int
 	var err error

@@ -18,11 +18,11 @@ import (
 // @Produce json
 // @Param product body NewProductAttributesJSON true "Product attributes"
 // @Success 201 {object} ProductResJSON "Created"
-// @Failure 400 {object} ErrorResponse "Bad Request"
-// @Failure 409 {object} ErrorResponse "Conflict"
-// @Failure 422 {object} ErrorResponse "Unprocessable Entity"
-// @Failure 500 {object} ErrorResponse "Internal Server Error"
-// @Router /products [post]
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 422 {object} response.ErrorResponse "Unprocessable Entity"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/products [post]
 func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	var prodJson NewProductAttributesJSON
 	json.NewDecoder(r.Body).Decode(&prodJson)

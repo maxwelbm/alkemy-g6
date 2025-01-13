@@ -10,6 +10,19 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Create handles the creation of a new product batch.
+// @Summary Create a new product batch
+// @Description Create a new product batch with the provided JSON data
+// @Tags product_batches
+// @Accept json
+// @Produce json
+// @Param productBatch body NewProductBatchesReqJSON true "Product Batch Create JSON"
+// @Success 201 {object} ProductBatchesResJSON "Success"
+// @Failure 400 {object} response.ErrorResponse "Error ao decodificar JSON"
+// @Failure 422 {object} response.ErrorResponse "Unprocessable Entity"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/product_batches [post]
 func (c *ProductBatchesController) Create(w http.ResponseWriter, r *http.Request) {
 	var prodBatchReqJson NewProductBatchesReqJSON
 	if err := json.NewDecoder(r.Body).Decode(&prodBatchReqJson); err != nil {

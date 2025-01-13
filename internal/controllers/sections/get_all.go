@@ -6,6 +6,14 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// @Summary Get all sections
+// @Description Get all sections
+// @Tags sections
+// @Accept json
+// @Produce json
+// @Success 200 {array} SectionFullJSON
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/sections [get]
 func (c *SectionsController) GetAll(w http.ResponseWriter, r *http.Request) {
 	sec, err := c.sv.GetAll()
 	if err != nil {
