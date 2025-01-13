@@ -16,7 +16,7 @@ func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request)
 	var inboundOrdersJson InboundOrdersReqJSON
 	err := json.NewDecoder(r.Body).Decode(&inboundOrdersJson)
 	if err != nil {
-		response.Error(w, http.StatusBadRequest, err.Error)
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 

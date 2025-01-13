@@ -3,12 +3,8 @@ package models
 import "errors"
 
 var (
-	ErrorNoChangesMadedInEmployees = errors.New("No changes made")
-
-	ErrEmployeeNotFound           = errors.New("Employee not found")
-
-	ErrEmployeesNotFound           = errors.New("Seller not found")
-
+	ErrEmployeeNotFound  = errors.New("Employee not found")
+	ErrEmployeesNotFound = errors.New("Seller not found")
 )
 
 type Employees struct {

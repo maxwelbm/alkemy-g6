@@ -1,11 +1,7 @@
 package repository
 
 import (
-	"fmt"
-
-
 	models "github.com/maxwelbm/alkemy-g6/internal/models"
-
 )
 
 func (e *EmployeesRepository) Create(employees models.EmployeesDTO) (newEmployees models.Employees, err error) {
@@ -22,7 +18,6 @@ func (e *EmployeesRepository) Create(employees models.EmployeesDTO) (newEmployee
 	}
 
 	query = "SELECT id, card_number_id, first_name, last_name, warehouse_id FROM employees WHERE id = ?"
-	fmt.Printf("lastInsertId: %v\n", lastInsertId)
 	err = e.DB.
 		QueryRow(query, lastInsertId).
 		Scan(&newEmployees.ID, &newEmployees.CardNumberID, &newEmployees.FirstName, &newEmployees.LastName, &newEmployees.WarehouseID)

@@ -25,7 +25,6 @@ type InboundOrdersDTO struct {
 	WarehouseId    *int
 }
 
-// TODO ADAPTAR A INBOUND ORDERS
 type InboundOrdersService interface {
 	Create(inboundOrders InboundOrdersDTO) (newInboundOrders InboundOrders, err error)
 }
