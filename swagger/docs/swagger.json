@@ -1,0 +1,1283 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is the FrescosAPI documentation.",
+        "title": "FrescosAPI",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8000",
+    "basePath": "/",
+    "paths": {
+        "/api/v1/buyers": {
+            "get": {
+                "description": "Retrieve a list of all buyers from the database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "buyers"
+                ],
+                "summary": "Get all buyers",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/buyers_controller.BuyerResJSON"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new buyer with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "buyers"
+                ],
+                "summary": "Create a new buyer",
+                "parameters": [
+                    {
+                        "description": "Buyer details",
+                        "name": "buyer",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/buyers_controller.BuyerCreateJson"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/buyers_controller.BuyerResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/buyers/{id}": {
+            "get": {
+                "description": "Get details of a buyer by their ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "buyers"
+                ],
+                "summary": "Get buyer by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Buyer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/buyers_controller.BuyerResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Buyer not found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing buyer's details by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "buyers"
+                ],
+                "summary": "Update buyer",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Buyer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Buyer Update JSON",
+                        "name": "buyer",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/buyers_controller.BuyerUpdateJSON"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/buyers_controller.BuyerResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a buyer from the system by their ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "buyers"
+                ],
+                "summary": "Delete a buyer",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Buyer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/employees/{id}": {
+            "get": {
+                "description": "Get employee details by their ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "employees"
+                ],
+                "summary": "Retrieve employee by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Employee ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/employees_controller.EmployeesResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID format",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Employee not found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/localities": {
+            "post": {
+                "description": "Create a new locality with the provided JSON payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "localities"
+                ],
+                "summary": "Create a new locality",
+                "parameters": [
+                    {
+                        "description": "New Locality JSON",
+                        "name": "locality",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/localities_controller.NewLocalityJson"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.LocalityDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/localities/reportCarries": {
+            "get": {
+                "description": "Retrieve the number of carries in a locality by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "localities"
+                ],
+                "summary": "Get locality carries report",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Carry ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/localities_controller.CarryReportJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/localities/reportSellers": {
+            "get": {
+                "description": "Retrieve the number of sellers in a locality by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "localities"
+                ],
+                "summary": "Get locality sellers report",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Locality ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/localities_controller.LocalityResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products": {
+            "get": {
+                "description": "Retrieve a list of all products",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Get all products",
+                "responses": {
+                    "200": {
+                        "description": "List of products",
+                        "schema": {
+                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new product with the provided attributes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Create a new product",
+                "parameters": [
+                    {
+                        "description": "Product attributes",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/products_controller.NewProductAttributesJSON"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products/report-records": {
+            "get": {
+                "description": "Retrieves report records for a product based on the provided product ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Retrieve report records for a product",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved report records",
+                        "schema": {
+                            "$ref": "#/definitions/products_controller.ReportRecordsResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid product ID or bad request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products/{id}": {
+            "get": {
+                "description": "Get a product by its unique ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Get product by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product found",
+                        "schema": {
+                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing product by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Update a product",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Product attributes to update",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/products_controller.UpdateProductAttributesJSON"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated product",
+                        "schema": {
+                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request parameters",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Duplicate entry",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable entity",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a product by its ID from the database.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "products"
+                ],
+                "summary": "Delete a product",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content",
+                        "schema": {
+                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict - cannot delete or update parent row",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sellers": {
+            "get": {
+                "description": "This endpoint retrieves all sellers from the database using the service layer.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sellers"
+                ],
+                "summary": "Retrieve all sellers",
+                "responses": {
+                    "200": {
+                        "description": "OK - The sellers were successfully retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/sellers_controller.SellerResJSON"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error - An unexpected error occurred during the retrieval process",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "This endpoint creates a new seller based on the provided JSON request body.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sellers"
+                ],
+                "summary": "Create a new seller",
+                "parameters": [
+                    {
+                        "description": "Seller Create JSON",
+                        "name": "seller",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sellers_controller.SellerCreateJSON"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Seller created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/sellers_controller.SellerResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request data or JSON decoding error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict - Duplicate entry",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/sellers/{id}": {
+            "get": {
+                "description": "This endpoint retrieves a seller based on the provided ID in the URL parameter.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sellers"
+                ],
+                "summary": "Get a seller by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Seller ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success - The seller was successfully retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/sellers_controller.SellerResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - The request ID is invalid or less than 1",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found - The seller with the specified ID does not exist",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "This endpoint updates a seller based on the provided ID in the URL parameter and the JSON request body.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sellers"
+                ],
+                "summary": "Update a seller",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Seller ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Seller update data",
+                        "name": "seller",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sellers_controller.SellerUpdateJSON"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success - The seller was successfully updated",
+                        "schema": {
+                            "$ref": "#/definitions/sellers_controller.SellerResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - The seller cannot be updated due to a MySQL cannot add or update child row error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict - The seller cannot be updated due to a MySQL duplicate entry error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error - An unexpected error occurred during the update process",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "This endpoint deletes a seller based on the provided ID in the URL parameter.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sellers"
+                ],
+                "summary": "Delete a seller",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Seller ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content - The seller was successfully deleted"
+                    },
+                    "400": {
+                        "description": "Bad Request - The request ID is invalid or less than 1",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found - The seller with the specified ID does not exist",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict - The seller cannot be deleted due to a MySQL foreign key constraint error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error - An unexpected error occurred during the deletion process",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/product_records": {
+            "post": {
+                "description": "Create a new product record with the provided JSON data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product_records"
+                ],
+                "summary": "Create a new product record",
+                "parameters": [
+                    {
+                        "description": "Product Record Create JSON",
+                        "name": "productRecord",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/product_records_controller.ProductRecordCreateJSON"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/product_records_controller.ProductRecordResJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Error ao decodificar JSON",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "buyers_controller.BuyerCreateJson": {
+            "type": "object",
+            "properties": {
+                "card_number_id": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "buyers_controller.BuyerResJSON": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "buyers_controller.BuyerUpdateJSON": {
+            "type": "object",
+            "properties": {
+                "card_number_id": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "employees_controller.EmployeesResJSON": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "localities_controller.CarryReportJSON": {
+            "type": "object",
+            "properties": {
+                "carries_count": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "locality_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "localities_controller.LocalityResJSON": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "localities_controller.NewLocalityJson": {
+            "type": "object",
+            "properties": {
+                "country_name": {
+                    "type": "string"
+                },
+                "locality_name": {
+                    "type": "string"
+                },
+                "province_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.LocalityDTO": {
+            "type": "object",
+            "properties": {
+                "countryName": {
+                    "type": "string"
+                },
+                "localityName": {
+                    "type": "string"
+                },
+                "provinceName": {
+                    "type": "string"
+                }
+            }
+        },
+        "product_records_controller.ProductRecordCreateJSON": {
+            "type": "object",
+            "properties": {
+                "last_update_date": {
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "purchase_price": {
+                    "type": "number"
+                },
+                "sale_price": {
+                    "type": "number"
+                }
+            }
+        },
+        "product_records_controller.ProductRecordResJSON": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "products_controller.NewProductAttributesJSON": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "expiration_rate": {
+                    "type": "number"
+                },
+                "freezing_rate": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "number"
+                },
+                "length": {
+                    "type": "number"
+                },
+                "net_weight": {
+                    "type": "number"
+                },
+                "product_code": {
+                    "type": "string"
+                },
+                "product_type_id": {
+                    "type": "integer"
+                },
+                "recommended_freezing_temp": {
+                    "type": "number"
+                },
+                "seller_id": {
+                    "type": "integer"
+                },
+                "width": {
+                    "type": "number"
+                }
+            }
+        },
+        "products_controller.ProductResJSON": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "products_controller.ReportRecordsResJSON": {
+            "type": "object",
+            "properties": {
+                "data": {}
+            }
+        },
+        "products_controller.UpdateProductAttributesJSON": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "expiration_rate": {
+                    "type": "number"
+                },
+                "freezing_rate": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "number"
+                },
+                "length": {
+                    "type": "number"
+                },
+                "net_weight": {
+                    "type": "number"
+                },
+                "product_code": {
+                    "type": "string"
+                },
+                "product_type_id": {
+                    "type": "integer"
+                },
+                "recommended_freezing_temp": {
+                    "type": "number"
+                },
+                "seller_id": {
+                    "type": "integer"
+                },
+                "width": {
+                    "type": "number"
+                }
+            }
+        },
+        "response.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "sellers_controller.SellerCreateJSON": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "cid": {
+                    "type": "string"
+                },
+                "company_name": {
+                    "type": "string"
+                },
+                "locality_id": {
+                    "type": "integer"
+                },
+                "telephone": {
+                    "type": "string"
+                }
+            }
+        },
+        "sellers_controller.SellerResJSON": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "sellers_controller.SellerUpdateJSON": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "cid": {
+                    "type": "string"
+                },
+                "company_name": {
+                    "type": "string"
+                },
+                "locality_id": {
+                    "type": "integer"
+                },
+                "telephone": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

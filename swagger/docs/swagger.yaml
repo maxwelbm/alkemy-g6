@@ -1,0 +1,858 @@
+basePath: /
+definitions:
+  buyers_controller.BuyerCreateJson:
+    properties:
+      card_number_id:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+    type: object
+  buyers_controller.BuyerResJSON:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  buyers_controller.BuyerUpdateJSON:
+    properties:
+      card_number_id:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+    type: object
+  employees_controller.EmployeesResJSON:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  localities_controller.CarryReportJSON:
+    properties:
+      carries_count:
+        type: integer
+      id:
+        type: integer
+      locality_name:
+        type: string
+    type: object
+  localities_controller.LocalityResJSON:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  localities_controller.NewLocalityJson:
+    properties:
+      country_name:
+        type: string
+      locality_name:
+        type: string
+      province_name:
+        type: string
+    type: object
+  models.LocalityDTO:
+    properties:
+      countryName:
+        type: string
+      localityName:
+        type: string
+      provinceName:
+        type: string
+    type: object
+  product_records_controller.ProductRecordCreateJSON:
+    properties:
+      last_update_date:
+        type: string
+      product_id:
+        type: integer
+      purchase_price:
+        type: number
+      sale_price:
+        type: number
+    type: object
+  product_records_controller.ProductRecordResJSON:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  products_controller.NewProductAttributesJSON:
+    properties:
+      description:
+        type: string
+      expiration_rate:
+        type: number
+      freezing_rate:
+        type: number
+      height:
+        type: number
+      length:
+        type: number
+      net_weight:
+        type: number
+      product_code:
+        type: string
+      product_type_id:
+        type: integer
+      recommended_freezing_temp:
+        type: number
+      seller_id:
+        type: integer
+      width:
+        type: number
+    type: object
+  products_controller.ProductResJSON:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  products_controller.ReportRecordsResJSON:
+    properties:
+      data: {}
+    type: object
+  products_controller.UpdateProductAttributesJSON:
+    properties:
+      description:
+        type: string
+      expiration_rate:
+        type: number
+      freezing_rate:
+        type: number
+      height:
+        type: number
+      length:
+        type: number
+      net_weight:
+        type: number
+      product_code:
+        type: string
+      product_type_id:
+        type: integer
+      recommended_freezing_temp:
+        type: number
+      seller_id:
+        type: integer
+      width:
+        type: number
+    type: object
+  response.ErrorResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  sellers_controller.SellerCreateJSON:
+    properties:
+      address:
+        type: string
+      cid:
+        type: string
+      company_name:
+        type: string
+      locality_id:
+        type: integer
+      telephone:
+        type: string
+    type: object
+  sellers_controller.SellerResJSON:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  sellers_controller.SellerUpdateJSON:
+    properties:
+      address:
+        type: string
+      cid:
+        type: string
+      company_name:
+        type: string
+      locality_id:
+        type: integer
+      telephone:
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: This is the FrescosAPI documentation.
+  title: FrescosAPI
+  version: "1.0"
+paths:
+  /api/v1/buyers:
+    get:
+      description: Retrieve a list of all buyers from the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/buyers_controller.BuyerResJSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get all buyers
+      tags:
+      - buyers
+    post:
+      consumes:
+      - application/json
+      description: Create a new buyer with the provided details
+      parameters:
+      - description: Buyer details
+        in: body
+        name: buyer
+        required: true
+        schema:
+          $ref: '#/definitions/buyers_controller.BuyerCreateJson'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/buyers_controller.BuyerResJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new buyer
+      tags:
+      - buyers
+  /api/v1/buyers/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a buyer from the system by their ID.
+      parameters:
+      - description: Buyer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a buyer
+      tags:
+      - buyers
+    get:
+      consumes:
+      - application/json
+      description: Get details of a buyer by their ID
+      parameters:
+      - description: Buyer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/buyers_controller.BuyerResJSON'
+        "400":
+          description: Invalid ID supplied
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Buyer not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get buyer by ID
+      tags:
+      - buyers
+    put:
+      consumes:
+      - application/json
+      description: Update an existing buyer's details by ID
+      parameters:
+      - description: Buyer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Buyer Update JSON
+        in: body
+        name: buyer
+        required: true
+        schema:
+          $ref: '#/definitions/buyers_controller.BuyerUpdateJSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/buyers_controller.BuyerResJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update buyer
+      tags:
+      - buyers
+  /api/v1/employees/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get employee details by their ID
+      parameters:
+      - description: Employee ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/employees_controller.EmployeesResJSON'
+        "400":
+          description: Invalid ID format
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Employee not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Retrieve employee by ID
+      tags:
+      - employees
+  /api/v1/localities:
+    post:
+      consumes:
+      - application/json
+      description: Create a new locality with the provided JSON payload
+      parameters:
+      - description: New Locality JSON
+        in: body
+        name: locality
+        required: true
+        schema:
+          $ref: '#/definitions/localities_controller.NewLocalityJson'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.LocalityDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new locality
+      tags:
+      - localities
+  /api/v1/localities/reportCarries:
+    get:
+      description: Retrieve the number of carries in a locality by ID
+      parameters:
+      - description: Carry ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/localities_controller.CarryReportJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get locality carries report
+      tags:
+      - localities
+  /api/v1/localities/reportSellers:
+    get:
+      description: Retrieve the number of sellers in a locality by ID
+      parameters:
+      - description: Locality ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/localities_controller.LocalityResJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get locality sellers report
+      tags:
+      - localities
+  /api/v1/products:
+    get:
+      description: Retrieve a list of all products
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of products
+          schema:
+            $ref: '#/definitions/products_controller.ProductResJSON'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get all products
+      tags:
+      - products
+    post:
+      consumes:
+      - application/json
+      description: Create a new product with the provided attributes
+      parameters:
+      - description: Product attributes
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/products_controller.NewProductAttributesJSON'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/products_controller.ProductResJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new product
+      tags:
+      - products
+  /api/v1/products/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a product by its ID from the database.
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No content
+          schema:
+            $ref: '#/definitions/products_controller.ProductResJSON'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Product not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict - cannot delete or update parent row
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete a product
+      tags:
+      - products
+    get:
+      consumes:
+      - application/json
+      description: Get a product by its unique ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product found
+          schema:
+            $ref: '#/definitions/products_controller.ProductResJSON'
+        "400":
+          description: Invalid ID supplied
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Product not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get product by ID
+      tags:
+      - products
+    put:
+      consumes:
+      - application/json
+      description: Update an existing product by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Product attributes to update
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/products_controller.UpdateProductAttributesJSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated product
+          schema:
+            $ref: '#/definitions/products_controller.ProductResJSON'
+        "400":
+          description: Invalid request parameters
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Product not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Duplicate entry
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "422":
+          description: Unprocessable entity
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update a product
+      tags:
+      - products
+  /api/v1/products/report-records:
+    get:
+      description: Retrieves report records for a product based on the provided product
+        ID.
+      parameters:
+      - description: Product ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved report records
+          schema:
+            $ref: '#/definitions/products_controller.ReportRecordsResJSON'
+        "400":
+          description: Invalid product ID or bad request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Product not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Retrieve report records for a product
+      tags:
+      - products
+  /api/v1/sellers:
+    get:
+      description: This endpoint retrieves all sellers from the database using the
+        service layer.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - The sellers were successfully retrieved
+          schema:
+            $ref: '#/definitions/sellers_controller.SellerResJSON'
+        "500":
+          description: Internal Server Error - An unexpected error occurred during
+            the retrieval process
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Retrieve all sellers
+      tags:
+      - sellers
+    post:
+      consumes:
+      - application/json
+      description: This endpoint creates a new seller based on the provided JSON request
+        body.
+      parameters:
+      - description: Seller Create JSON
+        in: body
+        name: seller
+        required: true
+        schema:
+          $ref: '#/definitions/sellers_controller.SellerCreateJSON'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Seller created successfully
+          schema:
+            $ref: '#/definitions/sellers_controller.SellerResJSON'
+        "400":
+          description: Invalid request data or JSON decoding error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict - Duplicate entry
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new seller
+      tags:
+      - sellers
+  /api/v1/sellers/{id}:
+    delete:
+      description: This endpoint deletes a seller based on the provided ID in the
+        URL parameter.
+      parameters:
+      - description: Seller ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content - The seller was successfully deleted
+        "400":
+          description: Bad Request - The request ID is invalid or less than 1
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found - The seller with the specified ID does not exist
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict - The seller cannot be deleted due to a MySQL foreign
+            key constraint error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error - An unexpected error occurred during
+            the deletion process
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete a seller
+      tags:
+      - sellers
+    get:
+      description: This endpoint retrieves a seller based on the provided ID in the
+        URL parameter.
+      parameters:
+      - description: Seller ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success - The seller was successfully retrieved
+          schema:
+            $ref: '#/definitions/sellers_controller.SellerResJSON'
+        "400":
+          description: Bad Request - The request ID is invalid or less than 1
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found - The seller with the specified ID does not exist
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get a seller by ID
+      tags:
+      - sellers
+    put:
+      consumes:
+      - application/json
+      description: This endpoint updates a seller based on the provided ID in the
+        URL parameter and the JSON request body.
+      parameters:
+      - description: Seller ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Seller update data
+        in: body
+        name: seller
+        required: true
+        schema:
+          $ref: '#/definitions/sellers_controller.SellerUpdateJSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success - The seller was successfully updated
+          schema:
+            $ref: '#/definitions/sellers_controller.SellerResJSON'
+        "400":
+          description: Bad Request - The seller cannot be updated due to a MySQL cannot
+            add or update child row error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict - The seller cannot be updated due to a MySQL duplicate
+            entry error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error - An unexpected error occurred during
+            the update process
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update a seller
+      tags:
+      - sellers
+  /product_records:
+    post:
+      consumes:
+      - application/json
+      description: Create a new product record with the provided JSON data
+      parameters:
+      - description: Product Record Create JSON
+        in: body
+        name: productRecord
+        required: true
+        schema:
+          $ref: '#/definitions/product_records_controller.ProductRecordCreateJSON'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/product_records_controller.ProductRecordResJSON'
+        "400":
+          description: Error ao decodificar JSON
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new product record
+      tags:
+      - product_records
+swagger: "2.0"
