@@ -1,4 +1,4 @@
-package inboundOrders_controller
+package inbound_orders_controller
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/go-sql-driver/mysql"
-	models "github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
@@ -16,13 +16,13 @@ func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request)
 	var inboundOrdersJson InboundOrdersReqJSON
 	err := json.NewDecoder(r.Body).Decode(&inboundOrdersJson)
 	if err != nil {
-		response.JSON(w, http.StatusBadRequest, "Body invalid")
+		response.Error(w, http.StatusBadRequest, err.Error)
 		return
 	}
 
 	err = validateNewInboundOrders(inboundOrdersJson)
 	if err != nil {
-		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 

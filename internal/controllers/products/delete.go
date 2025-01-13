@@ -12,6 +12,19 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Delete handles the deletion of a product by its ID.
+// @Summary Delete a product
+// @Description Deletes a product by its ID from the database.
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param id path int true "Product ID"
+// @Success 204 {object} ProductResJSON "No content"
+// @Failure 400 {object} response.ErrorResponse "Bad request"
+// @Failure 404 {object} response.ErrorResponse "Product not found"
+// @Failure 409 {object} response.ErrorResponse "Conflict - cannot delete or update parent row"
+// @Failure 500 {object} response.ErrorResponse "Internal server error"
+// @Router /products/{id} [delete]
 func (p *ProductsDefault) Delete(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
