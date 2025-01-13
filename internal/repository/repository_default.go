@@ -8,6 +8,7 @@ import (
 	employees_repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
 	localities_repository "github.com/maxwelbm/alkemy-g6/internal/repository/localities"
 	products_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
+	purchase_orders_repository "github.com/maxwelbm/alkemy-g6/internal/repository/purchase_orders"
 	sec_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 	sellers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sellers"
 	warehouse_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
@@ -51,4 +52,8 @@ func NewSectionsRepository(DB *sql.DB) *sec_repository.SectionRepository {
 
 func NewEmployeesRepository(db *sql.DB) *employees_repository.EmployeesRepository {
 	return employees_repository.NewEmployeesRepository(db)
+}
+
+func NewPurchaseOrdersRepository(db *sql.DB) *purchase_orders_repository.PurchaseOrdersRepository {
+	return purchase_orders_repository.NewPurchaseOrdersRepository(db)
 }

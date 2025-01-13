@@ -1,7 +1,0 @@
-[
-    {"id": 1, "section_number": 1, "current_temperature": 22.3, "minimum_temperature": 20.6, "current_capacity": 1000, "minimum_capacity": 200, "maximum_capacity": 2000, "warehouse_id": 1, "product_type_id": 1},
-    {"id": 2, "section_number": 2, "current_temperature": 18.5, "minimum_temperature": 17.0, "current_capacity": 750, "minimum_capacity": 150, "maximum_capacity": 1500, "warehouse_id": 1, "product_type_id": 2},
-    {"id": 3, "section_number": 3, "current_temperature": 25.0, "minimum_temperature": 22.0, "current_capacity": 1200, "minimum_capacity": 300, "maximum_capacity": 2500, "warehouse_id": 2, "product_type_id": 1},
-    {"id": 4, "section_number": 4, "current_temperature": 15.0, "minimum_temperature": 14.0, "current_capacity": 500, "minimum_capacity": 100, "maximum_capacity": 1000, "warehouse_id": 3, "product_type_id": 3},
-    {"id": 5, "section_number": 5, "current_temperature": 30.1, "minimum_temperature": 28.0, "current_capacity": 2000, "minimum_capacity": 500, "maximum_capacity": 3000, "warehouse_id": 2, "product_type_id": 2}
-]
