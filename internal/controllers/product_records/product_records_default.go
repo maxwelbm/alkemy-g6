@@ -1,8 +1,6 @@
 package product_records_controller
 
-import (
-	models "github.com/maxwelbm/alkemy-g6/internal/models"
-)
+import "github.com/maxwelbm/alkemy-g6/internal/models"
 
 type ProductRecordsDefault struct {
 	sv models.ProductRecordsService
