@@ -7,13 +7,26 @@ import (
 	"net/http"
 
 	"github.com/go-sql-driver/mysql"
-  models "github.com/maxwelbm/alkemy-g6/internal/models"
+	models "github.com/maxwelbm/alkemy-g6/internal/models"
 
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Create handles the creation of a new employee.
+// @Summary Create a new employee
+// @Description Create a new employee with the provided JSON data
+// @Tags employees
+// @Accept json
+// @Produce json
+// @Param employee body EmployeesReqJSON true "Employee JSON"
+// @Success 201 {object} EmployeesResJSON "Created"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 422 {object} response.ErrorResponse "Unprocessable Entity"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/employees [post]
 func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 	var employeesJson EmployeesReqJSON
 	err := json.NewDecoder(r.Body).Decode(&employeesJson)

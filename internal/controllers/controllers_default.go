@@ -4,7 +4,7 @@ import (
 	buyers_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/buyer"
 	carries_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/carries"
 	employees_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/employees"
-	inbound_orders_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/inboundOrders"
+	inbound_orders_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/inbound_orders"
 	localities_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/localities"
 	product_batches_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/product_batches"
 	product_records_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/product_records"

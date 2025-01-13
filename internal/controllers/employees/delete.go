@@ -12,6 +12,18 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// @Summary Delete a employee
+// @Description Delete a employee by ID
+// @Tags employees
+// @Accept json
+// @Produce json
+// @Param id path int true "Employee ID"
+// @Success 204
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 404 {object} response.ErrorResponse "Not Found"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/employees/{id} [delete]
 func (c *EmployeesController) Delete(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {

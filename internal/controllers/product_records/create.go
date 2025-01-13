@@ -59,7 +59,7 @@ func (j *ProductRecordCreateJSON) validate() (err error) {
 // @Failure 422 {object} response.ErrorResponse "Unprocessable Entity"
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
-// @Router /product_records [post]
+// @Router /api/v1/product_records [post]
 func (controller *ProductRecordsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	// Decode the JSON request body into productRecordRequest
 	var productRecordRequest ProductRecordCreateJSON

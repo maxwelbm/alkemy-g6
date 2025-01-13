@@ -24,7 +24,76 @@ definitions:
       last_name:
         type: string
     type: object
+  carries_controller.CarriesCreateJSON:
+    properties:
+      address:
+        type: string
+      cid:
+        type: string
+      company_name:
+        type: string
+      locality_id:
+        type: integer
+      phone_number:
+        type: string
+    type: object
+  employees_controller.EmployeesAttributes:
+    properties:
+      card_number_id:
+        type: string
+      count_reports:
+        type: integer
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      warehouse_id:
+        type: integer
+    type: object
+  employees_controller.EmployeesFinalJSON:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/employees_controller.EmployeesAttributes'
+        type: array
+    type: object
+  employees_controller.EmployeesReqJSON:
+    properties:
+      card_number_id:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      warehouse_id:
+        type: integer
+    type: object
   employees_controller.EmployeesResJSON:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  inbound_orders_controller.InboundOrdersReqJSON:
+    properties:
+      employee_id:
+        type: integer
+      id:
+        type: integer
+      order_date:
+        type: string
+      order_number:
+        type: integer
+      product_batch_id:
+        type: integer
+      warehouse_id:
+        type: integer
+    type: object
+  inbound_orders_controller.InboundOrdersResJSON:
     properties:
       data: {}
       message:
@@ -54,6 +123,19 @@ definitions:
       province_name:
         type: string
     type: object
+  models.BuyerPurchaseOrdersReportJSON:
+    properties:
+      card_number_id:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      purchase_orders_count:
+        type: integer
+    type: object
   models.LocalityDTO:
     properties:
       countryName:
@@ -61,6 +143,54 @@ definitions:
       localityName:
         type: string
       provinceName:
+        type: string
+    type: object
+  models.SectionDTO:
+    properties:
+      current_capacity:
+        type: integer
+      current_temperature:
+        type: number
+      maximum_capacity:
+        type: integer
+      minimum_capacity:
+        type: integer
+      minimum_temperature:
+        type: number
+      product_type_id:
+        type: integer
+      section_number:
+        type: string
+      warehouse_id:
+        type: integer
+    type: object
+  product_batches_controller.NewProductBatchesReqJSON:
+    properties:
+      batch_number:
+        type: string
+      current_quantity:
+        type: integer
+      current_temperature:
+        type: number
+      due_date:
+        type: string
+      initial_quantity:
+        type: integer
+      manufacturing_date:
+        type: string
+      manufacturing_hour:
+        type: string
+      minimum_temperature:
+        type: number
+      product_id:
+        type: integer
+      section_id:
+        type: integer
+    type: object
+  product_batches_controller.ProductBatchesResJSON:
+    properties:
+      data: {}
+      message:
         type: string
     type: object
   product_records_controller.ProductRecordCreateJSON:
@@ -140,12 +270,80 @@ definitions:
       width:
         type: number
     type: object
+  purchase_orders_controller.PurchaseOrdersJSON:
+    properties:
+      buyer_id:
+        type: integer
+      order_date:
+        type: string
+      order_number:
+        type: string
+      product_record_id:
+        type: integer
+      tracking_code:
+        type: string
+    type: object
+  purchase_orders_controller.ResPurchaseOrdersJSON:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
   response.ErrorResponse:
     properties:
       message:
         type: string
       status:
         type: string
+    type: object
+  sections_controller.NewSectionReqJSON:
+    properties:
+      current_capacity:
+        type: integer
+      current_temperature:
+        type: number
+      maximum_capacity:
+        type: integer
+      minimum_capacity:
+        type: integer
+      minimum_temperature:
+        type: number
+      product_type_id:
+        type: integer
+      section_number:
+        type: string
+      warehouse_id:
+        type: integer
+    type: object
+  sections_controller.ReportProductFullJSON:
+    properties:
+      products_count:
+        type: integer
+      section_id:
+        type: integer
+      section_number:
+        type: string
+    type: object
+  sections_controller.SectionFullJSON:
+    properties:
+      current_capacity:
+        type: integer
+      current_temperature:
+        type: number
+      id:
+        type: integer
+      maximum_capacity:
+        type: integer
+      minimum_capacity:
+        type: integer
+      minimum_temperature:
+        type: number
+      product_type_id:
+        type: integer
+      section_number:
+        type: string
+      warehouse_id:
+        type: integer
     type: object
   sellers_controller.SellerCreateJSON:
     properties:
@@ -177,6 +375,25 @@ definitions:
       locality_id:
         type: integer
       telephone:
+        type: string
+    type: object
+  warehouses_controller.WarehouseReqJSON:
+    properties:
+      address:
+        type: string
+      minimum_capacity:
+        type: integer
+      minimum_temperature:
+        type: number
+      telephone:
+        type: string
+      warehouse_code:
+        type: string
+    type: object
+  warehouses_controller.WarehouseResJSON:
+    properties:
+      data: {}
+      message:
         type: string
     type: object
 host: localhost:8000
@@ -295,7 +512,7 @@ paths:
       summary: Get buyer by ID
       tags:
       - buyers
-    put:
+    patch:
       consumes:
       - application/json
       description: Update an existing buyer's details by ID
@@ -333,7 +550,161 @@ paths:
       summary: Update buyer
       tags:
       - buyers
+  /api/v1/buyers/reportPurchaseOrders:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve the report of purchase orders for a given buyer ID
+      parameters:
+      - description: Buyer ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BuyerPurchaseOrdersReportJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Buyer not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get report of purchase orders by buyer ID
+      tags:
+      - buyers
+  /api/v1/carries:
+    post:
+      description: Create a new carry in the database
+      parameters:
+      - description: Carry to create
+        in: body
+        name: carry
+        required: true
+        schema:
+          $ref: '#/definitions/carries_controller.CarriesCreateJSON'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: OK
+          schema:
+            $ref: '#/definitions/carries_controller.CarriesCreateJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new carry
+      tags:
+      - carries
+  /api/v1/employees:
+    get:
+      description: Fetches all employees from the database and returns them as JSON.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - The employees were successfully retrieved
+          schema:
+            $ref: '#/definitions/employees_controller.EmployeesFinalJSON'
+        "500":
+          description: Internal Server Error - An unexpected error occurred during
+            the retrieval process
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Retrieve all employees
+      tags:
+      - employees
+    post:
+      consumes:
+      - application/json
+      description: Create a new employee with the provided JSON data
+      parameters:
+      - description: Employee JSON
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/employees_controller.EmployeesReqJSON'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/employees_controller.EmployeesResJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new employee
+      tags:
+      - employees
   /api/v1/employees/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a employee by ID
+      parameters:
+      - description: Employee ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete a employee
+      tags:
+      - employees
     get:
       consumes:
       - application/json
@@ -362,6 +733,119 @@ paths:
       summary: Retrieve employee by ID
       tags:
       - employees
+    patch:
+      consumes:
+      - application/json
+      description: Update an existing employee by their ID
+      parameters:
+      - description: Employee ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Employee JSON
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/employees_controller.EmployeesReqJSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/employees_controller.EmployeesResJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Employee not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update employee by ID
+      tags:
+      - employees
+  /api/v1/employees/report-inbound-orders-by-id:
+    get:
+      consumes:
+      - application/json
+      description: Get report of inbound orders for an employee by their ID
+      parameters:
+      - description: Employee ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/employees_controller.EmployeesResJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Employee not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Retrieve report of inbound orders for an employee by their ID
+      tags:
+      - employees
+  /api/v1/inboundOrders:
+    post:
+      consumes:
+      - application/json
+      description: Create a new inbound order with the provided JSON data
+      parameters:
+      - description: Inbound Order JSON
+        in: body
+        name: inboundOrder
+        required: true
+        schema:
+          $ref: '#/definitions/inbound_orders_controller.InboundOrdersReqJSON'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/inbound_orders_controller.InboundOrdersResJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new inbound order
+      tags:
+      - inbound_orders
   /api/v1/localities:
     post:
       consumes:
@@ -458,6 +942,82 @@ paths:
       summary: Get locality sellers report
       tags:
       - localities
+  /api/v1/product_batches:
+    post:
+      consumes:
+      - application/json
+      description: Create a new product batch with the provided JSON data
+      parameters:
+      - description: Product Batch Create JSON
+        in: body
+        name: productBatch
+        required: true
+        schema:
+          $ref: '#/definitions/product_batches_controller.NewProductBatchesReqJSON'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/product_batches_controller.ProductBatchesResJSON'
+        "400":
+          description: Error ao decodificar JSON
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new product batch
+      tags:
+      - product_batches
+  /api/v1/product_records:
+    post:
+      consumes:
+      - application/json
+      description: Create a new product record with the provided JSON data
+      parameters:
+      - description: Product Record Create JSON
+        in: body
+        name: productRecord
+        required: true
+        schema:
+          $ref: '#/definitions/product_records_controller.ProductRecordCreateJSON'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/product_records_controller.ProductRecordResJSON'
+        "400":
+          description: Error ao decodificar JSON
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new product record
+      tags:
+      - product_records
   /api/v1/products:
     get:
       description: Retrieve a list of all products
@@ -581,7 +1141,7 @@ paths:
       summary: Get product by ID
       tags:
       - products
-    put:
+    patch:
       consumes:
       - application/json
       description: Update an existing product by its ID
@@ -659,6 +1219,234 @@ paths:
       summary: Retrieve report records for a product
       tags:
       - products
+  /api/v1/purchaseOrders:
+    post:
+      consumes:
+      - application/json
+      description: Accepts a JSON payload, validates it, and creates a purchase order
+        in the system.
+      parameters:
+      - description: Purchase Order JSON
+        in: body
+        name: purchaseOrder
+        required: true
+        schema:
+          $ref: '#/definitions/purchase_orders_controller.PurchaseOrdersJSON'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/purchase_orders_controller.ResPurchaseOrdersJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new purchase order
+      tags:
+      - purchase_orders
+  /api/v1/sections:
+    get:
+      consumes:
+      - application/json
+      description: Get all sections
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/sections_controller.SectionFullJSON'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get all sections
+      tags:
+      - sections
+    post:
+      consumes:
+      - application/json
+      description: Create a new section with the provided JSON payload
+      parameters:
+      - description: New Section JSON
+        in: body
+        name: section
+        required: true
+        schema:
+          $ref: '#/definitions/sections_controller.NewSectionReqJSON'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.SectionDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new section
+      tags:
+      - sections
+  /api/v1/sections/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a section by ID
+      parameters:
+      - description: Section ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete a section
+      tags:
+      - sections
+    get:
+      consumes:
+      - application/json
+      description: Get a section by ID
+      parameters:
+      - description: Section ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/sections_controller.SectionFullJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get a section by ID
+      tags:
+      - sections
+    patch:
+      consumes:
+      - application/json
+      description: Update a section by ID
+      parameters:
+      - description: Section ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: New Section JSON
+        in: body
+        name: section
+        required: true
+        schema:
+          $ref: '#/definitions/sections_controller.NewSectionReqJSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Updated
+          schema:
+            $ref: '#/definitions/models.SectionDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update a section
+      tags:
+      - sections
+  /api/v1/sections/report-products:
+    get:
+      description: Retrieves report products for a section based on the provided section
+        ID.
+      parameters:
+      - description: Section ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved report products
+          schema:
+            items:
+              $ref: '#/definitions/sections_controller.ReportProductFullJSON'
+            type: array
+        "400":
+          description: Invalid section ID or bad request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Section not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Retrieve report products for a section
+      tags:
+      - sections
   /api/v1/sellers:
     get:
       description: This endpoint retrieves all sellers from the database using the
@@ -775,7 +1563,7 @@ paths:
       summary: Get a seller by ID
       tags:
       - sellers
-    put:
+    patch:
       consumes:
       - application/json
       description: This endpoint updates a seller based on the provided ID in the
@@ -817,42 +1605,161 @@ paths:
       summary: Update a seller
       tags:
       - sellers
-  /product_records:
+  /api/v1/warehouses:
+    get:
+      description: This endpoint retrieves all warehouses from the database using
+        the service layer.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - The warehouses were successfully retrieved
+          schema:
+            $ref: '#/definitions/warehouses_controller.WarehouseResJSON'
+        "500":
+          description: Internal Server Error - An unexpected error occurred during
+            the retrieval process
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Retrieve all warehouses
+      tags:
+      - warehouses
     post:
       consumes:
       - application/json
-      description: Create a new product record with the provided JSON data
+      description: Creates a new warehouse with the provided information.
       parameters:
-      - description: Product Record Create JSON
+      - description: Warehouse JSON
         in: body
-        name: productRecord
+        name: data
         required: true
         schema:
-          $ref: '#/definitions/product_records_controller.ProductRecordCreateJSON'
+          $ref: '#/definitions/warehouses_controller.WarehouseReqJSON'
       produces:
       - application/json
       responses:
         "201":
-          description: Success
+          description: Created
           schema:
-            $ref: '#/definitions/product_records_controller.ProductRecordResJSON'
+            $ref: '#/definitions/warehouses_controller.WarehouseResJSON'
         "400":
-          description: Error ao decodificar JSON
+          description: Bad request
           schema:
             $ref: '#/definitions/response.ErrorResponse'
         "409":
-          description: Conflict
-          schema:
-            $ref: '#/definitions/response.ErrorResponse'
-        "422":
-          description: Unprocessable Entity
+          description: Conflict - duplicate entry
           schema:
             $ref: '#/definitions/response.ErrorResponse'
         "500":
-          description: Internal Server Error
+          description: Internal server error
           schema:
             $ref: '#/definitions/response.ErrorResponse'
-      summary: Create a new product record
+      summary: Create a new warehouse
       tags:
-      - product_records
+      - warehouses
+  /api/v1/warehouses/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a warehouse by its ID from the database.
+      parameters:
+      - description: Warehouse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No content
+          schema:
+            $ref: '#/definitions/warehouses_controller.WarehouseResJSON'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Warehouse not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict - cannot delete or update parent row
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Delete a warehouse
+      tags:
+      - warehouses
+    get:
+      description: Retrieve warehouse details by its ID
+      parameters:
+      - description: Warehouse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/warehouses_controller.WarehouseResJSON'
+        "400":
+          description: Invalid ID format
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Warehouse not found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get warehouse by ID
+      tags:
+      - warehouses
+    patch:
+      consumes:
+      - application/json
+      description: Update a warehouse by its ID
+      parameters:
+      - description: Warehouse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Warehouse JSON
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/warehouses_controller.WarehouseReqJSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK - The warehouse was successfully updated
+          schema:
+            $ref: '#/definitions/warehouses_controller.WarehouseResJSON'
+        "400":
+          description: Bad request - invalid ID format or incomplete data
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "404":
+          description: Not found - the warehouse does not exist
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "409":
+          description: Conflict - duplicate entry
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Update a warehouse
+      tags:
+      - warehouses
 swagger: "2.0"

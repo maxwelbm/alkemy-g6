@@ -28,7 +28,7 @@ import (
 // @Failure 409 {object} response.ErrorResponse "Duplicate entry"
 // @Failure 422 {object} response.ErrorResponse "Unprocessable entity"
 // @Failure 500 {object} response.ErrorResponse "Internal server error"
-// @Router /api/v1/products/{id} [put]
+// @Router /api/v1/products/{id} [patch]
 func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	// Get the ID from the URL
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))

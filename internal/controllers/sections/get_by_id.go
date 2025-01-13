@@ -8,6 +8,16 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// @Summary Get a section by ID
+// @Description Get a section by ID
+// @Tags sections
+// @Accept json
+// @Produce json
+// @Param id path int true "Section ID"
+// @Success 200 {object} SectionFullJSON
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 404 {object} response.ErrorResponse "Not Found"
+// @Router /api/v1/sections/{id} [get]
 func (c *SectionsController) GetById(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi((chi.URLParam(r, "id")))
 	if err != nil {

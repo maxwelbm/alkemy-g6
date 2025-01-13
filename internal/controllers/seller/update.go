@@ -72,7 +72,7 @@ func (j *SellerUpdateJSON) validate() (err error) {
 // @Failure 400 {object} response.ErrorResponse "Bad Request - The seller cannot be updated due to a MySQL cannot add or update child row error"
 // @Failure 409 {object} response.ErrorResponse "Conflict - The seller cannot be updated due to a MySQL duplicate entry error"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error - An unexpected error occurred during the update process"
-// @Router /api/v1/sellers/{id} [put]
+// @Router /api/v1/sellers/{id} [patch]
 func (controller *SellersDefault) Update(w http.ResponseWriter, r *http.Request) {
 	// Parse the seller ID from the URL parameter
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))

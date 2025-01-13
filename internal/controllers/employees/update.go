@@ -8,12 +8,31 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	models "github.com/maxwelbm/alkemy-g6/internal/models"
-	repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
-	"github.com/maxwelbm/alkemy-g6/internal/service"
+	"github.com/go-sql-driver/mysql"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Update handles the HTTP request to update an employee by their ID.
+//
+// It extracts the employee ID from the URL parameters, validates it, and
+// fetches the employee details from the service layer. If the ID is invalid
+// or the employee is not found, it returns an appropriate error response.
+//
+// @Summary Update employee by ID
+// @Description Update an existing employee by their ID
+// @Tags employees
+// @Accept json
+// @Produce json
+// @Param id path int true "Employee ID"
+// @Param employee body EmployeesReqJSON true "Employee JSON"
+// @Success 200 {object} EmployeesResJSON "Success"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 404 {object} response.ErrorResponse "Employee not found"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 422 {object} response.ErrorResponse "Unprocessable Entity"
+// @Router /api/v1/employees/{id} [patch]
 func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
@@ -53,22 +72,18 @@ func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	emp, err := c.SV.Update(newEmployees, id)
-	if errors.Is(err, repository.ErrEmployeesRepositoryDuplicatedCode) {
-		response.Error(w, http.StatusConflict, err.Error())
-		return
-	}
-	if errors.Is(err, repository.ErrEmployeesRepositoryNotFound) {
-		response.Error(w, http.StatusNotFound, err.Error())
-		return
-	}
-
-	if errors.Is(err, service.ErrWareHousesServiceNotFound) {
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
-		return
-	}
-
 	if err != nil {
-		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
+			switch mysqlErr.Number {
+			case mysqlerr.CodeDuplicateEntry:
+				response.Error(w, http.StatusConflict, err.Error())
+				return
+			case mysqlerr.CodeCannotAddOrUpdateChildRow:
+				response.Error(w, http.StatusBadRequest, err.Error())
+				return
+			}
+		}
+		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 

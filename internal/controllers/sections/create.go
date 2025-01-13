@@ -10,6 +10,17 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// @Summary Create a new section
+// @Description Create a new section with the provided JSON payload
+// @Tags sections
+// @Accept json
+// @Produce json
+// @Param section body NewSectionReqJSON true "New Section JSON"
+// @Success 201 {object} models.SectionDTO "Created"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/sections [post]
 func (c *SectionsController) Create(w http.ResponseWriter, r *http.Request) {
 	var secReqJson NewSectionReqJSON
 	if err := json.NewDecoder(r.Body).Decode(&secReqJson); err != nil {
