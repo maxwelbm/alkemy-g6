@@ -3,11 +3,11 @@ package buyers_controller
 import "github.com/maxwelbm/alkemy-g6/internal/models"
 
 type BuyersDefault struct {
-	SV models.BuyerService
+	sv models.BuyerService
 }
 
-func NewBuyersController(SV models.BuyerService) *BuyersDefault {
-	return &BuyersDefault{SV: SV}
+func NewBuyersController(sv models.BuyerService) *BuyersDefault {
+	return &BuyersDefault{sv: sv}
 }
 
 type BuyerResJSON struct {

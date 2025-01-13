@@ -37,7 +37,7 @@ func (ct *BuyersDefault) ReportPurchaseOrders(w http.ResponseWriter, r *http.Req
 			return
 		}
 	}
-	list, err := ct.SV.ReportPurchaseOrders(id)
+	list, err := ct.sv.ReportPurchaseOrders(id)
 	if err != nil {
 		if errors.Is(err, models.ErrBuyerNotFound) {
 			response.Error(w, http.StatusNotFound, err.Error())

@@ -69,7 +69,7 @@ func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Attempt to create the buyer using the service
-	buyerCreated, err := ct.SV.Create(buyerToCreate)
+	buyerCreated, err := ct.sv.Create(buyerToCreate)
 	if err != nil {
 		// Handle specific MySQL duplicate entry error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {

@@ -5,12 +5,12 @@ import (
 )
 
 type BuyerRepository struct {
-	DB *sql.DB
+	db *sql.DB
 }
 
-func NewBuyersRepository(DB *sql.DB) *BuyerRepository {
+func NewBuyersRepository(db *sql.DB) *BuyerRepository {
 	repo := &BuyerRepository{
-		DB: DB,
+		db: db,
 	}
 	return repo
 }

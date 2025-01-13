@@ -5,7 +5,7 @@ import "github.com/maxwelbm/alkemy-g6/internal/models"
 func (r *BuyerRepository) GetAll() (buyers []models.Buyer, err error) {
 	query := "SELECT id, card_number_id, first_name, last_name FROM buyers"
 
-	rows, err := r.DB.Query(query)
+	rows, err := r.db.Query(query)
 	if err != nil {
 		return
 	}

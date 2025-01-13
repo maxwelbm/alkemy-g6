@@ -29,7 +29,7 @@ func (ct *BuyersDefault) GetById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Retrieve the buyer details from the service layer using the ID
-	buyer, err := ct.SV.GetById(id)
+	buyer, err := ct.sv.GetById(id)
 	if err != nil {
 		// If the buyer is not found, return a 404 Not Found error
 		response.Error(w, http.StatusNotFound, err.Error())
