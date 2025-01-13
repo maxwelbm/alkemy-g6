@@ -29,9 +29,16 @@ type SectionDTO struct {
 	ProductTypeID      *int     `json:"product_type_id,omitempty"`
 }
 
+type ProductReport struct {
+	SectionId     int
+	SectionNumber string
+	ProductsCount int
+}
+
 type SectionService interface {
 	GetAll() (sections []Section, err error)
 	GetById(id int) (section Section, err error)
+	GetReportProducts(sectionId int) (reportProducts []ProductReport, err error)
 	Create(sec SectionDTO) (newSection Section, err error)
 	Update(id int, sec SectionDTO) (updateSection Section, err error)
 	Delete(id int) (err error)
@@ -40,6 +47,7 @@ type SectionService interface {
 type SectionRepository interface {
 	GetAll() (sections []Section, err error)
 	GetById(id int) (section Section, err error)
+	GetReportProducts(sectionId int) (reportProducts []ProductReport, err error)
 	Create(sec SectionDTO) (newSection Section, err error)
 	Update(id int, sec SectionDTO) (updateSection Section, err error)
 	Delete(id int) (err error)
