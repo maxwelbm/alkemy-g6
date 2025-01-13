@@ -18,6 +18,7 @@ func InitEmployees(db *sql.DB, router *chi.Mux) {
 
 	// - endpoints
 	router.Route("/api/v1/employees", func(rt chi.Router) {
+		rt.Get("/reportInboundOrders", ct.GetReportInboundOrdersById)
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetByID)
 		rt.Post("/", ct.Create)
