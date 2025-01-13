@@ -6,6 +6,7 @@ import (
 	emp_models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
 	buyers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyers"
 	localities_repository "github.com/maxwelbm/alkemy-g6/internal/repository/localities"
+	product_records_repository "github.com/maxwelbm/alkemy-g6/internal/repository/product_records"
 	products_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
 	sec_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 	sellers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sellers"
@@ -46,5 +47,11 @@ func NewSellersRepository(db *sql.DB) *sellers_repository.SellersDefault {
 func NewSectionsRepository(DB *sql.DB) *sec_repository.SectionRepository {
 	return &sec_repository.SectionRepository{
 		DB: DB,
+	}
+}
+
+func NewProductRecordsRepository(DB *sql.DB) *product_records_repository.ProductRecordsDefault {
+	return &product_records_repository.ProductRecordsDefault{
+		Db: DB,
 	}
 }

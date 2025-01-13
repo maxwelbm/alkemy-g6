@@ -3,6 +3,7 @@ package controllers
 import (
 	buyers_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/buyer"
 	localities_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/localities"
+	product_records_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/product_records"
 	products_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/products"
 	sections_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/sections"
 	sellers_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/seller"
@@ -38,4 +39,8 @@ func NewLocalityController(sv models.LocalityService) *localities_controller.Loc
 
 func NewWarehousesController(service models.WarehouseService) *warehouses_controller.WarehouseDefault {
 	return &warehouses_controller.WarehouseDefault{Service: service}
+}
+
+func NewProductRecordsController(sv models.ProductRecordsService) *product_records_controller.ProductRecordsDefault {
+	return &product_records_controller.ProductRecordsDefault{SV: sv}
 }
