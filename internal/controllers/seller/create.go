@@ -61,9 +61,9 @@ func (j *SellerCreateJSON) validate() (err error) {
 // @Produce json
 // @Param seller body SellerCreateJSON true "Seller Create JSON"
 // @Success 201 {object} SellerResJSON "Seller created successfully"
-// @Failure 400 {object} ErrorResponse "Invalid request data or JSON decoding error"
-// @Failure 409 {object} ErrorResponse "Conflict - Duplicate entry"
-// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Failure 400 {object} response.ErrorResponse "Invalid request data or JSON decoding error"
+// @Failure 409 {object} response.ErrorResponse "Conflict - Duplicate entry"
+// @Failure 500 {object} response.ErrorResponse "Internal server error"
 // @Router /api/v1/sellers [post]
 func (controller *SellersDefault) Create(w http.ResponseWriter, r *http.Request) {
 	// Decode the JSON request body into sellerRequest

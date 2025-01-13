@@ -41,10 +41,10 @@ func (j *BuyerCreateJson) validate() (err error) {
 // @Produce json
 // @Param buyer body BuyerCreateJson true "Buyer details"
 // @Success 201 {object} BuyerResJSON "Success"
-// @Failure 400 {object} ErrorResponse "Bad Request"
-// @Failure 409 {object} ErrorResponse "Conflict"
-// @Failure 500 {object} ErrorResponse "Internal Server Error"
-// @Router /buyers [post]
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/buyers [post]
 func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
 	// Decode the JSON request body into a BuyerCreateJson struct
 	var buyerRequest BuyerCreateJson

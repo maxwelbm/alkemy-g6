@@ -12,8 +12,8 @@ import (
 // @Tags products
 // @Produce json
 // @Success 200 {object} ProductResJSON "List of products"
-// @Failure 500 {object} ErrorResponse "Internal server error"
-// @Router /products [get]
+// @Failure 500 {object} response.ErrorResponse "Internal server error"
+// @Router /api/v1/products [get]
 func (p *ProductsDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	prods, err := p.SV.GetAll()
 	if err != nil {

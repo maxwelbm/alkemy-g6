@@ -20,10 +20,10 @@ import (
 // @Produce json
 // @Param id path int true "Seller ID"
 // @Success 204 "No Content - The seller was successfully deleted"
-// @Failure 400 {object} ErrorResponse "Bad Request - The request ID is invalid or less than 1"
-// @Failure 404 {object} ErrorResponse "Not Found - The seller with the specified ID does not exist"
-// @Failure 409 {object} ErrorResponse "Conflict - The seller cannot be deleted due to a MySQL foreign key constraint error"
-// @Failure 500 {object} ErrorResponse "Internal Server Error - An unexpected error occurred during the deletion process"
+// @Failure 400 {object} response.ErrorResponse "Bad Request - The request ID is invalid or less than 1"
+// @Failure 404 {object} response.ErrorResponse "Not Found - The seller with the specified ID does not exist"
+// @Failure 409 {object} response.ErrorResponse "Conflict - The seller cannot be deleted due to a MySQL foreign key constraint error"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error - An unexpected error occurred during the deletion process"
 // @Router /api/v1/sellers/{id} [delete]
 func (controller *SellersDefault) Delete(w http.ResponseWriter, r *http.Request) {
 	// Convert the URL parameter "id" to an integer

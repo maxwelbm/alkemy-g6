@@ -24,7 +24,7 @@ import (
 // @Failure 404 {object} response.ErrorResponse "Product not found"
 // @Failure 409 {object} response.ErrorResponse "Conflict - cannot delete or update parent row"
 // @Failure 500 {object} response.ErrorResponse "Internal server error"
-// @Router /products/{id} [delete]
+// @Router /api/v1/products/{id} [delete]
 func (p *ProductsDefault) Delete(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {

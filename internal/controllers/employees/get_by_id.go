@@ -20,9 +20,9 @@ import (
 // @Produce json
 // @Param id path int true "Employee ID"
 // @Success 200 {object} EmployeesResJSON "Success"
-// @Failure 400 {object} ErrorResponse "Invalid ID format"
-// @Failure 404 {object} ErrorResponse "Employee not found"
-// @Router /employees/{id} [get]
+// @Failure 400 {object} response.ErrorResponse "Invalid ID format"
+// @Failure 404 {object} response.ErrorResponse "Employee not found"
+// @Router /api/v1/employees/{id} [get]
 func (c *EmployeesController) GetByID(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {

@@ -20,8 +20,8 @@ import (
 // @param w http.ResponseWriter - the response writer to send the HTTP response
 // @param r *http.Request - the HTTP request containing the query parameter "id"
 // @Success 200 {object} EmployeesResJSON "Success"
-// @Failure 400 {object} ErrorResponse "Invalid ID format"
-// @Failure 404 {object} ErrorResponse "Employee not found"
+// @Failure 400 {object} response.ErrorResponse "Invalid ID format"
+// @Failure 404 {object} response.ErrorResponse "Employee not found"
 // @Router /api/v1/employees/reportInboundOrders?id={} [get]
 
 func (c *EmployeesController) GetReportInboundOrdersById(w http.ResponseWriter, r *http.Request) {

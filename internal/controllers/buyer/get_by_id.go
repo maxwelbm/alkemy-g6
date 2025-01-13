@@ -16,9 +16,9 @@ import (
 // @Produce json
 // @Param id path int true "Buyer ID"
 // @Success 200 {object} BuyerResJSON "Success"
-// @Failure 400 {object} ErrorResponse "Invalid ID supplied"
-// @Failure 404 {object} ErrorResponse "Buyer not found"
-// @Router /buyers/{id} [get]
+// @Failure 400 {object} response.ErrorResponse "Invalid ID supplied"
+// @Failure 404 {object} response.ErrorResponse "Buyer not found"
+// @Router /api/v1/buyers/{id} [get]
 func (ct *BuyersDefault) GetById(w http.ResponseWriter, r *http.Request) {
 	// Parse the buyer ID from the URL parameter and convert it to an integer
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))

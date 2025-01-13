@@ -21,7 +21,7 @@ type CarryReportJSON struct {
 // @Tags localities
 // @Produce json
 // @Param id query int true "Carry ID"
-// @Success 200 {object} CarryResJSON "OK"
+// @Success 200 {object} CarryReportJSON "OK"
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 404 {object} response.ErrorResponse "Not Found"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"

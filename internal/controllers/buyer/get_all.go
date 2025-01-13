@@ -11,9 +11,9 @@ import (
 // @Description Retrieve a list of all buyers from the database
 // @Tags buyers
 // @Produce application/json
-// @Success 200 {object} BuyersResJSON "Success"
-// @Failure 500 {object} ErrorResponse "Internal Server Error"
-// @Router /buyers [get]
+// @Success 200 {object} BuyerResJSON "Success"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/buyers [get]
 func (ct *BuyersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	// Retrieve all buyers from the service layer
 	buyers, err := ct.SV.GetAll()

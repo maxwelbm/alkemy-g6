@@ -19,10 +19,10 @@ import (
 // @Produce json
 // @Param id path int true "Product ID"
 // @Success 200 {object} ProductResJSON "Product found"
-// @Failure 400 {object} ErrorResponse "Invalid ID supplied"
-// @Failure 404 {object} ErrorResponse "Product not found"
-// @Failure 500 {object} ErrorResponse "Internal server error"
-// @Router /products/{id} [get]
+// @Failure 400 {object} response.ErrorResponse "Invalid ID supplied"
+// @Failure 404 {object} response.ErrorResponse "Product not found"
+// @Failure 500 {object} response.ErrorResponse "Internal server error"
+// @Router /api/v1/products/{id} [get]
 func (p *ProductsDefault) GetById(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
@@ -47,7 +47,7 @@ func (p *ProductsDefault) GetById(w http.ResponseWriter, r *http.Request) {
 		Height:         prod.Height,
 		Length:         prod.Length,
 		Width:          prod.Width,
-		NetWeight:         prod.NetWeight,
+		NetWeight:      prod.NetWeight,
 		ExpirationRate: prod.ExpirationRate,
 		FreezingRate:   prod.FreezingRate,
 		RecomFreezTemp: prod.RecomFreezTemp,
