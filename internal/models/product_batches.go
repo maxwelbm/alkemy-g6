@@ -7,9 +7,9 @@ type ProductBatches struct {
 	CurrentQuantity    int
 	CurrentTemperature float64
 	MinimumTemperature float64
-	DueDate            string //time.Time
-	ManufacturingDate  string //time.Time
-	ManufacturingHour  string //time.Time
+	DueDate            string
+	ManufacturingDate  string
+	ManufacturingHour  string
 	ProductID          int
 	SectionID          int
 }
@@ -20,9 +20,9 @@ type ProductBatchesDTO struct {
 	CurrentQuantity    int
 	CurrentTemperature float64
 	MinimumTemperature float64
-	DueDate            string //time.Time
-	ManufacturingDate  string //time.Time
-	ManufacturingHour  string //time.Time
+	DueDate            string
+	ManufacturingDate  string
+	ManufacturingHour  string
 	ProductID          int
 	SectionID          int
 }

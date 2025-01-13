@@ -11,28 +11,28 @@ import (
 )
 
 func (c *ProductBatchesController) Create(w http.ResponseWriter, r *http.Request) {
-	var prodBatchesReqJson NewProductBatchesReqJSON
-	if err := json.NewDecoder(r.Body).Decode(&prodBatchesReqJson); err != nil {
+	var prodBatchReqJson NewProductBatchesReqJSON
+	if err := json.NewDecoder(r.Body).Decode(&prodBatchReqJson); err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	if err := prodBatchesReqJson.validateCreate(); err != nil {
+	if err := prodBatchReqJson.validateCreate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
 	prodBatchDTO := models.ProductBatchesDTO{
-		BatchNumber:        *prodBatchesReqJson.BatchNumber,
-		InitialQuantity:    *prodBatchesReqJson.InitialQuantity,
-		CurrentQuantity:    *prodBatchesReqJson.InitialQuantity,
-		CurrentTemperature: *prodBatchesReqJson.CurrentTemperature,
-		MinimumTemperature: *prodBatchesReqJson.MinimumTemperature,
-		DueDate:            *prodBatchesReqJson.DueDate,
-		ManufacturingDate:  *prodBatchesReqJson.ManufacturingDate,
-		ManufacturingHour:  *prodBatchesReqJson.ManufacturingHour,
-		ProductID:          *prodBatchesReqJson.ProductID,
-		SectionID:          *prodBatchesReqJson.SectionID,
+		BatchNumber:        *prodBatchReqJson.BatchNumber,
+		InitialQuantity:    *prodBatchReqJson.InitialQuantity,
+		CurrentQuantity:    *prodBatchReqJson.InitialQuantity,
+		CurrentTemperature: *prodBatchReqJson.CurrentTemperature,
+		MinimumTemperature: *prodBatchReqJson.MinimumTemperature,
+		DueDate:            *prodBatchReqJson.DueDate,
+		ManufacturingDate:  *prodBatchReqJson.ManufacturingDate,
+		ManufacturingHour:  *prodBatchReqJson.ManufacturingHour,
+		ProductID:          *prodBatchReqJson.ProductID,
+		SectionID:          *prodBatchReqJson.SectionID,
 	}
 
 	newProdBatch, err := c.sv.Create(prodBatchDTO)

@@ -51,7 +51,6 @@ func (c *NewProductBatchesReqJSON) validateCreate() (err error) {
 	var validationErrors []string
 	var nilPointerErrors []string
 
-	// Check for nil pointers and collect their errors
 	if c.BatchNumber == nil {
 		nilPointerErrors = append(nilPointerErrors, "error: attribute BatchNumber cannot be nil")
 	} else if *c.BatchNumber == "" {
@@ -93,7 +92,6 @@ func (c *NewProductBatchesReqJSON) validateCreate() (err error) {
 		validationErrors = append(validationErrors, "error: attribute SectionID must be positive")
 	}
 
-	// Combine all errors before returning
 	if len(nilPointerErrors) > 0 || len(validationErrors) > 0 {
 		var allErrors []string
 		allErrors = append(allErrors, nilPointerErrors...)
