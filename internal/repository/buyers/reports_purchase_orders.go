@@ -8,7 +8,7 @@ func (r *BuyerRepository) ReportPurchaseOrders(id int) (reports []models.BuyerPu
 	query := `
 		SELECT b.id, b.card_number_id, b.first_name, b.last_name, COUNT(p.id) purchase_orders_count
 		FROM buyers b
-		JOIN purchase_orders p ON b.id = p.buyer_id
+		LEFT JOIN purchase_orders p ON b.id = p.buyer_id
 		WHERE (? = 0 OR b.id = ?)
 		GROUP BY b.id
 	`
