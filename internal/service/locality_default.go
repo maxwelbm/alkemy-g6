@@ -15,6 +15,11 @@ func (s *LocalityDefault) ReportSellers(id int) (reports []models.LocalitySeller
 	return
 }
 
+func (s *LocalityDefault) ReportCarries(id int) (reports []models.LocalityCarriesReport, err error) {
+	reports, err = s.rp.ReportCarries(id)
+	return
+}
+
 func (s *LocalityDefault) Create(locDTO models.LocalityDTO) (loc models.Locality, err error) {
 	loc, err = s.rp.Create(locDTO)
 	return
