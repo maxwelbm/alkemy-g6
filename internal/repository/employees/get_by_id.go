@@ -4,7 +4,9 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/maxwelbm/alkemy-g6/internal/models"
+
+	models "github.com/maxwelbm/alkemy-g6/internal/models"
+
 )
 
 func (r *EmployeesRepository) GetByID(id int) (employees models.Employees, err error) {

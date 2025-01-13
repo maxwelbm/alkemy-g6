@@ -6,6 +6,14 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// GetAll handles the HTTP request to retrieve all products.
+// @Summary Get all products
+// @Description Retrieve a list of all products
+// @Tags products
+// @Produce json
+// @Success 200 {object} ProductResJSON "List of products"
+// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Router /products [get]
 func (p *ProductsDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	prods, err := p.SV.GetAll()
 	if err != nil {

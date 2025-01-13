@@ -1,7 +1,9 @@
 package repository
 
 import (
-	"github.com/maxwelbm/alkemy-g6/internal/models"
+
+	models "github.com/maxwelbm/alkemy-g6/internal/models"
+
 )
 
 func (e *EmployeesRepository) GetAll() (employees []models.Employees, err error) {

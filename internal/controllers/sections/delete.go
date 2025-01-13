@@ -19,7 +19,7 @@ func (c *SectionsController) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = c.SV.Delete(id)
+	err = c.sv.Delete(id)
 
 	if err != nil {
 		// Handle if section not found

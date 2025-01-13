@@ -7,7 +7,8 @@ import (
 	"net/http"
 
 	"github.com/go-sql-driver/mysql"
-	"github.com/maxwelbm/alkemy-g6/internal/models"
+  models "github.com/maxwelbm/alkemy-g6/internal/models"
+
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"

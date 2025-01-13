@@ -3,7 +3,9 @@ package repository
 import (
 	"fmt"
 
-	"github.com/maxwelbm/alkemy-g6/internal/models"
+
+	models "github.com/maxwelbm/alkemy-g6/internal/models"
+
 )
 
 func (e *EmployeesRepository) Create(employees models.EmployeesDTO) (newEmployees models.Employees, err error) {

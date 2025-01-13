@@ -1,6 +1,8 @@
 package repository
 
-import  "github.com/maxwelbm/alkemy-g6/internal/models"
+
+import models "github.com/maxwelbm/alkemy-g6/internal/models"
+
 
 func (e *EmployeesRepository) Delete(id int) (err error) {
 	var exists bool

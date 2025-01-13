@@ -20,13 +20,13 @@ type LocalityReportJSON struct {
 // @Description Retrieve the number of sellers in a locality by ID
 // @Tags localities
 // @Produce json
-// @Param id query int true "Locality ID" 
+// @Param id query int true "Locality ID"
 // @Success 200 {object} LocalityResJSON "OK"
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 404 {object} response.ErrorResponse "Not Found"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
-// @Router /localities/report_sellers [get]
-func (ct *LocalityController) ReportSellers(w http.ResponseWriter, r *http.Request) {
+// @Router /api/v1/localities/reportSellers [get]
+func (ct *LocalitiesController) ReportSellers(w http.ResponseWriter, r *http.Request) {
 	// Extract the "id" parameter from the URL query and convert it to an integer
 	var id int
 	var err error

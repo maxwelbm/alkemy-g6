@@ -13,6 +13,22 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Update handles the HTTP request to update an existing product by its ID.
+//
+// @Summary Update a product
+// @Description Update an existing product by its ID
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param id path int true "Product ID"
+// @Param product body UpdateProductAttributesJSON true "Product attributes to update"
+// @Success 200 {object} ProductResJSON "Updated product"
+// @Failure 400 {object} ErrorResponse "Invalid request parameters"
+// @Failure 404 {object} ErrorResponse "Product not found"
+// @Failure 409 {object} ErrorResponse "Duplicate entry"
+// @Failure 422 {object} ErrorResponse "Unprocessable entity"
+// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Router /products/{id} [put]
 func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	// Get the ID from the URL
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
