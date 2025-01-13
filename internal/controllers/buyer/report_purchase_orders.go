@@ -9,6 +9,18 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// ReportPurchaseOrders retrieves the report of purchase orders for a given buyer ID.
+// @Summary Get report of purchase orders by buyer ID
+// @Description Retrieve the report of purchase orders for a given buyer ID
+// @Tags buyers
+// @Accept json
+// @Produce json
+// @Param id query int true "Buyer ID"
+// @Success 200 {object} models.BuyerPurchaseOrdersReportJSON "OK"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 404 {object} response.ErrorResponse "Buyer not found"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
+// @Router /api/v1/buyers/reportPurchaseOrders [get]
 func (ct *BuyersDefault) ReportPurchaseOrders(w http.ResponseWriter, r *http.Request) {
 	var id int
 	var err error

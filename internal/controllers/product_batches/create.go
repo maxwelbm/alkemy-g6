@@ -25,7 +25,7 @@ func (c *ProductBatchesController) Create(w http.ResponseWriter, r *http.Request
 	prodBatchDTO := models.ProductBatchesDTO{
 		BatchNumber:        *prodBatchReqJson.BatchNumber,
 		InitialQuantity:    *prodBatchReqJson.InitialQuantity,
-		CurrentQuantity:    *prodBatchReqJson.InitialQuantity,
+		CurrentQuantity:    *prodBatchReqJson.CurrentQuantity,
 		CurrentTemperature: *prodBatchReqJson.CurrentTemperature,
 		MinimumTemperature: *prodBatchReqJson.MinimumTemperature,
 		DueDate:            *prodBatchReqJson.DueDate,
@@ -51,7 +51,7 @@ func (c *ProductBatchesController) Create(w http.ResponseWriter, r *http.Request
 		ID:                 newProdBatch.ID,
 		BatchNumber:        newProdBatch.BatchNumber,
 		InitialQuantity:    newProdBatch.InitialQuantity,
-		CurrentQuantity:    newProdBatch.InitialQuantity,
+		CurrentQuantity:    newProdBatch.CurrentQuantity,
 		CurrentTemperature: newProdBatch.CurrentTemperature,
 		MinimumTemperature: newProdBatch.MinimumTemperature,
 		DueDate:            newProdBatch.DueDate,
