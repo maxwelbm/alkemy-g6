@@ -5,6 +5,7 @@ import (
 	carries_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/carries"
 	employees_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/employees"
 	localities_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/localities"
+	product_records_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/product_records"
 	products_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/products"
 	purchase_orders_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/purchase_orders"
 	sections_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/sections"
@@ -45,6 +46,10 @@ func NewLocalityController(sv models.LocalityService) *localities_controller.Loc
 
 func NewWarehousesController(service models.WarehouseService) *warehouses_controller.WarehouseDefault {
 	return &warehouses_controller.WarehouseDefault{Service: service}
+}
+
+func NewProductRecordsController(sv models.ProductRecordsService) *product_records_controller.ProductRecordsDefault {
+	return product_records_controller.NewProductRecordsController(sv)
 }
 
 func NewEmployeesController(sv models.EmployeesService) *employees_controller.EmployeesController {

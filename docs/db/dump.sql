@@ -109,9 +109,9 @@ CREATE TABLE product_batches (
 -- Create a table to store product record information
 CREATE TABLE product_records (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    last_update_date DATE,
-    purchase_price DECIMAL(10, 2),
-    sale_price DECIMAL(10, 2),
+    last_update_date DATETIME(6),
+    purchase_price DECIMAL(19, 2),
+    sale_price DECIMAL(19, 2),
     product_id INT,
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
