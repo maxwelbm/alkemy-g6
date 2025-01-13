@@ -20,6 +20,7 @@ type EmployeesAttributes struct {
 	FirstName    string `json:"first_name"`
 	LastName     string `json:"last_name"`
 	WarehouseID  int    `json:"warehouse_id"`
+	CountReports int    `json:"count_reports,omitempty"`
 }
 
 type EmployeesFinalJSON struct {

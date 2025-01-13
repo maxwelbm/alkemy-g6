@@ -7,8 +7,7 @@ import (
 )
 
 var (
-	ErrEmployeeIdNotFound       = errors.New("Employee Id not found")
-	ErrOrderNumberAlreadyExists = errors.New("Order Number already exists!")
+	ErrEmployeeNotFound = errors.New("Employee not found")
 )
 
 type InboundOrdersDefault struct {

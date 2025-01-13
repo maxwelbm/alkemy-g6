@@ -2,9 +2,9 @@ package controllers
 
 import (
 	buyers_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/buyer"
-	employees_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/employees"
-	inboundOrders_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/inboundOrders"
 	carries_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/carries"
+	employees_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/employees"
+	inbound_orders_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/inboundOrders"
 	localities_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/localities"
 	product_batches_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/product_batches"
 	product_records_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/product_records"
@@ -48,11 +48,9 @@ func NewWarehousesController(service models.WarehouseService) *warehouses_contro
 	return &warehouses_controller.WarehouseDefault{Service: service}
 }
 
-
-func NewInboundOrdersController(SV models.InboundOrdersService) *inboundOrders_controller.InboundOrdersController {
-	return &inboundOrders_controller.InboundOrdersController{
-		SV: SV,
-	}
+func NewInboundOrdersController(SV models.InboundOrdersService) *inbound_orders_controller.InboundOrdersController {
+	return inbound_orders_controller.NewInboundOrdersDefault(SV)
+}
 
 func NewProductRecordsController(sv models.ProductRecordsService) *product_records_controller.ProductRecordsDefault {
 	return product_records_controller.NewProductRecordsController(sv)
