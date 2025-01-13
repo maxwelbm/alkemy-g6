@@ -8,7 +8,7 @@ import (
 )
 
 func (r *WarehouseRepository) GetById(id int) (w models.Warehouse, err error) {
-	query := "SELECT `id`, `address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM frescos_db.warehouses WHERE `id`=?"
+	query := "SELECT `id`, `address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM warehouses WHERE `id`=?"
 
 	rows := r.DB.QueryRow(query, id)
 

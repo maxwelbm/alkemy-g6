@@ -1,13 +1,23 @@
 package repository
 
-func (e *Employees) Delete(id int) (err error) {
+import models "github.com/maxwelbm/alkemy-g6/internal/models"
 
-	_, ok := e.db[id]
-	if !ok {
-		err = ErrEmployeesRepositoryNotFound
+func (e *EmployeesRepository) Delete(id int) (err error) {
+	var exists bool
+	err = e.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM employees WHERE id = ?)", id).Scan(&exists)
+	if err != nil {
+		return
+	}
+	if !exists {
+		err = models.ErrEmployeesNotFound
 		return
 	}
 
-	delete(e.db, id)
-	return
+	query := "DELETE FROM employees WHERE id = ?"
+	_, err = e.DB.Exec(query, id)
+	if err != nil {
+		return
+	}
+
+	return nil
 }
