@@ -45,14 +45,10 @@ func NewSectionsRepository(DB *sql.DB) *sec_repository.SectionRepository {
 	}
 }
 
-func NewEmployeesRepository(DB *sql.DB) *employees_repository.EmployeesRepository {
-	return &employees_repository.EmployeesRepository{
-		DB: DB,
-	}
+func NewEmployeesRepository(db *sql.DB) {
+return employees_repository.NewEmployeesRepository(db)
 }
 
-func NewInboundOrdersRepository(DB *sql.DB) *inboundOrders_repository.InboundOrdersRepository {
-	return &inboundOrders_repository.InboundOrdersRepository{
-		DB: DB,
-	}
+func NewInboundOrdersRepository(db *sql.DB) {
+return inboundOrders_repository.NewInboundOrdersRepository(db) 
 }
