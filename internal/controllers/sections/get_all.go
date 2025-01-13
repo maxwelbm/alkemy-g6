@@ -7,7 +7,7 @@ import (
 )
 
 func (c *SectionsController) GetAll(w http.ResponseWriter, r *http.Request) {
-	sec, err := c.SV.GetAll()
+	sec, err := c.sv.GetAll()
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return

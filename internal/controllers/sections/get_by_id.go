@@ -15,7 +15,7 @@ func (c *SectionsController) GetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sec, err := c.SV.GetById(id)
+	sec, err := c.sv.GetById(id)
 	if err != nil {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return

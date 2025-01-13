@@ -81,7 +81,7 @@ CREATE TABLE products (
 -- Create a table to store carrier information
 CREATE TABLE carries (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    cid INT UNIQUE,
+    cid VARCHAR(255) UNIQUE,
     company_name VARCHAR(255),
     address VARCHAR(255),
     phone_number VARCHAR(255),
@@ -92,7 +92,7 @@ CREATE TABLE carries (
 -- Create a table to store product batch information
 CREATE TABLE product_batches (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    batch_number VARCHAR(255),
+    batch_number VARCHAR(255) UNIQUE,
     initial_quantity INT,
     current_quantity INT,
     current_temperature DECIMAL(19,2),
@@ -109,9 +109,9 @@ CREATE TABLE product_batches (
 -- Create a table to store product record information
 CREATE TABLE product_records (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    last_update_date DATE,
-    purchase_price DECIMAL(10, 2),
-    sale_price DECIMAL(10, 2),
+    last_update_date DATETIME(6),
+    purchase_price DECIMAL(19, 2),
+    sale_price DECIMAL(19, 2),
     product_id INT,
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
@@ -130,13 +130,15 @@ CREATE TABLE inbound_orders (
 -- Create a table to store purchase order information
 CREATE TABLE purchase_orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    order_number INT UNIQUE,
+    order_number VARCHAR(255),
     order_date DATE,
-    tracking_code INT,
+    tracking_code VARCHAR(255),
     buyer_id INT,
     product_record_id INT,
+    FOREIGN KEY (buyer_id) REFERENCES buyers(id),
     FOREIGN KEY (product_record_id) REFERENCES product_records(id)
 );
+
 -- Insert data into warehouses
 INSERT INTO warehouses (address, telephone, warehouse_code, minimum_capacity, minimum_temperature) VALUES ('123 Main St', '555-1234', 'WH001', 100, -10.0);
 INSERT INTO warehouses (address, telephone, warehouse_code, minimum_capacity, minimum_temperature) VALUES ('456 Elm St', '555-5678', 'WH002', 200, -20.0);

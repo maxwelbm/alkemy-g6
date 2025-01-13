@@ -10,6 +10,19 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// GetById retrieves a product by its ID.
+//
+// @Summary Get product by ID
+// @Description Get a product by its unique ID
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param id path int true "Product ID"
+// @Success 200 {object} ProductResJSON "Product found"
+// @Failure 400 {object} ErrorResponse "Invalid ID supplied"
+// @Failure 404 {object} ErrorResponse "Product not found"
+// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Router /products/{id} [get]
 func (p *ProductsDefault) GetById(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {

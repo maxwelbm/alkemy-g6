@@ -43,3 +43,8 @@ func (s *BuyerDefault) Delete(id int) (err error) {
 	err = s.rp.Delete(id)
 	return
 }
+
+func (s *BuyerDefault) ReportPurchaseOrders(id int) (reports []models.BuyerPurchaseOrdersReport, err error) {
+	reports, err = s.rp.ReportPurchaseOrders(id)
+	return
+}

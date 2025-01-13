@@ -1,15 +1,15 @@
-package controller
+package employees_controller
 
 import (
-	models "github.com/maxwelbm/alkemy-g6/internal/models/employees"
+	models "github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-type Employees struct {
-	sv models.EmployeesService
+type EmployeesController struct {
+	SV models.EmployeesService
 }
 
-func NewEmployeesDefault(sv models.EmployeesService) *Employees {
-	return &Employees{sv: sv}
+func NewEmployeesDefault(sv models.EmployeesService) *EmployeesController {
+	return &EmployeesController{SV: sv}
 }
 
 type EmployeesAttributes struct {

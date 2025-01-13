@@ -71,7 +71,7 @@ func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 
 	// Validate the decoded request data
 	if err := buyerRequest.validate(); err != nil {
-		response.Error(w, http.StatusBadRequest, err.Error())
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 

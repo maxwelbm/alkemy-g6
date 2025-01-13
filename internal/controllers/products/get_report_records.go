@@ -9,6 +9,17 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// GetReportRecords handles the HTTP request to retrieve report records for a specific product.
+// @Summary Retrieve report records for a product
+// @Description Retrieves report records for a product based on the provided product ID.
+// @Tags products
+// @Produce json
+// @Param id query int true "Product ID"
+// @Success 200 {object} ReportRecordsResJSON "Successfully retrieved report records"
+// @Failure 400 {object} ErrorResponse "Invalid product ID or bad request"
+// @Failure 404 {object} ErrorResponse "Product not found"
+// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Router /products/report-records [get]
 func (p *ProductsDefault) GetReportRecords(w http.ResponseWriter, r *http.Request) {
 	var productId int
 	var err error
