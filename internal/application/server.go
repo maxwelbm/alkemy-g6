@@ -83,6 +83,7 @@ func (a *ServerChi) Run() (err error) {
 	resources.InitWarehouses(a.db, rt)
 	resources.InitSections(a.db, rt)
 	resources.InitProductRecords(a.db, rt)
+	resources.InitPurchaseOrders(a.db, rt)
 	// run server
 	err = http.ListenAndServe(a.Addr, rt)
 	return
