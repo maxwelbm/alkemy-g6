@@ -55,13 +55,6 @@ func (a *ServerChi) Run() (err error) {
 	log.Print(Title)
 	log.Printf("Starting server at port %s\n", a.Addr)
 
-	// deprecated: loads json files for old data access
-	jsonDB, err := loadDB()
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-
 	a.db, err = sql.Open("mysql", a.cfgDB.FormatDSN())
 	if err != nil {
 		return
@@ -81,7 +74,7 @@ func (a *ServerChi) Run() (err error) {
 	rt.Use(middleware.Recoverer)
 
 	// resources
-	buildApiV1EmployeesRoutes(jsonDB, rt)
+	resources.InitEmployees(a.db, rt)
 	resources.InitBuyers(a.db, rt)
 	resources.InitSellers(a.db, rt)
 	resources.InitLocalities(a.db, rt)
