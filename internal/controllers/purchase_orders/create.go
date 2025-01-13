@@ -20,10 +20,10 @@ import (
 // @Produce json
 // @Param purchaseOrder body PurchaseOrdersJSON true "Purchase Order JSON"
 // @Success 201 {object} ResPurchaseOrdersJSON "Created"
-// @Failure 400 {object} ErrorResponse "Bad Request"
-// @Failure 422 {object} ErrorResponse "Unprocessable Entity"
-// @Failure 409 {object} ErrorResponse "Conflict"
-// @Failure 500 {object} ErrorResponse "Internal Server Error"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 422 {object} response.ErrorResponse "Unprocessable Entity"
+// @Failure 409 {object} response.ErrorResponse "Conflict"
+// @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router 	/api/v1/purchaseOrders [post]
 func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Request) {
 	var purchaseOrdersJson PurchaseOrdersJSON

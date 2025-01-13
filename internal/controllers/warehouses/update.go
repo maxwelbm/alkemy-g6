@@ -27,10 +27,10 @@ import (
 // @Param id path int true "Warehouse ID"
 // @Param data body WarehouseReqJSON true "Warehouse JSON"
 // @Success 200 {object} WarehouseResJSON "OK - The warehouse was successfully updated"
-// @Failure 400 {object} ErrorResponse "Bad request - invalid ID format or incomplete data"
-// @Failure 404 {object} ErrorResponse "Not found - the warehouse does not exist"
-// @Failure 409 {object} ErrorResponse "Conflict - duplicate entry"
-// @Failure 500 {object} ErrorResponse "Internal server error"
+// @Failure 400 {object} response.ErrorResponse "Bad request - invalid ID format or incomplete data"
+// @Failure 404 {object} response.ErrorResponse "Not found - the warehouse does not exist"
+// @Failure 409 {object} response.ErrorResponse "Conflict - duplicate entry"
+// @Failure 500 {object} response.ErrorResponse "Internal server error"
 // @Router /api/v1/warehouses/{id} [patch]
 func (c *WarehouseDefault) Update(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
