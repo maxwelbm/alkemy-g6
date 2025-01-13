@@ -6,6 +6,15 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// GetAll handles the HTTP GET request to retrieve all warehouses.
+//
+// @Summary Retrieve all warehouses
+// @Description This endpoint retrieves all warehouses from the database using the service layer.
+// @Tags warehouses
+// @Produce json
+// @Success 200 {object} WarehouseResJSON "OK - The warehouses were successfully retrieved"
+// @Failure 500 {object} ErrorResponse "Internal Server Error - An unexpected error occurred during the retrieval process"
+// @Router /api/v1/warehouses [get]
 func (c *WarehouseDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	warehouses, err := c.Service.GetAll()
 	if err != nil {

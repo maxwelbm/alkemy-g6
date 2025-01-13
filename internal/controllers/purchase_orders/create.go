@@ -12,6 +12,19 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Create handles the HTTP request for creating a new purchase order.
+// @Summary Create a new purchase order
+// @Description Accepts a JSON payload, validates it, and creates a purchase order in the system.
+// @Tags purchase_orders
+// @Accept json
+// @Produce json
+// @Param purchaseOrder body PurchaseOrdersJSON true "Purchase Order JSON"
+// @Success 201 {object} ResPurchaseOrdersJSON "Created"
+// @Failure 400 {object} ErrorResponse "Bad Request"
+// @Failure 422 {object} ErrorResponse "Unprocessable Entity"
+// @Failure 409 {object} ErrorResponse "Conflict"
+// @Failure 500 {object} ErrorResponse "Internal Server Error"
+// @Router 	/api/v1/purchaseOrders [post]
 func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Request) {
 	var purchaseOrdersJson PurchaseOrdersJSON
 	err := json.NewDecoder(r.Body).Decode(&purchaseOrdersJson)

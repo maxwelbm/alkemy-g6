@@ -10,6 +10,18 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Create handles the creation of a new warehouse.
+// @Summary Create a new warehouse
+// @Description Creates a new warehouse with the provided information.
+// @Tags warehouses
+// @Accept json
+// @Produce json
+// @Param data body WarehouseReqJSON true "Warehouse JSON"
+// @Success 201 {object} WarehouseResJSON "Created"
+// @Failure 400 {object} response.ErrorResponse "Bad request"
+// @Failure 409 {object} response.ErrorResponse "Conflict - duplicate entry"
+// @Failure 500 {object} response.ErrorResponse "Internal server error"
+// @Router /api/v1/warehouses [post]
 func (c *WarehouseDefault) Create(w http.ResponseWriter, r *http.Request) {
 	var warehouseJSON WarehouseReqJSON
 	err := json.NewDecoder(r.Body).Decode(&warehouseJSON)
