@@ -63,7 +63,7 @@ func (controller *CarriesDefault) Create(w http.ResponseWriter, r *http.Request)
 	// Validate the request data
 	if err := carryRequest.validate(); err != nil {
 		// If validation fails, respond with a bad request status
-		response.Error(w, http.StatusBadRequest, err.Error())
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 

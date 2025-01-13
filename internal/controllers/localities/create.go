@@ -58,7 +58,7 @@ func (ct *LocalitiesController) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err = locJson.validate(); err != nil {
-		response.Error(w, http.StatusBadRequest, err.Error())
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 	// builds dto from json
