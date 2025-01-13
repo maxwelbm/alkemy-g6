@@ -4,7 +4,7 @@ import "errors"
 
 var (
 	ErrorNoChangesMadedInEmployees = errors.New("No changes made")
-	ErrEmployeesNotFound           = errors.New("Seller not found")
+	ErrEmployeeNotFound           = errors.New("Employee not found")
 )
 
 type Employees struct {
