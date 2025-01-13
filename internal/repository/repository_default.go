@@ -5,7 +5,7 @@ import (
 
 	buyers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyers"
 	employees_repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
-	inboundOrders_repository "github.com/maxwelbm/alkemy-g6/internal/repository/inboundOrders"
+	inbound_orders_repository "github.com/maxwelbm/alkemy-g6/internal/repository/inboundOrders"
 	localities_repository "github.com/maxwelbm/alkemy-g6/internal/repository/localities"
 	products_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
 	sec_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
