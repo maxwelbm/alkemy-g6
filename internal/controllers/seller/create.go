@@ -77,7 +77,7 @@ func (controller *SellersDefault) Create(w http.ResponseWriter, r *http.Request)
 	// Validate the request data
 	if err := sellerRequest.validate(); err != nil {
 		// If validation fails, respond with a bad request status
-		response.JSON(w, http.StatusBadRequest, err.Error())
+		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 

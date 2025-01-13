@@ -2,10 +2,13 @@ package controllers
 
 import (
 	buyers_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/buyer"
+	carries_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/carries"
 	employees_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/employees"
 	localities_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/localities"
-	prod_batches_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/product_batches"
+	product_batches_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/product_batches"
+	product_records_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/product_records"
 	products_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/products"
+	purchase_orders_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/purchase_orders"
 	sections_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/sections"
 	sellers_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/seller"
 	warehouses_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/warehouses"
@@ -32,18 +35,30 @@ func NewSellersController(sv models.SellersService) *sellers_controller.SellersD
 	return sellers_controller.NewSellersController(sv)
 }
 
-func NewLocalityController(sv models.LocalityService) *localities_controller.LocalityController {
-	return localities_controller.NewLocalityController(sv)
+func NewCarriesController(sv models.CarriesService) *carries_controller.CarriesDefault {
+	return carries_controller.NewCarriesDefault(sv)
+}
+
+func NewLocalityController(sv models.LocalityService) *localities_controller.LocalitiesController {
+	return localities_controller.NewLocalitiesController(sv)
 }
 
 func NewWarehousesController(service models.WarehouseService) *warehouses_controller.WarehouseDefault {
 	return &warehouses_controller.WarehouseDefault{Service: service}
 }
 
+func NewProductRecordsController(sv models.ProductRecordsService) *product_records_controller.ProductRecordsDefault {
+	return product_records_controller.NewProductRecordsController(sv)
+}
+
 func NewEmployeesController(sv models.EmployeesService) *employees_controller.EmployeesController {
 	return employees_controller.NewEmployeesDefault(sv)
 }
 
-func NewProductBatchesController(sv models.ProductBatchesService) *prod_batches_controller.ProductBatchesController {
-	return prod_batches_controller.NewProductBatchesController(sv)
+func NewPurchaseOrdersController(service models.PurchaseOrdersService) *purchase_orders_controller.PurchaseOrdersController {
+	return purchase_orders_controller.NewPurchaseOrdersController(service)
+}
+
+func NewProductBatchesController(sv models.ProductBatchesService) *product_batches_controller.ProductBatchesController {
+	return product_batches_controller.NewProductBatchesController(sv)
 }

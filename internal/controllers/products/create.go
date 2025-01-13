@@ -10,6 +10,19 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Create handles the creation of a new product.
+// @Summary Create a new product
+// @Description Create a new product with the provided attributes
+// @Tags products
+// @Accept json
+// @Produce json
+// @Param product body NewProductAttributesJSON true "Product attributes"
+// @Success 201 {object} ProductResJSON "Created"
+// @Failure 400 {object} ErrorResponse "Bad Request"
+// @Failure 409 {object} ErrorResponse "Conflict"
+// @Failure 422 {object} ErrorResponse "Unprocessable Entity"
+// @Failure 500 {object} ErrorResponse "Internal Server Error"
+// @Router /products [post]
 func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	var prodJson NewProductAttributesJSON
 	json.NewDecoder(r.Body).Decode(&prodJson)
@@ -31,7 +44,7 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 		FreezingRate:   *prodJson.FreezingRate,
 		RecomFreezTemp: *prodJson.RecomFreezTemp,
 		ProductTypeID:  *prodJson.ProductTypeID,
-		SellerID: 		*prodJson.SellerID,
+		SellerID:       *prodJson.SellerID,
 	}
 
 	newProd, err := p.SV.Create(prodDTO)
