@@ -42,8 +42,8 @@ func NewLocalityController(sv models.LocalityService) *localities_controller.Loc
 	return localities_controller.NewLocalitiesController(sv)
 }
 
-func NewWarehousesController(service models.WarehouseService) *warehouses_controller.WarehouseDefault {
-	return &warehouses_controller.WarehouseDefault{Service: service}
+func NewWarehousesController(sv models.WarehouseService) *warehouses_controller.WarehouseDefault {
+	return warehouses_controller.NewWarehouseDefault(sv)
 }
 
 func NewInboundOrdersController(SV models.InboundOrdersService) *inbound_orders_controller.InboundOrdersController {

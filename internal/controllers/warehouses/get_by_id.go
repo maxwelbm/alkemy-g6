@@ -30,7 +30,7 @@ func (c *WarehouseDefault) GetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	warehouse, err := c.Service.GetById(id)
+	warehouse, err := c.sv.GetById(id)
 	if err != nil {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return

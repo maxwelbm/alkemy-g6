@@ -6,7 +6,7 @@ import (
 	buyers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyers"
 	carries_repository "github.com/maxwelbm/alkemy-g6/internal/repository/carries"
 	employees_repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
-	inbound_orders_repository "github.com/maxwelbm/alkemy-g6/internal/repository/inboundOrders"
+	inbound_orders_repository "github.com/maxwelbm/alkemy-g6/internal/repository/inbound_orders"
 	localities_repository "github.com/maxwelbm/alkemy-g6/internal/repository/localities"
 	product_batches_repository "github.com/maxwelbm/alkemy-g6/internal/repository/product_batches"
 	product_records_repository "github.com/maxwelbm/alkemy-g6/internal/repository/product_records"
@@ -27,10 +27,8 @@ func NewProductsRepository(DB *sql.DB) *products_repository.Products {
 	}
 }
 
-func NewWarehousesRepository(DB *sql.DB) *warehouse_repository.WarehouseRepository {
-	return &warehouse_repository.WarehouseRepository{
-		DB: DB,
-	}
+func NewWarehousesRepository(db *sql.DB) *warehouse_repository.WarehouseRepository {
+	return warehouse_repository.NewWarehouseRepository(db)
 }
 
 func NewLocalityRepository(db *sql.DB) *localities_repository.LocalityRepository {

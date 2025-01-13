@@ -16,15 +16,16 @@ import (
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error - An unexpected error occurred during the retrieval process"
 // @Router /api/v1/warehouses [get]
 func (c *WarehouseDefault) GetAll(w http.ResponseWriter, r *http.Request) {
-	warehouses, err := c.Service.GetAll()
+	warehouses, err := c.sv.GetAll()
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	var data []WarehouseDataResJSON
+	data := make([]WarehouseDataResJSON, 80)
+
 	for _, value := range warehouses {
-		new := WarehouseDataResJSON{
+		warehouse := WarehouseDataResJSON{
 			Id:                 value.Id,
 			Address:            value.Address,
 			Telephone:          value.Telephone,
@@ -32,7 +33,7 @@ func (c *WarehouseDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 			MinimumCapacity:    value.MinimumCapacity,
 			MinimumTemperature: value.MinimumTemperature,
 		}
-		data = append(data, new)
+		data = append(data, warehouse)
 	}
 
 	res := WarehouseResJSON{

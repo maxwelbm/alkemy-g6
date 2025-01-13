@@ -30,19 +30,21 @@ func (c *WarehouseDefault) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = c.Service.GetById(id)
+	_, err = c.sv.GetById(id)
 	if err != nil {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
 
-	err = c.Service.Delete(id)
+	err = c.sv.Delete(id)
 	if err != nil {
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotDeleteOrUpdateParentRow {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
+
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+
 		return
 	}
 

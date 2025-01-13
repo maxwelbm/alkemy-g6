@@ -10,7 +10,7 @@ import (
 func (r *WarehouseRepository) GetById(id int) (w models.Warehouse, err error) {
 	query := "SELECT `id`, `address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM warehouses WHERE `id`=?"
 
-	rows := r.DB.QueryRow(query, id)
+	rows := r.db.QueryRow(query, id)
 
 	if err = rows.Scan(&w.Id, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
