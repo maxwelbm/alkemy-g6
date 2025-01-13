@@ -17,7 +17,7 @@ import (
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 404 {object} response.ErrorResponse "Employee not found"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
-// @Router /api/v1/employees/report-inbound-orders-by-id [get]
+// @Router /api/v1/employees/reportInboundOrders [get]
 func (c *EmployeesController) GetReportInboundOrdersById(w http.ResponseWriter, r *http.Request) {
 	idString := r.URL.Query().Get("id")
 	var id int

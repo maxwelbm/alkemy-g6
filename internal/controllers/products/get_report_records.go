@@ -19,7 +19,7 @@ import (
 // @Failure 400 {object} response.ErrorResponse "Invalid product ID or bad request"
 // @Failure 404 {object} response.ErrorResponse "Product not found"
 // @Failure 500 {object} response.ErrorResponse "Internal server error"
-// @Router /api/v1/products/report-records [get]
+// @Router /api/v1/products/reportRecords [get]
 func (p *ProductsDefault) GetReportRecords(w http.ResponseWriter, r *http.Request) {
 	var productId int
 	var err error

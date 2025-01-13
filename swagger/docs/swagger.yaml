@@ -775,7 +775,7 @@ paths:
       summary: Update employee by ID
       tags:
       - employees
-  /api/v1/employees/report-inbound-orders-by-id:
+  /api/v1/employees/reportInboundOrders:
     get:
       consumes:
       - application/json
@@ -1187,7 +1187,7 @@ paths:
       summary: Update a product
       tags:
       - products
-  /api/v1/products/report-records:
+  /api/v1/products/reportRecords:
     get:
       description: Retrieves report records for a product based on the provided product
         ID.
@@ -1413,7 +1413,7 @@ paths:
       summary: Update a section
       tags:
       - sections
-  /api/v1/sections/report-products:
+  /api/v1/sections/reportProducts:
     get:
       description: Retrieves report products for a section based on the provided section
         ID.

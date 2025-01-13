@@ -19,7 +19,7 @@ import (
 // @Failure 400 {object} response.ErrorResponse "Invalid section ID or bad request"
 // @Failure 404 {object} response.ErrorResponse "Section not found"
 // @Failure 500 {object} response.ErrorResponse "Internal server error"
-// @Router /api/v1/sections/report-products [get]
+// @Router /api/v1/sections/reportProducts [get]
 func (p *SectionsController) GetReportProducts(w http.ResponseWriter, r *http.Request) {
 	var sectionId int
 	var err error

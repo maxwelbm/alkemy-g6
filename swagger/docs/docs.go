@@ -419,7 +419,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/employees/report-inbound-orders-by-id": {
+        "/api/v1/employees/reportInboundOrders": {
             "get": {
                 "description": "Get report of inbound orders for an employee by their ID",
                 "consumes": [
@@ -1029,7 +1029,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/products/report-records": {
+        "/api/v1/products/reportRecords": {
             "get": {
                 "description": "Retrieves report records for a product based on the provided product ID.",
                 "produces": [
@@ -1389,7 +1389,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/sections/report-products": {
+        "/api/v1/sections/reportProducts": {
             "get": {
                 "description": "Retrieves report products for a section based on the provided section ID.",
                 "produces": [
