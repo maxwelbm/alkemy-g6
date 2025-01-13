@@ -12,7 +12,7 @@ func (r *BuyerRepository) ReportPurchaseOrders(id int) (reports []models.BuyerPu
 		WHERE (? = 0 OR b.id = ?)
 		GROUP BY b.id
 	`
-	rows, err := r.DB.Query(query, id, id)
+	rows, err := r.db.Query(query, id, id)
 	if err != nil {
 		return
 	}

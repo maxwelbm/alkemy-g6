@@ -32,7 +32,7 @@ func (ct *BuyersDefault) Delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Attempt to delete the buyer by ID.
-	err = ct.SV.Delete(id)
+	err = ct.sv.Delete(id)
 	if err != nil {
 		// If the buyer ID is not found, return a 404 Not Found response.
 		if errors.Is(err, models.ErrBuyerNotFound) {

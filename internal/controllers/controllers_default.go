@@ -16,10 +16,8 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func NewBuyersController(SV models.BuyerService) *buyers_controller.BuyersDefault {
-	return &buyers_controller.BuyersDefault{
-		SV: SV,
-	}
+func NewBuyersController(sv models.BuyerService) *buyers_controller.BuyersDefault {
+	return buyers_controller.NewBuyersController(sv)
 }
 
 func NewProductsController(SV models.ProductService) *products_controller.ProductsDefault {

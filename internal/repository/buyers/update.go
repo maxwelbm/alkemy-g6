@@ -7,7 +7,7 @@ import (
 func (r *BuyerRepository) Update(id int, buyerRequest models.BuyerDTO) (buyer models.Buyer, err error) {
 	// Check if the buyer exists
 	var exists bool
-	err = r.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM buyers WHERE id = ?)", id).Scan(&exists)
+	err = r.db.QueryRow("SELECT EXISTS(SELECT 1 FROM buyers WHERE id = ?)", id).Scan(&exists)
 	if err != nil {
 		return
 	}
@@ -22,7 +22,7 @@ func (r *BuyerRepository) Update(id int, buyerRequest models.BuyerDTO) (buyer mo
 		first_name = COALESCE(NULLIF(?, ''), first_name),
 		last_name = COALESCE(NULLIF(?, ''), last_name)
 	WHERE id = ?`
-	res, err := r.DB.Exec(query, buyerRequest.CardNumberId, buyerRequest.FirstName, buyerRequest.LastName, id)
+	res, err := r.db.Exec(query, buyerRequest.CardNumberId, buyerRequest.FirstName, buyerRequest.LastName, id)
 	// Check for errors
 	if err != nil {
 		return
@@ -39,7 +39,7 @@ func (r *BuyerRepository) Update(id int, buyerRequest models.BuyerDTO) (buyer mo
 	}
 
 	// Retrieve the updated buyer
-	err = r.DB.QueryRow("SELECT id, card_number_id, first_name, last_name FROM buyers WHERE id = ?", id).Scan(
+	err = r.db.QueryRow("SELECT id, card_number_id, first_name, last_name FROM buyers WHERE id = ?", id).Scan(
 		&buyer.Id, &buyer.CardNumberId, &buyer.FirstName, &buyer.LastName)
 	if err != nil {
 		return

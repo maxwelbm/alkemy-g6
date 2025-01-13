@@ -83,7 +83,7 @@ func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Call the service layer to update the buyer information
-	buyerReturn, err := ct.SV.Update(id, buyerToUpdate)
+	buyerReturn, err := ct.sv.Update(id, buyerToUpdate)
 
 	// Handle the case where no changes were made
 	if errors.Is(err, models.ErrorNoChangesMade) {

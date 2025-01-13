@@ -16,7 +16,7 @@ import (
 // @Router /api/v1/buyers [get]
 func (ct *BuyersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	// Retrieve all buyers from the service layer
-	buyers, err := ct.SV.GetAll()
+	buyers, err := ct.sv.GetAll()
 
 	// Check for errors in retrieving buyers
 	if err != nil {
