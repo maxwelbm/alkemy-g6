@@ -70,14 +70,14 @@ func (controller *SellersDefault) Create(w http.ResponseWriter, r *http.Request)
 	var sellerRequest SellerCreateJSON
 	if err := json.NewDecoder(r.Body).Decode(&sellerRequest); err != nil {
 		// If there's an error decoding the JSON, respond with a bad request status
-		response.JSON(w, http.StatusBadRequest, "Error ao decodificar JSON")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	// Validate the request data
 	if err := sellerRequest.validate(); err != nil {
 		// If validation fails, respond with a bad request status
-		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
