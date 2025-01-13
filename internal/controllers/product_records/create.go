@@ -47,6 +47,19 @@ func (j *ProductRecordCreateJSON) validate() (err error) {
 	return
 }
 
+// Create handles the creation of a new product record.
+// @Summary Create a new product record
+// @Description Create a new product record with the provided JSON data
+// @Tags product_records
+// @Accept json
+// @Produce json
+// @Param productRecord body ProductRecordCreateJSON true "Product Record Create JSON"
+// @Success 201 {object} ProductRecordResJSON "Success"
+// @Failure 400 {object} ErrorResponse "Error ao decodificar JSON"
+// @Failure 422 {object} ErrorResponse "Unprocessable Entity"
+// @Failure 409 {object} ErrorResponse "Conflict"
+// @Failure 500 {object} ErrorResponse "Internal Server Error"
+// @Router /product_records [post]
 func (controller *ProductRecordsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	// Decode the JSON request body into productRecordRequest
 	var productRecordRequest ProductRecordCreateJSON
