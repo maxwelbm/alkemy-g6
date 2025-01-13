@@ -45,10 +45,8 @@ func NewSectionsRepository(DB *sql.DB) *sec_repository.SectionRepository {
 	}
 }
 
-func NewProductRecordsRepository(DB *sql.DB) *product_records_repository.ProductRecordsDefault {
-	return &product_records_repository.ProductRecordsDefault{
-		Db: DB,
-	}
+func NewProductRecordsRepository(db *sql.DB) *product_records_repository.ProductRecordsDefault {
+	return product_records_repository.NewProductRecordsRepository(db)
 }
 
 func NewEmployeesRepository(db *sql.DB) *employees_repository.EmployeesRepository {

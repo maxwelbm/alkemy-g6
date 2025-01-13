@@ -5,12 +5,12 @@ import (
 )
 
 type ProductRecordsDefault struct {
-	Db *sql.DB
+	db *sql.DB
 }
 
 func NewProductRecordsRepository(db *sql.DB) *ProductRecordsDefault {
 	rp := &ProductRecordsDefault{
-		Db: db,
+		db: db,
 	}
 	return rp
 }

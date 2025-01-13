@@ -43,7 +43,7 @@ func NewWarehousesController(service models.WarehouseService) *warehouses_contro
 }
 
 func NewProductRecordsController(sv models.ProductRecordsService) *product_records_controller.ProductRecordsDefault {
-	return &product_records_controller.ProductRecordsDefault{SV: sv}
+	return product_records_controller.NewProductRecordsController(sv)
 }
 
 func NewEmployeesController(sv models.EmployeesService) *employees_controller.EmployeesController {

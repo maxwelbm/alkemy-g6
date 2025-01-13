@@ -5,11 +5,11 @@ import (
 )
 
 type ProductRecordsDefault struct {
-	SV models.ProductRecordsService
+	sv models.ProductRecordsService
 }
 
 func NewProductRecordsController(sv models.ProductRecordsService) *ProductRecordsDefault {
-	return &ProductRecordsDefault{SV: sv}
+	return &ProductRecordsDefault{sv: sv}
 }
 
 type ProductRecordResJSON struct {

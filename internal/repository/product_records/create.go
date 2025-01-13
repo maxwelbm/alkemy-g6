@@ -7,7 +7,7 @@ import (
 func (r *ProductRecordsDefault) Create(productRecord models.ProductRecordDTO) (productRecordToReturn models.ProductRecord, err error) {
 	// Insert productRecord into database
 	query := "INSERT INTO product_records (last_update_date, purchase_price, sale_price, product_id) VALUES (?, ?, ?, ?)"
-	result, err := r.Db.Exec(query, productRecord.LastUpdateDate, productRecord.PurchasePrice, productRecord.SalePrice, productRecord.ProductId)
+	result, err := r.db.Exec(query, productRecord.LastUpdateDate, productRecord.PurchasePrice, productRecord.SalePrice, productRecord.ProductId)
 	if err != nil {
 		return
 	}
@@ -20,7 +20,7 @@ func (r *ProductRecordsDefault) Create(productRecord models.ProductRecordDTO) (p
 
 	// Get created productRecord from database
 	query = "SELECT id, last_update_date, purchase_price, sale_price, product_id FROM product_records WHERE id = ?"
-	err = r.Db.
+	err = r.db.
 		QueryRow(query, lastInsertId).
 		Scan(&productRecordToReturn.ID, &productRecordToReturn.LastUpdateDate, &productRecordToReturn.PurchasePrice, &productRecordToReturn.SalePrice, &productRecordToReturn.ProductId)
 	if err != nil {
