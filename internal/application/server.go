@@ -74,6 +74,7 @@ func (a *ServerChi) Run() (err error) {
 	rt.Use(middleware.Recoverer)
 
 	// resources
+	resources.InitInboundOrders(a.db, rt)
 	resources.InitEmployees(a.db, rt)
 	resources.InitBuyers(a.db, rt)
 	resources.InitSellers(a.db, rt)

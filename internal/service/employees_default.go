@@ -28,6 +28,11 @@ func (e *EmployeesDefault) GetByID(id int) (employees models.Employees, err erro
 	return
 }
 
+func (e *EmployeesDefault) GetReportInboundOrdersById(id int) (employees []models.EmployeesReportInboundDTO, err error) {
+	employees, err = e.rp.GetReportInboundOrdersById(id)
+	return
+}
+
 func (e *EmployeesDefault) Create(employees models.EmployeesDTO) (newEmployees models.Employees, err error) {
 	newEmployees, err = e.rp.Create(employees)
 	return
