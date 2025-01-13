@@ -17,10 +17,8 @@ import (
 	warehouse_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
 )
 
-func NewBuyersRepository(DB *sql.DB) *buyers_repository.BuyerRepository {
-	return &buyers_repository.BuyerRepository{
-		DB: DB,
-	}
+func NewBuyersRepository(db *sql.DB) *buyers_repository.BuyerRepository {
+	return buyers_repository.NewBuyersRepository(db)
 }
 
 func NewProductsRepository(DB *sql.DB) *products_repository.Products {

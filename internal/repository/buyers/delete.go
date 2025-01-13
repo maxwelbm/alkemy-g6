@@ -4,7 +4,7 @@ import "github.com/maxwelbm/alkemy-g6/internal/models"
 
 func (r *BuyerRepository) Delete(id int) (err error) {
 	query := "DELETE FROM buyers WHERE id = ?"
-	result, err := r.DB.Exec(query, id)
+	result, err := r.db.Exec(query, id)
 	if err != nil {
 		return
 	}

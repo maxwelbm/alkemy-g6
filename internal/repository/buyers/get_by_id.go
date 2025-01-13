@@ -10,7 +10,7 @@ import (
 func (r *BuyerRepository) GetById(id int) (buyer models.Buyer, err error) {
 	query := "SELECT id, card_number_id, first_name, last_name FROM buyers WHERE id = ?"
 
-	row := r.DB.QueryRow(query, id)
+	row := r.db.QueryRow(query, id)
 
 	err = row.Scan(&buyer.Id, &buyer.CardNumberId, &buyer.FirstName, &buyer.LastName)
 	if err != nil {
