@@ -123,8 +123,10 @@ CREATE TABLE inbound_orders (
     order_number INT UNIQUE,
     employee_id INT,
     product_batch_id INT,
+    warehouse_id INT,
     FOREIGN KEY (employee_id) REFERENCES employees(id),
-    FOREIGN KEY (product_batch_id) REFERENCES product_batches(id)
+    FOREIGN KEY (product_batch_id) REFERENCES product_batches(id),
+    FOREIGN KEY (warehouse_id) REFERENCES warehouses(id)
 );
 
 -- Create a table to store purchase order information
@@ -210,11 +212,11 @@ INSERT INTO product_records (last_update_date, purchase_price, sale_price, produ
 INSERT INTO product_records (last_update_date, purchase_price, sale_price, product_id) VALUES ('2023-05-01', 30.00, 40.00, 5);
 
 -- Insert data into inbound_orders
-INSERT INTO inbound_orders (order_date, order_number, employee_id, product_batch_id) VALUES ('2023-01-01', 1001, 1, 1);
-INSERT INTO inbound_orders (order_date, order_number, employee_id, product_batch_id) VALUES ('2023-02-01', 1002, 2, 2);
-INSERT INTO inbound_orders (order_date, order_number, employee_id, product_batch_id) VALUES ('2023-03-01', 1003, 3, 3);
-INSERT INTO inbound_orders (order_date, order_number, employee_id, product_batch_id) VALUES ('2023-04-01', 1004, 4, 4);
-INSERT INTO inbound_orders (order_date, order_number, employee_id, product_batch_id) VALUES ('2023-05-01', 1005, 5, 5);
+INSERT INTO inbound_orders (order_date, order_number, employee_id, product_batch_id, warehouse_id) VALUES ('2023-01-01', 1001, 1, 1, 1);
+INSERT INTO inbound_orders (order_date, order_number, employee_id, product_batch_id, warehouse_id) VALUES ('2023-02-01', 1002, 2, 2, 2);
+INSERT INTO inbound_orders (order_date, order_number, employee_id, product_batch_id, warehouse_id) VALUES ('2023-03-01', 1003, 3, 3, 3);
+INSERT INTO inbound_orders (order_date, order_number, employee_id, product_batch_id, warehouse_id) VALUES ('2023-04-01', 1004, 4, 4, 4);
+INSERT INTO inbound_orders (order_date, order_number, employee_id, product_batch_id, warehouse_id) VALUES ('2023-05-01', 1005, 5, 5, 5);
 
 -- Insert data into purchase_orders
 INSERT INTO purchase_orders (order_number, order_date, tracking_code, buyer_id, product_record_id) VALUES (2001, '2023-01-01', 3001, 1, 1);

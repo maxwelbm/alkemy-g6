@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	buyers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyers"
+	inbound_orders_repository "github.com/maxwelbm/alkemy-g6/internal/repository/inboundOrders"
 	carries_repository "github.com/maxwelbm/alkemy-g6/internal/repository/carries"
 	employees_repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
 	localities_repository "github.com/maxwelbm/alkemy-g6/internal/repository/localities"
@@ -64,4 +65,12 @@ func NewEmployeesRepository(db *sql.DB) *employees_repository.EmployeesRepositor
 
 func NewPurchaseOrdersRepository(db *sql.DB) *purchase_orders_repository.PurchaseOrdersRepository {
 	return purchase_orders_repository.NewPurchaseOrdersRepository(db)
+}
+
+func NewEmployeesRepository(db *sql.DB) {
+return employees_repository.NewEmployeesRepository(db)
+}
+
+func NewInboundOrdersRepository(db *sql.DB) {
+return inboundOrders_repository.NewInboundOrdersRepository(db) 
 }
