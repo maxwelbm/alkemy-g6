@@ -134,9 +134,9 @@ func (c *NewSectionReqJSON) validateUpdate() (err error) {
 }
 
 type SectionsController struct {
-	SV models.SectionService
+	sv models.SectionService
 }
 
-func NewSectionsController(SV models.SectionService) *SectionsController {
-	return &SectionsController{SV: SV}
+func NewSectionsController(sv models.SectionService) *SectionsController {
+	return &SectionsController{sv: sv}
 }

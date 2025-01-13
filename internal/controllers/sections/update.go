@@ -42,7 +42,7 @@ func (c *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 		ProductTypeID:      secReqJson.ProductTypeID,
 	}
 
-	updateSection, err := c.SV.Update(id, secDTO)
+	updateSection, err := c.sv.Update(id, secDTO)
 
 	if err != nil {
 		// Handle if section not found

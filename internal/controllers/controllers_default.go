@@ -5,6 +5,7 @@ import (
 	carries_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/carries"
 	employees_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/employees"
 	localities_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/localities"
+	product_batches_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/product_batches"
 	product_records_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/product_records"
 	products_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/products"
 	purchase_orders_controller "github.com/maxwelbm/alkemy-g6/internal/controllers/purchase_orders"
@@ -26,10 +27,8 @@ func NewProductsController(SV models.ProductService) *products_controller.Produc
 	}
 }
 
-func NewSectionsController(SV models.SectionService) *sections_controller.SectionsController {
-	return &sections_controller.SectionsController{
-		SV: SV,
-	}
+func NewSectionsController(sv models.SectionService) *sections_controller.SectionsController {
+	return sections_controller.NewSectionsController(sv)
 }
 
 func NewSellersController(sv models.SellersService) *sellers_controller.SellersDefault {
@@ -58,4 +57,8 @@ func NewEmployeesController(sv models.EmployeesService) *employees_controller.Em
 
 func NewPurchaseOrdersController(service models.PurchaseOrdersService) *purchase_orders_controller.PurchaseOrdersController {
 	return purchase_orders_controller.NewPurchaseOrdersController(service)
+}
+
+func NewProductBatchesController(sv models.ProductBatchesService) *product_batches_controller.ProductBatchesController {
+	return product_batches_controller.NewProductBatchesController(sv)
 }
