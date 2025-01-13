@@ -32,7 +32,7 @@ func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Reques
 		ProductRecordID: *purchaseOrdersJson.ProductRecordId,
 	}
 
-	purchaseOrders, err := pc.Service.Create(*poDTO)
+	purchaseOrders, err := pc.sv.Create(*poDTO)
 	if err != nil {
 		pc.handleCreateError(w, err)
 		return
@@ -87,16 +87,11 @@ func (pc *PurchaseOrdersController) handleCreateError(w http.ResponseWriter, err
 			response.Error(w, http.StatusConflict, err.Error())
 		case mysqlerr.CodeIncorrectDateValue:
 			response.Error(w, http.StatusBadRequest, err.Error())
+		case mysqlerr.CodeCannotAddOrUpdateChildRow:
+			response.Error(w, http.StatusConflict, err.Error())
 		default:
 			response.Error(w, http.StatusInternalServerError, err.Error())
 		}
-		return
-	}
-
-	if errors.Is(err, models.ErrOrderNumberExist) ||
-		errors.Is(err, models.ErrBuyerIDNotExist) ||
-		errors.Is(err, models.ErrProductRecordIDNotExist) {
-		response.Error(w, http.StatusConflict, err.Error())
 		return
 	}
 

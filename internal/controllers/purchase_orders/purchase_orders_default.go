@@ -5,11 +5,11 @@ import (
 )
 
 type PurchaseOrdersController struct {
-	Service models.PurchaseOrdersService
+	sv models.PurchaseOrdersService
 }
 
 func NewPurchaseOrdersController(sv models.PurchaseOrdersService) *PurchaseOrdersController {
-	return &PurchaseOrdersController{Service: sv}
+	return &PurchaseOrdersController{sv: sv}
 }
 
 type ResPurchaseOrdersJSON struct {

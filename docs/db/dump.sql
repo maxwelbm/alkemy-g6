@@ -135,6 +135,7 @@ CREATE TABLE purchase_orders (
     tracking_code VARCHAR(255),
     buyer_id INT,
     product_record_id INT,
+    FOREIGN KEY (buyer_id) REFERENCES buyers(id),
     FOREIGN KEY (product_record_id) REFERENCES product_records(id)
 );
 

@@ -49,8 +49,6 @@ func NewEmployeesRepository(db *sql.DB) *employees_repository.EmployeesRepositor
 	return employees_repository.NewEmployeesRepository(db)
 }
 
-func NewPurchaseOrdersRepository(DB *sql.DB) *purchase_orders_repository.PurchaseOrdersRepository {
-	return &purchase_orders_repository.PurchaseOrdersRepository{
-		DB: DB,
-	}
+func NewPurchaseOrdersRepository(db *sql.DB) *purchase_orders_repository.PurchaseOrdersRepository {
+	return purchase_orders_repository.NewPurchaseOrdersRepository(db)
 }

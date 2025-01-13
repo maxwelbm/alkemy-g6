@@ -47,5 +47,5 @@ func NewEmployeesController(sv models.EmployeesService) *employees_controller.Em
 }
 
 func NewPurchaseOrdersController(service models.PurchaseOrdersService) *purchase_orders_controller.PurchaseOrdersController {
-	return &purchase_orders_controller.PurchaseOrdersController{Service: service}
+	return purchase_orders_controller.NewPurchaseOrdersController(service)
 }

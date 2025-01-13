@@ -1,15 +1,5 @@
 package models
 
-import (
-	"errors"
-)
-
-var (
-	ErrBuyerIDNotExist         = errors.New("Buyer does not exist")
-	ErrProductRecordIDNotExist = errors.New("Product Record does not exist")
-	ErrOrderNumberExist        = errors.New("Order Number already exist")
-)
-
 type PurchaseOrders struct {
 	ID              int
 	OrderNumber     string
