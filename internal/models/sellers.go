@@ -3,8 +3,8 @@ package models
 import "errors"
 
 var (
-	ErrorNoChangesMade = errors.New("No changes made")
-	ErrSellerNotFound  = errors.New("Seller not found")
+	ErrorNoChangesMade = errors.New("no changes made")
+	ErrSellerNotFound  = errors.New("seller not found")
 )
 
 type Seller struct {
