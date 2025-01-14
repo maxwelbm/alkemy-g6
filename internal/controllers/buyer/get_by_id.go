@@ -37,12 +37,11 @@ func (ct *BuyersDefault) GetByID(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Map the buyer details to the response JSON structure
-	var data = FullBuyerJSON{
-		ID:           buyer.ID,
-		CardNumberID: buyer.CardNumberID,
-		FirstName:    buyer.FirstName,
-		LastName:     buyer.LastName,
-	}
+	var data FullBuyerJSON
+	data.ID = buyer.ID
+	data.CardNumberID = buyer.CardNumberID
+	data.FirstName = buyer.FirstName
+	data.LastName = buyer.LastName
 
 	// Create the response JSON with a success message and the buyer data
 	res := BuyerResJSON{
