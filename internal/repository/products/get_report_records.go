@@ -8,6 +8,7 @@ import (
 
 func (p *Products) GetReportRecords(id int) (list []models.ProductReportRecords, err error) {
 	var query string
+	
 	var rows *sql.Rows
 
 	query = `
@@ -20,8 +21,9 @@ func (p *Products) GetReportRecords(id int) (list []models.ProductReportRecords,
 	rows, err = p.DB.Query(query, id, id)
 
 	if err != nil {
-		return
+		return nil, err
 	}
+	
 	defer rows.Close()
 
 	for rows.Next() {
@@ -31,20 +33,22 @@ func (p *Products) GetReportRecords(id int) (list []models.ProductReportRecords,
 			&productRecord.Description,
 			&productRecord.RecordsCount,
 		)
+		
 		if err != nil {
-			return
+			return nil, err
 		}
+		
 		list = append(list, productRecord)
 	}
 
 	if len(list) == 0 {
 		err = models.ErrProductNotFound
-		return
+		return nil, err
 	}
 
 	if err = rows.Err(); err != nil {
-		return
+		return nil, err
 	}
 
-	return
+	return list, nil
 }

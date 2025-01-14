@@ -31,7 +31,9 @@ func (p *Products) GetByID(id int) (prod models.Product, err error) {
 			err = models.ErrProductNotFound
 			return
 		}
-		return
+		
+		return prod, err
 	}
-	return
+	
+	return prod, nil
 }

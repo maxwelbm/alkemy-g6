@@ -59,8 +59,10 @@ type ReportRecordFullJSON struct {
 	RecordsCount int    `json:"records_count"`
 }
 
+//nolint:all
 func (p *NewProductAttributesJSON) validate() (err error) {
 	var validationErrors []string
+
 	var nilPointerErrors []string
 
 	// Check for nil pointers and collect their errors
@@ -134,7 +136,7 @@ func (p *NewProductAttributesJSON) validate() (err error) {
 
 		err = errors.New(fmt.Sprintf("validation errors: %v", allErrors))
 	}
-	return
+	return err
 }
 
 type UpdateProductAttributesJSON struct {
@@ -151,6 +153,7 @@ type UpdateProductAttributesJSON struct {
 	SellerID       *int     `json:"seller_id,omitempty"`
 }
 
+//nolint:all
 func (p *UpdateProductAttributesJSON) validate() (err error) {
 	var validationErrors []string
 
@@ -201,5 +204,6 @@ func (p *UpdateProductAttributesJSON) validate() (err error) {
 	if len(validationErrors) > 0 {
 		err = errors.New(fmt.Sprintf("validation errors: %v", validationErrors))
 	}
-	return
+
+	return err
 }

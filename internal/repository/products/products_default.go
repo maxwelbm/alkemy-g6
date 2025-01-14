@@ -12,5 +12,6 @@ func NewProducts(db *sql.DB) *Products {
 	repo := &Products{
 		DB: db,
 	}
+	
 	return repo
 }

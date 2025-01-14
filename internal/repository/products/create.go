@@ -5,7 +5,18 @@ import (
 )
 
 func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err error) {
-	query := "INSERT INTO products (`product_code`, `description`, `height`, `length`, `width`, `net_weight`, `expiration_rate`, `freezing_rate`, `recommended_freezing_temperature`, `product_type_id`, `seller_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+	query := `INSERT INTO products 
+				(product_code,
+				description,
+				height,
+				length,
+				width,
+				net_weight,
+				expiration_rate,
+				freezing_rate,
+				recommended_freezing_temperature,
+				product_type_id,
+				seller_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 	result, err := p.DB.Exec(query,
 		prod.ProductCode,
@@ -22,15 +33,30 @@ func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err e
 	)
 
 	if err != nil {
-		return
+		return newProd, err
 	}
 
 	lastInsertID, err := result.LastInsertId()
 	if err != nil {
-		return
+		return newProd, err
 	}
-	query = "SELECT `id`, `product_code`, `description`, `height`, `length`, `width`, `net_weight`, `expiration_rate`, `freezing_rate`, `recommended_freezing_temperature`, `product_type_id`, `seller_id` FROM products WHERE `id` = ?"
-	err = p.DB.QueryRow(query, lastInsertID).Scan(
+
+	query = `SELECT 
+				id, 
+				product_code, 
+				description,
+				height,
+				length,
+				width,
+				net_weight,
+				expiration_rate,
+				freezing_rate,
+				recommended_freezing_temperature,
+				product_type_id,
+				seller_id FROM products WHERE id = ?`
+	
+	err = p.DB.QueryRow(query,
+		lastInsertID).Scan(
 		&newProd.ID,
 		&newProd.ProductCode,
 		&newProd.Description,
@@ -44,9 +70,10 @@ func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err e
 		&newProd.ProductTypeID,
 		&newProd.SellerID,
 	)
+	
 	if err != nil {
-		return
+		return newProd, err
 	}
 
-	return
+	return newProd, err
 }

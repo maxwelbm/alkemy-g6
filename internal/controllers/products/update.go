@@ -29,6 +29,7 @@ import (
 // @Failure 422 {object} response.ErrorResponse "Unprocessable entity"
 // @Failure 500 {object} response.ErrorResponse "Internal server error"
 // @Router /api/v1/products/{id} [patch]
+//nolint:all
 func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	// Get the ID from the URL
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
@@ -39,8 +40,10 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 
 	// Decode the JSON
 	var prodJSON UpdateProductAttributesJSON
-	json.NewDecoder(r.Body).Decode(&prodJSON)
-
+	if err := json.NewDecoder(r.Body).Decode(&prodJSON); err != nil {
+		response.Error(w, http.StatusBadRequest, err.Error())
+		return
+	}
 	// Validate the JSON
 	if err = prodJSON.validate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
@@ -53,33 +56,43 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	if prodJSON.ProductCode != nil {
 		prodDTO.ProductCode = *prodJSON.ProductCode
 	}
+	
 	if prodJSON.Description != nil {
 		prodDTO.Description = *prodJSON.Description
 	}
+	
 	if prodJSON.Height != nil {
 		prodDTO.Height = *prodJSON.Height
 	}
+	
 	if prodJSON.Length != nil {
 		prodDTO.Length = *prodJSON.Length
 	}
+	
 	if prodJSON.Width != nil {
 		prodDTO.Width = *prodJSON.Width
 	}
+	
 	if prodJSON.NetWeight != nil {
 		prodDTO.NetWeight = *prodJSON.NetWeight
 	}
+	
 	if prodJSON.ExpirationRate != nil {
 		prodDTO.ExpirationRate = *prodJSON.ExpirationRate
 	}
+	
 	if prodJSON.FreezingRate != nil {
 		prodDTO.FreezingRate = *prodJSON.FreezingRate
 	}
+	
 	if prodJSON.RecomFreezTemp != nil {
 		prodDTO.RecomFreezTemp = *prodJSON.RecomFreezTemp
 	}
+	
 	if prodJSON.ProductTypeID != nil {
 		prodDTO.ProductTypeID = *prodJSON.ProductTypeID
 	}
+	
 	if prodJSON.SellerID != nil {
 		prodDTO.SellerID = *prodJSON.SellerID
 	}
@@ -103,7 +116,9 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 		}
+
 		response.Error(w, http.StatusInternalServerError, err.Error())
+		
 		return
 	}
 

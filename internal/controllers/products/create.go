@@ -25,7 +25,10 @@ import (
 // @Router /api/v1/products [post]
 func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	var prodJSON NewProductAttributesJSON
-	json.NewDecoder(r.Body).Decode(&prodJSON)
+	if err := json.NewDecoder(r.Body).Decode(&prodJSON); err != nil {
+		response.Error(w, http.StatusBadRequest, err.Error())
+		return
+	}
 
 	err := prodJSON.validate()
 	if err != nil {
@@ -60,7 +63,9 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 		}
+
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

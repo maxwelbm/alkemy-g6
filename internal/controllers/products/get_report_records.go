@@ -22,6 +22,7 @@ import (
 // @Router /api/v1/products/reportRecords [get]
 func (p *ProductsDefault) GetReportRecords(w http.ResponseWriter, r *http.Request) {
 	var productID int
+
 	var err error
 
 	id := r.URL.Query().Get("id")
@@ -31,6 +32,7 @@ func (p *ProductsDefault) GetReportRecords(w http.ResponseWriter, r *http.Reques
 			response.Error(w, http.StatusBadRequest, err.Error())
 			return
 		}
+
 		if productID < 1 {
 			response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 			return
@@ -45,11 +47,13 @@ func (p *ProductsDefault) GetReportRecords(w http.ResponseWriter, r *http.Reques
 			response.Error(w, http.StatusNotFound, err.Error())
 			return
 		}
+
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
-	var data []ReportRecordFullJSON
+	data := make([]ReportRecordFullJSON, len(reportRecords))
 	for _, r := range reportRecords {
 		data = append(data,
 			ReportRecordFullJSON{
