@@ -12,6 +12,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Delete handles the deletion of a employee by its ID.
 // @Summary Delete a employee
 // @Description Delete a employee by ID
 // @Tags employees
@@ -44,9 +45,11 @@ func (c *EmployeesController) Delete(w http.ResponseWriter, r *http.Request) {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
+		
 		response.Error(w, http.StatusInternalServerError, err.Error())
+		
 		return
 	}
 
-	response.JSON(w, http.StatusNoContent, "Sucess delete")
+	response.JSON(w, http.StatusNoContent, "Success delete")
 }

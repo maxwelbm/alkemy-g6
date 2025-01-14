@@ -7,10 +7,10 @@ import (
 	models "github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (r *EmployeesRepository) GetByID(id int) (employees models.Employees, err error) {
+func (e *EmployeesRepository) GetByID(id int) (employees models.Employees, err error) {
 	query := "SELECT id, card_number_id, first_name, last_name, warehouse_id FROM employees WHERE id = ?"
 
-	row := r.DB.QueryRow(query, id)
+	row := e.DB.QueryRow(query, id)
 
 	err = row.Scan(&employees.ID, &employees.CardNumberID, &employees.FirstName, &employees.LastName, &employees.WarehouseID)
 	if err != nil {
@@ -18,6 +18,7 @@ func (r *EmployeesRepository) GetByID(id int) (employees models.Employees, err e
 			err = errors.New("ID not found")
 			return
 		}
+		
 		return
 	}
 

@@ -30,6 +30,7 @@ import (
 func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 	var employeesJSON EmployeesReqJSON
 	err := json.NewDecoder(r.Body).Decode(&employeesJSON)
+
 	if err != nil {
 		response.JSON(w, http.StatusBadRequest, "Body invalid")
 		return
@@ -61,11 +62,12 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 		}
 		// For any other error, respond with an internal server error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
 	data := EmployeesResJSON{
-		Message: "Sucess created",
+		Message: "Success created",
 		Data: EmployeesAttributes{
 			ID:           emp.ID,
 			CardNumberID: emp.CardNumberID,
@@ -78,7 +80,6 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func validateNewEmployees(employees EmployeesReqJSON) (err error) {
-
 	var errosEmp []string
 	if employees.CardNumberID == nil || *employees.CardNumberID == "" {
 		errosEmp = append(errosEmp, "error: attribute CardNumberID cannot be empty")
@@ -101,5 +102,6 @@ func validateNewEmployees(employees EmployeesReqJSON) (err error) {
 	if len(errosEmp) > 0 {
 		err = errors.New(fmt.Sprintf("validation errors: %v", errosEmp))
 	}
+
 	return
 }
