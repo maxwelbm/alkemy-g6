@@ -3,8 +3,8 @@ package models
 import "errors"
 
 var (
-	ErrWareHouseNotFound  = errors.New("Warehouse not found")
-	ErrWareHouseCodeExist = errors.New("Warehouse code already exist")
+	ErrWareHouseNotFound  = errors.New("warehouse not found")
+	ErrWareHouseCodeExist = errors.New("warehouse code already exist")
 )
 
 type Warehouse struct {

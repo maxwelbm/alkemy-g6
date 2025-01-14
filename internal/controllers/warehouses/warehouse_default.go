@@ -1,7 +1,6 @@
 package warehousesctl
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/maxwelbm/alkemy-g6/internal/models"
@@ -73,7 +72,7 @@ func validateNewWarehouse(warehouse WarehouseReqJSON) (err error) {
 		allErrors = append(allErrors, nilPointerErrors...)
 		allErrors = append(allErrors, validationErrors...)
 
-		err = errors.New(fmt.Sprintf("validation errors: %v", allErrors))
+		err = fmt.Errorf("validation errors: %v", allErrors)
 	}
 
 	return err
@@ -105,7 +104,7 @@ func validateUpdateWarehouse(w WarehouseReqJSON) (err error) {
 	}
 
 	if len(validationErrors) > 0 {
-		err = errors.New(fmt.Sprintf("validation errors: %v", validationErrors))
+		err = fmt.Errorf("validation errors: %v", validationErrors)
 	}
 
 	return
