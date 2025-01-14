@@ -12,5 +12,6 @@ func NewProductRecordsRepository(db *sql.DB) *ProductRecordsDefault {
 	rp := &ProductRecordsDefault{
 		db: db,
 	}
+
 	return rp
 }
