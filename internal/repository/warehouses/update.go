@@ -38,7 +38,7 @@ func (r *WarehouseRepository) Update(id int, warehouse models.WarehouseDTO) (w m
 
 	query = "SELECT `id`,`address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM warehouses WHERE `id`=?"
 	err = r.db.
-		QueryRow(query, id).Scan(&w.Id, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature)
+		QueryRow(query, id).Scan(&w.ID, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature)
 	if err != nil {
 		return
 	}

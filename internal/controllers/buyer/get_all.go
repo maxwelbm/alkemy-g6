@@ -30,8 +30,8 @@ func (ct *BuyersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	// Iterate over the retrieved buyers and map them to the response format
 	for _, value := range buyers {
 		new := FullBuyerJSON{
-			Id:           value.Id,
-			CardNumberId: value.CardNumberId,
+			ID:           value.ID,
+			CardNumberID: value.CardNumberID,
 			FirstName:    value.FirstName,
 			LastName:     value.LastName,
 		}

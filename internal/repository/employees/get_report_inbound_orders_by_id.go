@@ -4,7 +4,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (r *EmployeesRepository) GetReportInboundOrdersById(id int) (employeesReportList []models.EmployeesReportInboundDTO, err error) {
+func (r *EmployeesRepository) GetReportInboundOrdersByID(id int) (employeesReportList []models.EmployeesReportInboundDTO, err error) {
 	// selects locality info and carries count
 	query := `
 		SELECT e.id, e.card_number_id, e.first_name, e.last_name, e.warehouse_id ,COUNT(io.id) AS CountReports 

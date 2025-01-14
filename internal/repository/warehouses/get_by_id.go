@@ -12,7 +12,7 @@ func (r *WarehouseRepository) GetByID(id int) (w models.Warehouse, err error) {
 
 	rows := r.db.QueryRow(query, id)
 
-	if err = rows.Scan(&w.Id, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature); err != nil {
+	if err = rows.Scan(&w.ID, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			err = ErrWarehouseRepositoryNotFound
 			return

@@ -15,7 +15,7 @@ func (r *ProductBatchesRepository) Create(prodBatches models.ProductBatchesDTO) 
 		return
 	}
 
-	lastInsertID, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertID()
 	if err != nil {
 		return
 	}

@@ -20,7 +20,7 @@ func (r *BuyerRepository) ReportPurchaseOrders(id int) (reports []models.BuyerPu
 
 	for rows.Next() {
 		var report models.BuyerPurchaseOrdersReport
-		err = rows.Scan(&report.ID, &report.CardNumberId, &report.FirstName, &report.LastName, &report.PurchaseOrdersCount)
+		err = rows.Scan(&report.ID, &report.CardNumberID, &report.FirstName, &report.LastName, &report.PurchaseOrdersCount)
 		if err != nil {
 			return
 		}

@@ -12,7 +12,7 @@ import (
 )
 
 type BuyerCreateJSON struct {
-	CardNumberId *string `json:"card_number_id,omitempty"`
+	CardNumberID *string `json:"card_number_id,omitempty"`
 	FirstName    *string `json:"first_name,omitempty"`
 	LastName     *string `json:"last_name,omitempty"`
 }
@@ -63,7 +63,7 @@ func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
 
 	// Create a BuyerDTO from the request data
 	buyerToCreate := models.BuyerDTO{
-		CardNumberId: buyerRequest.CardNumberId,
+		CardNumberID: buyerRequest.CardNumberID,
 		FirstName:    buyerRequest.FirstName,
 		LastName:     buyerRequest.LastName,
 	}
@@ -84,8 +84,8 @@ func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
 
 	// Prepare the response data
 	data := FullBuyerJSON{
-		Id:           buyerCreated.Id,
-		CardNumberId: buyerCreated.CardNumberId,
+		ID:           buyerCreated.ID,
+		CardNumberID: buyerCreated.CardNumberID,
 		FirstName:    buyerCreated.FirstName,
 		LastName:     buyerCreated.LastName,
 	}

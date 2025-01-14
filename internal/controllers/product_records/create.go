@@ -15,7 +15,7 @@ type ProductRecordCreateJSON struct {
 	LastUpdateDate *string  `json:"last_update_date,omitempty"`
 	PurchasePrice  *float64 `json:"purchase_price,omitempty"`
 	SalePrice      *float64 `json:"sale_price,omitempty"`
-	ProductId      *int     `json:"product_id,omitempty"`
+	ProductID      *int     `json:"product_id,omitempty"`
 }
 
 func (j *ProductRecordCreateJSON) validate() (err error) {
@@ -34,8 +34,8 @@ func (j *ProductRecordCreateJSON) validate() (err error) {
 	if j.SalePrice == nil {
 		validationErrors = append(validationErrors, "error: sale_price is required")
 	}
-	// Check if ProductId is nil and add an error message if it is
-	if j.ProductId == nil {
+	// Check if ProductID is nil and add an error message if it is
+	if j.ProductID == nil {
 		validationErrors = append(validationErrors, "error: product_id is required")
 	}
 	// If there are any validation errors, create an error with all messages
@@ -81,7 +81,7 @@ func (controller *ProductRecordsDefault) Create(w http.ResponseWriter, r *http.R
 		LastUpdateDate: *productRecordRequest.LastUpdateDate,
 		PurchasePrice:  *productRecordRequest.PurchasePrice,
 		SalePrice:      *productRecordRequest.SalePrice,
-		ProductId:      *productRecordRequest.ProductId,
+		ProductID:      *productRecordRequest.ProductID,
 	}
 
 	// Call the service layer to create the productRecord
@@ -107,7 +107,7 @@ func (controller *ProductRecordsDefault) Create(w http.ResponseWriter, r *http.R
 		LastUpdateDate: productRecordCreated.LastUpdateDate,
 		PurchasePrice:  productRecordCreated.PurchasePrice,
 		SalePrice:      productRecordCreated.SalePrice,
-		ProductId:      productRecordCreated.ProductId,
+		ProductID:      productRecordCreated.ProductID,
 	}
 
 	// Create the response JSON

@@ -13,7 +13,7 @@ func (r *WarehouseRepository) GetAll() (w []models.Warehouse, err error) {
 
 	for rows.Next() {
 		var warehouse models.Warehouse
-		if err = rows.Scan(&warehouse.Id, &warehouse.Address, &warehouse.Telephone, &warehouse.WarehouseCode, &warehouse.MinimumCapacity, &warehouse.MinimumTemperature); err != nil {
+		if err = rows.Scan(&warehouse.ID, &warehouse.Address, &warehouse.Telephone, &warehouse.WarehouseCode, &warehouse.MinimumCapacity, &warehouse.MinimumTemperature); err != nil {
 			return
 		}
 

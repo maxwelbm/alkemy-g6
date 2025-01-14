@@ -16,7 +16,7 @@ func NewWarehouseDefault(sv models.WarehouseService) *WarehouseDefault {
 }
 
 type WarehouseDataResJSON struct {
-	Id                 int     `json:"id"`
+	ID                 int     `json:"id"`
 	Address            string  `json:"address"`
 	Telephone          string  `json:"telephone"`
 	WarehouseCode      string  `json:"warehouse_code"`

@@ -41,8 +41,8 @@ func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Reques
 		OrderNumber:     *purchaseOrdersJSON.OrderNumber,
 		OrderDate:       *purchaseOrdersJSON.OrderDate,
 		TrackingCode:    *purchaseOrdersJSON.TrackingCode,
-		BuyerID:         *purchaseOrdersJSON.BuyerId,
-		ProductRecordID: *purchaseOrdersJSON.ProductRecordId,
+		BuyerID:         *purchaseOrdersJSON.BuyerID,
+		ProductRecordID: *purchaseOrdersJSON.ProductRecordID,
 	}
 
 	purchaseOrders, err := pc.sv.Create(*poDTO)
@@ -56,8 +56,8 @@ func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Reques
 		OrderNumber:     purchaseOrders.OrderNumber,
 		OrderDate:       purchaseOrders.OrderDate,
 		TrackingCode:    purchaseOrders.TrackingCode,
-		BuyerId:         purchaseOrders.BuyerID,
-		ProductRecordId: purchaseOrders.ProductRecordID,
+		BuyerID:         purchaseOrders.BuyerID,
+		ProductRecordID: purchaseOrders.ProductRecordID,
 	}
 
 	res := ResPurchaseOrdersJSON{
@@ -80,10 +80,10 @@ func (p *PurchaseOrdersJSON) validate() (err error) {
 	if p.TrackingCode == nil {
 		poErrs = append(poErrs, "error: tracking_code is required")
 	}
-	if p.BuyerId == nil {
+	if p.BuyerID == nil {
 		poErrs = append(poErrs, "error: buyer_id: is required")
 	}
-	if p.ProductRecordId == nil {
+	if p.ProductRecordID == nil {
 		poErrs = append(poErrs, "error: product_record_id is required")
 	}
 	if len(poErrs) > 0 {

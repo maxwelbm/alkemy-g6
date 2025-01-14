@@ -4,9 +4,7 @@ import (
 	"database/sql"
 	"errors"
 
-
 	models "github.com/maxwelbm/alkemy-g6/internal/models"
-
 )
 
 func (r *EmployeesRepository) GetByID(id int) (employees models.Employees, err error) {
@@ -17,7 +15,7 @@ func (r *EmployeesRepository) GetByID(id int) (employees models.Employees, err e
 	err = row.Scan(&employees.ID, &employees.CardNumberID, &employees.FirstName, &employees.LastName, &employees.WarehouseID)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			err = errors.New("Id not found")
+			err = errors.New("ID not found")
 			return
 		}
 		return

@@ -49,7 +49,7 @@ type ProductDTO struct {
 }
 
 type ProductReportRecords struct {
-	ProductId    int
+	ProductID    int
 	Description  string
 	RecordsCount int
 }

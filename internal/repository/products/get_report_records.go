@@ -27,7 +27,7 @@ func (p *Products) GetReportRecords(id int) (list []models.ProductReportRecords,
 	for rows.Next() {
 		var productRecord models.ProductReportRecords
 		err = rows.Scan(
-			&productRecord.ProductId,
+			&productRecord.ProductID,
 			&productRecord.Description,
 			&productRecord.RecordsCount,
 		)

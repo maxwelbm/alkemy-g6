@@ -11,7 +11,7 @@ func (r *SellersDefault) Create(seller models.SellerDTO) (sellerToReturn models.
 	}
 
 	// get last inserted id
-	lastInsertID, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertID()
 	if err != nil {
 		return
 	}

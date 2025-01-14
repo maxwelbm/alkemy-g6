@@ -26,7 +26,7 @@ func (c *WarehouseDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 
 	for _, value := range warehouses {
 		warehouse := WarehouseDataResJSON{
-			Id:                 value.Id,
+			ID:                 value.ID,
 			Address:            value.Address,
 			Telephone:          value.Telephone,
 			WarehouseCode:      value.WarehouseCode,

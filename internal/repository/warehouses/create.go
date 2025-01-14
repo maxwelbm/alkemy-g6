@@ -10,14 +10,14 @@ func (r *WarehouseRepository) Create(warehouse models.WarehouseDTO) (w models.Wa
 		return
 	}
 
-	lastInsertID, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertID()
 	if err != nil {
 		return
 	}
 
 	query = "SELECT `id`,`address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM warehouses WHERE `id`=?"
 	err = r.db.
-		QueryRow(query, lastInsertID).Scan(&w.Id, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature)
+		QueryRow(query, lastInsertID).Scan(&w.ID, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature)
 
 	return
 }

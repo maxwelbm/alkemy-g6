@@ -37,7 +37,7 @@ func (c *WarehouseDefault) GetByID(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := WarehouseDataResJSON{
-		Id:                 warehouse.Id,
+		ID:                 warehouse.ID,
 		Address:            warehouse.Address,
 		Telephone:          warehouse.Telephone,
 		WarehouseCode:      warehouse.WarehouseCode,

@@ -42,9 +42,9 @@ func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request)
 	inboundOrders := models.InboundOrdersDTO{
 		OrderDate:      inboundOrdersJSON.OrderDate,
 		OrderNumber:    inboundOrdersJSON.OrderNumber,
-		EmployeeId:     inboundOrdersJSON.EmployeeId,
-		ProductBatchId: inboundOrdersJSON.ProductBatchId,
-		WarehouseId:    inboundOrdersJSON.WarehouseId,
+		EmployeeID:     inboundOrdersJSON.EmployeeID,
+		ProductBatchID: inboundOrdersJSON.ProductBatchID,
+		WarehouseID:    inboundOrdersJSON.WarehouseID,
 	}
 
 	inb, err := c.SV.Create(inboundOrders)
@@ -65,9 +65,9 @@ func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request)
 			ID:             inb.ID,
 			OrderDate:      inb.OrderDate,
 			OrderNumber:    inb.OrderNumber,
-			EmployeeId:     inb.EmployeeId,
-			ProductBatchId: inb.ProductBatchId,
-			WarehouseId:    inb.WarehouseId,
+			EmployeeID:     inb.EmployeeID,
+			ProductBatchID: inb.ProductBatchID,
+			WarehouseID:    inb.WarehouseID,
 		},
 	}
 	response.JSON(w, http.StatusCreated, data)
@@ -85,16 +85,16 @@ func validateNewInboundOrders(inboundOrders InboundOrdersReqJSON) (err error) {
 		errosInbound = append(errosInbound, "error: attribute Order Number invalid")
 	}
 
-	if inboundOrders.EmployeeId == nil || *inboundOrders.EmployeeId <= 0 {
-		errosInbound = append(errosInbound, "error: attribute Employee Id invalid")
+	if inboundOrders.EmployeeID == nil || *inboundOrders.EmployeeID <= 0 {
+		errosInbound = append(errosInbound, "error: attribute Employee ID invalid")
 	}
 
-	if inboundOrders.ProductBatchId == nil || *inboundOrders.ProductBatchId <= 0 {
-		errosInbound = append(errosInbound, "error: attribute Product Batch Id invalid")
+	if inboundOrders.ProductBatchID == nil || *inboundOrders.ProductBatchID <= 0 {
+		errosInbound = append(errosInbound, "error: attribute Product Batch ID invalid")
 	}
 
-	if inboundOrders.WarehouseId == nil || *inboundOrders.WarehouseId <= 0 {
-		errosInbound = append(errosInbound, "error: attribute Warehouse Id invalid")
+	if inboundOrders.WarehouseID == nil || *inboundOrders.WarehouseID <= 0 {
+		errosInbound = append(errosInbound, "error: attribute Warehouse ID invalid")
 	}
 
 	if len(errosInbound) > 0 {

@@ -28,8 +28,8 @@ func (e *EmployeesDefault) GetByID(id int) (employees models.Employees, err erro
 	return
 }
 
-func (e *EmployeesDefault) GetReportInboundOrdersById(id int) (employees []models.EmployeesReportInboundDTO, err error) {
-	employees, err = e.rp.GetReportInboundOrdersById(id)
+func (e *EmployeesDefault) GetReportInboundOrdersByID(id int) (employees []models.EmployeesReportInboundDTO, err error) {
+	employees, err = e.rp.GetReportInboundOrdersByID(id)
 	return
 }
 

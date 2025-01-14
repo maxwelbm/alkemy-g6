@@ -51,8 +51,8 @@ func (ct *BuyersDefault) ReportPurchaseOrders(w http.ResponseWriter, r *http.Req
 	var data []models.BuyerPurchaseOrdersReportJSON
 	for _, value := range list {
 		result := models.BuyerPurchaseOrdersReportJSON{
-			Id:                  value.ID,
-			CardNumberId:        value.CardNumberId,
+			ID:                  value.ID,
+			CardNumberID:        value.CardNumberID,
 			FirstName:           value.FirstName,
 			LastName:            value.LastName,
 			PurchaseOrdersCount: value.PurchaseOrdersCount,

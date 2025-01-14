@@ -11,18 +11,18 @@ type InboundOrders struct {
 	ID             int
 	OrderDate      string
 	OrderNumber    int
-	EmployeeId     int
-	ProductBatchId string
-	WarehouseId    int
+	EmployeeID     int
+	ProductBatchID string
+	WarehouseID    int
 }
 
 type InboundOrdersDTO struct {
 	ID             *int
 	OrderDate      *string
 	OrderNumber    *int
-	EmployeeId     *int
-	ProductBatchId *int
-	WarehouseId    *int
+	EmployeeID     *int
+	ProductBatchID *int
+	WarehouseID    *int
 }
 
 type InboundOrdersService interface {

@@ -79,7 +79,7 @@ func (c *WarehouseDefault) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := WarehouseDataResJSON{
-		Id:                 resWarehouse.Id,
+		ID:                 resWarehouse.ID,
 		Address:            resWarehouse.Address,
 		Telephone:          resWarehouse.Telephone,
 		WarehouseCode:      resWarehouse.WarehouseCode,

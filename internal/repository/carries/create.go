@@ -11,7 +11,7 @@ func (r *CarriesDefault) Create(carry models.CarryDTO) (carryToReturn models.Car
 	}
 
 	// get last inserted id
-	lastInsertID, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertID()
 	if err != nil {
 		return
 	}

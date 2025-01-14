@@ -8,7 +8,7 @@ var (
 )
 
 type Warehouse struct {
-	Id                 int     `json:"id"`
+	ID                 int     `json:"id"`
 	Address            string  `json:"address"`
 	Telephone          string  `json:"telephone"`
 	WarehouseCode      string  `json:"warehouse_code"`
@@ -17,7 +17,7 @@ type Warehouse struct {
 }
 
 type WarehouseDTO struct {
-	Id                 *int
+	ID                 *int
 	Address            *string
 	Telephone          *string
 	WarehouseCode      *string

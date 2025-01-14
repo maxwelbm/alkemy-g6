@@ -18,7 +18,7 @@ import (
 // @Failure 404 {object} response.ErrorResponse "Employee not found"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/employees/reportInboundOrders [get]
-func (c *EmployeesController) GetReportInboundOrdersById(w http.ResponseWriter, r *http.Request) {
+func (c *EmployeesController) GetReportInboundOrdersByID(w http.ResponseWriter, r *http.Request) {
 	idString := r.URL.Query().Get("id")
 	var id int
 	var err error
@@ -31,7 +31,7 @@ func (c *EmployeesController) GetReportInboundOrdersById(w http.ResponseWriter, 
 		}
 	}
 
-	employees, err := c.SV.GetReportInboundOrdersById(id)
+	employees, err := c.SV.GetReportInboundOrdersByID(id)
 	if err != nil {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
