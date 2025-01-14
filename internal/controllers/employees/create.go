@@ -28,24 +28,24 @@ import (
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/employees [post]
 func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
-	var employeesJson EmployeesReqJSON
-	err := json.NewDecoder(r.Body).Decode(&employeesJson)
+	var employeesJSON EmployeesReqJSON
+	err := json.NewDecoder(r.Body).Decode(&employeesJSON)
 	if err != nil {
 		response.JSON(w, http.StatusBadRequest, "Body invalid")
 		return
 	}
 
-	err = validateNewEmployees(employeesJson)
+	err = validateNewEmployees(employeesJSON)
 	if err != nil {
 		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
 	employees := models.EmployeesDTO{
-		CardNumberID: employeesJson.CardNumberID,
-		FirstName:    employeesJson.FirstName,
-		LastName:     employeesJson.LastName,
-		WarehouseID:  employeesJson.WarehouseID,
+		CardNumberID: employeesJSON.CardNumberID,
+		FirstName:    employeesJSON.FirstName,
+		LastName:     employeesJSON.LastName,
+		WarehouseID:  employeesJSON.WarehouseID,
 	}
 
 	emp, err := c.SV.Create(employees)

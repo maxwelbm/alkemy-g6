@@ -53,7 +53,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/buyersctl.BuyerCreateJson"
+                            "$ref": "#/definitions/buyersctl.BuyerCreateJSON"
                         }
                     }
                 ],
@@ -698,7 +698,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/localitiesctl.NewLocalityJson"
+                            "$ref": "#/definitions/localitiesctl.NewLocalityJSON"
                         }
                     }
                 ],
@@ -2042,7 +2042,7 @@
         }
     },
     "definitions": {
-        "buyersctl.BuyerCreateJson": {
+        "buyersctl.BuyerCreateJSON": {
             "type": "object",
             "properties": {
                 "card_number_id": {
@@ -2217,7 +2217,7 @@
                 }
             }
         },
-        "localitiesctl.NewLocalityJson": {
+        "localitiesctl.NewLocalityJSON": {
             "type": "object",
             "properties": {
                 "country_name": {

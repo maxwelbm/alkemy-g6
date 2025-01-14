@@ -26,23 +26,23 @@ import (
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router 	/api/v1/purchaseOrders [post]
 func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Request) {
-	var purchaseOrdersJson PurchaseOrdersJSON
-	err := json.NewDecoder(r.Body).Decode(&purchaseOrdersJson)
+	var purchaseOrdersJSON PurchaseOrdersJSON
+	err := json.NewDecoder(r.Body).Decode(&purchaseOrdersJSON)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	if err = purchaseOrdersJson.validate(); err != nil {
+	if err = purchaseOrdersJSON.validate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
 	poDTO := &models.PurchaseOrdersDTO{
-		OrderNumber:     *purchaseOrdersJson.OrderNumber,
-		OrderDate:       *purchaseOrdersJson.OrderDate,
-		TrackingCode:    *purchaseOrdersJson.TrackingCode,
-		BuyerID:         *purchaseOrdersJson.BuyerId,
-		ProductRecordID: *purchaseOrdersJson.ProductRecordId,
+		OrderNumber:     *purchaseOrdersJSON.OrderNumber,
+		OrderDate:       *purchaseOrdersJSON.OrderDate,
+		TrackingCode:    *purchaseOrdersJSON.TrackingCode,
+		BuyerID:         *purchaseOrdersJSON.BuyerId,
+		ProductRecordID: *purchaseOrdersJSON.ProductRecordId,
 	}
 
 	purchaseOrders, err := pc.sv.Create(*poDTO)

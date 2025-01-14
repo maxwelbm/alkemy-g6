@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  buyersctl.BuyerCreateJson:
+  buyersctl.BuyerCreateJSON:
     properties:
       card_number_id:
         type: string
@@ -114,7 +114,7 @@ definitions:
       message:
         type: string
     type: object
-  localitiesctl.NewLocalityJson:
+  localitiesctl.NewLocalityJSON:
     properties:
       country_name:
         type: string
@@ -430,7 +430,7 @@ paths:
         name: buyer
         required: true
         schema:
-          $ref: '#/definitions/buyersctl.BuyerCreateJson'
+          $ref: '#/definitions/buyersctl.BuyerCreateJSON'
       produces:
       - application/json
       responses:
@@ -857,7 +857,7 @@ paths:
         name: locality
         required: true
         schema:
-          $ref: '#/definitions/localitiesctl.NewLocalityJson'
+          $ref: '#/definitions/localitiesctl.NewLocalityJSON'
       produces:
       - application/json
       responses:

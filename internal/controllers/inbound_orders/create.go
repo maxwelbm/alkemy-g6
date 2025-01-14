@@ -26,25 +26,25 @@ import (
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/inboundOrders [post]
 func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request) {
-	var inboundOrdersJson InboundOrdersReqJSON
-	err := json.NewDecoder(r.Body).Decode(&inboundOrdersJson)
+	var inboundOrdersJSON InboundOrdersReqJSON
+	err := json.NewDecoder(r.Body).Decode(&inboundOrdersJSON)
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	err = validateNewInboundOrders(inboundOrdersJson)
+	err = validateNewInboundOrders(inboundOrdersJSON)
 	if err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
 	inboundOrders := models.InboundOrdersDTO{
-		OrderDate:      inboundOrdersJson.OrderDate,
-		OrderNumber:    inboundOrdersJson.OrderNumber,
-		EmployeeId:     inboundOrdersJson.EmployeeId,
-		ProductBatchId: inboundOrdersJson.ProductBatchId,
-		WarehouseId:    inboundOrdersJson.WarehouseId,
+		OrderDate:      inboundOrdersJSON.OrderDate,
+		OrderNumber:    inboundOrdersJSON.OrderNumber,
+		EmployeeId:     inboundOrdersJSON.EmployeeId,
+		ProductBatchId: inboundOrdersJSON.ProductBatchId,
+		WarehouseId:    inboundOrdersJSON.WarehouseId,
 	}
 
 	inb, err := c.SV.Create(inboundOrders)

@@ -60,7 +60,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/buyersctl.BuyerCreateJson"
+                            "$ref": "#/definitions/buyersctl.BuyerCreateJSON"
                         }
                     }
                 ],
@@ -705,7 +705,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/localitiesctl.NewLocalityJson"
+                            "$ref": "#/definitions/localitiesctl.NewLocalityJSON"
                         }
                     }
                 ],
@@ -2049,7 +2049,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "buyersctl.BuyerCreateJson": {
+        "buyersctl.BuyerCreateJSON": {
             "type": "object",
             "properties": {
                 "card_number_id": {
@@ -2224,7 +2224,7 @@ const docTemplate = `{
                 }
             }
         },
-        "localitiesctl.NewLocalityJson": {
+        "localitiesctl.NewLocalityJSON": {
             "type": "object",
             "properties": {
                 "country_name": {

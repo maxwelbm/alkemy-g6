@@ -11,13 +11,13 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-type BuyerCreateJson struct {
+type BuyerCreateJSON struct {
 	CardNumberId *string `json:"card_number_id,omitempty"`
 	FirstName    *string `json:"first_name,omitempty"`
 	LastName     *string `json:"last_name,omitempty"`
 }
 
-func (j *BuyerCreateJson) validate() (err error) {
+func (j *BuyerCreateJSON) validate() (err error) {
 	var validationErrors []string
 
 	if j.FirstName == nil {
@@ -39,15 +39,15 @@ func (j *BuyerCreateJson) validate() (err error) {
 // @Tags buyers
 // @Accept json
 // @Produce json
-// @Param buyer body BuyerCreateJson true "Buyer details"
+// @Param buyer body BuyerCreateJSON true "Buyer details"
 // @Success 201 {object} BuyerResJSON "Success"
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/buyers [post]
 func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
-	// Decode the JSON request body into a BuyerCreateJson struct
-	var buyerRequest BuyerCreateJson
+	// Decode the JSON request body into a BuyerCreateJSON struct
+	var buyerRequest BuyerCreateJSON
 	if err := json.NewDecoder(r.Body).Decode(&buyerRequest); err != nil {
 		// If there's an error decoding the request, respond with a 400 Bad Request status
 		response.JSON(w, http.StatusBadRequest, err.Error())
