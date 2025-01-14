@@ -62,7 +62,7 @@ func (j *CarriesCreateJSON) validate() (err error) {
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/carries [post]
-func (controller *CarriesDefault) Create(w http.ResponseWriter, r *http.Request) {
+func (ctl *CarriesDefault) Create(w http.ResponseWriter, r *http.Request) {
 	// Decode the JSON request body into sellerRequest
 	var carryRequest CarriesCreateJSON
 	if err := json.NewDecoder(r.Body).Decode(&carryRequest); err != nil {
@@ -88,19 +88,19 @@ func (controller *CarriesDefault) Create(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Call the service layer to create the carry
-	carryCreated, err := controller.sv.Create(carryToCreate)
+	carryCreated, err := ctl.sv.Create(carryToCreate)
 	if err != nil {
-		// Check if the error is a MySQL duplicate entry error
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
+		// Check if the error is a MySQL duplicate entry error or cannot add or update child row error
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok &&
+			mysqlErr.Number == mysqlerr.CodeDuplicateEntry ||
+			mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
-			response.Error(w, http.StatusConflict, err.Error())
-			return
-		}
+
 		// For any other error, respond with an internal server error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
@@ -122,5 +122,4 @@ func (controller *CarriesDefault) Create(w http.ResponseWriter, r *http.Request)
 
 	// Respond with the created status and the response JSON
 	response.JSON(w, http.StatusCreated, res)
-
 }
