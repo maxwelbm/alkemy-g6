@@ -50,7 +50,7 @@ func (ct *LocalitiesController) ReportCarries(w http.ResponseWriter, r *http.Req
 	locs, err := ct.sv.ReportCarries(id)
 	if err != nil {
 		// If an id does not exist, return status not found
-		if errors.Is(err, models.ErrCarryNotFound) {
+		if errors.Is(err, models.ErrLocalityNotFound) {
 			response.Error(w, http.StatusNotFound, err.Error())
 			return
 		}
