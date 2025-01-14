@@ -21,7 +21,7 @@ func (p *ProductsDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := make([]ProductFullJSON, len(prods))
+	data := make([]ProductFullJSON, 0, len(prods))
 	for _, p := range prods {
 		data = append(data,
 			ProductFullJSON{

@@ -61,7 +61,7 @@ func (ct *LocalitiesController) ReportCarries(w http.ResponseWriter, r *http.Req
 	}
 
 	// Populate the response JSON with the locality report data
-	data := make([]CarryReportJSON, len(locs))
+	data := make([]CarryReportJSON, 0, len(locs))
 
 	for _, loc := range locs {
 		locJSON := CarryReportJSON{

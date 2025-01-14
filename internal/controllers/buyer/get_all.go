@@ -26,7 +26,7 @@ func (ct *BuyersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Initialize a slice to hold the response data
-	data := make([]FullBuyerJSON, len(buyers))
+	data := make([]FullBuyerJSON, 0, len(buyers))
 	// Iterate over the retrieved buyers and map them to the response format
 	for _, value := range buyers {
 		buyer := FullBuyerJSON{

@@ -53,7 +53,7 @@ func (p *ProductsDefault) GetReportRecords(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	data := make([]ReportRecordFullJSON, len(reportRecords))
+	data := make([]ReportRecordFullJSON, 0, len(reportRecords))
 	for _, r := range reportRecords {
 		data = append(data,
 			ReportRecordFullJSON{

@@ -24,7 +24,7 @@ func (c *EmployeesController) GetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	list := make([]EmployeesAttributes, len(employees))
+	list := make([]EmployeesAttributes, 0, len(employees))
 	for _, value := range employees {
 		list = append(list, EmployeesAttributes{
 			ID:           value.ID,

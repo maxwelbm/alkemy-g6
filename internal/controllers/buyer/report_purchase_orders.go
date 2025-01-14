@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
+
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
@@ -51,7 +52,7 @@ func (ct *BuyersDefault) ReportPurchaseOrders(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	data := make([]models.BuyerPurchaseOrdersReportJSON, len(list))
+	data := make([]models.BuyerPurchaseOrdersReportJSON, 0, len(list))
 
 	for _, value := range list {
 		var buyer models.BuyerPurchaseOrdersReportJSON

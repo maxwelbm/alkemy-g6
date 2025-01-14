@@ -22,7 +22,7 @@ func (ctl *SectionsController) GetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := make([]SectionFullJSON, len(sec))
+	data := make([]SectionFullJSON, 0, len(sec))
 	for _, value := range sec {
 		data = append(data, SectionFullJSON{
 			ID:                 value.ID,

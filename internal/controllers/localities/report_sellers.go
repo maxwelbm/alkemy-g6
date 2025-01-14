@@ -61,7 +61,7 @@ func (ct *LocalitiesController) ReportSellers(w http.ResponseWriter, r *http.Req
 	}
 
 	// Populate the response JSON with the locality report data
-	data := make([]LocalityReportJSON, len(locs))
+	data := make([]LocalityReportJSON, 0, len(locs))
 
 	for _, loc := range locs {
 		locJSON := LocalityReportJSON{

@@ -53,7 +53,7 @@ func (ctl *SectionsController) GetReportProducts(w http.ResponseWriter, r *http.
 		return
 	}
 
-	data := make([]ReportProductFullJSON, len(reportProducts))
+	data := make([]ReportProductFullJSON, 0, len(reportProducts))
 	for _, r := range reportProducts {
 		data = append(data,
 			ReportProductFullJSON{

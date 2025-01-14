@@ -27,7 +27,7 @@ func (controller *SellersDefault) GetAll(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Initialize a slice to hold the full seller JSON data
-	data := make([]FullSellerJSON, len(sellers))
+	data := make([]FullSellerJSON, 0, len(sellers))
 
 	for _, value := range sellers {
 		// Create a new FullSellerJSON object for each seller
