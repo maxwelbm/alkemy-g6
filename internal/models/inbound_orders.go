@@ -3,8 +3,7 @@ package models
 import "errors"
 
 var (
-	ErrorNoChangesMadedInInboundOrders = errors.New("No changes made")
-	ErrInboundOrdersNotFound           = errors.New("Inbound Orders not found")
+	ErrInboundOrdersNotFound = errors.New("inbound Orders not found")
 )
 
 type InboundOrders struct {

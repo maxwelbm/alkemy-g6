@@ -10,5 +10,6 @@ func NewPurchaseOrdersRepository(DB *sql.DB) *PurchaseOrdersRepository {
 	repo := &PurchaseOrdersRepository{
 		DB: DB,
 	}
+
 	return repo
 }

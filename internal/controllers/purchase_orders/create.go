@@ -2,7 +2,6 @@ package purchaseordersctl
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -27,11 +26,13 @@ import (
 // @Router 	/api/v1/purchaseOrders [post]
 func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Request) {
 	var purchaseOrdersJSON PurchaseOrdersJSON
+
 	err := json.NewDecoder(r.Body).Decode(&purchaseOrdersJSON)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
 	if err = purchaseOrdersJSON.validate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
@@ -74,20 +75,25 @@ func (p *PurchaseOrdersJSON) validate() (err error) {
 	if p.OrderNumber == nil {
 		poErrs = append(poErrs, "error: order_number is required")
 	}
+
 	if p.OrderDate == nil {
 		poErrs = append(poErrs, "error: order_date is required")
 	}
+
 	if p.TrackingCode == nil {
 		poErrs = append(poErrs, "error: tracking_code is required")
 	}
+
 	if p.BuyerID == nil {
 		poErrs = append(poErrs, "error: buyer_id: is required")
 	}
+
 	if p.ProductRecordID == nil {
 		poErrs = append(poErrs, "error: product_record_id is required")
 	}
+
 	if len(poErrs) > 0 {
-		err = errors.New(fmt.Sprintf("validation errors: %v", poErrs))
+		err = fmt.Errorf("validation errors: %v", poErrs)
 	}
 
 	return
@@ -105,6 +111,7 @@ func (pc *PurchaseOrdersController) handleCreateError(w http.ResponseWriter, err
 		default:
 			response.Error(w, http.StatusInternalServerError, err.Error())
 		}
+
 		return
 	}
 

@@ -2,7 +2,6 @@ package inboundordersctl
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -25,9 +24,10 @@ import (
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/inboundOrders [post]
-func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request) {
+func (ctl *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request) {
 	var inboundOrdersJSON InboundOrdersReqJSON
 	err := json.NewDecoder(r.Body).Decode(&inboundOrdersJSON)
+
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
@@ -47,7 +47,7 @@ func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request)
 		WarehouseID:    inboundOrdersJSON.WarehouseID,
 	}
 
-	inb, err := c.SV.Create(inboundOrders)
+	inb, err := ctl.SV.Create(inboundOrders)
 	if err != nil {
 		// Check if the error is a MySQL duplicate entry error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow || mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
@@ -56,11 +56,12 @@ func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request)
 		}
 		// For any other error, respond with an internal server error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
 	data := InboundOrdersResJSON{
-		Message: "Sucess created",
+		Message: "Success",
 		Data: InboundOrdersAttributes{
 			ID:             inb.ID,
 			OrderDate:      inb.OrderDate,
@@ -74,7 +75,6 @@ func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request)
 }
 
 func validateNewInboundOrders(inboundOrders InboundOrdersReqJSON) (err error) {
-
 	var errosInbound []string
 
 	if inboundOrders.OrderDate == nil || *inboundOrders.OrderDate == "" {
@@ -98,7 +98,8 @@ func validateNewInboundOrders(inboundOrders InboundOrdersReqJSON) (err error) {
 	}
 
 	if len(errosInbound) > 0 {
-		err = errors.New(fmt.Sprintf("validation errors: %v", errosInbound))
+		err = fmt.Errorf("validation errors: %v", errosInbound)
 	}
+
 	return
 }
