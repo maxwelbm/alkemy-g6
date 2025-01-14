@@ -8,9 +8,11 @@ func (r *SellersDefault) GetAll() (sellers []models.Seller, err error) {
 	// query to get all sellers
 	query := "SELECT id, cid, company_name, address, telephone, locality_id FROM sellers"
 	rows, err := r.db.Query(query)
+
 	if err != nil {
 		return
 	}
+
 	defer rows.Close()
 
 	// iterate over rows
@@ -19,6 +21,7 @@ func (r *SellersDefault) GetAll() (sellers []models.Seller, err error) {
 		if err = rows.Scan(&seller.ID, &seller.CID, &seller.CompanyName, &seller.Address, &seller.Telephone, &seller.LocalityID); err != nil {
 			return
 		}
+
 		sellers = append(sellers, seller)
 	}
 

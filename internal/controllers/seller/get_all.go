@@ -27,10 +27,11 @@ func (controller *SellersDefault) GetAll(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Initialize a slice to hold the full seller JSON data
-	var data []FullSellerJSON
+	data := make([]FullSellerJSON, len(sellers))
+
 	for _, value := range sellers {
 		// Create a new FullSellerJSON object for each seller
-		new := FullSellerJSON{
+		seller := FullSellerJSON{
 			ID:          value.ID,
 			CID:         value.CID,
 			CompanyName: value.CompanyName,
@@ -39,8 +40,8 @@ func (controller *SellersDefault) GetAll(w http.ResponseWriter, r *http.Request)
 			LocalityID:  value.LocalityID,
 		}
 
-		// Append the new object to the data slice
-		data = append(data, new)
+		// Append the seller object to the data slice
+		data = append(data, seller)
 	}
 
 	// Create a response object with a success message and the data
@@ -51,5 +52,4 @@ func (controller *SellersDefault) GetAll(w http.ResponseWriter, r *http.Request)
 
 	// Send the JSON response with status OK
 	response.JSON(w, http.StatusOK, res)
-
 }

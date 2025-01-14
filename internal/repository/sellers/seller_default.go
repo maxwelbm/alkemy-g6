@@ -12,5 +12,6 @@ func NewSellersRepository(db *sql.DB) *SellersDefault {
 	rp := &SellersDefault{
 		db: db,
 	}
+
 	return rp
 }

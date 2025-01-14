@@ -50,6 +50,7 @@ func (controller *SellersDefault) Delete(w http.ResponseWriter, r *http.Request)
 		}
 		// For any other error, return an internal server error
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

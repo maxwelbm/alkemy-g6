@@ -19,6 +19,7 @@ func (r *SellersDefault) GetByID(id int) (seller models.Seller, err error) {
 			err = models.ErrSellerNotFound
 			return
 		}
+
 		return
 	}
 

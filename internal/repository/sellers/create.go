@@ -6,6 +6,7 @@ func (r *SellersDefault) Create(seller models.SellerDTO) (sellerToReturn models.
 	//  insert seller into database
 	query := "INSERT INTO sellers (cid, company_name, address, telephone, locality_id) VALUES (?, ?, ?, ?, ?)"
 	result, err := r.db.Exec(query, seller.CID, seller.CompanyName, seller.Address, seller.Telephone, seller.LocalityID)
+
 	if err != nil {
 		return
 	}
@@ -21,6 +22,7 @@ func (r *SellersDefault) Create(seller models.SellerDTO) (sellerToReturn models.
 	err = r.db.
 		QueryRow(query, lastInsertID).
 		Scan(&sellerToReturn.ID, &sellerToReturn.CID, &sellerToReturn.CompanyName, &sellerToReturn.Address, &sellerToReturn.Telephone, &sellerToReturn.LocalityID)
+
 	if err != nil {
 		return
 	}

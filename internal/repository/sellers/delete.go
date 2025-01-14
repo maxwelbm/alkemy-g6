@@ -5,6 +5,7 @@ import "github.com/maxwelbm/alkemy-g6/internal/models"
 func (r *SellersDefault) Delete(id int) (err error) {
 	query := "DELETE FROM sellers WHERE id = ?"
 	result, err := r.db.Exec(query, id)
+
 	if err != nil {
 		return
 	}

@@ -20,6 +20,7 @@ func (r *SellersDefault) GetByCid(cid int) (seller models.Seller, err error) {
 			err = models.ErrSellerNotFound
 			return
 		}
+
 		return
 	}
 

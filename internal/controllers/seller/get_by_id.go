@@ -37,8 +37,7 @@ func (controller *SellersDefault) GetByID(w http.ResponseWriter, r *http.Request
 	}
 
 	// Create a FullSellerJSON struct with the seller data
-	var data FullSellerJSON
-	data = FullSellerJSON{
+	var data = FullSellerJSON{
 		ID:          seller.ID,
 		CID:         seller.CID,
 		CompanyName: seller.CompanyName,
@@ -55,5 +54,4 @@ func (controller *SellersDefault) GetByID(w http.ResponseWriter, r *http.Request
 
 	// Send the JSON response with status OK
 	response.JSON(w, http.StatusOK, res)
-
 }
