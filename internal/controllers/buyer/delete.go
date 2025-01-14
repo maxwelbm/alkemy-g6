@@ -41,6 +41,7 @@ func (ct *BuyersDefault) Delete(w http.ResponseWriter, r *http.Request) {
 		}
 		// For any other errors, return a 500 Internal Server Error response.
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

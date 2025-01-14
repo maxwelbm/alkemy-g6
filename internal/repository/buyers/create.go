@@ -19,6 +19,7 @@ func (r *BuyerRepository) Create(buyer models.BuyerDTO) (buyerReturn models.Buye
 	err = r.db.
 		QueryRow(query, lastInsertID).
 		Scan(&buyerReturn.ID, &buyerReturn.CardNumberID, &buyerReturn.FirstName, &buyerReturn.LastName)
+
 	if err != nil {
 		return
 	}
