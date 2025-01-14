@@ -95,7 +95,7 @@ func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
 
 	// Create the response JSON
 	res := BuyerResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusCreated),
 		Data:    data,
 	}
 

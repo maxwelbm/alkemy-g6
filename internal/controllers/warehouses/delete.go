@@ -48,9 +48,5 @@ func (c *WarehouseDefault) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res := WarehouseResJSON{
-		Message: "Success",
-		Data:    nil,
-	}
-	response.JSON(w, http.StatusNoContent, res)
+	response.JSON(w, http.StatusNoContent, nil)
 }

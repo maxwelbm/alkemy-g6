@@ -44,9 +44,6 @@ func (c *WarehouseDefault) GetByID(w http.ResponseWriter, r *http.Request) {
 		MinimumCapacity:    warehouse.MinimumCapacity,
 		MinimumTemperature: warehouse.MinimumTemperature,
 	}
-	res := WarehouseResJSON{
-		Message: "Success",
-		Data:    data,
-	}
+	res := WarehouseResJSON{Data: data}
 	response.JSON(w, http.StatusOK, res)
 }

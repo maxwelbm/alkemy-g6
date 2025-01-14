@@ -116,10 +116,8 @@ func (ctl *CarriesDefault) Create(w http.ResponseWriter, r *http.Request) {
 
 	// Create the response JSON
 	res := CarriesResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusCreated),
 		Data:    data,
 	}
-
-	// Respond with the created status and the response JSON
 	response.JSON(w, http.StatusCreated, res)
 }

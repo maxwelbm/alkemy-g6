@@ -44,10 +44,7 @@ func (ct *BuyersDefault) GetByID(w http.ResponseWriter, r *http.Request) {
 	data.LastName = buyer.LastName
 
 	// Create the response JSON with a success message and the buyer data
-	res := BuyerResJSON{
-		Message: "Success",
-		Data:    data,
-	}
+	res := BuyerResJSON{Data: data}
 
 	// Send the response JSON with a 200 OK status
 	response.JSON(w, http.StatusOK, res)

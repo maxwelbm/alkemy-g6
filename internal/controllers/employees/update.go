@@ -91,7 +91,7 @@ func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := EmployeesResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusOK),
 		Data: EmployeesAttributes{
 			ID:           emp.ID,
 			CardNumberID: emp.CardNumberID,

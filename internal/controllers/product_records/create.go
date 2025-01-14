@@ -114,7 +114,7 @@ func (controller *ProductRecordsDefault) Create(w http.ResponseWriter, r *http.R
 
 	// Create the response JSON
 	res := ProductRecordResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusCreated),
 		Data:    data,
 	}
 

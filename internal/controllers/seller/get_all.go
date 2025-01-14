@@ -45,10 +45,7 @@ func (controller *SellersDefault) GetAll(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Create a response object with a success message and the data
-	res := SellerResJSON{
-		Message: "Success",
-		Data:    data,
-	}
+	res := SellerResJSON{Data: data}
 
 	// Send the JSON response with status OK
 	response.JSON(w, http.StatusOK, res)

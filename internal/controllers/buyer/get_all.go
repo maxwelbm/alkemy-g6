@@ -41,10 +41,7 @@ func (ct *BuyersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create the response JSON structure
-	res := BuyerResJSON{
-		Message: "Success",
-		Data:    data,
-	}
+	res := BuyerResJSON{Data: data}
 
 	// Send the JSON response with status OK
 	response.JSON(w, http.StatusOK, res)

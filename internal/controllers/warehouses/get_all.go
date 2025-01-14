@@ -36,10 +36,7 @@ func (c *WarehouseDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 		data = append(data, warehouse)
 	}
 
-	res := WarehouseResJSON{
-		Message: "Success",
-		Data:    data,
-	}
+	res := WarehouseResJSON{Data: data}
 
 	response.JSON(w, http.StatusOK, res)
 }

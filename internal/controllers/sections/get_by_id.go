@@ -44,9 +44,6 @@ func (ctl *SectionsController) GetByID(w http.ResponseWriter, r *http.Request) {
 		ProductTypeID:      sec.ProductTypeID,
 	}
 
-	res := SectionResJSON{
-		Message: "Success",
-		Data:    data,
-	}
+	res := SectionResJSON{Data: data}
 	response.JSON(w, http.StatusOK, res)
 }

@@ -61,7 +61,7 @@ func (ctl *InboundOrdersController) Create(w http.ResponseWriter, r *http.Reques
 	}
 
 	data := InboundOrdersResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusCreated),
 		Data: InboundOrdersAttributes{
 			ID:             inb.ID,
 			OrderDate:      inb.OrderDate,

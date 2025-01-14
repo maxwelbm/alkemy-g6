@@ -62,10 +62,9 @@ func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Reques
 	}
 
 	res := ResPurchaseOrdersJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusCreated),
 		Data:    data,
 	}
-
 	response.JSON(w, http.StatusCreated, res)
 }
 

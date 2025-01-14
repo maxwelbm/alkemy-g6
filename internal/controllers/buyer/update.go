@@ -123,7 +123,7 @@ func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 
 	// Create the response JSON with a success message
 	res := BuyerResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusOK),
 		Data:    data,
 	}
 

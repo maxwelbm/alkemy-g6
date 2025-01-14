@@ -47,10 +47,7 @@ func (controller *SellersDefault) GetByID(w http.ResponseWriter, r *http.Request
 	}
 
 	// Create a response struct with a success message and the seller data
-	res := SellerResJSON{
-		Message: "Success",
-		Data:    data,
-	}
+	res := SellerResJSON{Data: data}
 
 	// Send the JSON response with status OK
 	response.JSON(w, http.StatusOK, res)

@@ -66,7 +66,7 @@ func (c *WarehouseDefault) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	res := WarehouseResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusCreated),
 		Data:    data,
 	}
 	response.JSON(w, http.StatusCreated, res)

@@ -87,6 +87,9 @@ func (ct *LocalitiesController) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// response
-	w.WriteHeader(http.StatusCreated)
-	response.JSON(w, http.StatusCreated, loc)
+	data := LocalityResJSON{
+		Message: http.StatusText(http.StatusCreated),
+		Data:    loc,
+	}
+	response.JSON(w, http.StatusCreated, data)
 }

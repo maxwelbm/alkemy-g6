@@ -113,7 +113,7 @@ func (controller *SellersDefault) Update(w http.ResponseWriter, r *http.Request)
 		LocalityID:  sellerUpdated.LocalityID,
 	}
 	res := SellerResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusOK),
 		Data:    data,
 	}
 	response.JSON(w, http.StatusOK, res)

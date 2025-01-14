@@ -87,7 +87,7 @@ func (c *WarehouseDefault) Update(w http.ResponseWriter, r *http.Request) {
 		MinimumTemperature: resWarehouse.MinimumTemperature,
 	}
 	res := WarehouseResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusOK),
 		Data:    data,
 	}
 	response.JSON(w, http.StatusOK, res)

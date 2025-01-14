@@ -21,9 +21,9 @@ import (
 // @Router /api/v1/employees/reportInboundOrders [get]
 func (c *EmployeesController) GetReportInboundOrdersByID(w http.ResponseWriter, r *http.Request) {
 	idString := r.URL.Query().Get("id")
-	
+
 	var id int
-	
+
 	var err error
 
 	if idString != "" {
@@ -45,10 +45,7 @@ func (c *EmployeesController) GetReportInboundOrdersByID(w http.ResponseWriter, 
 		return
 	}
 
-	res := EmployeesResJSON{
-		Message: "Success",
-		Data:    employees,
-	}
+	res := EmployeesResJSON{Data: employees}
 
 	response.JSON(w, http.StatusOK, res)
 }

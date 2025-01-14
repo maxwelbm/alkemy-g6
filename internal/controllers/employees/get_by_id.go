@@ -44,10 +44,7 @@ func (c *EmployeesController) GetByID(w http.ResponseWriter, r *http.Request) {
 		WarehouseID:  employees.WarehouseID,
 	}
 
-	res := EmployeesResJSON{
-		Message: "Success",
-		Data:    data,
-	}
+	res := EmployeesResJSON{Data: data}
 
 	response.JSON(w, http.StatusOK, res)
 }

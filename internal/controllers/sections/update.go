@@ -92,7 +92,7 @@ func (ctl *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	res := SectionResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusOK),
 		Data:    data,
 	}
 	response.JSON(w, http.StatusOK, res)
