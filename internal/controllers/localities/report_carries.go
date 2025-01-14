@@ -73,7 +73,7 @@ func (ct *LocalitiesController) ReportCarries(w http.ResponseWriter, r *http.Req
 	}
 
 	// Create the response JSON and send it with status OK
-	var res LocalityResJSON
-	res = LocalityResJSON{Data: data}
+	var res = LocalityResJSON{Data: data}
+
 	response.JSON(w, http.StatusOK, res)
 }
