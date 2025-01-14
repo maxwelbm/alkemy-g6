@@ -7,16 +7,15 @@ import (
 func (r *WarehouseRepository) Update(id int, warehouse models.WarehouseDTO) (w models.Warehouse, err error) {
 	if warehouse.WarehouseCode != nil {
 		query := "SELECT EXISTS(SELECT 1 FROM warehouses WHERE `warehouse_code`=?)"
-		var exists bool
+		exists := false
 
-		err = r.db.QueryRow(query, *warehouse.WarehouseCode).Scan(&exists)
-		if err != nil {
-			return
+		if err = r.db.QueryRow(query, *warehouse.WarehouseCode).Scan(&exists); err != nil {
+			return w, err
 		}
 
 		if exists {
 			err = models.ErrWareHouseCodeExist
-			return
+			return w, err
 		}
 
 		w.WarehouseCode = *warehouse.WarehouseCode
@@ -33,15 +32,13 @@ func (r *WarehouseRepository) Update(id int, warehouse models.WarehouseDTO) (w m
 
 	_, err = r.db.Exec(query, warehouse.Address, warehouse.Telephone, warehouse.WarehouseCode, warehouse.MinimumCapacity, warehouse.MinimumTemperature, id)
 	if err != nil {
-		return
+		return w, err
 	}
 
 	query = "SELECT `id`,`address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM warehouses WHERE `id`=?"
-	err = r.db.
-		QueryRow(query, id).Scan(&w.ID, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature)
-	if err != nil {
-		return
+	if err = r.db.QueryRow(query, id).Scan(&w.ID, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature); err != nil {
+		return w, err
 	}
 
-	return
+	return w, err
 }
