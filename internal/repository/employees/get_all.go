@@ -13,12 +13,15 @@ func (e *EmployeesRepository) GetAll() (employees []models.Employees, err error)
 	if err != nil {
 		return
 	}
+	
 	defer rows.Close()
+	
 	for rows.Next() {
 		var employee models.Employees
 		if err = rows.Scan(&employee.ID, &employee.CardNumberID, &employee.FirstName, &employee.LastName, &employee.WarehouseID); err != nil {
 			return
 		}
+		
 		employees = append(employees, employee)
 	}
 

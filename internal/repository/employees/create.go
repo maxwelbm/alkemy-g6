@@ -21,6 +21,7 @@ func (e *EmployeesRepository) Create(employees models.EmployeesDTO) (newEmployee
 	err = e.DB.
 		QueryRow(query, lastInsertID).
 		Scan(&newEmployees.ID, &newEmployees.CardNumberID, &newEmployees.FirstName, &newEmployees.LastName, &newEmployees.WarehouseID)
+
 	if err != nil {
 		return
 	}

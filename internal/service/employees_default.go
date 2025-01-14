@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	ErrWareHousesServiceNotFound = errors.New("Warehouse not found")
+	ErrWareHousesServiceNotFound = errors.New("warehouse not found")
 )
 
 type EmployeesDefault struct {

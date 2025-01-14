@@ -7,6 +7,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// GetReportInboundOrdersByID handles the HTTP request to retrieve report inbound orders for a specific employee.
 // @Summary Retrieve report of inbound orders for an employee by their ID
 // @Description Get report of inbound orders for an employee by their ID
 // @Tags employees
@@ -20,7 +21,9 @@ import (
 // @Router /api/v1/employees/reportInboundOrders [get]
 func (c *EmployeesController) GetReportInboundOrdersByID(w http.ResponseWriter, r *http.Request) {
 	idString := r.URL.Query().Get("id")
+	
 	var id int
+	
 	var err error
 
 	if idString != "" {
