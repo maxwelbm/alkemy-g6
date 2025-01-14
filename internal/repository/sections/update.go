@@ -29,7 +29,8 @@ func (r *SectionRepository) Update(id int, sec models.SectionDTO) (updateSection
 		product_type_id = COALESCE(NULLIF(?, ''), product_type_id)
 	WHERE id = ?`
 
-	res, err := r.db.Exec(query, sec.SectionNumber, sec.CurrentTemperature, sec.MinimumTemperature, sec.CurrentCapacity, sec.MinimumCapacity, sec.MaximumCapacity, sec.WarehouseID, sec.ProductTypeID, id)
+	res, err := r.db.Exec(query, sec.SectionNumber, sec.CurrentTemperature, sec.MinimumTemperature, sec.CurrentCapacity,
+		sec.MinimumCapacity, sec.MaximumCapacity, sec.WarehouseID, sec.ProductTypeID, id)
 
 	// Check for errors
 	if err != nil {
@@ -46,8 +47,11 @@ func (r *SectionRepository) Update(id int, sec models.SectionDTO) (updateSection
 		return updateSection, err
 	}
 
-	err = r.db.QueryRow("SELECT id, section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id FROM sections WHERE id = ?", id).Scan(
-		&updateSection.ID, &updateSection.SectionNumber, &updateSection.CurrentTemperature, &updateSection.MinimumTemperature, &updateSection.CurrentCapacity, &updateSection.MinimumCapacity, &updateSection.MaximumCapacity, &updateSection.WarehouseID, &updateSection.ProductTypeID)
+	err = r.db.QueryRow(`SELECT id, section_number, current_temperature, minimum_temperature, current_capacity, 
+		minimum_capacity, maximum_capacity, warehouse_id, product_type_id FROM sections WHERE id = ?`, id).Scan(
+		&updateSection.ID, &updateSection.SectionNumber, &updateSection.CurrentTemperature,
+		&updateSection.MinimumTemperature, &updateSection.CurrentCapacity, &updateSection.MinimumCapacity,
+		&updateSection.MaximumCapacity, &updateSection.WarehouseID, &updateSection.ProductTypeID)
 
 	if err != nil {
 		return updateSection, err

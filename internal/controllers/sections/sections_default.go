@@ -1,7 +1,6 @@
 package sectionsctl
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/maxwelbm/alkemy-g6/internal/models"
@@ -46,63 +45,143 @@ type ReportProductFullJSON struct {
 	ProductsCount int    `json:"products_count"`
 }
 
-//nolint:all
+type SectionsController struct {
+	sv models.SectionService
+}
+
+func NewSectionsController(sv models.SectionService) *SectionsController {
+	return &SectionsController{sv: sv}
+}
+
+//nolint:cyclomatic
 func (sec *NewSectionReqJSON) validateCreate() (err error) {
-	var validationErrors, nilPointerErrors []string
+	var validationErrors []string
 
-	if sec.SectionNumber == nil {
-		nilPointerErrors = append(nilPointerErrors, "error: attribute SectionNumber cannot be nil")
-	} else if *sec.SectionNumber == "" {
-		validationErrors = append(validationErrors, "error: attribute SectionNumber cannot be empty")
+	var nilPointerErrors []string
+
+	if err := sec.validateSectionNumber(&validationErrors, &nilPointerErrors); err != nil {
+		return err
 	}
 
-	if sec.CurrentTemperature == nil {
-		nilPointerErrors = append(nilPointerErrors, "error: attribute CurrentTemperature cannot be nil")
+	if err := sec.validateCurrentTemperature(&nilPointerErrors); err != nil {
+		return err
 	}
 
-	if sec.MinimumTemperature == nil {
-		nilPointerErrors = append(nilPointerErrors, "error: attribute MinimumTemperature cannot be nil")
+	if err := sec.validateMinimumTemperature(&nilPointerErrors); err != nil {
+		return err
 	}
 
-	if sec.CurrentCapacity == nil {
-		nilPointerErrors = append(nilPointerErrors, "error: attribute CurrentCapacity cannot be nil")
-	} else if *sec.CurrentCapacity < 0 {
-		validationErrors = append(validationErrors, "error: attribute CurrentCapacity cannot be negative")
+	if err := sec.validateCurrentCapacity(&validationErrors, &nilPointerErrors); err != nil {
+		return err
 	}
 
-	if sec.MinimumCapacity == nil {
-		nilPointerErrors = append(nilPointerErrors, "error: attribute MinimumCapacity cannot be nil")
-	} else if *sec.MinimumCapacity < 0 {
-		validationErrors = append(validationErrors, "error: attribute MinimumCapacity cannot be negative")
+	if err := sec.validateMinimumCapacity(&validationErrors, &nilPointerErrors); err != nil {
+		return err
 	}
 
-	if sec.MaximumCapacity == nil {
-		nilPointerErrors = append(nilPointerErrors, "error: attribute MaximumCapacity cannot be nil")
-	} else if *sec.MaximumCapacity <= 0 {
-		validationErrors = append(validationErrors, "error: attribute MaximumCapacity cannot be negative")
+	if err := sec.validateMaximumCapacity(&validationErrors, &nilPointerErrors); err != nil {
+		return err
 	}
 
-	if sec.WarehouseID == nil {
-		nilPointerErrors = append(nilPointerErrors, "error: attribute WarehouseID cannot be nil")
-	} else if *sec.WarehouseID <= 0 {
-		validationErrors = append(validationErrors, "error: attribute WarehouseID must be positive")
+	if err := sec.validateWarehouseID(&validationErrors, &nilPointerErrors); err != nil {
+		return err
 	}
 
-	if sec.ProductTypeID == nil {
-		nilPointerErrors = append(nilPointerErrors, "error: attribute ProductTypeID cannot be nil")
-	} else if *sec.ProductTypeID <= 0 {
-		validationErrors = append(validationErrors, "error: attribute ProductTypeID must be positive")
+	if err := sec.validateProductTypeID(&validationErrors, &nilPointerErrors); err != nil {
+		return err
 	}
 
+	// Aggregate accumulated errors
 	if len(nilPointerErrors) > 0 || len(validationErrors) > 0 {
-		var allErrors []string
-		allErrors = append(allErrors, nilPointerErrors...)
-		allErrors = append(allErrors, validationErrors...)
-
-		err = errors.New(fmt.Sprintf("validation errors: %v", allErrors))
+		allErrors := append(nilPointerErrors, validationErrors...)
+		return fmt.Errorf("validation errors: %v", allErrors)
 	}
 
-	return err
+	return nil
+}
+
+// validateSectionNumber checks the SectionNumber field for validity.
+func (sec *NewSectionReqJSON) validateSectionNumber(validationErrors, nilPointerErrors *[]string) (err error) {
+	if sec.SectionNumber == nil {
+		*nilPointerErrors = append(*nilPointerErrors, "error: attribute SectionNumber cannot be nil")
+	} else if *sec.SectionNumber == "" {
+		*validationErrors = append(*validationErrors, "error: attribute SectionNumber cannot be empty")
+	}
+
+	return
+}
+
+// validateCurrentTemperature checks the CurrentTemperature field for validity.
+func (sec *NewSectionReqJSON) validateCurrentTemperature(nilPointerErrors *[]string) (err error) {
+	if sec.CurrentTemperature == nil {
+		*nilPointerErrors = append(*nilPointerErrors, "error: attribute CurrentTemperature cannot be nil")
+	}
+
+	return
+}
+
+// validateMinimumTemperature checks the MinimumTemperature field for validity.
+func (sec *NewSectionReqJSON) validateMinimumTemperature(nilPointerErrors *[]string) (err error) {
+	if sec.MinimumTemperature == nil {
+		*nilPointerErrors = append(*nilPointerErrors, "error: attribute MinimumTemperature cannot be nil")
+	}
+
+	return
+}
+
+// validateCurrentCapacity checks the CurrentCapacity field for validity.
+func (sec *NewSectionReqJSON) validateCurrentCapacity(validationErrors, nilPointerErrors *[]string) (err error) {
+	if sec.CurrentCapacity == nil {
+		*nilPointerErrors = append(*nilPointerErrors, "error: attribute CurrentCapacity cannot be nil")
+	} else if *sec.CurrentCapacity < 0 {
+		*validationErrors = append(*validationErrors, "error: attribute CurrentCapacity cannot be negative")
+	}
+
+	return
+}
+
+// validateMinimumCapacity checks the MinimumCapacity field for validity.
+func (sec *NewSectionReqJSON) validateMinimumCapacity(validationErrors, nilPointerErrors *[]string) (err error) {
+	if sec.MinimumCapacity == nil {
+		*nilPointerErrors = append(*nilPointerErrors, "error: attribute MinimumCapacity cannot be nil")
+	} else if *sec.MinimumCapacity < 0 {
+		*validationErrors = append(*validationErrors, "error: attribute MinimumCapacity cannot be negative")
+	}
+
+	return
+}
+
+// validateMaximumCapacity checks the MaximumCapacity field for validity.
+func (sec *NewSectionReqJSON) validateMaximumCapacity(validationErrors, nilPointerErrors *[]string) (err error) {
+	if sec.MaximumCapacity == nil {
+		*nilPointerErrors = append(*nilPointerErrors, "error: attribute MaximumCapacity cannot be nil")
+	} else if *sec.MaximumCapacity <= 0 {
+		*validationErrors = append(*validationErrors, "error: attribute MaximumCapacity must be positive")
+	}
+
+	return
+}
+
+// validateWarehouseID checks the WarehouseID field for validity.
+func (sec *NewSectionReqJSON) validateWarehouseID(validationErrors, nilPointerErrors *[]string) (err error) {
+	if sec.WarehouseID == nil {
+		*nilPointerErrors = append(*nilPointerErrors, "error: attribute WarehouseID cannot be nil")
+	} else if *sec.WarehouseID <= 0 {
+		*validationErrors = append(*validationErrors, "error: attribute WarehouseID must be positive")
+	}
+
+	return
+}
+
+// validateProductTypeID checks the ProductTypeID field for validity.
+func (sec *NewSectionReqJSON) validateProductTypeID(validationErrors, nilPointerErrors *[]string) (err error) {
+	if sec.ProductTypeID == nil {
+		*nilPointerErrors = append(*nilPointerErrors, "error: attribute ProductTypeID cannot be nil")
+	} else if *sec.ProductTypeID <= 0 {
+		*validationErrors = append(*validationErrors, "error: attribute ProductTypeID must be positive")
+	}
+
+	return
 }
 
 func (sec *NewSectionReqJSON) validateUpdate() (err error) {
@@ -138,16 +217,8 @@ func (sec *NewSectionReqJSON) validateUpdate() (err error) {
 		var allErrors []string
 		allErrors = append(allErrors, validationErrors...)
 
-		err = errors.New(fmt.Sprintf("validation errors: %v", allErrors))
+		err = fmt.Errorf("validation errors: %v", allErrors)
 	}
 
 	return err
-}
-
-type SectionsController struct {
-	sv models.SectionService
-}
-
-func NewSectionsController(sv models.SectionService) *SectionsController {
-	return &SectionsController{sv: sv}
 }
