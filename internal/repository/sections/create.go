@@ -12,7 +12,7 @@ func (r *SectionRepository) Create(sec models.SectionDTO) (newSection models.Sec
 		return
 	}
 
-	lastInsertID, err := result.LastInsertID()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}

@@ -10,7 +10,7 @@ func (r *WarehouseRepository) Create(warehouse models.WarehouseDTO) (w models.Wa
 		return
 	}
 
-	lastInsertID, err := result.LastInsertID()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}

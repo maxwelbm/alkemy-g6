@@ -23,9 +23,11 @@ func (j *BuyerCreateJSON) validate() (err error) {
 	if j.FirstName == nil {
 		validationErrors = append(validationErrors, "error: first_name is required")
 	}
+
 	if j.LastName == nil {
 		validationErrors = append(validationErrors, "error: last_name is required")
 	}
+
 	if len(validationErrors) > 0 {
 		err = fmt.Errorf("validation errors: %v", validationErrors)
 	}

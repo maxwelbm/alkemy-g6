@@ -17,7 +17,7 @@ func (r *PurchaseOrdersRepository) Create(purchaseOrdersDTO models.PurchaseOrder
 		return
 	}
 
-	lastInsertID, err := result.LastInsertID()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}

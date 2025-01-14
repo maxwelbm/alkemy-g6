@@ -25,7 +25,7 @@ func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err e
 		return
 	}
 
-	lastInsertID, err := result.LastInsertID()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}

@@ -12,7 +12,7 @@ func (e *EmployeesRepository) Create(employees models.EmployeesDTO) (newEmployee
 		return
 	}
 
-	lastInsertID, err := result.LastInsertID()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}

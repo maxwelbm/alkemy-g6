@@ -13,7 +13,7 @@ func (r *ProductRecordsDefault) Create(productRecord models.ProductRecordDTO) (p
 	}
 
 	// Get last inserted id
-	lastInsertID, err := result.LastInsertID()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}

@@ -10,7 +10,7 @@ func (r *BuyerRepository) Create(buyer models.BuyerDTO) (buyerReturn models.Buye
 		return
 	}
 
-	lastInsertID, err := result.LastInsertID()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}

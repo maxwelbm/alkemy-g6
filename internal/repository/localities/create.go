@@ -12,7 +12,7 @@ func (r *LocalityRepository) Create(locDTO models.LocalityDTO) (loc models.Local
 		return
 	}
 
-	lastInsertID, err := result.LastInsertID()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}

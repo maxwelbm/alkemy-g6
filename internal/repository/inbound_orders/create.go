@@ -12,7 +12,7 @@ func (e *InboundOrdersRepository) Create(inboundOrders models.InboundOrdersDTO) 
 		return
 	}
 
-	lastInsertID, err := result.LastInsertID()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
