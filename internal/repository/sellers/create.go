@@ -11,7 +11,7 @@ func (r *SellersDefault) Create(seller models.SellerDTO) (sellerToReturn models.
 	}
 
 	// get last inserted id
-	lastInsertId, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
@@ -19,7 +19,7 @@ func (r *SellersDefault) Create(seller models.SellerDTO) (sellerToReturn models.
 	// get created seller from database
 	query = "SELECT id, cid, company_name, address, telephone, locality_id FROM sellers WHERE id = ?"
 	err = r.db.
-		QueryRow(query, lastInsertId).
+		QueryRow(query, lastInsertID).
 		Scan(&sellerToReturn.ID, &sellerToReturn.CID, &sellerToReturn.CompanyName, &sellerToReturn.Address, &sellerToReturn.Telephone, &sellerToReturn.LocalityID)
 	if err != nil {
 		return

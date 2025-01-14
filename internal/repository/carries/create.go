@@ -11,7 +11,7 @@ func (r *CarriesDefault) Create(carry models.CarryDTO) (carryToReturn models.Car
 	}
 
 	// get last inserted id
-	lastInsertId, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
@@ -19,7 +19,7 @@ func (r *CarriesDefault) Create(carry models.CarryDTO) (carryToReturn models.Car
 	// get created carry from database
 	query = "SELECT id, cid, company_name, address, phone_number, locality_id FROM carries WHERE id = ?"
 	err = r.db.
-		QueryRow(query, lastInsertId).
+		QueryRow(query, lastInsertID).
 		Scan(&carryToReturn.ID, &carryToReturn.CID, &carryToReturn.CompanyName, &carryToReturn.Address, &carryToReturn.PhoneNumber, &carryToReturn.LocalityID)
 	if err != nil {
 		return

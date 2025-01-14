@@ -12,14 +12,14 @@ func (e *EmployeesRepository) Create(employees models.EmployeesDTO) (newEmployee
 		return
 	}
 
-	lastInsertId, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
 
 	query = "SELECT id, card_number_id, first_name, last_name, warehouse_id FROM employees WHERE id = ?"
 	err = e.DB.
-		QueryRow(query, lastInsertId).
+		QueryRow(query, lastInsertID).
 		Scan(&newEmployees.ID, &newEmployees.CardNumberID, &newEmployees.FirstName, &newEmployees.LastName, &newEmployees.WarehouseID)
 	if err != nil {
 		return

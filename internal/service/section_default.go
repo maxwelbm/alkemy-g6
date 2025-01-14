@@ -24,8 +24,8 @@ func (s *SectionsController) GetByID(id int) (section models.Section, err error)
 
 }
 
-func (s *SectionsController) GetReportProducts(sectionId int) (reportProducts []models.ProductReport, err error) {
-	reportProducts, err = s.rp.GetReportProducts(sectionId)
+func (s *SectionsController) GetReportProducts(sectionID int) (reportProducts []models.ProductReport, err error) {
+	reportProducts, err = s.rp.GetReportProducts(sectionID)
 	return
 }
 

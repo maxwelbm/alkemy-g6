@@ -3,12 +3,11 @@ package sectionsrp
 import "database/sql"
 
 type SectionRepository struct {
-	DB *sql.DB
+	db *sql.DB
 }
 
-func NewSectionsRepository(DB *sql.DB) *SectionRepository {
-	repo := &SectionRepository{
-		DB: DB,
+func NewSectionsRepository(db *sql.DB) *SectionRepository {
+	return &SectionRepository{
+		db: db,
 	}
-	return repo
 }

@@ -13,7 +13,7 @@ func (r *ProductRecordsDefault) Create(productRecord models.ProductRecordDTO) (p
 	}
 
 	// Get last inserted id
-	lastInsertId, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
@@ -21,7 +21,7 @@ func (r *ProductRecordsDefault) Create(productRecord models.ProductRecordDTO) (p
 	// Get created productRecord from database
 	query = "SELECT id, last_update_date, purchase_price, sale_price, product_id FROM product_records WHERE id = ?"
 	err = r.db.
-		QueryRow(query, lastInsertId).
+		QueryRow(query, lastInsertID).
 		Scan(&productRecordToReturn.ID, &productRecordToReturn.LastUpdateDate, &productRecordToReturn.PurchasePrice, &productRecordToReturn.SalePrice, &productRecordToReturn.ProductId)
 	if err != nil {
 		return

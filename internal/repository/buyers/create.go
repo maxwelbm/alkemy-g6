@@ -10,14 +10,14 @@ func (r *BuyerRepository) Create(buyer models.BuyerDTO) (buyerReturn models.Buye
 		return
 	}
 
-	lastInsertId, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
 
 	query = "SELECT id, card_number_id, first_name, last_name FROM buyers WHERE id = ?"
 	err = r.db.
-		QueryRow(query, lastInsertId).
+		QueryRow(query, lastInsertID).
 		Scan(&buyerReturn.Id, &buyerReturn.CardNumberId, &buyerReturn.FirstName, &buyerReturn.LastName)
 	if err != nil {
 		return
