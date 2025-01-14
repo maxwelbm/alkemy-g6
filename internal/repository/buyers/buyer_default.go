@@ -9,8 +9,7 @@ type BuyerRepository struct {
 }
 
 func NewBuyersRepository(db *sql.DB) *BuyerRepository {
-	repo := &BuyerRepository{
+	return &BuyerRepository{
 		db: db,
 	}
-	return repo
 }

@@ -9,8 +9,7 @@ type CarriesDefault struct {
 }
 
 func NewCarriesRepository(db *sql.DB) *CarriesDefault {
-	rp := &CarriesDefault{
+	return &CarriesDefault{
 		db: db,
 	}
-	return rp
 }

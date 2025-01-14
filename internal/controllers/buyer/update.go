@@ -109,6 +109,7 @@ func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 		}
 		// For any other error, respond with a 500 Internal Server Error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

@@ -9,12 +9,15 @@ func (r *BuyerRepository) GetAll() (buyers []models.Buyer, err error) {
 	if err != nil {
 		return
 	}
+
 	defer rows.Close()
+
 	for rows.Next() {
 		var buyer models.Buyer
 		if err = rows.Scan(&buyer.ID, &buyer.CardNumberID, &buyer.FirstName, &buyer.LastName); err != nil {
 			return
 		}
+
 		buyers = append(buyers, buyer)
 	}
 
