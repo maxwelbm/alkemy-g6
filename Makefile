@@ -1,6 +1,6 @@
 include .env
 
-.PHONY: up down mysql swag
+.PHONY: up down mysql swag lint
 
 up:
 	docker-compose up -d
@@ -13,3 +13,6 @@ mysql:
 
 swag:
 	docker exec -it frescos-api sh -c "swag init -d cmd --parseDependency --parseInternal --parseDepth 4 -o swagger/docs"
+
+lint:
+	docker exec -it frescos-api sh -c "golangci-lint run ./..."
