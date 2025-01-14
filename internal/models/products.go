@@ -56,7 +56,7 @@ type ProductReportRecords struct {
 
 type ProductService interface {
 	GetAll() (list []Product, err error)
-	GetById(id int) (prod Product, err error)
+	GetByID(id int) (prod Product, err error)
 	GetReportRecords(id int) (list []ProductReportRecords, err error)
 	Create(prod ProductDTO) (newProd Product, err error)
 	Update(id int, prod ProductDTO) (updatedProd Product, err error)
@@ -65,7 +65,7 @@ type ProductService interface {
 
 type ProductRepository interface {
 	GetAll() (list []Product, err error)
-	GetById(id int) (prod Product, err error)
+	GetByID(id int) (prod Product, err error)
 	GetReportRecords(id int) (list []ProductReportRecords, err error)
 	Create(prod ProductDTO) (newProd Product, err error)
 	Update(id int, prod ProductDTO) (updatedProd Product, err error)

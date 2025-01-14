@@ -22,7 +22,7 @@ func (c *WarehouseDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := make([]WarehouseDataResJSON, 80)
+	data := make([]WarehouseDataResJSON, len(warehouses))
 
 	for _, value := range warehouses {
 		warehouse := WarehouseDataResJSON{

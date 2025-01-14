@@ -8,7 +8,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-// GetById handles the HTTP request to retrieve a warehouse by its ID.
+// GetByID handles the HTTP request to retrieve a warehouse by its ID.
 // It extracts the warehouse ID from the URL parameters, validates it,
 // and fetches the warehouse details from the service layer. If the ID
 // is invalid or the warehouse is not found, it returns an appropriate
@@ -23,14 +23,14 @@ import (
 // @Failure 400 {object} response.ErrorResponse "Invalid ID format"
 // @Failure 404 {object} response.ErrorResponse "Warehouse not found"
 // @Router /api/v1/warehouses/{id} [get]
-func (c *WarehouseDefault) GetById(w http.ResponseWriter, r *http.Request) {
+func (c *WarehouseDefault) GetByID(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil || id < 1 {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	warehouse, err := c.sv.GetById(id)
+	warehouse, err := c.sv.GetByID(id)
 	if err != nil {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return

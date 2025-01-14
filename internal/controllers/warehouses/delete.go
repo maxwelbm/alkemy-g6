@@ -30,7 +30,7 @@ func (c *WarehouseDefault) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = c.sv.GetById(id)
+	_, err = c.sv.GetByID(id)
 	if err != nil {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return

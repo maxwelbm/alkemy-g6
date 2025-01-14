@@ -7,7 +7,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (r *BuyerRepository) GetById(id int) (buyer models.Buyer, err error) {
+func (r *BuyerRepository) GetByID(id int) (buyer models.Buyer, err error) {
 	query := "SELECT id, card_number_id, first_name, last_name FROM buyers WHERE id = ?"
 
 	row := r.db.QueryRow(query, id)

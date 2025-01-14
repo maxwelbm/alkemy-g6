@@ -12,6 +12,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Delete handles the deletion of a section by ID.
 // @Summary Delete a section
 // @Description Delete a section by ID
 // @Tags sections
@@ -24,14 +25,14 @@ import (
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/sections/{id} [delete]
-func (c *SectionsController) Delete(w http.ResponseWriter, r *http.Request) {
+func (ctl *SectionsController) Delete(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	err = c.sv.Delete(id)
+	err = ctl.sv.Delete(id)
 
 	if err != nil {
 		// Handle if section not found
@@ -51,6 +52,7 @@ func (c *SectionsController) Delete(w http.ResponseWriter, r *http.Request) {
 		}
 		// Handle other internal server errors
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

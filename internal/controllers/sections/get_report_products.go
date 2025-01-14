@@ -20,40 +20,44 @@ import (
 // @Failure 404 {object} response.ErrorResponse "Section not found"
 // @Failure 500 {object} response.ErrorResponse "Internal server error"
 // @Router /api/v1/sections/reportProducts [get]
-func (p *SectionsController) GetReportProducts(w http.ResponseWriter, r *http.Request) {
-	var sectionId int
+func (ctl *SectionsController) GetReportProducts(w http.ResponseWriter, r *http.Request) {
+	var sectionID int
+
 	var err error
 
 	id := r.URL.Query().Get("id")
 	if id != "" {
-		sectionId, err = strconv.Atoi(id)
+		sectionID, err = strconv.Atoi(id)
 		if err != nil {
 			response.Error(w, http.StatusBadRequest, err.Error())
 			return
 		}
-		if sectionId < 1 {
+
+		if sectionID < 1 {
 			response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 			return
 		}
 	}
 
 	var reportProducts []models.ProductReport
-	reportProducts, err = p.sv.GetReportProducts(sectionId)
+	reportProducts, err = ctl.sv.GetReportProducts(sectionID)
 
 	if err != nil {
 		if errors.Is(err, models.ErrSectionNotFound) {
 			response.Error(w, http.StatusNotFound, err.Error())
 			return
 		}
+
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
-	var data []ReportProductFullJSON
+	data := make([]ReportProductFullJSON, len(reportProducts))
 	for _, r := range reportProducts {
 		data = append(data,
 			ReportProductFullJSON{
-				SectionId:     r.SectionId,
+				SectionID:     r.SectionID,
 				SectionNumber: r.SectionNumber,
 				ProductsCount: r.ProductsCount,
 			})

@@ -19,8 +19,8 @@ func (s *SectionsController) GetAll() (sections []models.Section, err error) {
 
 }
 
-func (s *SectionsController) GetById(id int) (section models.Section, err error) {
-	return s.rp.GetById(id)
+func (s *SectionsController) GetByID(id int) (section models.Section, err error) {
+	return s.rp.GetByID(id)
 
 }
 

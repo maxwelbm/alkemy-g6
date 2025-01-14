@@ -10,7 +10,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-// GetById retrieves a product by its ID.
+// GetByID retrieves a product by its ID.
 //
 // @Summary Get product by ID
 // @Description Get a product by its unique ID
@@ -23,14 +23,14 @@ import (
 // @Failure 404 {object} response.ErrorResponse "Product not found"
 // @Failure 500 {object} response.ErrorResponse "Internal server error"
 // @Router /api/v1/products/{id} [get]
-func (p *ProductsDefault) GetById(w http.ResponseWriter, r *http.Request) {
+func (p *ProductsDefault) GetByID(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	prod, err := p.SV.GetById(id)
+	prod, err := p.SV.GetByID(id)
 	if errors.Is(err, models.ErrProductNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return

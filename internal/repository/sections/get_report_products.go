@@ -29,7 +29,7 @@ func (r *SectionRepository) GetReportProducts(sectionId int) (reportProducts []m
 	for rows.Next() {
 		var productReport models.ProductReport
 		err = rows.Scan(
-			&productReport.SectionId,
+			&productReport.SectionID,
 			&productReport.SectionNumber,
 			&productReport.ProductsCount,
 		)

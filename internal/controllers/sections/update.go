@@ -13,6 +13,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Update - Updates an existing section
 // @Summary Update a section
 // @Description Update a section by ID
 // @Tags sections
@@ -25,36 +26,36 @@ import (
 // @Failure 404 {object} response.ErrorResponse "Not Found"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/sections/{id} [patch]
-func (c *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
+func (ctl *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	var secReqJson NewSectionReqJSON
-	if err = json.NewDecoder(r.Body).Decode(&secReqJson); err != nil {
+	var secReqJSON NewSectionReqJSON
+	if err = json.NewDecoder(r.Body).Decode(&secReqJSON); err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	if err = secReqJson.validateUpdate(); err != nil {
+	if err = secReqJSON.validateUpdate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
 	secDTO := models.SectionDTO{
-		SectionNumber:      secReqJson.SectionNumber,
-		CurrentTemperature: secReqJson.CurrentTemperature,
-		MinimumTemperature: secReqJson.MinimumTemperature,
-		CurrentCapacity:    secReqJson.CurrentCapacity,
-		MinimumCapacity:    secReqJson.MinimumCapacity,
-		MaximumCapacity:    secReqJson.MaximumCapacity,
-		WarehouseID:        secReqJson.WarehouseID,
-		ProductTypeID:      secReqJson.ProductTypeID,
+		SectionNumber:      secReqJSON.SectionNumber,
+		CurrentTemperature: secReqJSON.CurrentTemperature,
+		MinimumTemperature: secReqJSON.MinimumTemperature,
+		CurrentCapacity:    secReqJSON.CurrentCapacity,
+		MinimumCapacity:    secReqJSON.MinimumCapacity,
+		MaximumCapacity:    secReqJSON.MaximumCapacity,
+		WarehouseID:        secReqJSON.WarehouseID,
+		ProductTypeID:      secReqJSON.ProductTypeID,
 	}
 
-	updateSection, err := c.sv.Update(id, secDTO)
+	updateSection, err := ctl.sv.Update(id, secDTO)
 
 	if err != nil {
 		// Handle if section not found
@@ -74,6 +75,7 @@ func (c *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 		}
 		// Handle other internal server errors
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

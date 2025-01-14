@@ -8,7 +8,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-// GetById handles the HTTP request to retrieve a buyer by their ID.
+// GetByID handles the HTTP request to retrieve a buyer by their ID.
 // @Summary Get buyer by ID
 // @Description Get details of a buyer by their ID
 // @Tags buyers
@@ -19,7 +19,7 @@ import (
 // @Failure 400 {object} response.ErrorResponse "Invalid ID supplied"
 // @Failure 404 {object} response.ErrorResponse "Buyer not found"
 // @Router /api/v1/buyers/{id} [get]
-func (ct *BuyersDefault) GetById(w http.ResponseWriter, r *http.Request) {
+func (ct *BuyersDefault) GetByID(w http.ResponseWriter, r *http.Request) {
 	// Parse the buyer ID from the URL parameter and convert it to an integer
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil || id < 1 {
@@ -29,7 +29,7 @@ func (ct *BuyersDefault) GetById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Retrieve the buyer details from the service layer using the ID
-	buyer, err := ct.sv.GetById(id)
+	buyer, err := ct.sv.GetByID(id)
 	if err != nil {
 		// If the buyer is not found, return a 404 Not Found error
 		response.Error(w, http.StatusNotFound, err.Error())

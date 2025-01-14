@@ -24,8 +24,8 @@ func (s *WarehouseDefault) GetAll() (w []models.Warehouse, err error) {
 	return
 }
 
-func (s *WarehouseDefault) GetById(id int) (w models.Warehouse, err error) {
-	w, err = s.repo.GetById(id)
+func (s *WarehouseDefault) GetByID(id int) (w models.Warehouse, err error) {
+	w, err = s.repo.GetByID(id)
 	return
 }
 

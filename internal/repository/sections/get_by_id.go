@@ -7,7 +7,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (r *SectionRepository) GetById(id int) (sec models.Section, err error) {
+func (r *SectionRepository) GetByID(id int) (sec models.Section, err error) {
 	query := "SELECT id, section_number, current_temperature, minimum_temperature, current_capacity, minimum_capacity, maximum_capacity, warehouse_id, product_type_id FROM sections WHERE id = ?"
 
 	row := r.DB.QueryRow(query, id)

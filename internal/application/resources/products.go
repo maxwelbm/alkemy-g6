@@ -19,7 +19,7 @@ func InitProducts(db *sql.DB, router *chi.Mux) {
 	// - endpoints
 	router.Route("/api/v1/products", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
-		rt.Get("/{id}", ct.GetById)
+		rt.Get("/{id}", ct.GetByID)
 		rt.Post("/", ct.Create)
 		rt.Patch("/{id}", ct.Update)
 		rt.Delete("/{id}", ct.Delete)

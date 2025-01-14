@@ -6,6 +6,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// GetAll handles the HTTP request to retrieve all sections.
 // @Summary Get all sections
 // @Description Get all sections
 // @Tags sections
@@ -14,14 +15,14 @@ import (
 // @Success 200 {array} SectionFullJSON
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/sections [get]
-func (c *SectionsController) GetAll(w http.ResponseWriter, r *http.Request) {
-	sec, err := c.sv.GetAll()
+func (ctl *SectionsController) GetAll(w http.ResponseWriter, r *http.Request) {
+	sec, err := ctl.sv.GetAll()
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	var data []SectionFullJSON
+	data := make([]SectionFullJSON, len(sec))
 	for _, value := range sec {
 		data = append(data, SectionFullJSON{
 			ID:                 value.ID,

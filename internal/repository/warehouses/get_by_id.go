@@ -7,7 +7,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (r *WarehouseRepository) GetById(id int) (w models.Warehouse, err error) {
+func (r *WarehouseRepository) GetByID(id int) (w models.Warehouse, err error) {
 	query := "SELECT `id`, `address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM warehouses WHERE `id`=?"
 
 	rows := r.db.QueryRow(query, id)
