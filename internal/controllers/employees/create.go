@@ -100,7 +100,7 @@ func validateNewEmployees(employees EmployeesReqJSON) (err error) {
 	}
 
 	if len(errosEmp) > 0 {
-		err = errors.New(fmt.Sprintf("validation errors: %v", errosEmp))
+		err = fmt.Errorf("validation errors: %v", errosEmp)
 	}
 
 	return
