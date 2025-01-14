@@ -1,4 +1,4 @@
-package employees_controller
+package employeesctl
 
 import (
 	"net/http"
@@ -44,10 +44,7 @@ func (c *EmployeesController) GetByID(w http.ResponseWriter, r *http.Request) {
 		WarehouseID:  employees.WarehouseID,
 	}
 
-	res := EmployeesResJSON{
-		Message: "Sucess",
-		Data:    data,
-	}
+	res := EmployeesResJSON{Data: data}
 
 	response.JSON(w, http.StatusOK, res)
 }

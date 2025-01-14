@@ -1,8 +1,7 @@
-package localities_controller
+package localitiesctl
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -12,26 +11,29 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-type NewLocalityJson struct {
+type NewLocalityJSON struct {
 	LocalityName *string `json:"locality_name"`
 	ProvinceName *string `json:"province_name"`
 	CountryName  *string `json:"country_name"`
 }
 
-func (j *NewLocalityJson) validate() (err error) {
+func (j *NewLocalityJSON) validate() (err error) {
 	var locErrs []string
 
 	if j.LocalityName == nil {
 		locErrs = append(locErrs, "error: locality_name is required")
 	}
+
 	if j.ProvinceName == nil {
 		locErrs = append(locErrs, "error: province_name is required")
 	}
+
 	if j.CountryName == nil {
 		locErrs = append(locErrs, "error: country_name is required")
 	}
+
 	if len(locErrs) > 0 {
-		err = errors.New(fmt.Sprintf("validation errors: %v", locErrs))
+		err = fmt.Errorf("validation errors: %v", locErrs)
 	}
 
 	return
@@ -43,7 +45,7 @@ func (j *NewLocalityJson) validate() (err error) {
 // @Tags localities
 // @Accept json
 // @Produce json
-// @Param locality body NewLocalityJson true "New Locality JSON"
+// @Param locality body NewLocalityJSON true "New Locality JSON"
 // @Success 201 {object} models.LocalityDTO "Created"
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 409 {object} response.ErrorResponse "Conflict"
@@ -51,21 +53,23 @@ func (j *NewLocalityJson) validate() (err error) {
 // @Router /api/v1/localities [post]
 func (ct *LocalitiesController) Create(w http.ResponseWriter, r *http.Request) {
 	// parse json
-	var locJson NewLocalityJson
-	err := json.NewDecoder(r.Body).Decode(&locJson)
+	var locJSON NewLocalityJSON
+	err := json.NewDecoder(r.Body).Decode(&locJSON)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	if err = locJson.validate(); err != nil {
+
+	if err = locJSON.validate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 	// builds dto from json
 	locDTO := &models.LocalityDTO{
-		LocalityName: *locJson.LocalityName,
-		ProvinceName: *locJson.ProvinceName,
-		CountryName:  *locJson.CountryName,
+		LocalityName: *locJSON.LocalityName,
+		ProvinceName: *locJSON.ProvinceName,
+		CountryName:  *locJSON.CountryName,
 	}
 
 	// insert
@@ -78,10 +82,14 @@ func (ct *LocalitiesController) Create(w http.ResponseWriter, r *http.Request) {
 		}
 		// handles other errors
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
 	// response
-	w.WriteHeader(http.StatusCreated)
-	response.JSON(w, http.StatusCreated, loc)
+	data := LocalityResJSON{
+		Message: http.StatusText(http.StatusCreated),
+		Data:    loc,
+	}
+	response.JSON(w, http.StatusCreated, data)
 }

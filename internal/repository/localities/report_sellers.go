@@ -1,4 +1,4 @@
-package localities_repository
+package localitiesrp
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
@@ -14,25 +14,30 @@ func (r *LocalityRepository) ReportSellers(id int) (reports []models.LocalitySel
 		GROUP BY l.id
 	`
 	rows, err := r.db.Query(query, id, id)
+
 	if err != nil {
-		return
+		return reports, err
 	}
+
 	defer rows.Close()
 	// scans row into report
 	for rows.Next() {
 		var report models.LocalitySellersReport
 		if err = rows.Scan(&report.ID, &report.LocalityName, &report.SellersCount); err != nil {
-			return
+			return reports, err
 		}
+
 		reports = append(reports, report)
 	}
+
 	if len(reports) == 0 {
 		err = models.ErrLocalityNotFound
-		return
-	}
-	if err = rows.Err(); err != nil {
-		return
+		return reports, err
 	}
 
-	return
+	if err = rows.Err(); err != nil {
+		return reports, err
+	}
+
+	return reports, nil
 }

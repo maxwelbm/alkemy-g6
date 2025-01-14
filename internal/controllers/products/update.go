@@ -1,4 +1,4 @@
-package products_controller
+package productsctl
 
 import (
 	"encoding/json"
@@ -29,6 +29,8 @@ import (
 // @Failure 422 {object} response.ErrorResponse "Unprocessable entity"
 // @Failure 500 {object} response.ErrorResponse "Internal server error"
 // @Router /api/v1/products/{id} [patch]
+//
+//nolint:all
 func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	// Get the ID from the URL
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
@@ -38,11 +40,13 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Decode the JSON
-	var prodJson UpdateProductAttributesJSON
-	json.NewDecoder(r.Body).Decode(&prodJson)
-
+	var prodJSON UpdateProductAttributesJSON
+	if err := json.NewDecoder(r.Body).Decode(&prodJSON); err != nil {
+		response.Error(w, http.StatusBadRequest, err.Error())
+		return
+	}
 	// Validate the JSON
-	if err = prodJson.validate(); err != nil {
+	if err = prodJSON.validate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
@@ -50,38 +54,48 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	// Create a new ProductDTO with the values from the JSON
 	prodDTO := models.ProductDTO{}
 
-	if prodJson.ProductCode != nil {
-		prodDTO.ProductCode = *prodJson.ProductCode
+	if prodJSON.ProductCode != nil {
+		prodDTO.ProductCode = *prodJSON.ProductCode
 	}
-	if prodJson.Description != nil {
-		prodDTO.Description = *prodJson.Description
+
+	if prodJSON.Description != nil {
+		prodDTO.Description = *prodJSON.Description
 	}
-	if prodJson.Height != nil {
-		prodDTO.Height = *prodJson.Height
+
+	if prodJSON.Height != nil {
+		prodDTO.Height = *prodJSON.Height
 	}
-	if prodJson.Length != nil {
-		prodDTO.Length = *prodJson.Length
+
+	if prodJSON.Length != nil {
+		prodDTO.Length = *prodJSON.Length
 	}
-	if prodJson.Width != nil {
-		prodDTO.Width = *prodJson.Width
+
+	if prodJSON.Width != nil {
+		prodDTO.Width = *prodJSON.Width
 	}
-	if prodJson.NetWeight != nil {
-		prodDTO.NetWeight = *prodJson.NetWeight
+
+	if prodJSON.NetWeight != nil {
+		prodDTO.NetWeight = *prodJSON.NetWeight
 	}
-	if prodJson.ExpirationRate != nil {
-		prodDTO.ExpirationRate = *prodJson.ExpirationRate
+
+	if prodJSON.ExpirationRate != nil {
+		prodDTO.ExpirationRate = *prodJSON.ExpirationRate
 	}
-	if prodJson.FreezingRate != nil {
-		prodDTO.FreezingRate = *prodJson.FreezingRate
+
+	if prodJSON.FreezingRate != nil {
+		prodDTO.FreezingRate = *prodJSON.FreezingRate
 	}
-	if prodJson.RecomFreezTemp != nil {
-		prodDTO.RecomFreezTemp = *prodJson.RecomFreezTemp
+
+	if prodJSON.RecomFreezTemp != nil {
+		prodDTO.RecomFreezTemp = *prodJSON.RecomFreezTemp
 	}
-	if prodJson.ProductTypeID != nil {
-		prodDTO.ProductTypeID = *prodJson.ProductTypeID
+
+	if prodJSON.ProductTypeID != nil {
+		prodDTO.ProductTypeID = *prodJSON.ProductTypeID
 	}
-	if prodJson.SellerID != nil {
-		prodDTO.SellerID = *prodJson.SellerID
+
+	if prodJSON.SellerID != nil {
+		prodDTO.SellerID = *prodJSON.SellerID
 	}
 
 	// Update the product
@@ -103,7 +117,9 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 		}
+
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

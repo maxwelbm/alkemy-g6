@@ -3,26 +3,25 @@ package models
 import "errors"
 
 var (
-	ErrorNoChangesMadedInInboundOrders = errors.New("No changes made")
-	ErrInboundOrdersNotFound           = errors.New("Inbound Orders not found")
+	ErrInboundOrdersNotFound = errors.New("inbound Orders not found")
 )
 
 type InboundOrders struct {
 	ID             int
 	OrderDate      string
 	OrderNumber    int
-	EmployeeId     int
-	ProductBatchId string
-	WarehouseId    int
+	EmployeeID     int
+	ProductBatchID string
+	WarehouseID    int
 }
 
 type InboundOrdersDTO struct {
 	ID             *int
 	OrderDate      *string
 	OrderNumber    *int
-	EmployeeId     *int
-	ProductBatchId *int
-	WarehouseId    *int
+	EmployeeID     *int
+	ProductBatchID *int
+	WarehouseID    *int
 }
 
 type InboundOrdersService interface {

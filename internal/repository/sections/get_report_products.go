@@ -1,4 +1,4 @@
-package sections_repository
+package sectionsrp
 
 import (
 	"database/sql"
@@ -6,11 +6,11 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (r *SectionRepository) GetReportProducts(sectionId int) (reportProducts []models.ProductReport, err error) {
+func (r *SectionRepository) GetReportProducts(sectionID int) (reportProducts []models.ProductReport, err error) {
 	var query string
+
 	var rows *sql.Rows
 
-	// Refazer a query
 	query = ` 
 		SELECT s.id, s.section_number, COUNT(pb.id) AS products_count
 		FROM sections s 
@@ -19,34 +19,37 @@ func (r *SectionRepository) GetReportProducts(sectionId int) (reportProducts []m
 		GROUP BY s.id
 	`
 
-	rows, err = r.DB.Query(query, sectionId, sectionId)
+	rows, err = r.db.Query(query, sectionID, sectionID)
 
 	if err != nil {
-		return
+		return reportProducts, err
 	}
+
 	defer rows.Close()
 
 	for rows.Next() {
 		var productReport models.ProductReport
 		err = rows.Scan(
-			&productReport.SectionId,
+			&productReport.SectionID,
 			&productReport.SectionNumber,
 			&productReport.ProductsCount,
 		)
+
 		if err != nil {
-			return
+			return reportProducts, err
 		}
+
 		reportProducts = append(reportProducts, productReport)
 	}
 
 	if len(reportProducts) == 0 {
 		err = models.ErrSectionNotFound
-		return
+		return reportProducts, err
 	}
 
 	if err = rows.Err(); err != nil {
-		return
+		return reportProducts, err
 	}
 
-	return
+	return reportProducts, nil
 }

@@ -1,16 +1,15 @@
-package buyers_repository
+package buyersrp
 
 import (
 	"database/sql"
 )
 
 type BuyerRepository struct {
-	DB *sql.DB
+	db *sql.DB
 }
 
-func NewBuyersRepository(DB *sql.DB) *BuyerRepository {
-	repo := &BuyerRepository{
-		DB: DB,
+func NewBuyersRepository(db *sql.DB) *BuyerRepository {
+	return &BuyerRepository{
+		db: db,
 	}
-	return repo
 }

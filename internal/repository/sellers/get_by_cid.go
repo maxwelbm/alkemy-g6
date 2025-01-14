@@ -1,4 +1,4 @@
-package sellers_repository
+package sellersrp
 
 import (
 	"database/sql"
@@ -20,6 +20,7 @@ func (r *SellersDefault) GetByCid(cid int) (seller models.Seller, err error) {
 			err = models.ErrSellerNotFound
 			return
 		}
+
 		return
 	}
 

@@ -59,12 +59,12 @@ func (a *ServerChi) Run() (err error) {
 
 	a.db, err = sql.Open("mysql", a.cfgDB.FormatDSN())
 	if err != nil {
-		return
+		return err
 	}
 	// - db: ping
 	err = a.db.Ping()
 	if err != nil {
-		return
+		return err
 	}
 	defer a.db.Close()
 
@@ -92,7 +92,9 @@ func (a *ServerChi) Run() (err error) {
 	resources.InitProductRecords(a.db, rt)
 	resources.InitPurchaseOrders(a.db, rt)
 	resources.InitProductBatches(a.db, rt)
+
 	// run server
 	err = http.ListenAndServe(a.Addr, rt)
-	return
+
+	return err
 }

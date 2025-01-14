@@ -1,4 +1,4 @@
-package products_controller
+package productsctl
 
 import (
 	"net/http"
@@ -21,7 +21,7 @@ func (p *ProductsDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var data []ProductFullJSON
+	data := make([]ProductFullJSON, 0, len(prods))
 	for _, p := range prods {
 		data = append(data,
 			ProductFullJSON{

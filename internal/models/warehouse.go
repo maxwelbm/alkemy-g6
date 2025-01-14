@@ -3,12 +3,12 @@ package models
 import "errors"
 
 var (
-	ErrWareHouseNotFound  = errors.New("Warehouse not found")
-	ErrWareHouseCodeExist = errors.New("Warehouse code already exist")
+	ErrWareHouseNotFound  = errors.New("warehouse not found")
+	ErrWareHouseCodeExist = errors.New("warehouse code already exist")
 )
 
 type Warehouse struct {
-	Id                 int     `json:"id"`
+	ID                 int     `json:"id"`
 	Address            string  `json:"address"`
 	Telephone          string  `json:"telephone"`
 	WarehouseCode      string  `json:"warehouse_code"`
@@ -17,7 +17,7 @@ type Warehouse struct {
 }
 
 type WarehouseDTO struct {
-	Id                 *int
+	ID                 *int
 	Address            *string
 	Telephone          *string
 	WarehouseCode      *string
@@ -27,7 +27,7 @@ type WarehouseDTO struct {
 
 type WarehouseRepository interface {
 	GetAll() (w []Warehouse, err error)
-	GetById(id int) (w Warehouse, err error)
+	GetByID(id int) (w Warehouse, err error)
 	Create(warehouse WarehouseDTO) (w Warehouse, err error)
 	Update(id int, warehouse WarehouseDTO) (w Warehouse, err error)
 	Delete(id int) (err error)
@@ -35,7 +35,7 @@ type WarehouseRepository interface {
 
 type WarehouseService interface {
 	GetAll() (w []Warehouse, err error)
-	GetById(id int) (w Warehouse, err error)
+	GetByID(id int) (w Warehouse, err error)
 	Create(warehouse WarehouseDTO) (w Warehouse, err error)
 	Update(id int, warehouse WarehouseDTO) (w Warehouse, err error)
 	Delete(id int) (err error)

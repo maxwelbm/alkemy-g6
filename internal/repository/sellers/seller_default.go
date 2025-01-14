@@ -1,4 +1,4 @@
-package sellers_repository
+package sellersrp
 
 import (
 	"database/sql"
@@ -12,5 +12,6 @@ func NewSellersRepository(db *sql.DB) *SellersDefault {
 	rp := &SellersDefault{
 		db: db,
 	}
+
 	return rp
 }

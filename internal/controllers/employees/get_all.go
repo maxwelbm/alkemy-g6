@@ -1,4 +1,4 @@
-package employees_controller
+package employeesctl
 
 import (
 	"net/http"
@@ -24,7 +24,7 @@ func (c *EmployeesController) GetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var list []EmployeesAttributes
+	list := make([]EmployeesAttributes, 0, len(employees))
 	for _, value := range employees {
 		list = append(list, EmployeesAttributes{
 			ID:           value.ID,

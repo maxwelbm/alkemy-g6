@@ -1,4 +1,4 @@
-package warehouses_repository
+package warehousesrp
 
 import (
 	"database/sql"
@@ -6,16 +6,15 @@ import (
 )
 
 var (
-	ErrWarehouseRepositoryNotFound = errors.New("Warehouse not found")
+	ErrWarehouseRepositoryNotFound = errors.New("warehouse not found")
 )
 
 type WarehouseRepository struct {
-	DB *sql.DB
+	db *sql.DB
 }
 
-func NewWarehouseRepository(DB *sql.DB) *WarehouseRepository {
-	repo := &WarehouseRepository{
-		DB: DB,
+func NewWarehouseRepository(db *sql.DB) *WarehouseRepository {
+	return &WarehouseRepository{
+		db: db,
 	}
-	return repo
 }

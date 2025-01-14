@@ -1,4 +1,4 @@
-package sellers_controller
+package sellersctl
 
 import (
 	"encoding/json"
@@ -47,7 +47,6 @@ func (j *SellerCreateJSON) validate() (err error) {
 	if len(validationErrors) > 0 {
 		err = fmt.Errorf("validation errors: %v", validationErrors)
 	}
-
 	// Return the error (if any)
 	return
 }
@@ -70,14 +69,14 @@ func (controller *SellersDefault) Create(w http.ResponseWriter, r *http.Request)
 	var sellerRequest SellerCreateJSON
 	if err := json.NewDecoder(r.Body).Decode(&sellerRequest); err != nil {
 		// If there's an error decoding the JSON, respond with a bad request status
-		response.JSON(w, http.StatusBadRequest, "Error ao decodificar JSON")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	// Validate the request data
 	if err := sellerRequest.validate(); err != nil {
 		// If validation fails, respond with a bad request status
-		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
@@ -98,12 +97,14 @@ func (controller *SellersDefault) Create(w http.ResponseWriter, r *http.Request)
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
+
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
 		// For any other error, respond with an internal server error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
@@ -119,11 +120,8 @@ func (controller *SellersDefault) Create(w http.ResponseWriter, r *http.Request)
 
 	// Create the response JSON
 	res := SellerResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusCreated),
 		Data:    data,
 	}
-
-	// Respond with the created status and the response JSON
 	response.JSON(w, http.StatusCreated, res)
-
 }

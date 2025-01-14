@@ -1,4 +1,4 @@
-package warehouses_controller
+package warehousesctl
 
 import (
 	"encoding/json"
@@ -38,8 +38,10 @@ func (c *WarehouseDefault) Update(w http.ResponseWriter, r *http.Request) {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
+
 	var warehouseJSON WarehouseReqJSON
 	err = json.NewDecoder(r.Body).Decode(&warehouseJSON)
+
 	if err != nil {
 		response.JSON(w, http.StatusBadRequest, err.Error())
 		return
@@ -59,22 +61,25 @@ func (c *WarehouseDefault) Update(w http.ResponseWriter, r *http.Request) {
 		MinimumTemperature: warehouseJSON.MinimumTemperature,
 	}
 
-	resWarehouse, err := c.Service.Update(id, warehouse)
+	resWarehouse, err := c.sv.Update(id, warehouse)
 	if err != nil {
 		if errors.Is(err, models.ErrWareHouseCodeExist) {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
+
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
+
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
 	data := WarehouseDataResJSON{
-		Id:                 resWarehouse.Id,
+		ID:                 resWarehouse.ID,
 		Address:            resWarehouse.Address,
 		Telephone:          resWarehouse.Telephone,
 		WarehouseCode:      resWarehouse.WarehouseCode,
@@ -82,7 +87,7 @@ func (c *WarehouseDefault) Update(w http.ResponseWriter, r *http.Request) {
 		MinimumTemperature: resWarehouse.MinimumTemperature,
 	}
 	res := WarehouseResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusOK),
 		Data:    data,
 	}
 	response.JSON(w, http.StatusOK, res)

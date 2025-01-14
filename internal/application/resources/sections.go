@@ -19,7 +19,7 @@ func InitSections(db *sql.DB, router *chi.Mux) {
 	// - endpoints
 	router.Route("/api/v1/sections", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
-		rt.Get("/{id}", ct.GetById)
+		rt.Get("/{id}", ct.GetByID)
 		rt.Get("/reportProducts", ct.GetReportProducts)
 		rt.Post("/", ct.Create)
 		rt.Patch("/{id}", ct.Update)

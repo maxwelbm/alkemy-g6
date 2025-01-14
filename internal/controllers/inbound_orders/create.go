@@ -1,8 +1,7 @@
-package inbound_orders_controller
+package inboundordersctl
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -25,29 +24,30 @@ import (
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/inboundOrders [post]
-func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request) {
-	var inboundOrdersJson InboundOrdersReqJSON
-	err := json.NewDecoder(r.Body).Decode(&inboundOrdersJson)
+func (ctl *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request) {
+	var inboundOrdersJSON InboundOrdersReqJSON
+	err := json.NewDecoder(r.Body).Decode(&inboundOrdersJSON)
+
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	err = validateNewInboundOrders(inboundOrdersJson)
+	err = validateNewInboundOrders(inboundOrdersJSON)
 	if err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
 	inboundOrders := models.InboundOrdersDTO{
-		OrderDate:      inboundOrdersJson.OrderDate,
-		OrderNumber:    inboundOrdersJson.OrderNumber,
-		EmployeeId:     inboundOrdersJson.EmployeeId,
-		ProductBatchId: inboundOrdersJson.ProductBatchId,
-		WarehouseId:    inboundOrdersJson.WarehouseId,
+		OrderDate:      inboundOrdersJSON.OrderDate,
+		OrderNumber:    inboundOrdersJSON.OrderNumber,
+		EmployeeID:     inboundOrdersJSON.EmployeeID,
+		ProductBatchID: inboundOrdersJSON.ProductBatchID,
+		WarehouseID:    inboundOrdersJSON.WarehouseID,
 	}
 
-	inb, err := c.SV.Create(inboundOrders)
+	inb, err := ctl.SV.Create(inboundOrders)
 	if err != nil {
 		// Check if the error is a MySQL duplicate entry error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow || mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
@@ -56,25 +56,25 @@ func (c *InboundOrdersController) Create(w http.ResponseWriter, r *http.Request)
 		}
 		// For any other error, respond with an internal server error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
 	data := InboundOrdersResJSON{
-		Message: "Sucess created",
+		Message: http.StatusText(http.StatusCreated),
 		Data: InboundOrdersAttributes{
 			ID:             inb.ID,
 			OrderDate:      inb.OrderDate,
 			OrderNumber:    inb.OrderNumber,
-			EmployeeId:     inb.EmployeeId,
-			ProductBatchId: inb.ProductBatchId,
-			WarehouseId:    inb.WarehouseId,
+			EmployeeID:     inb.EmployeeID,
+			ProductBatchID: inb.ProductBatchID,
+			WarehouseID:    inb.WarehouseID,
 		},
 	}
 	response.JSON(w, http.StatusCreated, data)
 }
 
 func validateNewInboundOrders(inboundOrders InboundOrdersReqJSON) (err error) {
-
 	var errosInbound []string
 
 	if inboundOrders.OrderDate == nil || *inboundOrders.OrderDate == "" {
@@ -85,20 +85,21 @@ func validateNewInboundOrders(inboundOrders InboundOrdersReqJSON) (err error) {
 		errosInbound = append(errosInbound, "error: attribute Order Number invalid")
 	}
 
-	if inboundOrders.EmployeeId == nil || *inboundOrders.EmployeeId <= 0 {
-		errosInbound = append(errosInbound, "error: attribute Employee Id invalid")
+	if inboundOrders.EmployeeID == nil || *inboundOrders.EmployeeID <= 0 {
+		errosInbound = append(errosInbound, "error: attribute Employee ID invalid")
 	}
 
-	if inboundOrders.ProductBatchId == nil || *inboundOrders.ProductBatchId <= 0 {
-		errosInbound = append(errosInbound, "error: attribute Product Batch Id invalid")
+	if inboundOrders.ProductBatchID == nil || *inboundOrders.ProductBatchID <= 0 {
+		errosInbound = append(errosInbound, "error: attribute Product Batch ID invalid")
 	}
 
-	if inboundOrders.WarehouseId == nil || *inboundOrders.WarehouseId <= 0 {
-		errosInbound = append(errosInbound, "error: attribute Warehouse Id invalid")
+	if inboundOrders.WarehouseID == nil || *inboundOrders.WarehouseID <= 0 {
+		errosInbound = append(errosInbound, "error: attribute Warehouse ID invalid")
 	}
 
 	if len(errosInbound) > 0 {
-		err = errors.New(fmt.Sprintf("validation errors: %v", errosInbound))
+		err = fmt.Errorf("validation errors: %v", errosInbound)
 	}
+
 	return
 }

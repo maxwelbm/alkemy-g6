@@ -18,8 +18,8 @@ func (s *SellersDefault) GetAll() ([]models.Seller, error) {
 	return s.rp.GetAll()
 }
 
-func (s *SellersDefault) GetById(id int) (seller models.Seller, err error) {
-	return s.rp.GetById(id)
+func (s *SellersDefault) GetByID(id int) (seller models.Seller, err error) {
+	return s.rp.GetByID(id)
 }
 
 func (s *SellersDefault) GetByCid(cid int) (seller models.Seller, err error) {

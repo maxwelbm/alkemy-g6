@@ -5,32 +5,58 @@ import (
 )
 
 func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err error) {
-	query := "INSERT INTO products (`product_code`, `description`, `height`, `length`, `width`, `net_weight`, `expiration_rate`, `freezing_rate`, `recommended_freezing_temperature`, `product_type_id`, `seller_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-    
-    result, err := p.DB.Exec(query, 
-        prod.ProductCode,
-        prod.Description,
-        prod.Height,
-        prod.Length,
-        prod.Width,
-        prod.NetWeight,
-        prod.ExpirationRate,
-        prod.FreezingRate,
-        prod.RecomFreezTemp,
-        prod.ProductTypeID,
-        prod.SellerID,
-    )
+	query := `INSERT INTO products 
+				(product_code,
+				description,
+				height,
+				length,
+				width,
+				net_weight,
+				expiration_rate,
+				freezing_rate,
+				recommended_freezing_temperature,
+				product_type_id,
+				seller_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+
+	result, err := p.DB.Exec(query,
+		prod.ProductCode,
+		prod.Description,
+		prod.Height,
+		prod.Length,
+		prod.Width,
+		prod.NetWeight,
+		prod.ExpirationRate,
+		prod.FreezingRate,
+		prod.RecomFreezTemp,
+		prod.ProductTypeID,
+		prod.SellerID,
+	)
 
 	if err != nil {
-		return
+		return newProd, err
 	}
 
-	lastInsertId, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
-		return
+		return newProd, err
 	}
-	query = "SELECT `id`, `product_code`, `description`, `height`, `length`, `width`, `net_weight`, `expiration_rate`, `freezing_rate`, `recommended_freezing_temperature`, `product_type_id`, `seller_id` FROM products WHERE `id` = ?"
-	err = p.DB.QueryRow(query, lastInsertId).Scan(
+
+	query = `SELECT 
+				id, 
+				product_code, 
+				description,
+				height,
+				length,
+				width,
+				net_weight,
+				expiration_rate,
+				freezing_rate,
+				recommended_freezing_temperature,
+				product_type_id,
+				seller_id FROM products WHERE id = ?`
+	
+	err = p.DB.QueryRow(query,
+		lastInsertID).Scan(
 		&newProd.ID,
 		&newProd.ProductCode,
 		&newProd.Description,
@@ -44,9 +70,10 @@ func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err e
 		&newProd.ProductTypeID,
 		&newProd.SellerID,
 	)
+	
 	if err != nil {
-		return
+		return newProd, err
 	}
 
-	return
+	return newProd, err
 }

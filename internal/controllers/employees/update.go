@@ -1,8 +1,7 @@
-package employees_controller
+package employeesctl
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -39,7 +38,9 @@ func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 		response.Error(w, http.StatusBadRequest, "Invalid ID format")
 		return
 	}
+
 	var employeesJSON EmployeesReqJSON
+
 	err = json.NewDecoder(r.Body).Decode(&employeesJSON)
 	if err != nil {
 		response.JSON(w, http.StatusBadRequest, "Failed to update employees")
@@ -83,12 +84,14 @@ func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 		}
+
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
 	data := EmployeesResJSON{
-		Message: "Sucess",
+		Message: http.StatusText(http.StatusOK),
 		Data: EmployeesAttributes{
 			ID:           emp.ID,
 			CardNumberID: emp.CardNumberID,
@@ -102,9 +105,10 @@ func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 }
 
 func validateUpdateEmployees(e EmployeesReqJSON) (err error) {
-
 	var errosEmp []string
+
 	con := false
+
 	if e.CardNumberID != nil && *e.CardNumberID == "" {
 		errosEmp = append(errosEmp, "error: attribute CardNumberID cannot be empty")
 		con = true
@@ -117,6 +121,7 @@ func validateUpdateEmployees(e EmployeesReqJSON) (err error) {
 		} else {
 			errosEmp = append(errosEmp, "- error: attribute FirstName cannot be empty")
 		}
+
 		con = true
 	}
 
@@ -127,6 +132,7 @@ func validateUpdateEmployees(e EmployeesReqJSON) (err error) {
 		} else {
 			errosEmp = append(errosEmp, "- error: attribute LastName cannot be empty")
 		}
+
 		con = true
 	}
 
@@ -140,7 +146,8 @@ func validateUpdateEmployees(e EmployeesReqJSON) (err error) {
 	}
 
 	if len(errosEmp) > 0 {
-		err = errors.New(fmt.Sprintf("validation errors: %v", errosEmp))
+		err = fmt.Errorf("validation errors: %v", errosEmp)
 	}
-	return
+
+	return err
 }

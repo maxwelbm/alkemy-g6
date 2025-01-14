@@ -19,13 +19,13 @@ func (s *BuyerDefault) GetAll() (buyers []models.Buyer, err error) {
 	return
 }
 
-func (s *BuyerDefault) GetById(id int) (buyer models.Buyer, err error) {
-	buyer, err = s.rp.GetById(id)
+func (s *BuyerDefault) GetByID(id int) (buyer models.Buyer, err error) {
+	buyer, err = s.rp.GetByID(id)
 	return
 }
 
-func (s *BuyerDefault) GetByCardNumberId(cardNumberId string) (buyer models.Buyer, err error) {
-	buyer, err = s.rp.GetByCardNumberId(cardNumberId)
+func (s *BuyerDefault) GetByCardNumberID(cardNumberID string) (buyer models.Buyer, err error) {
+	buyer, err = s.rp.GetByCardNumberID(cardNumberID)
 	return
 }
 

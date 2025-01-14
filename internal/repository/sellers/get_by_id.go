@@ -1,4 +1,4 @@
-package sellers_repository
+package sellersrp
 
 import (
 	"database/sql"
@@ -7,7 +7,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (r *SellersDefault) GetById(id int) (seller models.Seller, err error) {
+func (r *SellersDefault) GetByID(id int) (seller models.Seller, err error) {
 	// query to get seller by id
 	query := "SELECT id, cid, company_name, address, telephone, locality_id FROM sellers WHERE id = ?"
 	row := r.db.QueryRow(query, id)
@@ -19,6 +19,7 @@ func (r *SellersDefault) GetById(id int) (seller models.Seller, err error) {
 			err = models.ErrSellerNotFound
 			return
 		}
+
 		return
 	}
 

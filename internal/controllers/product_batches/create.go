@@ -1,4 +1,4 @@
-package product_batches_controller
+package productbatchesctl
 
 import (
 	"encoding/json"
@@ -24,28 +24,28 @@ import (
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/product_batches [post]
 func (c *ProductBatchesController) Create(w http.ResponseWriter, r *http.Request) {
-	var prodBatchReqJson NewProductBatchesReqJSON
-	if err := json.NewDecoder(r.Body).Decode(&prodBatchReqJson); err != nil {
+	var prodBatchReqJSON NewProductBatchesReqJSON
+	if err := json.NewDecoder(r.Body).Decode(&prodBatchReqJSON); err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	if err := prodBatchReqJson.validateCreate(); err != nil {
+	if err := prodBatchReqJSON.validateCreate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
 	prodBatchDTO := models.ProductBatchesDTO{
-		BatchNumber:        *prodBatchReqJson.BatchNumber,
-		InitialQuantity:    *prodBatchReqJson.InitialQuantity,
-		CurrentQuantity:    *prodBatchReqJson.CurrentQuantity,
-		CurrentTemperature: *prodBatchReqJson.CurrentTemperature,
-		MinimumTemperature: *prodBatchReqJson.MinimumTemperature,
-		DueDate:            *prodBatchReqJson.DueDate,
-		ManufacturingDate:  *prodBatchReqJson.ManufacturingDate,
-		ManufacturingHour:  *prodBatchReqJson.ManufacturingHour,
-		ProductID:          *prodBatchReqJson.ProductID,
-		SectionID:          *prodBatchReqJson.SectionID,
+		BatchNumber:        *prodBatchReqJSON.BatchNumber,
+		InitialQuantity:    *prodBatchReqJSON.InitialQuantity,
+		CurrentQuantity:    *prodBatchReqJSON.CurrentQuantity,
+		CurrentTemperature: *prodBatchReqJSON.CurrentTemperature,
+		MinimumTemperature: *prodBatchReqJSON.MinimumTemperature,
+		DueDate:            *prodBatchReqJSON.DueDate,
+		ManufacturingDate:  *prodBatchReqJSON.ManufacturingDate,
+		ManufacturingHour:  *prodBatchReqJSON.ManufacturingHour,
+		ProductID:          *prodBatchReqJSON.ProductID,
+		SectionID:          *prodBatchReqJSON.SectionID,
 	}
 
 	newProdBatch, err := c.sv.Create(prodBatchDTO)
@@ -55,8 +55,15 @@ func (c *ProductBatchesController) Create(w http.ResponseWriter, r *http.Request
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
+
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
+		}
+
 		// For any other error, respond with an internal server error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

@@ -1,4 +1,4 @@
-package buyers_controller
+package buyersctl
 
 import (
 	"net/http"
@@ -16,7 +16,7 @@ import (
 // @Router /api/v1/buyers [get]
 func (ct *BuyersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	// Retrieve all buyers from the service layer
-	buyers, err := ct.SV.GetAll()
+	buyers, err := ct.sv.GetAll()
 
 	// Check for errors in retrieving buyers
 	if err != nil {
@@ -26,25 +26,22 @@ func (ct *BuyersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Initialize a slice to hold the response data
-	var data []FullBuyerJSON
+	data := make([]FullBuyerJSON, 0, len(buyers))
 	// Iterate over the retrieved buyers and map them to the response format
 	for _, value := range buyers {
-		new := FullBuyerJSON{
-			Id:           value.Id,
-			CardNumberId: value.CardNumberId,
+		buyer := FullBuyerJSON{
+			ID:           value.ID,
+			CardNumberID: value.CardNumberID,
 			FirstName:    value.FirstName,
 			LastName:     value.LastName,
 		}
 
 		// Append the mapped buyer data to the response slice
-		data = append(data, new)
+		data = append(data, buyer)
 	}
 
 	// Create the response JSON structure
-	res := BuyerResJSON{
-		Message: "Success",
-		Data:    data,
-	}
+	res := BuyerResJSON{Data: data}
 
 	// Send the JSON response with status OK
 	response.JSON(w, http.StatusOK, res)

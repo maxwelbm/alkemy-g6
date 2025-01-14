@@ -1,4 +1,4 @@
-package purchase_orders_repository
+package purchaseordersrp
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
@@ -17,14 +17,13 @@ func (r *PurchaseOrdersRepository) Create(purchaseOrdersDTO models.PurchaseOrder
 		return
 	}
 
-	lastInsertId, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
 
 	query = "SELECT `id`,`order_number`, DATE_FORMAT(`order_date`, '%d/%m/%Y') AS order_date ,`tracking_code`,`buyer_id`,`product_record_id` FROM purchase_orders WHERE `id`=?"
-	err = r.DB.QueryRow(query, lastInsertId).Scan(&po.ID, &po.OrderNumber, &po.OrderDate, &po.TrackingCode, &po.BuyerID, &po.ProductRecordID)
-	if err != nil {
+	if err = r.DB.QueryRow(query, lastInsertID).Scan(&po.ID, &po.OrderNumber, &po.OrderDate, &po.TrackingCode, &po.BuyerID, &po.ProductRecordID); err != nil {
 		return
 	}
 
@@ -33,8 +32,7 @@ func (r *PurchaseOrdersRepository) Create(purchaseOrdersDTO models.PurchaseOrder
 
 func validateOrderNumber(r *PurchaseOrdersRepository, orderNumber string, exists bool) (err error) {
 	query := "SELECT EXISTS(SELECT 1 FROM purchase_orders WHERE `order_number`=?)"
-	err = r.DB.QueryRow(query, orderNumber).Scan(&exists)
-	if err != nil {
+	if err = r.DB.QueryRow(query, orderNumber).Scan(&exists); err != nil {
 		return
 	}
 

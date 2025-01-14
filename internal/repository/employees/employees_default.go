@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	ErrEmployeesRepositoryNotFound       = errors.New("Employees not found")
-	ErrEmployeesRepositoryDuplicatedCode = errors.New("Card Number ID already exists")
+	ErrEmployeesRepositoryNotFound       = errors.New("employees not found")
+	ErrEmployeesRepositoryDuplicatedCode = errors.New("card Number ID already exists")
 )
 
 type EmployeesRepository struct {
@@ -18,5 +18,6 @@ func NewEmployeesRepository(DB *sql.DB) *EmployeesRepository {
 	repo := &EmployeesRepository{
 		DB: DB,
 	}
+	
 	return repo
 }

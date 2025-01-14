@@ -1,4 +1,4 @@
-package products_controller
+package productsctl
 
 import (
 	"encoding/json"
@@ -24,27 +24,30 @@ import (
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/products [post]
 func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
-	var prodJson NewProductAttributesJSON
-	json.NewDecoder(r.Body).Decode(&prodJson)
+	var prodJSON NewProductAttributesJSON
+	if err := json.NewDecoder(r.Body).Decode(&prodJSON); err != nil {
+		response.Error(w, http.StatusBadRequest, err.Error())
+		return
+	}
 
-	err := prodJson.validate()
+	err := prodJSON.validate()
 	if err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
 	prodDTO := models.ProductDTO{
-		ProductCode:    *prodJson.ProductCode,
-		Description:    *prodJson.Description,
-		Height:         *prodJson.Height,
-		Length:         *prodJson.Length,
-		Width:          *prodJson.Width,
-		NetWeight:      *prodJson.NetWeight,
-		ExpirationRate: *prodJson.ExpirationRate,
-		FreezingRate:   *prodJson.FreezingRate,
-		RecomFreezTemp: *prodJson.RecomFreezTemp,
-		ProductTypeID:  *prodJson.ProductTypeID,
-		SellerID:       *prodJson.SellerID,
+		ProductCode:    *prodJSON.ProductCode,
+		Description:    *prodJSON.Description,
+		Height:         *prodJSON.Height,
+		Length:         *prodJSON.Length,
+		Width:          *prodJSON.Width,
+		NetWeight:      *prodJSON.NetWeight,
+		ExpirationRate: *prodJSON.ExpirationRate,
+		FreezingRate:   *prodJSON.FreezingRate,
+		RecomFreezTemp: *prodJSON.RecomFreezTemp,
+		ProductTypeID:  *prodJSON.ProductTypeID,
+		SellerID:       *prodJSON.SellerID,
 	}
 
 	newProd, err := p.SV.Create(prodDTO)
@@ -60,7 +63,9 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 		}
+
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

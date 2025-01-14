@@ -1,4 +1,4 @@
-package purchase_orders_controller
+package purchaseordersctl
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
@@ -21,8 +21,8 @@ type PurchaseOrdersJSON struct {
 	OrderNumber     *string `json:"order_number"`
 	OrderDate       *string `json:"order_date"`
 	TrackingCode    *string `json:"tracking_code"`
-	BuyerId         *int    `json:"buyer_id"`
-	ProductRecordId *int    `json:"product_record_id"`
+	BuyerID         *int    `json:"buyer_id"`
+	ProductRecordID *int    `json:"product_record_id"`
 }
 
 type PurchaseOrdersResJSON struct {
@@ -30,6 +30,6 @@ type PurchaseOrdersResJSON struct {
 	OrderNumber     string `json:"order_number"`
 	OrderDate       string `json:"order_date"`
 	TrackingCode    string `json:"tracking_code"`
-	BuyerId         int    `json:"buyer_id"`
-	ProductRecordId int    `json:"product_record_id"`
+	BuyerID         int    `json:"buyer_id"`
+	ProductRecordID int    `json:"product_record_id"`
 }

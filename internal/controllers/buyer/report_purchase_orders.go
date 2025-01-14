@@ -1,4 +1,4 @@
-package buyers_controller
+package buyersctl
 
 import (
 	"errors"
@@ -23,6 +23,7 @@ import (
 // @Router /api/v1/buyers/reportPurchaseOrders [get]
 func (ct *BuyersDefault) ReportPurchaseOrders(w http.ResponseWriter, r *http.Request) {
 	var id int
+
 	var err error
 
 	param := r.URL.Query().Get("id")
@@ -32,12 +33,14 @@ func (ct *BuyersDefault) ReportPurchaseOrders(w http.ResponseWriter, r *http.Req
 			response.Error(w, http.StatusBadRequest, err.Error())
 			return
 		}
+
 		if id < 1 {
 			response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 			return
 		}
 	}
-	list, err := ct.SV.ReportPurchaseOrders(id)
+
+	list, err := ct.sv.ReportPurchaseOrders(id)
 	if err != nil {
 		if errors.Is(err, models.ErrBuyerNotFound) {
 			response.Error(w, http.StatusNotFound, err.Error())
@@ -45,19 +48,20 @@ func (ct *BuyersDefault) ReportPurchaseOrders(w http.ResponseWriter, r *http.Req
 		}
 
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
-	var data []models.BuyerPurchaseOrdersReportJSON
+	data := make([]models.BuyerPurchaseOrdersReportJSON, 0, len(list))
+
 	for _, value := range list {
-		result := models.BuyerPurchaseOrdersReportJSON{
-			Id:                  value.ID,
-			CardNumberId:        value.CardNumberId,
-			FirstName:           value.FirstName,
-			LastName:            value.LastName,
-			PurchaseOrdersCount: value.PurchaseOrdersCount,
-		}
-		data = append(data, result)
+		var buyer models.BuyerPurchaseOrdersReportJSON
+		buyer.ID = value.ID
+		buyer.CardNumberID = value.CardNumberID
+		buyer.FirstName = value.FirstName
+		buyer.LastName = value.LastName
+		buyer.PurchaseOrdersCount = value.PurchaseOrdersCount
+		data = append(data, buyer)
 	}
 
 	res := BuyerResJSON{Data: data}

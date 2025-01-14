@@ -3,7 +3,7 @@ package models
 import "errors"
 
 var (
-	ErrSectionNotFound = errors.New("Section not found")
+	ErrSectionNotFound = errors.New("section not found")
 )
 
 type Section struct {
@@ -30,15 +30,15 @@ type SectionDTO struct {
 }
 
 type ProductReport struct {
-	SectionId     int
+	SectionID     int
 	SectionNumber string
 	ProductsCount int
 }
 
 type SectionService interface {
 	GetAll() (sections []Section, err error)
-	GetById(id int) (section Section, err error)
-	GetReportProducts(sectionId int) (reportProducts []ProductReport, err error)
+	GetByID(id int) (section Section, err error)
+	GetReportProducts(sectionID int) (reportProducts []ProductReport, err error)
 	Create(sec SectionDTO) (newSection Section, err error)
 	Update(id int, sec SectionDTO) (updateSection Section, err error)
 	Delete(id int) (err error)
@@ -46,8 +46,8 @@ type SectionService interface {
 
 type SectionRepository interface {
 	GetAll() (sections []Section, err error)
-	GetById(id int) (section Section, err error)
-	GetReportProducts(sectionId int) (reportProducts []ProductReport, err error)
+	GetByID(id int) (section Section, err error)
+	GetReportProducts(sectionID int) (reportProducts []ProductReport, err error)
 	Create(sec SectionDTO) (newSection Section, err error)
 	Update(id int, sec SectionDTO) (updateSection Section, err error)
 	Delete(id int) (err error)

@@ -7,9 +7,11 @@ import (
 func (p *Products) GetAll() (list []models.Product, err error) {
 	query := "SELECT `id`, `product_code`, `description`, `height`, `length`, `width`, `net_weight`, `expiration_rate`, `freezing_rate`, `recommended_freezing_temperature`, `product_type_id`, `seller_id` FROM products"
 	rows, err := p.DB.Query(query)
+	
 	if err != nil {
-		return
+		return nil, err
 	}
+	
 	defer rows.Close()
 
 	for rows.Next() {
@@ -28,15 +30,17 @@ func (p *Products) GetAll() (list []models.Product, err error) {
 			&product.ProductTypeID,
 			&product.SellerID,
 		)
+		
 		if err != nil {
-			return
+			return nil, err
 		}
+		
 		list = append(list, product)
 	}
 
 	if err = rows.Err(); err != nil {
-		return
+		return nil, err
 	}
 
-	return
+	return list, nil
 }

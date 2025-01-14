@@ -1,4 +1,4 @@
-package employees_controller
+package employeesctl
 
 import (
 	"encoding/json"
@@ -28,24 +28,25 @@ import (
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/employees [post]
 func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
-	var employeesJson EmployeesReqJSON
-	err := json.NewDecoder(r.Body).Decode(&employeesJson)
+	var employeesJSON EmployeesReqJSON
+	err := json.NewDecoder(r.Body).Decode(&employeesJSON)
+
 	if err != nil {
 		response.JSON(w, http.StatusBadRequest, "Body invalid")
 		return
 	}
 
-	err = validateNewEmployees(employeesJson)
+	err = validateNewEmployees(employeesJSON)
 	if err != nil {
 		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
 	employees := models.EmployeesDTO{
-		CardNumberID: employeesJson.CardNumberID,
-		FirstName:    employeesJson.FirstName,
-		LastName:     employeesJson.LastName,
-		WarehouseID:  employeesJson.WarehouseID,
+		CardNumberID: employeesJSON.CardNumberID,
+		FirstName:    employeesJSON.FirstName,
+		LastName:     employeesJSON.LastName,
+		WarehouseID:  employeesJSON.WarehouseID,
 	}
 
 	emp, err := c.SV.Create(employees)
@@ -61,11 +62,12 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 		}
 		// For any other error, respond with an internal server error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
 	data := EmployeesResJSON{
-		Message: "Sucess created",
+		Message: "Success created",
 		Data: EmployeesAttributes{
 			ID:           emp.ID,
 			CardNumberID: emp.CardNumberID,
@@ -78,7 +80,6 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func validateNewEmployees(employees EmployeesReqJSON) (err error) {
-
 	var errosEmp []string
 	if employees.CardNumberID == nil || *employees.CardNumberID == "" {
 		errosEmp = append(errosEmp, "error: attribute CardNumberID cannot be empty")
@@ -99,7 +100,8 @@ func validateNewEmployees(employees EmployeesReqJSON) (err error) {
 	}
 
 	if len(errosEmp) > 0 {
-		err = errors.New(fmt.Sprintf("validation errors: %v", errosEmp))
+		err = fmt.Errorf("validation errors: %v", errosEmp)
 	}
+
 	return
 }

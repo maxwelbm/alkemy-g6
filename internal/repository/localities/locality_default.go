@@ -1,4 +1,4 @@
-package localities_repository
+package localitiesrp
 
 import "database/sql"
 

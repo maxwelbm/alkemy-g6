@@ -1,8 +1,7 @@
-package purchase_orders_controller
+package purchaseordersctl
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -26,23 +25,25 @@ import (
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router 	/api/v1/purchaseOrders [post]
 func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Request) {
-	var purchaseOrdersJson PurchaseOrdersJSON
-	err := json.NewDecoder(r.Body).Decode(&purchaseOrdersJson)
+	var purchaseOrdersJSON PurchaseOrdersJSON
+
+	err := json.NewDecoder(r.Body).Decode(&purchaseOrdersJSON)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	if err = purchaseOrdersJson.validate(); err != nil {
+
+	if err = purchaseOrdersJSON.validate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
 	poDTO := &models.PurchaseOrdersDTO{
-		OrderNumber:     *purchaseOrdersJson.OrderNumber,
-		OrderDate:       *purchaseOrdersJson.OrderDate,
-		TrackingCode:    *purchaseOrdersJson.TrackingCode,
-		BuyerID:         *purchaseOrdersJson.BuyerId,
-		ProductRecordID: *purchaseOrdersJson.ProductRecordId,
+		OrderNumber:     *purchaseOrdersJSON.OrderNumber,
+		OrderDate:       *purchaseOrdersJSON.OrderDate,
+		TrackingCode:    *purchaseOrdersJSON.TrackingCode,
+		BuyerID:         *purchaseOrdersJSON.BuyerID,
+		ProductRecordID: *purchaseOrdersJSON.ProductRecordID,
 	}
 
 	purchaseOrders, err := pc.sv.Create(*poDTO)
@@ -56,15 +57,14 @@ func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Reques
 		OrderNumber:     purchaseOrders.OrderNumber,
 		OrderDate:       purchaseOrders.OrderDate,
 		TrackingCode:    purchaseOrders.TrackingCode,
-		BuyerId:         purchaseOrders.BuyerID,
-		ProductRecordId: purchaseOrders.ProductRecordID,
+		BuyerID:         purchaseOrders.BuyerID,
+		ProductRecordID: purchaseOrders.ProductRecordID,
 	}
 
 	res := ResPurchaseOrdersJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusCreated),
 		Data:    data,
 	}
-
 	response.JSON(w, http.StatusCreated, res)
 }
 
@@ -74,20 +74,25 @@ func (p *PurchaseOrdersJSON) validate() (err error) {
 	if p.OrderNumber == nil {
 		poErrs = append(poErrs, "error: order_number is required")
 	}
+
 	if p.OrderDate == nil {
 		poErrs = append(poErrs, "error: order_date is required")
 	}
+
 	if p.TrackingCode == nil {
 		poErrs = append(poErrs, "error: tracking_code is required")
 	}
-	if p.BuyerId == nil {
+
+	if p.BuyerID == nil {
 		poErrs = append(poErrs, "error: buyer_id: is required")
 	}
-	if p.ProductRecordId == nil {
+
+	if p.ProductRecordID == nil {
 		poErrs = append(poErrs, "error: product_record_id is required")
 	}
+
 	if len(poErrs) > 0 {
-		err = errors.New(fmt.Sprintf("validation errors: %v", poErrs))
+		err = fmt.Errorf("validation errors: %v", poErrs)
 	}
 
 	return
@@ -105,6 +110,7 @@ func (pc *PurchaseOrdersController) handleCreateError(w http.ResponseWriter, err
 		default:
 			response.Error(w, http.StatusInternalServerError, err.Error())
 		}
+
 		return
 	}
 

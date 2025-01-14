@@ -1,4 +1,4 @@
-package product_records_repository
+package productrecordsrp
 
 import (
 	"database/sql"
@@ -12,5 +12,6 @@ func NewProductRecordsRepository(db *sql.DB) *ProductRecordsDefault {
 	rp := &ProductRecordsDefault{
 		db: db,
 	}
+
 	return rp
 }

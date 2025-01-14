@@ -1,4 +1,4 @@
-package product_batches_repository
+package productbatchesrp
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
@@ -15,14 +15,14 @@ func (r *ProductBatchesRepository) Create(prodBatches models.ProductBatchesDTO) 
 		return
 	}
 
-	lastInsertId, err := result.LastInsertId()
+	lastInsertID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
 
 	query = `SELECT id, batch_number, initial_quantity, current_quantity, current_temperature, minimum_temperature, due_date,
 		manufacturing_date, manufacturing_hour, product_id, section_id FROM product_batches WHERE id = ?`
-	err = r.db.QueryRow(query, lastInsertId).
+	err = r.db.QueryRow(query, lastInsertID).
 		Scan(&newProdBatches.ID, &newProdBatches.BatchNumber, &newProdBatches.InitialQuantity, &newProdBatches.CurrentQuantity,
 			&newProdBatches.CurrentTemperature, &newProdBatches.MinimumTemperature, &newProdBatches.DueDate, &newProdBatches.ManufacturingDate,
 			&newProdBatches.ManufacturingHour, &newProdBatches.ProductID, &newProdBatches.SectionID)

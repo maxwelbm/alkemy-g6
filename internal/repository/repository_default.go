@@ -3,70 +3,66 @@ package repository
 import (
 	"database/sql"
 
-	buyers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/buyers"
-	carries_repository "github.com/maxwelbm/alkemy-g6/internal/repository/carries"
-	employees_repository "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
-	inbound_orders_repository "github.com/maxwelbm/alkemy-g6/internal/repository/inboundOrders"
-	localities_repository "github.com/maxwelbm/alkemy-g6/internal/repository/localities"
-	product_batches_repository "github.com/maxwelbm/alkemy-g6/internal/repository/product_batches"
-	product_records_repository "github.com/maxwelbm/alkemy-g6/internal/repository/product_records"
-	products_repository "github.com/maxwelbm/alkemy-g6/internal/repository/products"
-	purchase_orders_repository "github.com/maxwelbm/alkemy-g6/internal/repository/purchase_orders"
-	sections_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
-	sellers_repository "github.com/maxwelbm/alkemy-g6/internal/repository/sellers"
-	warehouse_repository "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
+	buyersrp "github.com/maxwelbm/alkemy-g6/internal/repository/buyers"
+	carriesrp "github.com/maxwelbm/alkemy-g6/internal/repository/carries"
+	employeesrp "github.com/maxwelbm/alkemy-g6/internal/repository/employees"
+	inboundordersrp "github.com/maxwelbm/alkemy-g6/internal/repository/inbound_orders"
+	localitiesrp "github.com/maxwelbm/alkemy-g6/internal/repository/localities"
+	productbatchesrp "github.com/maxwelbm/alkemy-g6/internal/repository/product_batches"
+	productrecordsrp "github.com/maxwelbm/alkemy-g6/internal/repository/product_records"
+	productsrp "github.com/maxwelbm/alkemy-g6/internal/repository/products"
+	purchaseordersrp "github.com/maxwelbm/alkemy-g6/internal/repository/purchase_orders"
+	sectionsrp "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
+	sellersrp "github.com/maxwelbm/alkemy-g6/internal/repository/sellers"
+	warehouserp "github.com/maxwelbm/alkemy-g6/internal/repository/warehouses"
 )
 
-func NewBuyersRepository(DB *sql.DB) *buyers_repository.BuyerRepository {
-	return &buyers_repository.BuyerRepository{
+func NewBuyersRepository(db *sql.DB) *buyersrp.BuyerRepository {
+	return buyersrp.NewBuyersRepository(db)
+}
+
+func NewProductsRepository(DB *sql.DB) *productsrp.Products {
+	return &productsrp.Products{
 		DB: DB,
 	}
 }
 
-func NewProductsRepository(DB *sql.DB) *products_repository.Products {
-	return &products_repository.Products{
-		DB: DB,
-	}
+func NewWarehousesRepository(db *sql.DB) *warehouserp.WarehouseRepository {
+	return warehouserp.NewWarehouseRepository(db)
 }
 
-func NewWarehousesRepository(DB *sql.DB) *warehouse_repository.WarehouseRepository {
-	return &warehouse_repository.WarehouseRepository{
-		DB: DB,
-	}
+func NewLocalityRepository(db *sql.DB) *localitiesrp.LocalityRepository {
+	return localitiesrp.NewLocalityRepository(db)
 }
 
-func NewLocalityRepository(db *sql.DB) *localities_repository.LocalityRepository {
-	return localities_repository.NewLocalityRepository(db)
+func NewSellersRepository(db *sql.DB) *sellersrp.SellersDefault {
+	return sellersrp.NewSellersRepository(db)
 }
 
-func NewSellersRepository(db *sql.DB) *sellers_repository.SellersDefault {
-	return sellers_repository.NewSellersRepository(db)
+func NewCarriesRepository(db *sql.DB) *carriesrp.CarriesDefault {
+	return carriesrp.NewCarriesRepository(db)
 }
 
-func NewCarriesRepository(db *sql.DB) *carries_repository.CarriesDefault {
-	return carries_repository.NewCarriesRepository(db)
+func NewSectionsRepository(db *sql.DB) *sectionsrp.SectionRepository {
+	return sectionsrp.NewSectionsRepository(db)
 }
 
-func NewSectionsRepository(db *sql.DB) *sections_repository.SectionRepository {
-	return sections_repository.NewSectionsRepository(db)
+func NewProductBatchesRepository(db *sql.DB) *productbatchesrp.ProductBatchesRepository {
+	return productbatchesrp.NewProductBatchesRepository(db)
 }
 
-func NewProductBatchesRepository(db *sql.DB) *product_batches_repository.ProductBatchesRepository {
-	return product_batches_repository.NewProductBatchesRepository(db)
+func NewProductRecordsRepository(db *sql.DB) *productrecordsrp.ProductRecordsDefault {
+	return productrecordsrp.NewProductRecordsRepository(db)
 }
 
-func NewProductRecordsRepository(db *sql.DB) *product_records_repository.ProductRecordsDefault {
-	return product_records_repository.NewProductRecordsRepository(db)
+func NewEmployeesRepository(db *sql.DB) *employeesrp.EmployeesRepository {
+	return employeesrp.NewEmployeesRepository(db)
 }
 
-func NewEmployeesRepository(db *sql.DB) *employees_repository.EmployeesRepository {
-	return employees_repository.NewEmployeesRepository(db)
+func NewPurchaseOrdersRepository(db *sql.DB) *purchaseordersrp.PurchaseOrdersRepository {
+	return purchaseordersrp.NewPurchaseOrdersRepository(db)
 }
 
-func NewPurchaseOrdersRepository(db *sql.DB) *purchase_orders_repository.PurchaseOrdersRepository {
-	return purchase_orders_repository.NewPurchaseOrdersRepository(db)
-}
-
-func NewInboundOrdersRepository(db *sql.DB) *inbound_orders_repository.InboundOrdersRepository {
-	return inbound_orders_repository.NewInboundOrdersRepository(db)
+func NewInboundOrdersRepository(db *sql.DB) *inboundordersrp.InboundOrdersRepository {
+	return inboundordersrp.NewInboundOrdersRepository(db)
 }

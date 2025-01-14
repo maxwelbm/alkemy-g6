@@ -1,4 +1,4 @@
-package sections_controller
+package sectionsctl
 
 import (
 	"encoding/json"
@@ -10,6 +10,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// Create handles the creation of a new section.
 // @Summary Create a new section
 // @Description Create a new section with the provided JSON payload
 // @Tags sections
@@ -21,30 +22,30 @@ import (
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/sections [post]
-func (c *SectionsController) Create(w http.ResponseWriter, r *http.Request) {
-	var secReqJson NewSectionReqJSON
-	if err := json.NewDecoder(r.Body).Decode(&secReqJson); err != nil {
+func (ctl *SectionsController) Create(w http.ResponseWriter, r *http.Request) {
+	var secReqJSON NewSectionReqJSON
+	if err := json.NewDecoder(r.Body).Decode(&secReqJSON); err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	if err := secReqJson.validateCreate(); err != nil {
+	if err := secReqJSON.validateCreate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
 	secDTO := models.SectionDTO{
-		SectionNumber:      secReqJson.SectionNumber,
-		CurrentTemperature: secReqJson.CurrentTemperature,
-		MinimumTemperature: secReqJson.MinimumTemperature,
-		CurrentCapacity:    secReqJson.CurrentCapacity,
-		MinimumCapacity:    secReqJson.MinimumCapacity,
-		MaximumCapacity:    secReqJson.MaximumCapacity,
-		WarehouseID:        secReqJson.WarehouseID,
-		ProductTypeID:      secReqJson.ProductTypeID,
+		SectionNumber:      secReqJSON.SectionNumber,
+		CurrentTemperature: secReqJSON.CurrentTemperature,
+		MinimumTemperature: secReqJSON.MinimumTemperature,
+		CurrentCapacity:    secReqJSON.CurrentCapacity,
+		MinimumCapacity:    secReqJSON.MinimumCapacity,
+		MaximumCapacity:    secReqJSON.MaximumCapacity,
+		WarehouseID:        secReqJSON.WarehouseID,
+		ProductTypeID:      secReqJSON.ProductTypeID,
 	}
 
-	newSection, err := c.sv.Create(secDTO)
+	newSection, err := ctl.sv.Create(secDTO)
 	if err != nil {
 		// Check if the error is a MySQL duplicate entry error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
@@ -53,6 +54,7 @@ func (c *SectionsController) Create(w http.ResponseWriter, r *http.Request) {
 		}
 		// For any other error, respond with an internal server error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

@@ -1,4 +1,4 @@
-package sections_controller
+package sectionsctl
 
 import (
 	"net/http"
@@ -8,6 +8,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
+// GetByID handles the HTTP request to retrieve a section by its ID.
 // @Summary Get a section by ID
 // @Description Get a section by ID
 // @Tags sections
@@ -18,14 +19,14 @@ import (
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 404 {object} response.ErrorResponse "Not Found"
 // @Router /api/v1/sections/{id} [get]
-func (c *SectionsController) GetById(w http.ResponseWriter, r *http.Request) {
+func (ctl *SectionsController) GetByID(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi((chi.URLParam(r, "id")))
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	sec, err := c.sv.GetById(id)
+	sec, err := ctl.sv.GetByID(id)
 	if err != nil {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
@@ -43,9 +44,6 @@ func (c *SectionsController) GetById(w http.ResponseWriter, r *http.Request) {
 		ProductTypeID:      sec.ProductTypeID,
 	}
 
-	res := SectionResJSON{
-		Message: "Success",
-		Data:    data,
-	}
+	res := SectionResJSON{Data: data}
 	response.JSON(w, http.StatusOK, res)
 }

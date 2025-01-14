@@ -1,4 +1,4 @@
-package warehouses_controller
+package warehousesctl
 
 import (
 	"net/http"
@@ -16,29 +16,27 @@ import (
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error - An unexpected error occurred during the retrieval process"
 // @Router /api/v1/warehouses [get]
 func (c *WarehouseDefault) GetAll(w http.ResponseWriter, r *http.Request) {
-	warehouses, err := c.Service.GetAll()
+	warehouses, err := c.sv.GetAll()
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	var data []WarehouseDataResJSON
+	data := make([]WarehouseDataResJSON, 0, len(warehouses))
+
 	for _, value := range warehouses {
-		new := WarehouseDataResJSON{
-			Id:                 value.Id,
+		warehouse := WarehouseDataResJSON{
+			ID:                 value.ID,
 			Address:            value.Address,
 			Telephone:          value.Telephone,
 			WarehouseCode:      value.WarehouseCode,
 			MinimumCapacity:    value.MinimumCapacity,
 			MinimumTemperature: value.MinimumTemperature,
 		}
-		data = append(data, new)
+		data = append(data, warehouse)
 	}
 
-	res := WarehouseResJSON{
-		Message: "Success",
-		Data:    data,
-	}
+	res := WarehouseResJSON{Data: data}
 
 	response.JSON(w, http.StatusOK, res)
 }

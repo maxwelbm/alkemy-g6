@@ -1,12 +1,13 @@
 package repository
 
 import (
-	"github.com/maxwelbm/alkemy-g6/internal/models"
-	"errors"
 	"database/sql"
+	"errors"
+
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (p *Products) GetById(id int) (prod models.Product, err error) {
+func (p *Products) GetByID(id int) (prod models.Product, err error) {
 	query := "SELECT `id`, `product_code`, `description`, `height`, `length`, `width`, `net_weight`, `expiration_rate`, `freezing_rate`, `recommended_freezing_temperature`, `product_type_id`, `seller_id` FROM products WHERE `id` = ?"
 
 	row := p.DB.QueryRow(query, id)
@@ -30,7 +31,9 @@ func (p *Products) GetById(id int) (prod models.Product, err error) {
 			err = models.ErrProductNotFound
 			return
 		}
-		return
+		
+		return prod, err
 	}
-	return
+	
+	return prod, nil
 }

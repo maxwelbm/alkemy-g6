@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	ErrWarehouseServiceEmployeesAssociated = errors.New("Cannot delete warehouse: employees are still associated. Please remove or reassign associated sections before deleting.")
-	ErrWarehouseServiceSectionsAssociated  = errors.New("Cannot delete warehouse: sections are still associated. Please remove or reassign associated sections before deleting.")
+	ErrWarehouseServiceEmployeesAssociated = errors.New("cannot delete warehouse: employees are still associated. Please remove or reassign associated sections before deleting")
+	ErrWarehouseServiceSectionsAssociated  = errors.New("cannot delete warehouse: sections are still associated. Please remove or reassign associated sections before deleting")
 )
 
 func NewWarehousesService(repo models.WarehouseRepository) *WarehouseDefault {
@@ -24,8 +24,8 @@ func (s *WarehouseDefault) GetAll() (w []models.Warehouse, err error) {
 	return
 }
 
-func (s *WarehouseDefault) GetById(id int) (w models.Warehouse, err error) {
-	w, err = s.repo.GetById(id)
+func (s *WarehouseDefault) GetByID(id int) (w models.Warehouse, err error) {
+	w, err = s.repo.GetByID(id)
 	return
 }
 

@@ -1,4 +1,4 @@
-package buyers_controller
+package buyersctl
 
 import (
 	"encoding/json"
@@ -11,21 +11,23 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-type BuyerCreateJson struct {
-	CardNumberId *string `json:"card_number_id,omitempty"`
+type BuyerCreateJSON struct {
+	CardNumberID *string `json:"card_number_id,omitempty"`
 	FirstName    *string `json:"first_name,omitempty"`
 	LastName     *string `json:"last_name,omitempty"`
 }
 
-func (j *BuyerCreateJson) validate() (err error) {
+func (j *BuyerCreateJSON) validate() (err error) {
 	var validationErrors []string
 
 	if j.FirstName == nil {
 		validationErrors = append(validationErrors, "error: first_name is required")
 	}
+
 	if j.LastName == nil {
 		validationErrors = append(validationErrors, "error: last_name is required")
 	}
+
 	if len(validationErrors) > 0 {
 		err = fmt.Errorf("validation errors: %v", validationErrors)
 	}
@@ -39,15 +41,15 @@ func (j *BuyerCreateJson) validate() (err error) {
 // @Tags buyers
 // @Accept json
 // @Produce json
-// @Param buyer body BuyerCreateJson true "Buyer details"
+// @Param buyer body BuyerCreateJSON true "Buyer details"
 // @Success 201 {object} BuyerResJSON "Success"
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/buyers [post]
 func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
-	// Decode the JSON request body into a BuyerCreateJson struct
-	var buyerRequest BuyerCreateJson
+	// Decode the JSON request body into a BuyerCreateJSON struct
+	var buyerRequest BuyerCreateJSON
 	if err := json.NewDecoder(r.Body).Decode(&buyerRequest); err != nil {
 		// If there's an error decoding the request, respond with a 400 Bad Request status
 		response.JSON(w, http.StatusBadRequest, err.Error())
@@ -63,13 +65,13 @@ func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
 
 	// Create a BuyerDTO from the request data
 	buyerToCreate := models.BuyerDTO{
-		CardNumberId: buyerRequest.CardNumberId,
+		CardNumberID: buyerRequest.CardNumberID,
 		FirstName:    buyerRequest.FirstName,
 		LastName:     buyerRequest.LastName,
 	}
 
 	// Attempt to create the buyer using the service
-	buyerCreated, err := ct.SV.Create(buyerToCreate)
+	buyerCreated, err := ct.sv.Create(buyerToCreate)
 	if err != nil {
 		// Handle specific MySQL duplicate entry error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
@@ -79,20 +81,21 @@ func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
 		}
 		// For other errors, respond with a 500 Internal Server Error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
 	// Prepare the response data
 	data := FullBuyerJSON{
-		Id:           buyerCreated.Id,
-		CardNumberId: buyerCreated.CardNumberId,
+		ID:           buyerCreated.ID,
+		CardNumberID: buyerCreated.CardNumberID,
 		FirstName:    buyerCreated.FirstName,
 		LastName:     buyerCreated.LastName,
 	}
 
 	// Create the response JSON
 	res := BuyerResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusCreated),
 		Data:    data,
 	}
 

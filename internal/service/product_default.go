@@ -17,8 +17,8 @@ func (s *ProductsDefault) GetAll() (list []models.Product, err error) {
 	return
 }
 
-func (s *ProductsDefault) GetById(id int) (prod models.Product, err error) {
-	prod, err = s.repo.GetById(id)
+func (s *ProductsDefault) GetByID(id int) (prod models.Product, err error) {
+	prod, err = s.repo.GetByID(id)
 	return
 }
 

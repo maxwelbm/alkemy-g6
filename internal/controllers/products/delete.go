@@ -1,4 +1,4 @@
-package products_controller
+package productsctl
 
 import (
 	"errors"
@@ -43,7 +43,9 @@ func (p *ProductsDefault) Delete(w http.ResponseWriter, r *http.Request) {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
+
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

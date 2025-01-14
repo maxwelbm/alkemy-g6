@@ -1,4 +1,4 @@
-package purchase_orders_repository
+package purchaseordersrp
 
 import "database/sql"
 
@@ -10,5 +10,6 @@ func NewPurchaseOrdersRepository(DB *sql.DB) *PurchaseOrdersRepository {
 	repo := &PurchaseOrdersRepository{
 		DB: DB,
 	}
+
 	return repo
 }

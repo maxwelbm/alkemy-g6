@@ -1,4 +1,4 @@
-package sellers_controller
+package sellersctl
 
 import (
 	"net/http"
@@ -8,7 +8,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-// GetById handles the HTTP GET request to retrieve a seller by ID.
+// GetByID handles the HTTP GET request to retrieve a seller by ID.
 //
 // @Summary Get a seller by ID
 // @Description This endpoint retrieves a seller based on the provided ID in the URL parameter.
@@ -19,7 +19,7 @@ import (
 // @Failure 400 {object} response.ErrorResponse "Bad Request - The request ID is invalid or less than 1"
 // @Failure 404 {object} response.ErrorResponse "Not Found - The seller with the specified ID does not exist"
 // @Router /api/v1/sellers/{id} [get]
-func (controller *SellersDefault) GetById(w http.ResponseWriter, r *http.Request) {
+func (controller *SellersDefault) GetByID(w http.ResponseWriter, r *http.Request) {
 	// Extract the "id" parameter from the URL and convert it to an integer
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil || id < 1 {
@@ -29,7 +29,7 @@ func (controller *SellersDefault) GetById(w http.ResponseWriter, r *http.Request
 	}
 
 	// Call the service layer to get the seller by id
-	seller, err := controller.sv.GetById(id)
+	seller, err := controller.sv.GetByID(id)
 	if err != nil {
 		// If the seller is not found, return a not found error
 		response.Error(w, http.StatusNotFound, err.Error())
@@ -37,8 +37,7 @@ func (controller *SellersDefault) GetById(w http.ResponseWriter, r *http.Request
 	}
 
 	// Create a FullSellerJSON struct with the seller data
-	var data FullSellerJSON
-	data = FullSellerJSON{
+	var data = FullSellerJSON{
 		ID:          seller.ID,
 		CID:         seller.CID,
 		CompanyName: seller.CompanyName,
@@ -48,12 +47,8 @@ func (controller *SellersDefault) GetById(w http.ResponseWriter, r *http.Request
 	}
 
 	// Create a response struct with a success message and the seller data
-	res := SellerResJSON{
-		Message: "Success",
-		Data:    data,
-	}
+	res := SellerResJSON{Data: data}
 
 	// Send the JSON response with status OK
 	response.JSON(w, http.StatusOK, res)
-
 }

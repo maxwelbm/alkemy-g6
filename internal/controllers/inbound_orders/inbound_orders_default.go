@@ -1,4 +1,4 @@
-package inbound_orders_controller
+package inboundordersctl
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
@@ -16,9 +16,9 @@ type InboundOrdersAttributes struct {
 	ID             int    `json:"id"`
 	OrderDate      string `json:"order_date"`
 	OrderNumber    int    `json:"order_number"`
-	EmployeeId     int    `json:"employee_id"`
-	ProductBatchId string `json:"product_batch_id"`
-	WarehouseId    int    `json:"warehouse_id"`
+	EmployeeID     int    `json:"employee_id"`
+	ProductBatchID string `json:"product_batch_id"`
+	WarehouseID    int    `json:"warehouse_id"`
 }
 
 type InboundOrdersFinalJSON struct {
@@ -34,7 +34,7 @@ type InboundOrdersReqJSON struct {
 	ID             *int    `json:"id"`
 	OrderDate      *string `json:"order_date"`
 	OrderNumber    *int    `json:"order_number"`
-	EmployeeId     *int    `json:"employee_id"`
-	ProductBatchId *int    `json:"product_batch_id"`
-	WarehouseId    *int    `json:"warehouse_id"`
+	EmployeeID     *int    `json:"employee_id"`
+	ProductBatchID *int    `json:"product_batch_id"`
+	WarehouseID    *int    `json:"warehouse_id"`
 }

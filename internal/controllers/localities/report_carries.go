@@ -1,4 +1,4 @@
-package localities_controller
+package localitiesctl
 
 import (
 	"errors"
@@ -29,14 +29,17 @@ type CarryReportJSON struct {
 func (ct *LocalitiesController) ReportCarries(w http.ResponseWriter, r *http.Request) {
 	// Extract the "id" parameter from the URL query and convert it to an integer
 	var id int
+
 	var err error
-	paramsId := r.URL.Query().Get("id")
-	if paramsId != "" {
-		id, err = strconv.Atoi(paramsId)
+
+	paramsID := r.URL.Query().Get("id")
+	if paramsID != "" {
+		id, err = strconv.Atoi(paramsID)
 		if err != nil {
 			response.Error(w, http.StatusBadRequest, err.Error())
 			return
 		}
+
 		if id < 1 {
 			response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 			return
@@ -47,28 +50,30 @@ func (ct *LocalitiesController) ReportCarries(w http.ResponseWriter, r *http.Req
 	locs, err := ct.sv.ReportCarries(id)
 	if err != nil {
 		// If an id does not exist, return status not found
-		if errors.Is(err, models.ErrCarryNotFound) {
+		if errors.Is(err, models.ErrLocalityNotFound) {
 			response.Error(w, http.StatusNotFound, err.Error())
 			return
 		}
 		// If an error occurs, return an internal server error
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
 	// Populate the response JSON with the locality report data
-	var data []CarryReportJSON
+	data := make([]CarryReportJSON, 0, len(locs))
+
 	for _, loc := range locs {
-		locJson := CarryReportJSON{
+		locJSON := CarryReportJSON{
 			ID:           loc.ID,
 			LocalityName: loc.LocalityName,
 			CarriesCount: loc.CarriesCount,
 		}
-		data = append(data, locJson)
+		data = append(data, locJSON)
 	}
 
 	// Create the response JSON and send it with status OK
-	var res LocalityResJSON
-	res = LocalityResJSON{Data: data}
+	res := LocalityResJSON{Data: data}
+
 	response.JSON(w, http.StatusOK, res)
 }

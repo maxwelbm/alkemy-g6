@@ -1,4 +1,4 @@
-package product_batches_repository
+package productbatchesrp
 
 import "database/sql"
 

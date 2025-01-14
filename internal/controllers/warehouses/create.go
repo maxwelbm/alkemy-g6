@@ -1,4 +1,4 @@
-package warehouses_controller
+package warehousesctl
 
 import (
 	"encoding/json"
@@ -24,6 +24,7 @@ import (
 // @Router /api/v1/warehouses [post]
 func (c *WarehouseDefault) Create(w http.ResponseWriter, r *http.Request) {
 	var warehouseJSON WarehouseReqJSON
+
 	err := json.NewDecoder(r.Body).Decode(&warehouseJSON)
 	if err != nil {
 		response.JSON(w, http.StatusBadRequest, err.Error())
@@ -44,17 +45,19 @@ func (c *WarehouseDefault) Create(w http.ResponseWriter, r *http.Request) {
 		MinimumTemperature: warehouseJSON.MinimumTemperature,
 	}
 
-	resWarehouse, err := c.Service.Create(warehouse)
+	resWarehouse, err := c.sv.Create(warehouse)
 	if err != nil {
 		if err.(*mysql.MySQLError).Number == mysqlerr.CodeDuplicateEntry {
 			response.Error(w, http.StatusConflict, err.Error())
 		}
+
 		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+
 		return
 	}
 
 	data := WarehouseDataResJSON{
-		Id:                 resWarehouse.Id,
+		ID:                 resWarehouse.ID,
 		Address:            resWarehouse.Address,
 		Telephone:          resWarehouse.Telephone,
 		WarehouseCode:      resWarehouse.WarehouseCode,
@@ -63,7 +66,7 @@ func (c *WarehouseDefault) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	res := WarehouseResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusCreated),
 		Data:    data,
 	}
 	response.JSON(w, http.StatusCreated, res)

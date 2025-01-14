@@ -5,7 +5,7 @@ type ProductRecord struct {
 	LastUpdateDate string
 	PurchasePrice  float64
 	SalePrice      float64
-	ProductId      int
+	ProductID      int
 }
 
 type ProductRecordDTO struct {
@@ -13,7 +13,7 @@ type ProductRecordDTO struct {
 	LastUpdateDate string  `json:"last_update_date"`
 	PurchasePrice  float64 `json:"purchase_price"`
 	SalePrice      float64 `json:"sale_price"`
-	ProductId      int     `json:"product_id"`
+	ProductID      int     `json:"product_id"`
 }
 
 type ProductRecordsService interface {

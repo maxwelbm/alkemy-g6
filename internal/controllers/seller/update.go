@@ -1,4 +1,4 @@
-package sellers_controller
+package sellersctl
 
 import (
 	"encoding/json"
@@ -55,7 +55,7 @@ func (j *SellerUpdateJSON) validate() (err error) {
 		err = fmt.Errorf("validation errors: %v", validationErrors)
 	}
 
-	return
+	return err
 }
 
 // Update handles the HTTP PUT request to update a seller by ID.
@@ -74,73 +74,36 @@ func (j *SellerUpdateJSON) validate() (err error) {
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error - An unexpected error occurred during the update process"
 // @Router /api/v1/sellers/{id} [patch]
 func (controller *SellersDefault) Update(w http.ResponseWriter, r *http.Request) {
-	// Parse the seller ID from the URL parameter
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil || id < 1 {
+	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	// Decode the JSON request body into sellerRequest
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+		return
+	}
+
 	var sellerRequest SellerUpdateJSON
 	if err := json.NewDecoder(r.Body).Decode(&sellerRequest); err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	// Validate the decoded request data
 	if err = sellerRequest.validate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
-	// Create a SellerDTO object with the validated data
-	sellerToUpdate := models.SellerDTO{}
-	if sellerRequest.CID != nil {
-		sellerToUpdate.CID = *sellerRequest.CID
-	}
-	if sellerRequest.CompanyName != nil {
-		sellerToUpdate.CompanyName = *sellerRequest.CompanyName
-	}
-	if sellerRequest.Address != nil {
-		sellerToUpdate.Address = *sellerRequest.Address
-	}
-	if sellerRequest.Telephone != nil {
-		sellerToUpdate.Telephone = *sellerRequest.Telephone
-	}
-	if sellerRequest.LocalityID != nil {
-		sellerToUpdate.LocalityID = *sellerRequest.LocalityID
-	}
+	sellerToUpdate := createSellerDTO(sellerRequest)
 
-	// Attempt to update the seller in the database
 	sellerUpdated, err := controller.sv.Update(id, sellerToUpdate)
-
 	if err != nil {
-		// Handle seller not found
-		if errors.Is(err, models.ErrSellerNotFound) {
-			response.Error(w, http.StatusNotFound, err.Error())
-			return
-		}
-		// Handle no changes made
-		if errors.Is(err, models.ErrorNoChangesMade) {
-			response.Error(w, http.StatusBadRequest, err.Error())
-			return
-		}
-		// Handle MySQL duplicate entry error
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
-			response.Error(w, http.StatusConflict, err.Error())
-			return
-		}
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
-			response.Error(w, http.StatusBadRequest, err.Error())
-			return
-		}
-		// Handle other internal server errors
-		response.Error(w, http.StatusInternalServerError, err.Error())
+		handleUpdateError(w, err)
 		return
 	}
 
-	// Prepare the response data
 	data := FullSellerJSON{
 		ID:          sellerUpdated.ID,
 		CID:         sellerUpdated.CID,
@@ -149,13 +112,55 @@ func (controller *SellersDefault) Update(w http.ResponseWriter, r *http.Request)
 		Telephone:   sellerUpdated.Telephone,
 		LocalityID:  sellerUpdated.LocalityID,
 	}
-
-	// Create the response JSON
 	res := SellerResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusOK),
 		Data:    data,
 	}
-
-	// Send the response
 	response.JSON(w, http.StatusOK, res)
+}
+
+func createSellerDTO(sellerRequest SellerUpdateJSON) models.SellerDTO {
+	sellerToUpdate := models.SellerDTO{}
+	if sellerRequest.CID != nil {
+		sellerToUpdate.CID = *sellerRequest.CID
+	}
+
+	if sellerRequest.CompanyName != nil {
+		sellerToUpdate.CompanyName = *sellerRequest.CompanyName
+	}
+
+	if sellerRequest.Address != nil {
+		sellerToUpdate.Address = *sellerRequest.Address
+	}
+
+	if sellerRequest.Telephone != nil {
+		sellerToUpdate.Telephone = *sellerRequest.Telephone
+	}
+
+	if sellerRequest.LocalityID != nil {
+		sellerToUpdate.LocalityID = *sellerRequest.LocalityID
+	}
+
+	return sellerToUpdate
+}
+
+func handleUpdateError(w http.ResponseWriter, err error) {
+	if errors.Is(err, models.ErrSellerNotFound) {
+		response.Error(w, http.StatusNotFound, err.Error())
+		return
+	}
+
+	if errors.Is(err, models.ErrorNoChangesMade) {
+		response.Error(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if mysqlErr, ok := err.(*mysql.MySQLError); ok {
+		if mysqlErr.Number == mysqlerr.CodeDuplicateEntry || mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
+		}
+	}
+
+	response.Error(w, http.StatusInternalServerError, err.Error())
 }

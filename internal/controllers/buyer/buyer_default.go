@@ -1,13 +1,13 @@
-package buyers_controller
+package buyersctl
 
 import "github.com/maxwelbm/alkemy-g6/internal/models"
 
 type BuyersDefault struct {
-	SV models.BuyerService
+	sv models.BuyerService
 }
 
-func NewBuyersController(SV models.BuyerService) *BuyersDefault {
-	return &BuyersDefault{SV: SV}
+func NewBuyersController(sv models.BuyerService) *BuyersDefault {
+	return &BuyersDefault{sv: sv}
 }
 
 type BuyerResJSON struct {
@@ -16,8 +16,8 @@ type BuyerResJSON struct {
 }
 
 type FullBuyerJSON struct {
-	Id           int    `json:"id"`
-	CardNumberId string `json:"card_number_id"`
+	ID           int    `json:"id"`
+	CardNumberID string `json:"card_number_id"`
 	FirstName    string `json:"first_name"`
 	LastName     string `json:"last_name"`
 }

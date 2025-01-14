@@ -1,4 +1,4 @@
-package buyers_controller
+package buyersctl
 
 import (
 	"encoding/json"
@@ -15,7 +15,7 @@ import (
 )
 
 type BuyerUpdateJSON struct {
-	CardNumberId *string `json:"card_number_id,omitempty"`
+	CardNumberID *string `json:"card_number_id,omitempty"`
 	FirstName    *string `json:"first_name,omitempty"`
 	LastName     *string `json:"last_name,omitempty"`
 }
@@ -77,13 +77,13 @@ func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 
 	// Create a BuyerDTO from the request data to update the buyer
 	buyerToUpdate := models.BuyerDTO{
-		CardNumberId: buyerRequest.CardNumberId,
+		CardNumberID: buyerRequest.CardNumberID,
 		FirstName:    buyerRequest.FirstName,
 		LastName:     buyerRequest.LastName,
 	}
 
 	// Call the service layer to update the buyer information
-	buyerReturn, err := ct.SV.Update(id, buyerToUpdate)
+	buyerReturn, err := ct.sv.Update(id, buyerToUpdate)
 
 	// Handle the case where no changes were made
 	if errors.Is(err, models.ErrorNoChangesMade) {
@@ -109,20 +109,21 @@ func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 		}
 		// For any other error, respond with a 500 Internal Server Error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
 	// Prepare the response data
 	data := FullBuyerJSON{
-		Id:           buyerReturn.Id,
-		CardNumberId: buyerReturn.CardNumberId,
+		ID:           buyerReturn.ID,
+		CardNumberID: buyerReturn.CardNumberID,
 		FirstName:    buyerReturn.FirstName,
 		LastName:     buyerReturn.LastName,
 	}
 
 	// Create the response JSON with a success message
 	res := BuyerResJSON{
-		Message: "Success",
+		Message: http.StatusText(http.StatusOK),
 		Data:    data,
 	}
 
