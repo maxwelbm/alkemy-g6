@@ -35,6 +35,7 @@ func (p *ProductsDefault) GetByID(w http.ResponseWriter, r *http.Request) {
 		response.Error(w, http.StatusNotFound, err.Error())
 		return
 	}
+
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return

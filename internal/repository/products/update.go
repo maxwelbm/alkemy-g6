@@ -10,13 +10,14 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 
 		query := "SELECT EXISTS(SELECT 1 FROM products WHERE `product_code`=?)"
 		err = p.DB.QueryRow(query, prod.ProductCode).Scan(&exists)
+		
 		if err != nil {
-			return
+			return updatedProd, err
 		}
 
 		if !exists {
 			err = models.ErrProductNotFound
-			return
+			return updatedProd, err
 		}
     }
 
@@ -50,18 +51,19 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 		id)
 
 	if err != nil {
-		return
+		return updatedProd, err
 	}
+
 	// Check how many rows were affected
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
-		return
+		return updatedProd, err
 	}
 
 	// Check if the update affected any rows
 	if rowsAffected == 0 {
 		err = models.ErrProductNotFound
-		return
+		return updatedProd, err
 	}
 
 	query = "SELECT `id`, `product_code`, `description`, `height`, `length`, `width`, `net_weight`, `expiration_rate`, `freezing_rate`, `recommended_freezing_temperature`, `product_type_id`, `seller_id` FROM products WHERE `id` = ?"
@@ -79,9 +81,10 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 		&updatedProd.ProductTypeID,
 		&updatedProd.SellerID,
 	)
+
 	if err != nil {
-		return
+		return updatedProd, err
 	}
 
-	return
+	return updatedProd, err
 }

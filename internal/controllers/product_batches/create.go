@@ -55,12 +55,15 @@ func (c *ProductBatchesController) Create(w http.ResponseWriter, r *http.Request
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
+
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
+
 		// For any other error, respond with an internal server error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 

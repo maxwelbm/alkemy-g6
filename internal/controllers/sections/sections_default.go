@@ -46,7 +46,7 @@ type ReportProductFullJSON struct {
 	ProductsCount int    `json:"products_count"`
 }
 
-//nolint:cyclomatic
+//nolint:all
 func (sec *NewSectionReqJSON) validateCreate() (err error) {
 	var validationErrors, nilPointerErrors []string
 

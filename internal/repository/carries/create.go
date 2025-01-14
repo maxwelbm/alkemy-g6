@@ -6,6 +6,7 @@ func (r *CarriesDefault) Create(carry models.CarryDTO) (carryToReturn models.Car
 	//  insert carry into database
 	query := "INSERT INTO carries (cid, company_name, address, phone_number, locality_id) VALUES (?, ?, ?, ?, ?)"
 	result, err := r.db.Exec(query, carry.CID, carry.CompanyName, carry.Address, carry.PhoneNumber, carry.LocalityID)
+
 	if err != nil {
 		return
 	}
@@ -21,6 +22,7 @@ func (r *CarriesDefault) Create(carry models.CarryDTO) (carryToReturn models.Car
 	err = r.db.
 		QueryRow(query, lastInsertID).
 		Scan(&carryToReturn.ID, &carryToReturn.CID, &carryToReturn.CompanyName, &carryToReturn.Address, &carryToReturn.PhoneNumber, &carryToReturn.LocalityID)
+
 	if err != nil {
 		return
 	}
