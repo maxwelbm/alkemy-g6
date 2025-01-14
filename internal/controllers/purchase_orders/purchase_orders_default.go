@@ -1,4 +1,4 @@
-package purchase_orders_controller
+package purchaseordersctl
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"

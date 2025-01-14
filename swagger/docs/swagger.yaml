@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  buyers_controller.BuyerCreateJson:
+  buyersctl.BuyerCreateJson:
     properties:
       card_number_id:
         type: string
@@ -9,13 +9,13 @@ definitions:
       last_name:
         type: string
     type: object
-  buyers_controller.BuyerResJSON:
+  buyersctl.BuyerResJSON:
     properties:
       data: {}
       message:
         type: string
     type: object
-  buyers_controller.BuyerUpdateJSON:
+  buyersctl.BuyerUpdateJSON:
     properties:
       card_number_id:
         type: string
@@ -24,7 +24,7 @@ definitions:
       last_name:
         type: string
     type: object
-  carries_controller.CarriesCreateJSON:
+  carriesctl.CarriesCreateJSON:
     properties:
       address:
         type: string
@@ -37,7 +37,7 @@ definitions:
       phone_number:
         type: string
     type: object
-  employees_controller.EmployeesAttributes:
+  employeesctl.EmployeesAttributes:
     properties:
       card_number_id:
         type: string
@@ -52,14 +52,14 @@ definitions:
       warehouse_id:
         type: integer
     type: object
-  employees_controller.EmployeesFinalJSON:
+  employeesctl.EmployeesFinalJSON:
     properties:
       data:
         items:
-          $ref: '#/definitions/employees_controller.EmployeesAttributes'
+          $ref: '#/definitions/employeesctl.EmployeesAttributes'
         type: array
     type: object
-  employees_controller.EmployeesReqJSON:
+  employeesctl.EmployeesReqJSON:
     properties:
       card_number_id:
         type: string
@@ -72,13 +72,13 @@ definitions:
       warehouse_id:
         type: integer
     type: object
-  employees_controller.EmployeesResJSON:
+  employeesctl.EmployeesResJSON:
     properties:
       data: {}
       message:
         type: string
     type: object
-  inbound_orders_controller.InboundOrdersReqJSON:
+  inboundordersctl.InboundOrdersReqJSON:
     properties:
       employee_id:
         type: integer
@@ -93,13 +93,13 @@ definitions:
       warehouse_id:
         type: integer
     type: object
-  inbound_orders_controller.InboundOrdersResJSON:
+  inboundordersctl.InboundOrdersResJSON:
     properties:
       data: {}
       message:
         type: string
     type: object
-  localities_controller.CarryReportJSON:
+  localitiesctl.CarryReportJSON:
     properties:
       carries_count:
         type: integer
@@ -108,13 +108,13 @@ definitions:
       locality_name:
         type: string
     type: object
-  localities_controller.LocalityResJSON:
+  localitiesctl.LocalityResJSON:
     properties:
       data: {}
       message:
         type: string
     type: object
-  localities_controller.NewLocalityJson:
+  localitiesctl.NewLocalityJson:
     properties:
       country_name:
         type: string
@@ -164,7 +164,7 @@ definitions:
       warehouse_id:
         type: integer
     type: object
-  product_batches_controller.NewProductBatchesReqJSON:
+  productbatchesctl.NewProductBatchesReqJSON:
     properties:
       batch_number:
         type: string
@@ -187,13 +187,13 @@ definitions:
       section_id:
         type: integer
     type: object
-  product_batches_controller.ProductBatchesResJSON:
+  productbatchesctl.ProductBatchesResJSON:
     properties:
       data: {}
       message:
         type: string
     type: object
-  product_records_controller.ProductRecordCreateJSON:
+  productrecordsctl.ProductRecordCreateJSON:
     properties:
       last_update_date:
         type: string
@@ -204,13 +204,13 @@ definitions:
       sale_price:
         type: number
     type: object
-  product_records_controller.ProductRecordResJSON:
+  productrecordsctl.ProductRecordResJSON:
     properties:
       data: {}
       message:
         type: string
     type: object
-  products_controller.NewProductAttributesJSON:
+  productsctl.NewProductAttributesJSON:
     properties:
       description:
         type: string
@@ -235,17 +235,17 @@ definitions:
       width:
         type: number
     type: object
-  products_controller.ProductResJSON:
+  productsctl.ProductResJSON:
     properties:
       data: {}
       message:
         type: string
     type: object
-  products_controller.ReportRecordsResJSON:
+  productsctl.ReportRecordsResJSON:
     properties:
       data: {}
     type: object
-  products_controller.UpdateProductAttributesJSON:
+  productsctl.UpdateProductAttributesJSON:
     properties:
       description:
         type: string
@@ -270,7 +270,7 @@ definitions:
       width:
         type: number
     type: object
-  purchase_orders_controller.PurchaseOrdersJSON:
+  purchaseordersctl.PurchaseOrdersJSON:
     properties:
       buyer_id:
         type: integer
@@ -283,7 +283,7 @@ definitions:
       tracking_code:
         type: string
     type: object
-  purchase_orders_controller.ResPurchaseOrdersJSON:
+  purchaseordersctl.ResPurchaseOrdersJSON:
     properties:
       data: {}
       message:
@@ -296,7 +296,7 @@ definitions:
       status:
         type: string
     type: object
-  sections_controller.NewSectionReqJSON:
+  sectionsctl.NewSectionReqJSON:
     properties:
       current_capacity:
         type: integer
@@ -315,7 +315,7 @@ definitions:
       warehouse_id:
         type: integer
     type: object
-  sections_controller.ReportProductFullJSON:
+  sectionsctl.ReportProductFullJSON:
     properties:
       products_count:
         type: integer
@@ -324,7 +324,7 @@ definitions:
       section_number:
         type: string
     type: object
-  sections_controller.SectionFullJSON:
+  sectionsctl.SectionFullJSON:
     properties:
       current_capacity:
         type: integer
@@ -345,7 +345,7 @@ definitions:
       warehouse_id:
         type: integer
     type: object
-  sellers_controller.SellerCreateJSON:
+  sellersctl.SellerCreateJSON:
     properties:
       address:
         type: string
@@ -358,13 +358,13 @@ definitions:
       telephone:
         type: string
     type: object
-  sellers_controller.SellerResJSON:
+  sellersctl.SellerResJSON:
     properties:
       data: {}
       message:
         type: string
     type: object
-  sellers_controller.SellerUpdateJSON:
+  sellersctl.SellerUpdateJSON:
     properties:
       address:
         type: string
@@ -377,7 +377,7 @@ definitions:
       telephone:
         type: string
     type: object
-  warehouses_controller.WarehouseReqJSON:
+  warehousesctl.WarehouseReqJSON:
     properties:
       address:
         type: string
@@ -390,7 +390,7 @@ definitions:
       warehouse_code:
         type: string
     type: object
-  warehouses_controller.WarehouseResJSON:
+  warehousesctl.WarehouseResJSON:
     properties:
       data: {}
       message:
@@ -412,7 +412,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/buyers_controller.BuyerResJSON'
+            $ref: '#/definitions/buyersctl.BuyerResJSON'
         "500":
           description: Internal Server Error
           schema:
@@ -430,14 +430,14 @@ paths:
         name: buyer
         required: true
         schema:
-          $ref: '#/definitions/buyers_controller.BuyerCreateJson'
+          $ref: '#/definitions/buyersctl.BuyerCreateJson'
       produces:
       - application/json
       responses:
         "201":
           description: Success
           schema:
-            $ref: '#/definitions/buyers_controller.BuyerResJSON'
+            $ref: '#/definitions/buyersctl.BuyerResJSON'
         "400":
           description: Bad Request
           schema:
@@ -500,7 +500,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/buyers_controller.BuyerResJSON'
+            $ref: '#/definitions/buyersctl.BuyerResJSON'
         "400":
           description: Invalid ID supplied
           schema:
@@ -527,14 +527,14 @@ paths:
         name: buyer
         required: true
         schema:
-          $ref: '#/definitions/buyers_controller.BuyerUpdateJSON'
+          $ref: '#/definitions/buyersctl.BuyerUpdateJSON'
       produces:
       - application/json
       responses:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/buyers_controller.BuyerResJSON'
+            $ref: '#/definitions/buyersctl.BuyerResJSON'
         "400":
           description: Bad Request
           schema:
@@ -592,14 +592,14 @@ paths:
         name: carry
         required: true
         schema:
-          $ref: '#/definitions/carries_controller.CarriesCreateJSON'
+          $ref: '#/definitions/carriesctl.CarriesCreateJSON'
       produces:
       - application/json
       responses:
         "201":
           description: OK
           schema:
-            $ref: '#/definitions/carries_controller.CarriesCreateJSON'
+            $ref: '#/definitions/carriesctl.CarriesCreateJSON'
         "400":
           description: Bad Request
           schema:
@@ -624,7 +624,7 @@ paths:
         "200":
           description: OK - The employees were successfully retrieved
           schema:
-            $ref: '#/definitions/employees_controller.EmployeesFinalJSON'
+            $ref: '#/definitions/employeesctl.EmployeesFinalJSON'
         "500":
           description: Internal Server Error - An unexpected error occurred during
             the retrieval process
@@ -643,14 +643,14 @@ paths:
         name: employee
         required: true
         schema:
-          $ref: '#/definitions/employees_controller.EmployeesReqJSON'
+          $ref: '#/definitions/employeesctl.EmployeesReqJSON'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/employees_controller.EmployeesResJSON'
+            $ref: '#/definitions/employeesctl.EmployeesResJSON'
         "400":
           description: Bad Request
           schema:
@@ -721,7 +721,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/employees_controller.EmployeesResJSON'
+            $ref: '#/definitions/employeesctl.EmployeesResJSON'
         "400":
           description: Invalid ID format
           schema:
@@ -748,14 +748,14 @@ paths:
         name: employee
         required: true
         schema:
-          $ref: '#/definitions/employees_controller.EmployeesReqJSON'
+          $ref: '#/definitions/employeesctl.EmployeesReqJSON'
       produces:
       - application/json
       responses:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/employees_controller.EmployeesResJSON'
+            $ref: '#/definitions/employeesctl.EmployeesResJSON'
         "400":
           description: Bad Request
           schema:
@@ -792,7 +792,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/employees_controller.EmployeesResJSON'
+            $ref: '#/definitions/employeesctl.EmployeesResJSON'
         "400":
           description: Bad Request
           schema:
@@ -819,14 +819,14 @@ paths:
         name: inboundOrder
         required: true
         schema:
-          $ref: '#/definitions/inbound_orders_controller.InboundOrdersReqJSON'
+          $ref: '#/definitions/inboundordersctl.InboundOrdersReqJSON'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/inbound_orders_controller.InboundOrdersResJSON'
+            $ref: '#/definitions/inboundordersctl.InboundOrdersResJSON'
         "400":
           description: Bad Request
           schema:
@@ -857,7 +857,7 @@ paths:
         name: locality
         required: true
         schema:
-          $ref: '#/definitions/localities_controller.NewLocalityJson'
+          $ref: '#/definitions/localitiesctl.NewLocalityJson'
       produces:
       - application/json
       responses:
@@ -895,7 +895,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/localities_controller.CarryReportJSON'
+            $ref: '#/definitions/localitiesctl.CarryReportJSON'
         "400":
           description: Bad Request
           schema:
@@ -926,7 +926,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/localities_controller.LocalityResJSON'
+            $ref: '#/definitions/localitiesctl.LocalityResJSON'
         "400":
           description: Bad Request
           schema:
@@ -953,14 +953,14 @@ paths:
         name: productBatch
         required: true
         schema:
-          $ref: '#/definitions/product_batches_controller.NewProductBatchesReqJSON'
+          $ref: '#/definitions/productbatchesctl.NewProductBatchesReqJSON'
       produces:
       - application/json
       responses:
         "201":
           description: Success
           schema:
-            $ref: '#/definitions/product_batches_controller.ProductBatchesResJSON'
+            $ref: '#/definitions/productbatchesctl.ProductBatchesResJSON'
         "400":
           description: Error ao decodificar JSON
           schema:
@@ -991,14 +991,14 @@ paths:
         name: productRecord
         required: true
         schema:
-          $ref: '#/definitions/product_records_controller.ProductRecordCreateJSON'
+          $ref: '#/definitions/productrecordsctl.ProductRecordCreateJSON'
       produces:
       - application/json
       responses:
         "201":
           description: Success
           schema:
-            $ref: '#/definitions/product_records_controller.ProductRecordResJSON'
+            $ref: '#/definitions/productrecordsctl.ProductRecordResJSON'
         "400":
           description: Error ao decodificar JSON
           schema:
@@ -1027,7 +1027,7 @@ paths:
         "200":
           description: List of products
           schema:
-            $ref: '#/definitions/products_controller.ProductResJSON'
+            $ref: '#/definitions/productsctl.ProductResJSON'
         "500":
           description: Internal server error
           schema:
@@ -1045,14 +1045,14 @@ paths:
         name: product
         required: true
         schema:
-          $ref: '#/definitions/products_controller.NewProductAttributesJSON'
+          $ref: '#/definitions/productsctl.NewProductAttributesJSON'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/products_controller.ProductResJSON'
+            $ref: '#/definitions/productsctl.ProductResJSON'
         "400":
           description: Bad Request
           schema:
@@ -1089,7 +1089,7 @@ paths:
         "204":
           description: No content
           schema:
-            $ref: '#/definitions/products_controller.ProductResJSON'
+            $ref: '#/definitions/productsctl.ProductResJSON'
         "400":
           description: Bad request
           schema:
@@ -1125,7 +1125,7 @@ paths:
         "200":
           description: Product found
           schema:
-            $ref: '#/definitions/products_controller.ProductResJSON'
+            $ref: '#/definitions/productsctl.ProductResJSON'
         "400":
           description: Invalid ID supplied
           schema:
@@ -1156,14 +1156,14 @@ paths:
         name: product
         required: true
         schema:
-          $ref: '#/definitions/products_controller.UpdateProductAttributesJSON'
+          $ref: '#/definitions/productsctl.UpdateProductAttributesJSON'
       produces:
       - application/json
       responses:
         "200":
           description: Updated product
           schema:
-            $ref: '#/definitions/products_controller.ProductResJSON'
+            $ref: '#/definitions/productsctl.ProductResJSON'
         "400":
           description: Invalid request parameters
           schema:
@@ -1203,7 +1203,7 @@ paths:
         "200":
           description: Successfully retrieved report records
           schema:
-            $ref: '#/definitions/products_controller.ReportRecordsResJSON'
+            $ref: '#/definitions/productsctl.ReportRecordsResJSON'
         "400":
           description: Invalid product ID or bad request
           schema:
@@ -1231,14 +1231,14 @@ paths:
         name: purchaseOrder
         required: true
         schema:
-          $ref: '#/definitions/purchase_orders_controller.PurchaseOrdersJSON'
+          $ref: '#/definitions/purchaseordersctl.PurchaseOrdersJSON'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/purchase_orders_controller.ResPurchaseOrdersJSON'
+            $ref: '#/definitions/purchaseordersctl.ResPurchaseOrdersJSON'
         "400":
           description: Bad Request
           schema:
@@ -1270,7 +1270,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/sections_controller.SectionFullJSON'
+              $ref: '#/definitions/sectionsctl.SectionFullJSON'
             type: array
         "500":
           description: Internal Server Error
@@ -1289,7 +1289,7 @@ paths:
         name: section
         required: true
         schema:
-          $ref: '#/definitions/sections_controller.NewSectionReqJSON'
+          $ref: '#/definitions/sectionsctl.NewSectionReqJSON'
       produces:
       - application/json
       responses:
@@ -1363,7 +1363,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/sections_controller.SectionFullJSON'
+            $ref: '#/definitions/sectionsctl.SectionFullJSON'
         "400":
           description: Bad Request
           schema:
@@ -1390,7 +1390,7 @@ paths:
         name: section
         required: true
         schema:
-          $ref: '#/definitions/sections_controller.NewSectionReqJSON'
+          $ref: '#/definitions/sectionsctl.NewSectionReqJSON'
       produces:
       - application/json
       responses:
@@ -1430,7 +1430,7 @@ paths:
           description: Successfully retrieved report products
           schema:
             items:
-              $ref: '#/definitions/sections_controller.ReportProductFullJSON'
+              $ref: '#/definitions/sectionsctl.ReportProductFullJSON'
             type: array
         "400":
           description: Invalid section ID or bad request
@@ -1457,7 +1457,7 @@ paths:
         "200":
           description: OK - The sellers were successfully retrieved
           schema:
-            $ref: '#/definitions/sellers_controller.SellerResJSON'
+            $ref: '#/definitions/sellersctl.SellerResJSON'
         "500":
           description: Internal Server Error - An unexpected error occurred during
             the retrieval process
@@ -1477,14 +1477,14 @@ paths:
         name: seller
         required: true
         schema:
-          $ref: '#/definitions/sellers_controller.SellerCreateJSON'
+          $ref: '#/definitions/sellersctl.SellerCreateJSON'
       produces:
       - application/json
       responses:
         "201":
           description: Seller created successfully
           schema:
-            $ref: '#/definitions/sellers_controller.SellerResJSON'
+            $ref: '#/definitions/sellersctl.SellerResJSON'
         "400":
           description: Invalid request data or JSON decoding error
           schema:
@@ -1551,7 +1551,7 @@ paths:
         "200":
           description: Success - The seller was successfully retrieved
           schema:
-            $ref: '#/definitions/sellers_controller.SellerResJSON'
+            $ref: '#/definitions/sellersctl.SellerResJSON'
         "400":
           description: Bad Request - The request ID is invalid or less than 1
           schema:
@@ -1579,14 +1579,14 @@ paths:
         name: seller
         required: true
         schema:
-          $ref: '#/definitions/sellers_controller.SellerUpdateJSON'
+          $ref: '#/definitions/sellersctl.SellerUpdateJSON'
       produces:
       - application/json
       responses:
         "200":
           description: Success - The seller was successfully updated
           schema:
-            $ref: '#/definitions/sellers_controller.SellerResJSON'
+            $ref: '#/definitions/sellersctl.SellerResJSON'
         "400":
           description: Bad Request - The seller cannot be updated due to a MySQL cannot
             add or update child row error
@@ -1615,7 +1615,7 @@ paths:
         "200":
           description: OK - The warehouses were successfully retrieved
           schema:
-            $ref: '#/definitions/warehouses_controller.WarehouseResJSON'
+            $ref: '#/definitions/warehousesctl.WarehouseResJSON'
         "500":
           description: Internal Server Error - An unexpected error occurred during
             the retrieval process
@@ -1634,14 +1634,14 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/warehouses_controller.WarehouseReqJSON'
+          $ref: '#/definitions/warehousesctl.WarehouseReqJSON'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/warehouses_controller.WarehouseResJSON'
+            $ref: '#/definitions/warehousesctl.WarehouseResJSON'
         "400":
           description: Bad request
           schema:
@@ -1674,7 +1674,7 @@ paths:
         "204":
           description: No content
           schema:
-            $ref: '#/definitions/warehouses_controller.WarehouseResJSON'
+            $ref: '#/definitions/warehousesctl.WarehouseResJSON'
         "400":
           description: Bad request
           schema:
@@ -1708,7 +1708,7 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/warehouses_controller.WarehouseResJSON'
+            $ref: '#/definitions/warehousesctl.WarehouseResJSON'
         "400":
           description: Invalid ID format
           schema:
@@ -1735,14 +1735,14 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/warehouses_controller.WarehouseReqJSON'
+          $ref: '#/definitions/warehousesctl.WarehouseReqJSON'
       produces:
       - application/json
       responses:
         "200":
           description: OK - The warehouse was successfully updated
           schema:
-            $ref: '#/definitions/warehouses_controller.WarehouseResJSON'
+            $ref: '#/definitions/warehousesctl.WarehouseResJSON'
         "400":
           description: Bad request - invalid ID format or incomplete data
           schema:

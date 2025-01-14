@@ -1,4 +1,4 @@
-package sections_controller
+package sectionsctl
 
 import (
 	"net/http"

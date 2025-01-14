@@ -1,4 +1,4 @@
-package sellers_controller
+package sellersctl
 
 import (
 	"errors"

@@ -1,4 +1,4 @@
-package inbound_orders_controller
+package inboundordersctl
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"

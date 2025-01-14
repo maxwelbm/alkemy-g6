@@ -1,4 +1,4 @@
-package product_records_repository
+package productrecordsrp
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"

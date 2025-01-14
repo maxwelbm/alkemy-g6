@@ -1,4 +1,4 @@
-package repository
+package inboundordersrp
 
 import (
 	"database/sql"

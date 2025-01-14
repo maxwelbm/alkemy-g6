@@ -1,4 +1,4 @@
-package products_controller
+package productsctl
 
 import (
 	"errors"
@@ -21,7 +21,7 @@ type ProductResJSON struct {
 }
 
 type ReportRecordsResJSON struct {
-	Data    any    `json:"data,omitempty"`
+	Data any `json:"data,omitempty"`
 }
 
 type ProductFullJSON struct {
@@ -54,9 +54,9 @@ type NewProductAttributesJSON struct {
 }
 
 type ReportRecordFullJSON struct {
-	ProductId      int     `json:"product_id"`
-	Description    string  `json:"description"`
-	RecordsCount   int     `json:"records_count"`
+	ProductId    int    `json:"product_id"`
+	Description  string `json:"description"`
+	RecordsCount int    `json:"records_count"`
 }
 
 func (p *NewProductAttributesJSON) validate() (err error) {

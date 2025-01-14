@@ -1,4 +1,4 @@
-package warehouses_repository
+package warehousesrp
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"

@@ -1,4 +1,4 @@
-package employees_controller
+package employeesctl
 
 import (
 	"errors"

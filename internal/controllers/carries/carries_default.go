@@ -1,4 +1,4 @@
-package carries_controller
+package carriesctl
 
 import "github.com/maxwelbm/alkemy-g6/internal/models"
 

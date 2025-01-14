@@ -1,4 +1,4 @@
-package localities_controller
+package localitiesctl
 
 import "github.com/maxwelbm/alkemy-g6/internal/models"
 

@@ -1,4 +1,4 @@
-package product_batches_controller
+package productbatchesctl
 
 import (
 	"encoding/json"

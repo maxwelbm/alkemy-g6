@@ -1,4 +1,4 @@
-package warehouses_controller
+package warehousesctl
 
 import (
 	"errors"

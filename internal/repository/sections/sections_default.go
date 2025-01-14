@@ -1,4 +1,4 @@
-package sections_repository
+package sectionsrp
 
 import "database/sql"
 

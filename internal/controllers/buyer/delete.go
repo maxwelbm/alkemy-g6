@@ -1,4 +1,4 @@
-package buyers_controller
+package buyersctl
 
 import (
 	"errors"

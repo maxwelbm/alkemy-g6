@@ -1,4 +1,4 @@
-package localities_repository
+package localitiesrp
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"

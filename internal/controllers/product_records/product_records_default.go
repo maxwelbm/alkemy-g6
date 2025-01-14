@@ -1,4 +1,4 @@
-package product_records_controller
+package productrecordsctl
 
 import "github.com/maxwelbm/alkemy-g6/internal/models"
 

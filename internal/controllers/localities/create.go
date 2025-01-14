@@ -1,4 +1,4 @@
-package localities_controller
+package localitiesctl
 
 import (
 	"encoding/json"

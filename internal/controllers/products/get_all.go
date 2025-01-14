@@ -1,4 +1,4 @@
-package products_controller
+package productsctl
 
 import (
 	"net/http"

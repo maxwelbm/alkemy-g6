@@ -1,4 +1,4 @@
-package inbound_orders_controller
+package inboundordersctl
 
 import (
 	"encoding/json"

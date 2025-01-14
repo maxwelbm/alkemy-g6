@@ -1,4 +1,4 @@
-package product_records_repository
+package productrecordsrp
 
 import (
 	"database/sql"

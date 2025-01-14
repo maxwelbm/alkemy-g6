@@ -1,4 +1,4 @@
-package carries_repository
+package carriesrp
 
 import "github.com/maxwelbm/alkemy-g6/internal/models"
 

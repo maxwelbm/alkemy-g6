@@ -1,4 +1,4 @@
-package sellers_controller
+package sellersctl
 
 import (
 	models "github.com/maxwelbm/alkemy-g6/internal/models"

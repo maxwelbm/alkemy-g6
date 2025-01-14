@@ -1,4 +1,4 @@
-package purchase_orders_repository
+package purchaseordersrp
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"

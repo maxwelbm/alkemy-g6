@@ -30,7 +30,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/buyers_controller.BuyerResJSON"
+                            "$ref": "#/definitions/buyersctl.BuyerResJSON"
                         }
                     },
                     "500": {
@@ -60,7 +60,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/buyers_controller.BuyerCreateJson"
+                            "$ref": "#/definitions/buyersctl.BuyerCreateJson"
                         }
                     }
                 ],
@@ -68,7 +68,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/buyers_controller.BuyerResJSON"
+                            "$ref": "#/definitions/buyersctl.BuyerResJSON"
                         }
                     },
                     "400": {
@@ -168,7 +168,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/buyers_controller.BuyerResJSON"
+                            "$ref": "#/definitions/buyersctl.BuyerResJSON"
                         }
                     },
                     "400": {
@@ -256,7 +256,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/buyers_controller.BuyerUpdateJSON"
+                            "$ref": "#/definitions/buyersctl.BuyerUpdateJSON"
                         }
                     }
                 ],
@@ -264,7 +264,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/buyers_controller.BuyerResJSON"
+                            "$ref": "#/definitions/buyersctl.BuyerResJSON"
                         }
                     },
                     "400": {
@@ -305,7 +305,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/carries_controller.CarriesCreateJSON"
+                            "$ref": "#/definitions/carriesctl.CarriesCreateJSON"
                         }
                     }
                 ],
@@ -313,7 +313,7 @@ const docTemplate = `{
                     "201": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/carries_controller.CarriesCreateJSON"
+                            "$ref": "#/definitions/carriesctl.CarriesCreateJSON"
                         }
                     },
                     "400": {
@@ -351,7 +351,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK - The employees were successfully retrieved",
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesFinalJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesFinalJSON"
                         }
                     },
                     "500": {
@@ -381,7 +381,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesReqJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesReqJSON"
                         }
                     }
                 ],
@@ -389,7 +389,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesResJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesResJSON"
                         }
                     },
                     "400": {
@@ -445,7 +445,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesResJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesResJSON"
                         }
                     },
                     "400": {
@@ -495,7 +495,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesResJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesResJSON"
                         }
                     },
                     "400": {
@@ -589,7 +589,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesReqJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesReqJSON"
                         }
                     }
                 ],
@@ -597,7 +597,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesResJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesResJSON"
                         }
                     },
                     "400": {
@@ -647,7 +647,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/inbound_orders_controller.InboundOrdersReqJSON"
+                            "$ref": "#/definitions/inboundordersctl.InboundOrdersReqJSON"
                         }
                     }
                 ],
@@ -655,7 +655,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/inbound_orders_controller.InboundOrdersResJSON"
+                            "$ref": "#/definitions/inboundordersctl.InboundOrdersResJSON"
                         }
                     },
                     "400": {
@@ -705,7 +705,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/localities_controller.NewLocalityJson"
+                            "$ref": "#/definitions/localitiesctl.NewLocalityJson"
                         }
                     }
                 ],
@@ -760,7 +760,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/localities_controller.CarryReportJSON"
+                            "$ref": "#/definitions/localitiesctl.CarryReportJSON"
                         }
                     },
                     "400": {
@@ -807,7 +807,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/localities_controller.LocalityResJSON"
+                            "$ref": "#/definitions/localitiesctl.LocalityResJSON"
                         }
                     },
                     "400": {
@@ -851,7 +851,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/product_batches_controller.NewProductBatchesReqJSON"
+                            "$ref": "#/definitions/productbatchesctl.NewProductBatchesReqJSON"
                         }
                     }
                 ],
@@ -859,7 +859,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/product_batches_controller.ProductBatchesResJSON"
+                            "$ref": "#/definitions/productbatchesctl.ProductBatchesResJSON"
                         }
                     },
                     "400": {
@@ -909,7 +909,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/product_records_controller.ProductRecordCreateJSON"
+                            "$ref": "#/definitions/productrecordsctl.ProductRecordCreateJSON"
                         }
                     }
                 ],
@@ -917,7 +917,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/product_records_controller.ProductRecordResJSON"
+                            "$ref": "#/definitions/productrecordsctl.ProductRecordResJSON"
                         }
                     },
                     "400": {
@@ -961,7 +961,7 @@ const docTemplate = `{
                     "200": {
                         "description": "List of products",
                         "schema": {
-                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                            "$ref": "#/definitions/productsctl.ProductResJSON"
                         }
                     },
                     "500": {
@@ -991,7 +991,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/products_controller.NewProductAttributesJSON"
+                            "$ref": "#/definitions/productsctl.NewProductAttributesJSON"
                         }
                     }
                 ],
@@ -999,7 +999,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                            "$ref": "#/definitions/productsctl.ProductResJSON"
                         }
                     },
                     "400": {
@@ -1052,7 +1052,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Successfully retrieved report records",
                         "schema": {
-                            "$ref": "#/definitions/products_controller.ReportRecordsResJSON"
+                            "$ref": "#/definitions/productsctl.ReportRecordsResJSON"
                         }
                     },
                     "400": {
@@ -1102,7 +1102,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Product found",
                         "schema": {
-                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                            "$ref": "#/definitions/productsctl.ProductResJSON"
                         }
                     },
                     "400": {
@@ -1150,7 +1150,7 @@ const docTemplate = `{
                     "204": {
                         "description": "No content",
                         "schema": {
-                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                            "$ref": "#/definitions/productsctl.ProductResJSON"
                         }
                     },
                     "400": {
@@ -1205,7 +1205,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/products_controller.UpdateProductAttributesJSON"
+                            "$ref": "#/definitions/productsctl.UpdateProductAttributesJSON"
                         }
                     }
                 ],
@@ -1213,7 +1213,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Updated product",
                         "schema": {
-                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                            "$ref": "#/definitions/productsctl.ProductResJSON"
                         }
                     },
                     "400": {
@@ -1269,7 +1269,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/purchase_orders_controller.PurchaseOrdersJSON"
+                            "$ref": "#/definitions/purchaseordersctl.PurchaseOrdersJSON"
                         }
                     }
                 ],
@@ -1277,7 +1277,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/purchase_orders_controller.ResPurchaseOrdersJSON"
+                            "$ref": "#/definitions/purchaseordersctl.ResPurchaseOrdersJSON"
                         }
                     },
                     "400": {
@@ -1326,7 +1326,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/sections_controller.SectionFullJSON"
+                                "$ref": "#/definitions/sectionsctl.SectionFullJSON"
                             }
                         }
                     },
@@ -1357,7 +1357,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/sections_controller.NewSectionReqJSON"
+                            "$ref": "#/definitions/sectionsctl.NewSectionReqJSON"
                         }
                     }
                 ],
@@ -1414,7 +1414,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/sections_controller.ReportProductFullJSON"
+                                "$ref": "#/definitions/sectionsctl.ReportProductFullJSON"
                             }
                         }
                     },
@@ -1465,7 +1465,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/sections_controller.SectionFullJSON"
+                            "$ref": "#/definitions/sectionsctl.SectionFullJSON"
                         }
                     },
                     "400": {
@@ -1559,7 +1559,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/sections_controller.NewSectionReqJSON"
+                            "$ref": "#/definitions/sectionsctl.NewSectionReqJSON"
                         }
                     }
                 ],
@@ -1605,7 +1605,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK - The sellers were successfully retrieved",
                         "schema": {
-                            "$ref": "#/definitions/sellers_controller.SellerResJSON"
+                            "$ref": "#/definitions/sellersctl.SellerResJSON"
                         }
                     },
                     "500": {
@@ -1635,7 +1635,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/sellers_controller.SellerCreateJSON"
+                            "$ref": "#/definitions/sellersctl.SellerCreateJSON"
                         }
                     }
                 ],
@@ -1643,7 +1643,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Seller created successfully",
                         "schema": {
-                            "$ref": "#/definitions/sellers_controller.SellerResJSON"
+                            "$ref": "#/definitions/sellersctl.SellerResJSON"
                         }
                     },
                     "400": {
@@ -1690,7 +1690,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Success - The seller was successfully retrieved",
                         "schema": {
-                            "$ref": "#/definitions/sellers_controller.SellerResJSON"
+                            "$ref": "#/definitions/sellersctl.SellerResJSON"
                         }
                     },
                     "400": {
@@ -1781,7 +1781,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/sellers_controller.SellerUpdateJSON"
+                            "$ref": "#/definitions/sellersctl.SellerUpdateJSON"
                         }
                     }
                 ],
@@ -1789,7 +1789,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Success - The seller was successfully updated",
                         "schema": {
-                            "$ref": "#/definitions/sellers_controller.SellerResJSON"
+                            "$ref": "#/definitions/sellersctl.SellerResJSON"
                         }
                     },
                     "400": {
@@ -1827,7 +1827,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK - The warehouses were successfully retrieved",
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseResJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseResJSON"
                         }
                     },
                     "500": {
@@ -1857,7 +1857,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseReqJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseReqJSON"
                         }
                     }
                 ],
@@ -1865,7 +1865,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseResJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseResJSON"
                         }
                     },
                     "400": {
@@ -1912,7 +1912,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseResJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseResJSON"
                         }
                     },
                     "400": {
@@ -1954,7 +1954,7 @@ const docTemplate = `{
                     "204": {
                         "description": "No content",
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseResJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseResJSON"
                         }
                     },
                     "400": {
@@ -2009,7 +2009,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseReqJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseReqJSON"
                         }
                     }
                 ],
@@ -2017,7 +2017,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK - The warehouse was successfully updated",
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseResJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseResJSON"
                         }
                     },
                     "400": {
@@ -2049,7 +2049,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "buyers_controller.BuyerCreateJson": {
+        "buyersctl.BuyerCreateJson": {
             "type": "object",
             "properties": {
                 "card_number_id": {
@@ -2063,7 +2063,7 @@ const docTemplate = `{
                 }
             }
         },
-        "buyers_controller.BuyerResJSON": {
+        "buyersctl.BuyerResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2072,7 +2072,7 @@ const docTemplate = `{
                 }
             }
         },
-        "buyers_controller.BuyerUpdateJSON": {
+        "buyersctl.BuyerUpdateJSON": {
             "type": "object",
             "properties": {
                 "card_number_id": {
@@ -2086,7 +2086,7 @@ const docTemplate = `{
                 }
             }
         },
-        "carries_controller.CarriesCreateJSON": {
+        "carriesctl.CarriesCreateJSON": {
             "type": "object",
             "properties": {
                 "address": {
@@ -2106,7 +2106,7 @@ const docTemplate = `{
                 }
             }
         },
-        "employees_controller.EmployeesAttributes": {
+        "employeesctl.EmployeesAttributes": {
             "type": "object",
             "properties": {
                 "card_number_id": {
@@ -2129,18 +2129,18 @@ const docTemplate = `{
                 }
             }
         },
-        "employees_controller.EmployeesFinalJSON": {
+        "employeesctl.EmployeesFinalJSON": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/employees_controller.EmployeesAttributes"
+                        "$ref": "#/definitions/employeesctl.EmployeesAttributes"
                     }
                 }
             }
         },
-        "employees_controller.EmployeesReqJSON": {
+        "employeesctl.EmployeesReqJSON": {
             "type": "object",
             "properties": {
                 "card_number_id": {
@@ -2160,7 +2160,7 @@ const docTemplate = `{
                 }
             }
         },
-        "employees_controller.EmployeesResJSON": {
+        "employeesctl.EmployeesResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2169,7 +2169,7 @@ const docTemplate = `{
                 }
             }
         },
-        "inbound_orders_controller.InboundOrdersReqJSON": {
+        "inboundordersctl.InboundOrdersReqJSON": {
             "type": "object",
             "properties": {
                 "employee_id": {
@@ -2192,7 +2192,7 @@ const docTemplate = `{
                 }
             }
         },
-        "inbound_orders_controller.InboundOrdersResJSON": {
+        "inboundordersctl.InboundOrdersResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2201,7 +2201,7 @@ const docTemplate = `{
                 }
             }
         },
-        "localities_controller.CarryReportJSON": {
+        "localitiesctl.CarryReportJSON": {
             "type": "object",
             "properties": {
                 "carries_count": {
@@ -2215,7 +2215,7 @@ const docTemplate = `{
                 }
             }
         },
-        "localities_controller.LocalityResJSON": {
+        "localitiesctl.LocalityResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2224,7 +2224,7 @@ const docTemplate = `{
                 }
             }
         },
-        "localities_controller.NewLocalityJson": {
+        "localitiesctl.NewLocalityJson": {
             "type": "object",
             "properties": {
                 "country_name": {
@@ -2301,7 +2301,7 @@ const docTemplate = `{
                 }
             }
         },
-        "product_batches_controller.NewProductBatchesReqJSON": {
+        "productbatchesctl.NewProductBatchesReqJSON": {
             "type": "object",
             "properties": {
                 "batch_number": {
@@ -2336,7 +2336,7 @@ const docTemplate = `{
                 }
             }
         },
-        "product_batches_controller.ProductBatchesResJSON": {
+        "productbatchesctl.ProductBatchesResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2345,7 +2345,7 @@ const docTemplate = `{
                 }
             }
         },
-        "product_records_controller.ProductRecordCreateJSON": {
+        "productrecordsctl.ProductRecordCreateJSON": {
             "type": "object",
             "properties": {
                 "last_update_date": {
@@ -2362,7 +2362,7 @@ const docTemplate = `{
                 }
             }
         },
-        "product_records_controller.ProductRecordResJSON": {
+        "productrecordsctl.ProductRecordResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2371,7 +2371,7 @@ const docTemplate = `{
                 }
             }
         },
-        "products_controller.NewProductAttributesJSON": {
+        "productsctl.NewProductAttributesJSON": {
             "type": "object",
             "properties": {
                 "description": {
@@ -2409,7 +2409,7 @@ const docTemplate = `{
                 }
             }
         },
-        "products_controller.ProductResJSON": {
+        "productsctl.ProductResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2418,13 +2418,13 @@ const docTemplate = `{
                 }
             }
         },
-        "products_controller.ReportRecordsResJSON": {
+        "productsctl.ReportRecordsResJSON": {
             "type": "object",
             "properties": {
                 "data": {}
             }
         },
-        "products_controller.UpdateProductAttributesJSON": {
+        "productsctl.UpdateProductAttributesJSON": {
             "type": "object",
             "properties": {
                 "description": {
@@ -2462,7 +2462,7 @@ const docTemplate = `{
                 }
             }
         },
-        "purchase_orders_controller.PurchaseOrdersJSON": {
+        "purchaseordersctl.PurchaseOrdersJSON": {
             "type": "object",
             "properties": {
                 "buyer_id": {
@@ -2482,7 +2482,7 @@ const docTemplate = `{
                 }
             }
         },
-        "purchase_orders_controller.ResPurchaseOrdersJSON": {
+        "purchaseordersctl.ResPurchaseOrdersJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2502,7 +2502,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sections_controller.NewSectionReqJSON": {
+        "sectionsctl.NewSectionReqJSON": {
             "type": "object",
             "properties": {
                 "current_capacity": {
@@ -2531,7 +2531,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sections_controller.ReportProductFullJSON": {
+        "sectionsctl.ReportProductFullJSON": {
             "type": "object",
             "properties": {
                 "products_count": {
@@ -2545,7 +2545,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sections_controller.SectionFullJSON": {
+        "sectionsctl.SectionFullJSON": {
             "type": "object",
             "properties": {
                 "current_capacity": {
@@ -2577,7 +2577,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sellers_controller.SellerCreateJSON": {
+        "sellersctl.SellerCreateJSON": {
             "type": "object",
             "properties": {
                 "address": {
@@ -2597,7 +2597,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sellers_controller.SellerResJSON": {
+        "sellersctl.SellerResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2606,7 +2606,7 @@ const docTemplate = `{
                 }
             }
         },
-        "sellers_controller.SellerUpdateJSON": {
+        "sellersctl.SellerUpdateJSON": {
             "type": "object",
             "properties": {
                 "address": {
@@ -2626,7 +2626,7 @@ const docTemplate = `{
                 }
             }
         },
-        "warehouses_controller.WarehouseReqJSON": {
+        "warehousesctl.WarehouseReqJSON": {
             "type": "object",
             "properties": {
                 "address": {
@@ -2646,7 +2646,7 @@ const docTemplate = `{
                 }
             }
         },
-        "warehouses_controller.WarehouseResJSON": {
+        "warehousesctl.WarehouseResJSON": {
             "type": "object",
             "properties": {
                 "data": {},

@@ -1,4 +1,4 @@
-package carries_repository
+package carriesrp
 
 import (
 	"database/sql"

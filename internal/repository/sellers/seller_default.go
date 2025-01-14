@@ -1,4 +1,4 @@
-package sellers_repository
+package sellersrp
 
 import (
 	"database/sql"

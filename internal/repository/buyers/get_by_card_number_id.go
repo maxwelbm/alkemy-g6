@@ -1,4 +1,4 @@
-package buyers_repository
+package buyersrp
 
 import (
 	"database/sql"

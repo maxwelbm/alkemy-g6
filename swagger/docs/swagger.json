@@ -23,7 +23,7 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/buyers_controller.BuyerResJSON"
+                            "$ref": "#/definitions/buyersctl.BuyerResJSON"
                         }
                     },
                     "500": {
@@ -53,7 +53,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/buyers_controller.BuyerCreateJson"
+                            "$ref": "#/definitions/buyersctl.BuyerCreateJson"
                         }
                     }
                 ],
@@ -61,7 +61,7 @@
                     "201": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/buyers_controller.BuyerResJSON"
+                            "$ref": "#/definitions/buyersctl.BuyerResJSON"
                         }
                     },
                     "400": {
@@ -161,7 +161,7 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/buyers_controller.BuyerResJSON"
+                            "$ref": "#/definitions/buyersctl.BuyerResJSON"
                         }
                     },
                     "400": {
@@ -249,7 +249,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/buyers_controller.BuyerUpdateJSON"
+                            "$ref": "#/definitions/buyersctl.BuyerUpdateJSON"
                         }
                     }
                 ],
@@ -257,7 +257,7 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/buyers_controller.BuyerResJSON"
+                            "$ref": "#/definitions/buyersctl.BuyerResJSON"
                         }
                     },
                     "400": {
@@ -298,7 +298,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/carries_controller.CarriesCreateJSON"
+                            "$ref": "#/definitions/carriesctl.CarriesCreateJSON"
                         }
                     }
                 ],
@@ -306,7 +306,7 @@
                     "201": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/carries_controller.CarriesCreateJSON"
+                            "$ref": "#/definitions/carriesctl.CarriesCreateJSON"
                         }
                     },
                     "400": {
@@ -344,7 +344,7 @@
                     "200": {
                         "description": "OK - The employees were successfully retrieved",
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesFinalJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesFinalJSON"
                         }
                     },
                     "500": {
@@ -374,7 +374,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesReqJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesReqJSON"
                         }
                     }
                 ],
@@ -382,7 +382,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesResJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesResJSON"
                         }
                     },
                     "400": {
@@ -438,7 +438,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesResJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesResJSON"
                         }
                     },
                     "400": {
@@ -488,7 +488,7 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesResJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesResJSON"
                         }
                     },
                     "400": {
@@ -582,7 +582,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesReqJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesReqJSON"
                         }
                     }
                 ],
@@ -590,7 +590,7 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/employees_controller.EmployeesResJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesResJSON"
                         }
                     },
                     "400": {
@@ -640,7 +640,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/inbound_orders_controller.InboundOrdersReqJSON"
+                            "$ref": "#/definitions/inboundordersctl.InboundOrdersReqJSON"
                         }
                     }
                 ],
@@ -648,7 +648,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/inbound_orders_controller.InboundOrdersResJSON"
+                            "$ref": "#/definitions/inboundordersctl.InboundOrdersResJSON"
                         }
                     },
                     "400": {
@@ -698,7 +698,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/localities_controller.NewLocalityJson"
+                            "$ref": "#/definitions/localitiesctl.NewLocalityJson"
                         }
                     }
                 ],
@@ -753,7 +753,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/localities_controller.CarryReportJSON"
+                            "$ref": "#/definitions/localitiesctl.CarryReportJSON"
                         }
                     },
                     "400": {
@@ -800,7 +800,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/localities_controller.LocalityResJSON"
+                            "$ref": "#/definitions/localitiesctl.LocalityResJSON"
                         }
                     },
                     "400": {
@@ -844,7 +844,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/product_batches_controller.NewProductBatchesReqJSON"
+                            "$ref": "#/definitions/productbatchesctl.NewProductBatchesReqJSON"
                         }
                     }
                 ],
@@ -852,7 +852,7 @@
                     "201": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/product_batches_controller.ProductBatchesResJSON"
+                            "$ref": "#/definitions/productbatchesctl.ProductBatchesResJSON"
                         }
                     },
                     "400": {
@@ -902,7 +902,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/product_records_controller.ProductRecordCreateJSON"
+                            "$ref": "#/definitions/productrecordsctl.ProductRecordCreateJSON"
                         }
                     }
                 ],
@@ -910,7 +910,7 @@
                     "201": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/product_records_controller.ProductRecordResJSON"
+                            "$ref": "#/definitions/productrecordsctl.ProductRecordResJSON"
                         }
                     },
                     "400": {
@@ -954,7 +954,7 @@
                     "200": {
                         "description": "List of products",
                         "schema": {
-                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                            "$ref": "#/definitions/productsctl.ProductResJSON"
                         }
                     },
                     "500": {
@@ -984,7 +984,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/products_controller.NewProductAttributesJSON"
+                            "$ref": "#/definitions/productsctl.NewProductAttributesJSON"
                         }
                     }
                 ],
@@ -992,7 +992,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                            "$ref": "#/definitions/productsctl.ProductResJSON"
                         }
                     },
                     "400": {
@@ -1045,7 +1045,7 @@
                     "200": {
                         "description": "Successfully retrieved report records",
                         "schema": {
-                            "$ref": "#/definitions/products_controller.ReportRecordsResJSON"
+                            "$ref": "#/definitions/productsctl.ReportRecordsResJSON"
                         }
                     },
                     "400": {
@@ -1095,7 +1095,7 @@
                     "200": {
                         "description": "Product found",
                         "schema": {
-                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                            "$ref": "#/definitions/productsctl.ProductResJSON"
                         }
                     },
                     "400": {
@@ -1143,7 +1143,7 @@
                     "204": {
                         "description": "No content",
                         "schema": {
-                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                            "$ref": "#/definitions/productsctl.ProductResJSON"
                         }
                     },
                     "400": {
@@ -1198,7 +1198,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/products_controller.UpdateProductAttributesJSON"
+                            "$ref": "#/definitions/productsctl.UpdateProductAttributesJSON"
                         }
                     }
                 ],
@@ -1206,7 +1206,7 @@
                     "200": {
                         "description": "Updated product",
                         "schema": {
-                            "$ref": "#/definitions/products_controller.ProductResJSON"
+                            "$ref": "#/definitions/productsctl.ProductResJSON"
                         }
                     },
                     "400": {
@@ -1262,7 +1262,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/purchase_orders_controller.PurchaseOrdersJSON"
+                            "$ref": "#/definitions/purchaseordersctl.PurchaseOrdersJSON"
                         }
                     }
                 ],
@@ -1270,7 +1270,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/purchase_orders_controller.ResPurchaseOrdersJSON"
+                            "$ref": "#/definitions/purchaseordersctl.ResPurchaseOrdersJSON"
                         }
                     },
                     "400": {
@@ -1319,7 +1319,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/sections_controller.SectionFullJSON"
+                                "$ref": "#/definitions/sectionsctl.SectionFullJSON"
                             }
                         }
                     },
@@ -1350,7 +1350,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/sections_controller.NewSectionReqJSON"
+                            "$ref": "#/definitions/sectionsctl.NewSectionReqJSON"
                         }
                     }
                 ],
@@ -1407,7 +1407,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/sections_controller.ReportProductFullJSON"
+                                "$ref": "#/definitions/sectionsctl.ReportProductFullJSON"
                             }
                         }
                     },
@@ -1458,7 +1458,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/sections_controller.SectionFullJSON"
+                            "$ref": "#/definitions/sectionsctl.SectionFullJSON"
                         }
                     },
                     "400": {
@@ -1552,7 +1552,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/sections_controller.NewSectionReqJSON"
+                            "$ref": "#/definitions/sectionsctl.NewSectionReqJSON"
                         }
                     }
                 ],
@@ -1598,7 +1598,7 @@
                     "200": {
                         "description": "OK - The sellers were successfully retrieved",
                         "schema": {
-                            "$ref": "#/definitions/sellers_controller.SellerResJSON"
+                            "$ref": "#/definitions/sellersctl.SellerResJSON"
                         }
                     },
                     "500": {
@@ -1628,7 +1628,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/sellers_controller.SellerCreateJSON"
+                            "$ref": "#/definitions/sellersctl.SellerCreateJSON"
                         }
                     }
                 ],
@@ -1636,7 +1636,7 @@
                     "201": {
                         "description": "Seller created successfully",
                         "schema": {
-                            "$ref": "#/definitions/sellers_controller.SellerResJSON"
+                            "$ref": "#/definitions/sellersctl.SellerResJSON"
                         }
                     },
                     "400": {
@@ -1683,7 +1683,7 @@
                     "200": {
                         "description": "Success - The seller was successfully retrieved",
                         "schema": {
-                            "$ref": "#/definitions/sellers_controller.SellerResJSON"
+                            "$ref": "#/definitions/sellersctl.SellerResJSON"
                         }
                     },
                     "400": {
@@ -1774,7 +1774,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/sellers_controller.SellerUpdateJSON"
+                            "$ref": "#/definitions/sellersctl.SellerUpdateJSON"
                         }
                     }
                 ],
@@ -1782,7 +1782,7 @@
                     "200": {
                         "description": "Success - The seller was successfully updated",
                         "schema": {
-                            "$ref": "#/definitions/sellers_controller.SellerResJSON"
+                            "$ref": "#/definitions/sellersctl.SellerResJSON"
                         }
                     },
                     "400": {
@@ -1820,7 +1820,7 @@
                     "200": {
                         "description": "OK - The warehouses were successfully retrieved",
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseResJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseResJSON"
                         }
                     },
                     "500": {
@@ -1850,7 +1850,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseReqJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseReqJSON"
                         }
                     }
                 ],
@@ -1858,7 +1858,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseResJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseResJSON"
                         }
                     },
                     "400": {
@@ -1905,7 +1905,7 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseResJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseResJSON"
                         }
                     },
                     "400": {
@@ -1947,7 +1947,7 @@
                     "204": {
                         "description": "No content",
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseResJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseResJSON"
                         }
                     },
                     "400": {
@@ -2002,7 +2002,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseReqJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseReqJSON"
                         }
                     }
                 ],
@@ -2010,7 +2010,7 @@
                     "200": {
                         "description": "OK - The warehouse was successfully updated",
                         "schema": {
-                            "$ref": "#/definitions/warehouses_controller.WarehouseResJSON"
+                            "$ref": "#/definitions/warehousesctl.WarehouseResJSON"
                         }
                     },
                     "400": {
@@ -2042,7 +2042,7 @@
         }
     },
     "definitions": {
-        "buyers_controller.BuyerCreateJson": {
+        "buyersctl.BuyerCreateJson": {
             "type": "object",
             "properties": {
                 "card_number_id": {
@@ -2056,7 +2056,7 @@
                 }
             }
         },
-        "buyers_controller.BuyerResJSON": {
+        "buyersctl.BuyerResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2065,7 +2065,7 @@
                 }
             }
         },
-        "buyers_controller.BuyerUpdateJSON": {
+        "buyersctl.BuyerUpdateJSON": {
             "type": "object",
             "properties": {
                 "card_number_id": {
@@ -2079,7 +2079,7 @@
                 }
             }
         },
-        "carries_controller.CarriesCreateJSON": {
+        "carriesctl.CarriesCreateJSON": {
             "type": "object",
             "properties": {
                 "address": {
@@ -2099,7 +2099,7 @@
                 }
             }
         },
-        "employees_controller.EmployeesAttributes": {
+        "employeesctl.EmployeesAttributes": {
             "type": "object",
             "properties": {
                 "card_number_id": {
@@ -2122,18 +2122,18 @@
                 }
             }
         },
-        "employees_controller.EmployeesFinalJSON": {
+        "employeesctl.EmployeesFinalJSON": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/employees_controller.EmployeesAttributes"
+                        "$ref": "#/definitions/employeesctl.EmployeesAttributes"
                     }
                 }
             }
         },
-        "employees_controller.EmployeesReqJSON": {
+        "employeesctl.EmployeesReqJSON": {
             "type": "object",
             "properties": {
                 "card_number_id": {
@@ -2153,7 +2153,7 @@
                 }
             }
         },
-        "employees_controller.EmployeesResJSON": {
+        "employeesctl.EmployeesResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2162,7 +2162,7 @@
                 }
             }
         },
-        "inbound_orders_controller.InboundOrdersReqJSON": {
+        "inboundordersctl.InboundOrdersReqJSON": {
             "type": "object",
             "properties": {
                 "employee_id": {
@@ -2185,7 +2185,7 @@
                 }
             }
         },
-        "inbound_orders_controller.InboundOrdersResJSON": {
+        "inboundordersctl.InboundOrdersResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2194,7 +2194,7 @@
                 }
             }
         },
-        "localities_controller.CarryReportJSON": {
+        "localitiesctl.CarryReportJSON": {
             "type": "object",
             "properties": {
                 "carries_count": {
@@ -2208,7 +2208,7 @@
                 }
             }
         },
-        "localities_controller.LocalityResJSON": {
+        "localitiesctl.LocalityResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2217,7 +2217,7 @@
                 }
             }
         },
-        "localities_controller.NewLocalityJson": {
+        "localitiesctl.NewLocalityJson": {
             "type": "object",
             "properties": {
                 "country_name": {
@@ -2294,7 +2294,7 @@
                 }
             }
         },
-        "product_batches_controller.NewProductBatchesReqJSON": {
+        "productbatchesctl.NewProductBatchesReqJSON": {
             "type": "object",
             "properties": {
                 "batch_number": {
@@ -2329,7 +2329,7 @@
                 }
             }
         },
-        "product_batches_controller.ProductBatchesResJSON": {
+        "productbatchesctl.ProductBatchesResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2338,7 +2338,7 @@
                 }
             }
         },
-        "product_records_controller.ProductRecordCreateJSON": {
+        "productrecordsctl.ProductRecordCreateJSON": {
             "type": "object",
             "properties": {
                 "last_update_date": {
@@ -2355,7 +2355,7 @@
                 }
             }
         },
-        "product_records_controller.ProductRecordResJSON": {
+        "productrecordsctl.ProductRecordResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2364,7 +2364,7 @@
                 }
             }
         },
-        "products_controller.NewProductAttributesJSON": {
+        "productsctl.NewProductAttributesJSON": {
             "type": "object",
             "properties": {
                 "description": {
@@ -2402,7 +2402,7 @@
                 }
             }
         },
-        "products_controller.ProductResJSON": {
+        "productsctl.ProductResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2411,13 +2411,13 @@
                 }
             }
         },
-        "products_controller.ReportRecordsResJSON": {
+        "productsctl.ReportRecordsResJSON": {
             "type": "object",
             "properties": {
                 "data": {}
             }
         },
-        "products_controller.UpdateProductAttributesJSON": {
+        "productsctl.UpdateProductAttributesJSON": {
             "type": "object",
             "properties": {
                 "description": {
@@ -2455,7 +2455,7 @@
                 }
             }
         },
-        "purchase_orders_controller.PurchaseOrdersJSON": {
+        "purchaseordersctl.PurchaseOrdersJSON": {
             "type": "object",
             "properties": {
                 "buyer_id": {
@@ -2475,7 +2475,7 @@
                 }
             }
         },
-        "purchase_orders_controller.ResPurchaseOrdersJSON": {
+        "purchaseordersctl.ResPurchaseOrdersJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2495,7 +2495,7 @@
                 }
             }
         },
-        "sections_controller.NewSectionReqJSON": {
+        "sectionsctl.NewSectionReqJSON": {
             "type": "object",
             "properties": {
                 "current_capacity": {
@@ -2524,7 +2524,7 @@
                 }
             }
         },
-        "sections_controller.ReportProductFullJSON": {
+        "sectionsctl.ReportProductFullJSON": {
             "type": "object",
             "properties": {
                 "products_count": {
@@ -2538,7 +2538,7 @@
                 }
             }
         },
-        "sections_controller.SectionFullJSON": {
+        "sectionsctl.SectionFullJSON": {
             "type": "object",
             "properties": {
                 "current_capacity": {
@@ -2570,7 +2570,7 @@
                 }
             }
         },
-        "sellers_controller.SellerCreateJSON": {
+        "sellersctl.SellerCreateJSON": {
             "type": "object",
             "properties": {
                 "address": {
@@ -2590,7 +2590,7 @@
                 }
             }
         },
-        "sellers_controller.SellerResJSON": {
+        "sellersctl.SellerResJSON": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -2599,7 +2599,7 @@
                 }
             }
         },
-        "sellers_controller.SellerUpdateJSON": {
+        "sellersctl.SellerUpdateJSON": {
             "type": "object",
             "properties": {
                 "address": {
@@ -2619,7 +2619,7 @@
                 }
             }
         },
-        "warehouses_controller.WarehouseReqJSON": {
+        "warehousesctl.WarehouseReqJSON": {
             "type": "object",
             "properties": {
                 "address": {
@@ -2639,7 +2639,7 @@
                 }
             }
         },
-        "warehouses_controller.WarehouseResJSON": {
+        "warehousesctl.WarehouseResJSON": {
             "type": "object",
             "properties": {
                 "data": {},

@@ -1,4 +1,4 @@
-package purchase_orders_controller
+package purchaseordersctl
 
 import (
 	"encoding/json"

@@ -1,4 +1,4 @@
-package warehouses_repository
+package warehousesrp
 
 import (
 	"database/sql"

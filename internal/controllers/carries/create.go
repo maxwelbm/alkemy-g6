@@ -1,4 +1,4 @@
-package carries_controller
+package carriesctl
 
 import (
 	"encoding/json"

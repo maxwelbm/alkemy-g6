@@ -1,9 +1,7 @@
-package employees_controller
+package employeesctl
 
 import (
-
 	models "github.com/maxwelbm/alkemy-g6/internal/models"
-
 )
 
 type EmployeesController struct {

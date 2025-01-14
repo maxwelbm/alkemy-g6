@@ -1,7 +1,7 @@
-package repository
+package inboundordersrp
 
 import (
-	models "github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
 func (e *InboundOrdersRepository) Create(inboundOrders models.InboundOrdersDTO) (newInboundOrders models.InboundOrders, err error) {
