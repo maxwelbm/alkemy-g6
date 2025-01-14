@@ -28,5 +28,8 @@ func JSON(w http.ResponseWriter, code int, body any) {
 	w.WriteHeader(code)
 
 	// write body
-	w.Write(bytes)
+	_, err = w.Write(bytes)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
 }

@@ -25,6 +25,7 @@ func Error(w http.ResponseWriter, statusCode int, message string) {
 		Message: message,
 	}
 	bytes, err := json.Marshal(body)
+
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
@@ -36,10 +37,13 @@ func Error(w http.ResponseWriter, statusCode int, message string) {
 	// - set status code
 	w.WriteHeader(defaultStatusCode)
 	// - write body
-	w.Write(bytes)
+	_, err = w.Write(bytes)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
 }
 
-func Errorf(w http.ResponseWriter, statusCode int, format string, args ...interface{}) {
+func Errorf(w http.ResponseWriter, statusCode int, format string, args ...any) {
 	message := fmt.Sprintf(format, args...)
 	Error(w, statusCode, message)
 }
