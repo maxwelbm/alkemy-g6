@@ -26,10 +26,10 @@ func (ct *BuyersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Initialize a slice to hold the response data
-	var data []FullBuyerJSON
+	data := make([]FullBuyerJSON, len(buyers))
 	// Iterate over the retrieved buyers and map them to the response format
 	for _, value := range buyers {
-		new := FullBuyerJSON{
+		buyer := FullBuyerJSON{
 			ID:           value.ID,
 			CardNumberID: value.CardNumberID,
 			FirstName:    value.FirstName,
@@ -37,7 +37,7 @@ func (ct *BuyersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Append the mapped buyer data to the response slice
-		data = append(data, new)
+		data = append(data, buyer)
 	}
 
 	// Create the response JSON structure

@@ -18,6 +18,7 @@ func (r *BuyerRepository) GetByCardNumberID(cardNumberID string) (buyer models.B
 			err = models.ErrBuyerNotFound
 			return
 		}
+
 		return
 	}
 

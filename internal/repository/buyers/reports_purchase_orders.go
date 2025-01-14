@@ -13,26 +13,38 @@ func (r *BuyerRepository) ReportPurchaseOrders(id int) (reports []models.BuyerPu
 		GROUP BY b.id
 	`
 	rows, err := r.db.Query(query, id, id)
+
 	if err != nil {
-		return
+		return reports, err
 	}
+
 	defer rows.Close()
 
 	for rows.Next() {
 		var report models.BuyerPurchaseOrdersReport
-		err = rows.Scan(&report.ID, &report.CardNumberID, &report.FirstName, &report.LastName, &report.PurchaseOrdersCount)
+		err = rows.Scan(
+			&report.ID,
+			&report.CardNumberID,
+			&report.FirstName,
+			&report.LastName,
+			&report.PurchaseOrdersCount,
+		)
+
 		if err != nil {
-			return
+			return reports, err
 		}
+
 		reports = append(reports, report)
 	}
+
 	if len(reports) == 0 {
 		err = models.ErrBuyerNotFound
-		return
-	}
-	if err = rows.Err(); err != nil {
-		return
+		return reports, err
 	}
 
-	return
+	if err = rows.Err(); err != nil {
+		return reports, err
+	}
+
+	return reports, err
 }

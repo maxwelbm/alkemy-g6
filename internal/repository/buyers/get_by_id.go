@@ -18,6 +18,7 @@ func (r *BuyerRepository) GetByID(id int) (buyer models.Buyer, err error) {
 			err = models.ErrBuyerNotFound
 			return
 		}
+
 		return
 	}
 
