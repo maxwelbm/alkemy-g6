@@ -2,7 +2,6 @@ package localitiesctl
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -34,7 +33,7 @@ func (j *NewLocalityJSON) validate() (err error) {
 	}
 
 	if len(locErrs) > 0 {
-		err = errors.New(fmt.Sprintf("validation errors: %v", locErrs))
+		err = fmt.Errorf("validation errors: %v", locErrs)
 	}
 
 	return

@@ -8,6 +8,7 @@ func (r *LocalityRepository) Create(locDTO models.LocalityDTO) (loc models.Local
 	// insert
 	insertQuery := "INSERT INTO localities (locality_name, province_name, country_name) VALUES (?, ?, ?)"
 	result, err := r.db.Exec(insertQuery, locDTO.LocalityName, locDTO.ProvinceName, locDTO.CountryName)
+
 	if err != nil {
 		return
 	}
