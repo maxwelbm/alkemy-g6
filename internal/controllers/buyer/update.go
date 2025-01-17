@@ -23,22 +23,23 @@ type BuyerUpdateJSON struct {
 func (j *BuyerUpdateJSON) validate() (err error) {
 	var validationErrors []string
 
-	// Validate FirstName: cannot be empty if provided
+	if j.CardNumberID != nil && *j.CardNumberID == "" {
+		validationErrors = append(validationErrors, "error: attribute CardNumberID cannot be empty")
+	}
+
 	if j.FirstName != nil && *j.FirstName == "" {
 		validationErrors = append(validationErrors, "error: attribute FirstName cannot be empty")
 	}
 
-	// Validate LastName: cannot be empty if provided
 	if j.LastName != nil && *j.LastName == "" {
 		validationErrors = append(validationErrors, "error: attribute LastName cannot be empty")
 	}
 
-	// If there are validation errors, create an error with the details
 	if len(validationErrors) > 0 {
-		err = fmt.Errorf("validation errors: %v", validationErrors)
+		err = errors.New(fmt.Sprintf("validation errors: %v", validationErrors))
 	}
 
-	return
+	return err
 }
 
 // Update handles the HTTP request to update a buyer's information.
@@ -57,20 +58,25 @@ func (j *BuyerUpdateJSON) validate() (err error) {
 func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 	// Parse the buyer ID from the URL parameter and validate it
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil || id < 1 {
+	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 		return
 	}
 
 	// Decode the JSON request body into a BuyerUpdateJSON struct
 	var buyerRequest BuyerUpdateJSON
-	if err := json.NewDecoder(r.Body).Decode(&buyerRequest); err != nil {
-		response.JSON(w, http.StatusBadRequest, err)
+	if err = json.NewDecoder(r.Body).Decode(&buyerRequest); err != nil {
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	// Validate the decoded request data
-	if err := buyerRequest.validate(); err != nil {
+	if err = buyerRequest.validate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
@@ -85,21 +91,15 @@ func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 	// Call the service layer to update the buyer information
 	buyerReturn, err := ct.sv.Update(id, buyerToUpdate)
 
-	// Handle the case where no changes were made
-	if errors.Is(err, models.ErrorNoChangesMade) {
-		response.Error(w, http.StatusBadRequest, err.Error())
-		return
-	}
-
 	if err != nil {
-		//  Handle the case where the buyer ID is not found
-		if errors.Is(err, models.ErrBuyerNotFound) {
-			response.Error(w, http.StatusNotFound, err.Error())
-			return
-		}
 		// Handle the case where no changes were made
 		if errors.Is(err, models.ErrorNoChangesMade) {
 			response.Error(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		//  Handle the case where the buyer ID is not found
+		if errors.Is(err, models.ErrBuyerNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
 			return
 		}
 		// Handle the case where a MySQL duplicate entry error occurred
