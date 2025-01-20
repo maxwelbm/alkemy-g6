@@ -36,7 +36,7 @@ func (j *BuyerUpdateJSON) validate() (err error) {
 	}
 
 	if len(validationErrors) > 0 {
-		err = errors.New(fmt.Sprintf("validation errors: %v", validationErrors))
+		err = fmt.Errorf("validation errors: %v", validationErrors)
 	}
 
 	return err

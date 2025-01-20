@@ -2,7 +2,6 @@ package buyersctl
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -44,7 +43,7 @@ func (j *BuyerCreateJSON) validate() (err error) {
 		allErrors = append(allErrors, nilPointerErrors...)
 		allErrors = append(allErrors, validationErrors...)
 
-		err = errors.New(fmt.Sprintf("validation errors: %v", allErrors))
+		err = fmt.Errorf("validation errors: %v", allErrors)
 	}
 
 	return err
