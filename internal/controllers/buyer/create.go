@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/go-sql-driver/mysql"
@@ -114,7 +113,6 @@ func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
 		Message: http.StatusText(http.StatusCreated),
 		Data:    data,
 	}
-	log.Println("hi", res)
 
 	// Respond with a 201 Created status and the response JSON
 	response.JSON(w, http.StatusCreated, res)

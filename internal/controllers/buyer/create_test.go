@@ -3,7 +3,6 @@ package buyersctl_test
 import (
 	"encoding/json"
 	"errors"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -115,7 +114,6 @@ func TestCreate(t *testing.T) {
 				Data    buyersctl.FullBuyerJSON `json:"data,omitempty"`
 			}
 			require.NoError(t, json.NewDecoder(res.Body).Decode(&decodedRes))
-			log.Println(res.Body, decodedRes)
 
 			rp.AssertNumberOfCalls(t, "Create", tt.wanted.calls)
 			require.Equal(t, tt.wanted.statusCode, res.Code)
