@@ -25,7 +25,6 @@ import (
 func (ct *BuyersDefault) Delete(w http.ResponseWriter, r *http.Request) {
 	// Parse the buyer ID from the URL parameter and validate it
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	// id, err := strconv.Atoi(r.URL.Path[len("/api/v1/buyers/"):])
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
