@@ -102,7 +102,7 @@ func TestGetByID(t *testing.T) {
 
 			r := chi.NewRouter()
 			r.Get("/api/v1/sections/{id}", ctl.GetByID)
-			url := "/api/v1/sections/" + string(tt.id)
+			url := "/api/v1/sections/" + tt.id
 			req := httptest.NewRequest(http.MethodGet, url, nil)
 			res := httptest.NewRecorder()
 

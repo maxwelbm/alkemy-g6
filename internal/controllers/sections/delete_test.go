@@ -99,7 +99,7 @@ func TestDelete(t *testing.T) {
 
 			r := chi.NewRouter()
 			r.Delete("/api/v1/sections/{id}", ctl.Delete)
-			url := "/api/v1/sections/" + string(tt.id)
+			url := "/api/v1/sections/" + tt.id
 			req := httptest.NewRequest(http.MethodDelete, url, nil)
 			res := httptest.NewRecorder()
 
