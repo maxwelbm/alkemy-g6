@@ -9,7 +9,7 @@ type SectionsMock struct {
 	mock.Mock
 }
 
-func NewSectionsMock() *SectionsMock {
+func NewSectionsRepositoryMock() *SectionsMock {
 	return &SectionsMock{}
 }
 
