@@ -18,7 +18,7 @@ import (
 // @Produce json
 // @Param productBatch body NewProductBatchesReqJSON true "Product Batch Create JSON"
 // @Success 201 {object} ProductBatchesResJSON "Success"
-// @Failure 400 {object} response.ErrorResponse "Error ao decodificar JSON"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 422 {object} response.ErrorResponse "Unprocessable Entity"
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"

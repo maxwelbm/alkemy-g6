@@ -55,7 +55,7 @@ func (j *ProductRecordCreateJSON) validate() (err error) {
 // @Produce json
 // @Param productRecord body ProductRecordCreateJSON true "Product Record Create JSON"
 // @Success 201 {object} ProductRecordResJSON "Success"
-// @Failure 400 {object} response.ErrorResponse "Error ao decodificar JSON"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 422 {object} response.ErrorResponse "Unprocessable Entity"
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
@@ -65,7 +65,7 @@ func (controller *ProductRecordsDefault) Create(w http.ResponseWriter, r *http.R
 	var productRecordRequest ProductRecordCreateJSON
 	if err := json.NewDecoder(r.Body).Decode(&productRecordRequest); err != nil {
 		// If there's an error decoding the JSON, respond with a bad request status
-		response.Error(w, http.StatusBadRequest, "Error ao decodificar JSON")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
