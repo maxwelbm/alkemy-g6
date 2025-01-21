@@ -14,13 +14,12 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-type wanted struct {
-	calls      int
-	statusCode int
-	message    string
-}
-
 func TestProducts_GetAll(t *testing.T) {
+	type wanted struct {
+		calls      int
+		statusCode int
+		message    string
+	}
 	tests := []struct {
 		name     string
 		products []models.Product
