@@ -10,7 +10,6 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/controllers"
 	sectionsctl "github.com/maxwelbm/alkemy-g6/internal/controllers/sections"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
-	sectionsrp "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/stretchr/testify/require"
 )
@@ -64,15 +63,14 @@ func TestGetAll(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Arrange
-			rp := sectionsrp.NewSectionsRepositoryMock()
-			sv := service.NewSectionsService(rp)
+			sv := service.NewSectionsServiceMock()
 			ctl := controllers.NewSectionsController(sv)
 
 			req := httptest.NewRequest(http.MethodGet, "/api/v1/sections", nil)
 			res := httptest.NewRecorder()
 
 			// Act
-			rp.On("GetAll").Return(tt.sections, tt.callErr)
+			sv.On("GetAll").Return(tt.sections, tt.callErr)
 			ctl.GetAll(res, req)
 
 			var decodedRes struct {
@@ -82,7 +80,7 @@ func TestGetAll(t *testing.T) {
 			err := json.NewDecoder(res.Body).Decode(&decodedRes)
 
 			// Assert
-			rp.AssertNumberOfCalls(t, "GetAll", tt.wanted.calls)
+			sv.AssertNumberOfCalls(t, "GetAll", tt.wanted.calls)
 			require.NoError(t, err)
 			require.Equal(t, tt.wanted.statusCode, res.Code)
 			if len(tt.sections) > 0 {
