@@ -26,9 +26,16 @@ import (
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
 // @Router /api/v1/sections/{id} [delete]
 func (ctl *SectionsController) Delete(w http.ResponseWriter, r *http.Request) {
+	// Parse the section ID from the URL parameter
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	// If the ID is invalid, return a 400 Bad Request error
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	// If the ID is less than 1, return a 400 Bad Request error
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 		return
 	}
 
@@ -46,7 +53,7 @@ func (ctl *SectionsController) Delete(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		// Handle MySQL conflict dependencies
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotDeleteOrUpdateParentRow {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}

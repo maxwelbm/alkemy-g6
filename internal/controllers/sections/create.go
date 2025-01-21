@@ -2,6 +2,7 @@ package sectionsctl
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/go-sql-driver/mysql"
@@ -9,6 +10,82 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
+
+type NewSectionReqJSON struct {
+	SectionNumber      *string  `json:"section_number"`
+	CurrentTemperature *float64 `json:"current_temperature"`
+	MinimumTemperature *float64 `json:"minimum_temperature"`
+	CurrentCapacity    *int     `json:"current_capacity"`
+	MinimumCapacity    *int     `json:"minimum_capacity"`
+	MaximumCapacity    *int     `json:"maximum_capacity"`
+	WarehouseID        *int     `json:"warehouse_id"`
+	ProductTypeID      *int     `json:"product_type_id"`
+}
+
+//nolint:gocyclo
+func (sec *NewSectionReqJSON) validate() (err error) {
+	var validationErrors, nilPointerErrors []string
+
+	// validateSectionNumber checks the SectionNumber field for validity.
+	if sec.SectionNumber == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute SectionNumber cannot be nil")
+	} else if *sec.SectionNumber == "" {
+		validationErrors = append(validationErrors, "error: attribute SectionNumber cannot be empty")
+	}
+
+	// validateCurrentTemperature checks the CurrentTemperature field for validity.
+	if sec.CurrentTemperature == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute CurrentTemperature cannot be nil")
+	}
+
+	// validateMinimumTemperature checks the MinimumTemperature field for validity.
+	if sec.MinimumTemperature == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute MinimumTemperature cannot be nil")
+	}
+
+	// validateCurrentCapacity checks the CurrentCapacity field for validity.
+	if sec.CurrentCapacity == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute CurrentCapacity cannot be nil")
+	} else if *sec.CurrentCapacity < 0 {
+		validationErrors = append(validationErrors, "error: attribute CurrentCapacity cannot be negative")
+	}
+
+	// validateMinimumCapacity checks the MinimumCapacity field for validity.
+	if sec.MinimumCapacity == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute MinimumCapacity cannot be nil")
+	} else if *sec.MinimumCapacity < 0 {
+		validationErrors = append(validationErrors, "error: attribute MinimumCapacity cannot be negative")
+	}
+
+	// validateMaximumCapacity checks the MaximumCapacity field for validity.
+	if sec.MaximumCapacity == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute MaximumCapacity cannot be nil")
+	} else if *sec.MaximumCapacity <= 0 {
+		validationErrors = append(validationErrors, "error: attribute MaximumCapacity must be positive")
+	}
+
+	// validateWarehouseID checks the WarehouseID field for validity.
+	if sec.WarehouseID == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute WarehouseID cannot be nil")
+	} else if *sec.WarehouseID <= 0 {
+		validationErrors = append(validationErrors, "error: attribute WarehouseID must be positive")
+	}
+
+	// validateProductTypeID checks the ProductTypeID field for validity.
+	if sec.ProductTypeID == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute ProductTypeID cannot be nil")
+	} else if *sec.ProductTypeID <= 0 {
+		validationErrors = append(validationErrors, "error: attribute ProductTypeID must be positive")
+	}
+
+	// Aggregate accumulated errors
+	if len(nilPointerErrors) > 0 || len(validationErrors) > 0 {
+		allErrors := append(nilPointerErrors, validationErrors...)
+		return fmt.Errorf("validation errors: %v", allErrors)
+	}
+
+	return nil
+}
 
 // Create handles the creation of a new section.
 // @Summary Create a new section
@@ -29,7 +106,7 @@ func (ctl *SectionsController) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := secReqJSON.validateCreate(); err != nil {
+	if err := secReqJSON.validate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
@@ -48,7 +125,9 @@ func (ctl *SectionsController) Create(w http.ResponseWriter, r *http.Request) {
 	newSection, err := ctl.sv.Create(secDTO)
 	if err != nil {
 		// Check if the error is a MySQL duplicate entry error
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok &&
+			(mysqlErr.Number == mysqlerr.CodeDuplicateEntry ||
+				mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow) {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
