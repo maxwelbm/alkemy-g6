@@ -32,11 +32,11 @@ func (c *EmployeesController) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = c.SV.Delete(id)
+	err = c.sv.Delete(id)
 
 	if err != nil {
 		// Handle if section not found
-		if errors.Is(err, models.ErrEmployeesNotFound) {
+		if errors.Is(err, models.ErrEmployeeNotFound) {
 			response.Error(w, http.StatusNotFound, err.Error())
 			return
 		}
@@ -45,9 +45,9 @@ func (c *EmployeesController) Delete(w http.ResponseWriter, r *http.Request) {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
-		
+
 		response.Error(w, http.StatusInternalServerError, err.Error())
-		
+
 		return
 	}
 

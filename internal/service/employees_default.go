@@ -18,27 +18,27 @@ func NewEmployeesService(rp models.EmployeesRepository) *EmployeesDefault {
 	return &EmployeesDefault{rp: rp}
 }
 
-func (e *EmployeesDefault) GetAll() (employees []models.Employees, err error) {
+func (e *EmployeesDefault) GetAll() (employees []models.Employee, err error) {
 	employees, err = e.rp.GetAll()
 	return
 }
 
-func (e *EmployeesDefault) GetByID(id int) (employees models.Employees, err error) {
+func (e *EmployeesDefault) GetByID(id int) (employees models.Employee, err error) {
 	employees, err = e.rp.GetByID(id)
 	return
 }
 
-func (e *EmployeesDefault) GetReportInboundOrdersByID(id int) (employees []models.EmployeesReportInboundDTO, err error) {
-	employees, err = e.rp.GetReportInboundOrdersByID(id)
+func (e *EmployeesDefault) GetReportInboundOrders(id int) (employees []models.EmployeeReportInboundDTO, err error) {
+	employees, err = e.rp.GetReportInboundOrders(id)
 	return
 }
 
-func (e *EmployeesDefault) Create(employees models.EmployeesDTO) (newEmployees models.Employees, err error) {
+func (e *EmployeesDefault) Create(employees models.EmployeeDTO) (newEmployees models.Employee, err error) {
 	newEmployees, err = e.rp.Create(employees)
 	return
 }
 
-func (e *EmployeesDefault) Update(employees models.EmployeesDTO, id int) (newEmployees models.Employees, err error) {
+func (e *EmployeesDefault) Update(employees models.EmployeeDTO, id int) (newEmployees models.Employee, err error) {
 	newEmployees, err = e.rp.Update(employees, id)
 	return
 }

@@ -1,27 +1,25 @@
-package repository
+package employeesrp
 
 import (
-
 	models "github.com/maxwelbm/alkemy-g6/internal/models"
-
 )
 
-func (e *EmployeesRepository) GetAll() (employees []models.Employees, err error) {
+func (e *EmployeesRepository) GetAll() (employees []models.Employee, err error) {
 	query := "SELECT id, card_number_id, first_name, last_name, warehouse_id FROM employees"
 
 	rows, err := e.DB.Query(query)
 	if err != nil {
 		return
 	}
-	
+
 	defer rows.Close()
-	
+
 	for rows.Next() {
-		var employee models.Employees
+		var employee models.Employee
 		if err = rows.Scan(&employee.ID, &employee.CardNumberID, &employee.FirstName, &employee.LastName, &employee.WarehouseID); err != nil {
 			return
 		}
-		
+
 		employees = append(employees, employee)
 	}
 
