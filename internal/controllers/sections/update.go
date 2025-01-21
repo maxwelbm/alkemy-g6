@@ -154,11 +154,6 @@ func (ctl *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 			response.Error(w, http.StatusNotFound, err.Error())
 			return
 		}
-		// Handle no changes made
-		if errors.Is(err, models.ErrorNoChangesMade) {
-			response.Error(w, http.StatusBadRequest, err.Error())
-			return
-		}
 		// Handle MySQL duplicate entry error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok &&
 			(mysqlErr.Number == mysqlerr.CodeDuplicateEntry ||
