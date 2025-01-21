@@ -111,7 +111,6 @@ func TestGetByID(t *testing.T) {
 			// Act
 			rp.On("GetByID", mock.AnythingOfType("int")).Return(tt.wanted.section, tt.callErr)
 			r.ServeHTTP(res, req)
-			ctl.GetByID(res, req)
 
 			var decodedRes struct {
 				Message string                      `json:"message,omitempty"`
