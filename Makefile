@@ -1,6 +1,6 @@
 include .env
 
-.PHONY: up down mysql swag lint test
+.PHONY: up down mysql swag lint lint-fix test
 
 up:
 	docker-compose up -d
