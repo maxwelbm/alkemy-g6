@@ -105,11 +105,10 @@ func TestGetReportInboundOrders(t *testing.T) {
 
 			var url string
 			r := chi.NewRouter()
+			r.Get("/api/v1/employees/reportInboundOrders", ctl.GetReportInboundOrders)
 			if tt.id == "" {
-				r.Get("/api/v1/employees/reportInboundOrders", ctl.GetReportInboundOrders)
 				url = "/api/v1/employees/reportInboundOrders"
 			} else {
-				r.Get("/api/v1/employees/reportInboundOrders", ctl.GetReportInboundOrders)
 				url = "/api/v1/employees/reportInboundOrders" + "?id=" + tt.id
 			}
 
