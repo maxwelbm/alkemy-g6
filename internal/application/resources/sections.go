@@ -12,7 +12,7 @@ import (
 func InitSections(db *sql.DB, router *chi.Mux) {
 	rp := repository.NewSectionsRepository(db)
 	// - service
-	sv := service.NewSectionService(rp)
+	sv := service.NewSectionsService(rp)
 	// - handler
 	ct := controllers.NewSectionsController(sv)
 
