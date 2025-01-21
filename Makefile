@@ -1,6 +1,6 @@
 include .env
 
-.PHONY: up down mysql swag lint
+.PHONY: up down mysql swag lint test
 
 up:
 	docker-compose up -d
@@ -16,3 +16,9 @@ swag:
 
 lint:
 	docker exec -it frescos-api sh -c "golangci-lint run ./..."
+
+lint-fix:
+	docker exec -it frescos-api sh -c "golangci-lint run ./... --fix"
+
+test:
+	go run gotest.tools/gotestsum@latest --format dots $(or $(filter-out $@,$(MAKECMDGOALS)),./...)
