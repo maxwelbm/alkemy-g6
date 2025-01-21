@@ -1,10 +1,12 @@
 package sectionsctl
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -20,30 +22,48 @@ import (
 // @Failure 404 {object} response.ErrorResponse "Not Found"
 // @Router /api/v1/sections/{id} [get]
 func (ctl *SectionsController) GetByID(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi((chi.URLParam(r, "id")))
+	// Parse the section ID from the URL parameter
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	// If the ID is invalid, return a 400 Bad Request error
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
-
-	sec, err := ctl.sv.GetByID(id)
-	if err != nil {
-		response.Error(w, http.StatusNotFound, err.Error())
+	// If the ID is less than 1, return a 400 Bad Request error
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 		return
 	}
 
-	data := SectionFullJSON{
-		ID:                 sec.ID,
-		SectionNumber:      sec.SectionNumber,
-		CurrentTemperature: sec.CurrentTemperature,
-		MinimumTemperature: sec.MinimumTemperature,
-		CurrentCapacity:    sec.CurrentCapacity,
-		MinimumCapacity:    sec.MinimumCapacity,
-		MaximumCapacity:    sec.MaximumCapacity,
-		WarehouseID:        sec.WarehouseID,
-		ProductTypeID:      sec.ProductTypeID,
+	// Get the section from the service
+	section, err := ctl.sv.GetByID(id)
+	if err != nil {
+		// If the section is not found, return a 404 Not Found error
+		if errors.Is(err, models.ErrSectionNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+			return
+		}
+
+		// If the section is not found, return a 500 Internal Server Error error
+		response.Error(w, http.StatusInternalServerError, err.Error())
+
+		return
 	}
 
+	// Map the section to the response
+	data := SectionFullJSON{
+		ID:                 section.ID,
+		SectionNumber:      section.SectionNumber,
+		CurrentTemperature: section.CurrentTemperature,
+		MinimumTemperature: section.MinimumTemperature,
+		CurrentCapacity:    section.CurrentCapacity,
+		MinimumCapacity:    section.MinimumCapacity,
+		MaximumCapacity:    section.MaximumCapacity,
+		WarehouseID:        section.WarehouseID,
+		ProductTypeID:      section.ProductTypeID,
+	}
+
+	// Return the response
 	res := SectionResJSON{Data: data}
 	response.JSON(w, http.StatusOK, res)
 }
