@@ -6,7 +6,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (r *SectionRepository) GetReportProducts(sectionID int) (reportProducts []models.ProductReport, err error) {
+func (r *SectionRepository) ReportProducts(sectionID int) (reportProducts []models.ProductReport, err error) {
 	var query string
 
 	var rows *sql.Rows

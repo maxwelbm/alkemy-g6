@@ -38,7 +38,7 @@ type ProductReport struct {
 type SectionService interface {
 	GetAll() (sections []Section, err error)
 	GetByID(id int) (section Section, err error)
-	GetReportProducts(sectionID int) (reportProducts []ProductReport, err error)
+	ReportProducts(sectionID int) (reportProducts []ProductReport, err error)
 	Create(sec SectionDTO) (newSection Section, err error)
 	Update(id int, sec SectionDTO) (updateSection Section, err error)
 	Delete(id int) (err error)
@@ -47,7 +47,7 @@ type SectionService interface {
 type SectionRepository interface {
 	GetAll() (sections []Section, err error)
 	GetByID(id int) (section Section, err error)
-	GetReportProducts(sectionID int) (reportProducts []ProductReport, err error)
+	ReportProducts(sectionID int) (reportProducts []ProductReport, err error)
 	Create(sec SectionDTO) (newSection Section, err error)
 	Update(id int, sec SectionDTO) (updateSection Section, err error)
 	Delete(id int) (err error)
