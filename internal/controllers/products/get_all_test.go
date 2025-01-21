@@ -27,7 +27,7 @@ func TestProducts_GetAll(t *testing.T) {
 		wanted   wanted
 	}{
 		{
-			name: "200 - find all products registered in the database",
+			name: "200 - successfully retrieved all products",
 			products: []models.Product{
 				{ID: 1, ProductCode: "P001", Description: "Product 1", Height: 10.0, Length: 20.0, Width: 30.0, NetWeight: 40.0, ExpirationRate: 0.1, FreezingRate: 0.2, RecomFreezTemp: -10.0, ProductTypeID: 1, SellerID: 1},
 				{ID: 2, ProductCode: "P002", Description: "Product 2", Height: 15.0, Length: 25.0, Width: 35.0, NetWeight: 45.0, ExpirationRate: 0.2, FreezingRate: 0.3, RecomFreezTemp: -15.0, ProductTypeID: 2, SellerID: 2},
@@ -40,7 +40,7 @@ func TestProducts_GetAll(t *testing.T) {
 			},
 		},
 		{
-			name:     "200 - find all when no products registered in the database",
+			name:     "200 - no products found in the database",
 			products: []models.Product{},
 			callErr:  nil,
 			wanted: wanted{
@@ -49,7 +49,7 @@ func TestProducts_GetAll(t *testing.T) {
 			},
 		},
 		{
-			name:     "500 - when the repository returns an error",
+			name:     "500 - internal server error when retrieving products",
 			products: []models.Product{},
 			callErr:  errors.New("internal error"),
 			wanted: wanted{
