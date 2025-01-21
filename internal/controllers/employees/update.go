@@ -28,7 +28,7 @@ import (
 // @Param employee body EmployeesReqJSON true "Employee JSON"
 // @Success 200 {object} EmployeesResJSON "Success"
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
-// @Failure 404 {object} response.ErrorResponse "Employee not found"
+// @Failure 404 {object} response.ErrorResponse "employee not found"
 // @Failure 409 {object} response.ErrorResponse "Conflict"
 // @Failure 422 {object} response.ErrorResponse "Unprocessable Entity"
 // @Router /api/v1/employees/{id} [patch]
@@ -53,7 +53,7 @@ func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	newEmployees := models.EmployeesDTO{}
+	newEmployees := models.EmployeeDTO{}
 
 	newEmployees.ID = employeesJSON.ID
 	if employeesJSON.CardNumberID != nil {
@@ -72,7 +72,7 @@ func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 		newEmployees.WarehouseID = employeesJSON.WarehouseID
 	}
 
-	emp, err := c.SV.Update(newEmployees, id)
+	emp, err := c.sv.Update(newEmployees, id)
 	if err != nil {
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
 			switch mysqlErr.Number {
@@ -92,7 +92,7 @@ func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 
 	data := EmployeesResJSON{
 		Message: http.StatusText(http.StatusOK),
-		Data: EmployeesAttributes{
+		Data: EmployeesFullJSON{
 			ID:           emp.ID,
 			CardNumberID: emp.CardNumberID,
 			FirstName:    emp.FirstName,

@@ -42,14 +42,14 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	employees := models.EmployeesDTO{
+	employees := models.EmployeeDTO{
 		CardNumberID: employeesJSON.CardNumberID,
 		FirstName:    employeesJSON.FirstName,
 		LastName:     employeesJSON.LastName,
 		WarehouseID:  employeesJSON.WarehouseID,
 	}
 
-	emp, err := c.SV.Create(employees)
+	emp, err := c.sv.Create(employees)
 	if err != nil {
 		if errors.Is(err, service.ErrWareHousesServiceNotFound) {
 			response.Error(w, http.StatusUnprocessableEntity, err.Error())
@@ -68,7 +68,7 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 
 	data := EmployeesResJSON{
 		Message: "Success created",
-		Data: EmployeesAttributes{
+		Data: EmployeesFullJSON{
 			ID:           emp.ID,
 			CardNumberID: emp.CardNumberID,
 			FirstName:    emp.FirstName,

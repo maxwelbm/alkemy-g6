@@ -18,15 +18,15 @@ import (
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error - An unexpected error occurred during the retrieval process"
 // @Router /api/v1/employees [get]
 func (c *EmployeesController) GetAll(w http.ResponseWriter, r *http.Request) {
-	employees, err := c.SV.GetAll()
+	employees, err := c.sv.GetAll()
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	list := make([]EmployeesAttributes, 0, len(employees))
+	list := make([]EmployeesFullJSON, 0, len(employees))
 	for _, value := range employees {
-		list = append(list, EmployeesAttributes{
+		list = append(list, EmployeesFullJSON{
 			ID:           value.ID,
 			CardNumberID: value.CardNumberID,
 			FirstName:    value.FirstName,
@@ -35,9 +35,6 @@ func (c *EmployeesController) GetAll(w http.ResponseWriter, r *http.Request) {
 		})
 	}
 
-	responseEmp := EmployeesFinalJSON{
-		Data: list,
-	}
-
-	response.JSON(w, http.StatusOK, responseEmp)
+	res := EmployeesResJSON{Data: list}
+	response.JSON(w, http.StatusOK, res)
 }

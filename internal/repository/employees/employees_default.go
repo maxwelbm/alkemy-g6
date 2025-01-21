@@ -1,4 +1,4 @@
-package repository
+package employeesrp
 
 import (
 	"database/sql"
