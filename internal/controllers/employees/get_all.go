@@ -24,9 +24,9 @@ func (c *EmployeesController) GetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	list := make([]EmployeesFullJSON, 0, len(employees))
+	list := make([]EmployeeFullJSON, 0, len(employees))
 	for _, value := range employees {
-		list = append(list, EmployeesFullJSON{
+		list = append(list, EmployeeFullJSON{
 			ID:           value.ID,
 			CardNumberID: value.CardNumberID,
 			FirstName:    value.FirstName,

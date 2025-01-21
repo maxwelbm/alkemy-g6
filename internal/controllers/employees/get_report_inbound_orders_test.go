@@ -55,18 +55,6 @@ func TestGetReportInboundOrders(t *testing.T) {
 			},
 		},
 		{
-			name:    "404 - Not found error when attempting to retrieve inbound orders' report of a non-existent employee ID",
-			id:      "10",
-			callErr: models.ErrEmployeeNotFound,
-			expected: expected{
-				calls:      1,
-				statusCode: http.StatusNotFound,
-				message:    "employee not found",
-				reports:   []models.EmployeeReportInboundDTO{},
-
-			},
-		},
-		{
 			name:    "400 - Bad Request error when retrieving inbound orders' report with invalid (non-numeric) ID",
 			id:      "a",
 			callErr: models.ErrEmployeeNotFound,
@@ -84,6 +72,17 @@ func TestGetReportInboundOrders(t *testing.T) {
 				calls:      0,
 				statusCode: http.StatusBadRequest,
 				message:    "Bad Request",
+			},
+		},
+		{
+			name:    "404 - Not found error when attempting to retrieve inbound orders' report of a non-existent employee ID",
+			id:      "10",
+			callErr: models.ErrEmployeeNotFound,
+			expected: expected{
+				calls:      1,
+				statusCode: http.StatusNotFound,
+				message:    "employee not found",
+				reports:    []models.EmployeeReportInboundDTO{},
 			},
 		},
 		{

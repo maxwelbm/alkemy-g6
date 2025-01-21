@@ -12,7 +12,7 @@ func NewEmployeesDefault(sv models.EmployeesService) *EmployeesController {
 	return &EmployeesController{sv: sv}
 }
 
-type EmployeesFullJSON struct {
+type EmployeeFullJSON struct {
 	ID           int    `json:"id"`
 	CardNumberID string `json:"card_number_id"`
 	FirstName    string `json:"first_name"`

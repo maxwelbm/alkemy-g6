@@ -92,7 +92,7 @@ func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 
 	data := EmployeesResJSON{
 		Message: http.StatusText(http.StatusOK),
-		Data: EmployeesFullJSON{
+		Data: EmployeeFullJSON{
 			ID:           emp.ID,
 			CardNumberID: emp.CardNumberID,
 			FirstName:    emp.FirstName,

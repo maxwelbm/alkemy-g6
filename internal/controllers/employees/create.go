@@ -68,7 +68,7 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 
 	data := EmployeesResJSON{
 		Message: "Success created",
-		Data: EmployeesFullJSON{
+		Data: EmployeeFullJSON{
 			ID:           emp.ID,
 			CardNumberID: emp.CardNumberID,
 			FirstName:    emp.FirstName,

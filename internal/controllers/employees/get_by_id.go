@@ -48,7 +48,7 @@ func (c *EmployeesController) GetByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := EmployeesFullJSON{
+	data := EmployeeFullJSON{
 		ID:           employees.ID,
 		CardNumberID: employees.CardNumberID,
 		FirstName:    employees.FirstName,

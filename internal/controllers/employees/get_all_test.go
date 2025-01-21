@@ -40,6 +40,15 @@ func TestGetAll(t *testing.T) {
 			},
 		},
 		{
+			name:    "200 - Successfully retrieve empty list of employees",
+			callErr: nil,
+			expected: expected{
+				calls:      1,
+				statusCode: http.StatusOK,
+			},
+			employees: []models.Employee{},
+		},
+		{
 			name:    "500 - Internal Server Error when trying to retrieve the list of employees",
 			callErr: errors.New("internal error"),
 			expected: expected{
@@ -62,8 +71,8 @@ func TestGetAll(t *testing.T) {
 			ctl.GetAll(res, req)
 
 			var decodedRes struct {
-				Message string                           `json:"message,omitempty"`
-				Data    []employeesctl.EmployeesFullJSON `json:"data,omitempty"`
+				Message string                          `json:"message,omitempty"`
+				Data    []employeesctl.EmployeeFullJSON `json:"data,omitempty"`
 			}
 			err := json.NewDecoder(res.Body).Decode(&decodedRes)
 
