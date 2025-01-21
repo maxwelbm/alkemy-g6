@@ -11,7 +11,6 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/controllers"
 	sectionsctl "github.com/maxwelbm/alkemy-g6/internal/controllers/sections"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
-	sectionsrp "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -98,8 +97,7 @@ func TestGetByID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Arrange
-			rp := sectionsrp.NewSectionsRepositoryMock()
-			sv := service.NewSectionsService(rp)
+			sv := service.NewSectionsServiceMock()
 			ctl := controllers.NewSectionsController(sv)
 
 			r := chi.NewRouter()
@@ -109,7 +107,7 @@ func TestGetByID(t *testing.T) {
 			res := httptest.NewRecorder()
 
 			// Act
-			rp.On("GetByID", mock.AnythingOfType("int")).Return(tt.wanted.section, tt.callErr)
+			sv.On("GetByID", mock.AnythingOfType("int")).Return(tt.wanted.section, tt.callErr)
 			r.ServeHTTP(res, req)
 
 			var decodedRes struct {
@@ -119,7 +117,7 @@ func TestGetByID(t *testing.T) {
 			err := json.NewDecoder(res.Body).Decode(&decodedRes)
 
 			// Assert
-			rp.AssertNumberOfCalls(t, "GetByID", tt.wanted.calls)
+			sv.AssertNumberOfCalls(t, "GetByID", tt.wanted.calls)
 			require.NoError(t, err)
 			require.Equal(t, tt.wanted.statusCode, res.Code)
 			require.Equal(t, tt.wanted.section.ID, decodedRes.Data.ID)

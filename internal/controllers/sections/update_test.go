@@ -12,7 +12,6 @@ import (
 	"github.com/go-sql-driver/mysql"
 	sectionsctl "github.com/maxwelbm/alkemy-g6/internal/controllers/sections"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
-	sectionsrp "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/stretchr/testify/mock"
@@ -243,8 +242,7 @@ func TestUpdate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Arrange
-			rp := sectionsrp.NewSectionsRepositoryMock()
-			sv := service.NewSectionsService(rp)
+			sv := service.NewSectionsServiceMock()
 			ctl := sectionsctl.NewSectionsController(sv)
 
 			r := chi.NewRouter()
@@ -254,7 +252,7 @@ func TestUpdate(t *testing.T) {
 			res := httptest.NewRecorder()
 
 			// Act
-			rp.On(
+			sv.On(
 				"Update",
 				mock.AnythingOfType("int"),
 				mock.AnythingOfType("models.SectionDTO"),
@@ -269,7 +267,7 @@ func TestUpdate(t *testing.T) {
 			err := json.NewDecoder(res.Body).Decode(&decodedRes)
 			require.NoError(t, err)
 
-			rp.AssertNumberOfCalls(t, "Update", tt.wanted.calls)
+			sv.AssertNumberOfCalls(t, "Update", tt.wanted.calls)
 			require.Equal(t, tt.wanted.statusCode, res.Code)
 			require.Contains(t, decodedRes.Message, tt.wanted.message)
 			if tt.callErr != nil {
