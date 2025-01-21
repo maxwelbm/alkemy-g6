@@ -3,7 +3,7 @@ package models
 import "errors"
 
 var (
-	ErrCarryNotFound = errors.New("Seller not found")
+	ErrCarryNotFound = errors.New("carry not found")
 )
 
 type Carry struct {

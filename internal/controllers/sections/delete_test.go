@@ -8,50 +8,35 @@ import (
 	"testing"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/controllers"
 	sectionsctl "github.com/maxwelbm/alkemy-g6/internal/controllers/sections"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 )
 
-func TestGetByID(t *testing.T) {
+func TestDelete(t *testing.T) {
 	type wanted struct {
 		calls      int
 		statusCode int
 		message    string
-		section    models.Section
 	}
 	tests := []struct {
 		name    string
 		id      string
 		callErr error
-		wanted  struct {
-			calls      int
-			statusCode int
-			message    string
-			section    models.Section
-		}
+		wanted  wanted
 	}{
 		{
-			name:    "200 - When sections the section is found",
+			name:    "204 - When the section is deleted successfully",
 			id:      "1",
 			callErr: nil,
 			wanted: wanted{
 				calls:      1,
-				statusCode: http.StatusOK,
-				section: models.Section{
-					ID:                 1,
-					SectionNumber:      "Section 1",
-					CurrentTemperature: 22.5,
-					MinimumTemperature: 18.0,
-					CurrentCapacity:    50,
-					MinimumCapacity:    20,
-					MaximumCapacity:    100,
-					WarehouseID:        1,
-					ProductTypeID:      1,
-				},
+				statusCode: http.StatusNoContent,
 			},
 		},
 		{
@@ -59,6 +44,7 @@ func TestGetByID(t *testing.T) {
 			id:      "abc",
 			callErr: nil,
 			wanted: wanted{
+				calls:      0,
 				statusCode: http.StatusBadRequest,
 				message:    "strconv.Atoi",
 			},
@@ -68,18 +54,29 @@ func TestGetByID(t *testing.T) {
 			id:      "-1",
 			callErr: nil,
 			wanted: wanted{
+				calls:      0,
 				statusCode: http.StatusBadRequest,
 				message:    "Bad Request",
 			},
 		},
 		{
-			name:    "404 - When the respository raises a NotFound error",
+			name:    "404 - When the repository raises a SectionNotFound error",
 			id:      "999",
 			callErr: models.ErrSectionNotFound,
 			wanted: wanted{
 				calls:      1,
 				statusCode: http.StatusNotFound,
 				message:    "section not found",
+			},
+		},
+		{
+			name:    "409 - When the repository raises a CannotDeleteOrUpdateParentRow error",
+			id:      "1",
+			callErr: &mysql.MySQLError{Number: mysqlerr.CodeCannotDeleteOrUpdateParentRow},
+			wanted: wanted{
+				calls:      1,
+				statusCode: http.StatusConflict,
+				message:    "1451",
 			},
 		},
 		{
@@ -101,34 +98,26 @@ func TestGetByID(t *testing.T) {
 			ctl := controllers.NewSectionsController(sv)
 
 			r := chi.NewRouter()
-			r.Get("/api/v1/sections/{id}", ctl.GetByID)
+			r.Delete("/api/v1/sections/{id}", ctl.Delete)
 			url := "/api/v1/sections/" + tt.id
-			req := httptest.NewRequest(http.MethodGet, url, nil)
+			req := httptest.NewRequest(http.MethodDelete, url, nil)
 			res := httptest.NewRecorder()
 
 			// Act
-			sv.On("GetByID", mock.AnythingOfType("int")).Return(tt.wanted.section, tt.callErr)
+			sv.On("Delete", mock.AnythingOfType("int")).Return(tt.callErr)
 			r.ServeHTTP(res, req)
+			ctl.Delete(res, req)
 
 			var decodedRes struct {
-				Message string                      `json:"message,omitempty"`
-				Data    sectionsctl.SectionFullJSON `json:"data,omitempty"`
+				Message string                        `json:"message,omitempty"`
+				Data    []sectionsctl.SectionFullJSON `json:"data"`
 			}
 			err := json.NewDecoder(res.Body).Decode(&decodedRes)
 
 			// Assert
-			sv.AssertNumberOfCalls(t, "GetByID", tt.wanted.calls)
+			sv.AssertNumberOfCalls(t, "Delete", tt.wanted.calls)
 			require.NoError(t, err)
 			require.Equal(t, tt.wanted.statusCode, res.Code)
-			require.Equal(t, tt.wanted.section.ID, decodedRes.Data.ID)
-			require.Equal(t, tt.wanted.section.SectionNumber, decodedRes.Data.SectionNumber)
-			require.Equal(t, tt.wanted.section.CurrentTemperature, decodedRes.Data.CurrentTemperature)
-			require.Equal(t, tt.wanted.section.MinimumTemperature, decodedRes.Data.MinimumTemperature)
-			require.Equal(t, tt.wanted.section.CurrentCapacity, decodedRes.Data.CurrentCapacity)
-			require.Equal(t, tt.wanted.section.MinimumCapacity, decodedRes.Data.MinimumCapacity)
-			require.Equal(t, tt.wanted.section.MaximumCapacity, decodedRes.Data.MaximumCapacity)
-			require.Equal(t, tt.wanted.section.WarehouseID, decodedRes.Data.WarehouseID)
-			require.Equal(t, tt.wanted.section.ProductTypeID, decodedRes.Data.ProductTypeID)
 			require.Contains(t, decodedRes.Message, tt.wanted.message)
 		})
 	}

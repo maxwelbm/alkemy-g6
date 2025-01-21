@@ -1,10 +1,10 @@
-package repository
+package employeesrp
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (e *EmployeesRepository) Create(employees models.EmployeesDTO) (newEmployees models.Employees, err error) {
+func (e *EmployeesRepository) Create(employees models.EmployeeDTO) (newEmployees models.Employee, err error) {
 	query := "INSERT INTO employees (card_number_id, first_name, last_name, warehouse_id) VALUES (?, ?, ?, ?)"
 
 	result, err := e.DB.Exec(query, employees.CardNumberID, employees.FirstName, employees.LastName, employees.WarehouseID)

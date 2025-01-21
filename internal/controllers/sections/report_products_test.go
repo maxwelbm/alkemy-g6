@@ -11,7 +11,6 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/controllers"
 	sectionsctl "github.com/maxwelbm/alkemy-g6/internal/controllers/sections"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
-	sectionsrp "github.com/maxwelbm/alkemy-g6/internal/repository/sections"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -109,8 +108,7 @@ func TestReportPurchaseOrders(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Arrange
-			rp := sectionsrp.NewSectionsRepositoryMock()
-			sv := service.NewSectionsService(rp)
+			sv := service.NewSectionsServiceMock()
 			ctl := controllers.NewSectionsController(sv)
 
 			url := "/api/v1/sections/reportProducts"
@@ -121,7 +119,7 @@ func TestReportPurchaseOrders(t *testing.T) {
 			res := httptest.NewRecorder()
 
 			// Act
-			rp.On("ReportProducts", mock.AnythingOfType("int")).Return(tt.sections, tt.callErr)
+			sv.On("ReportProducts", mock.AnythingOfType("int")).Return(tt.sections, tt.callErr)
 			ctl.ReportProducts(res, req)
 
 			var decodedRes struct {
@@ -131,7 +129,7 @@ func TestReportPurchaseOrders(t *testing.T) {
 			err := json.NewDecoder(res.Body).Decode(&decodedRes)
 
 			// Assert
-			rp.AssertNumberOfCalls(t, "ReportProducts", tt.wanted.calls)
+			sv.AssertNumberOfCalls(t, "ReportProducts", tt.wanted.calls)
 			require.NoError(t, err)
 			require.Equal(t, tt.wanted.statusCode, res.Code)
 			if len(tt.sections) > 0 {
