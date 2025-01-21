@@ -23,6 +23,6 @@ func InitProducts(db *sql.DB, router *chi.Mux) {
 		rt.Post("/", ct.Create)
 		rt.Patch("/{id}", ct.Update)
 		rt.Delete("/{id}", ct.Delete)
-		rt.Get("/reportRecords", ct.GetReportRecords)
+		rt.Get("/reportRecords", ct.ReportRecords)
 	})
 }

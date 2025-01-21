@@ -22,8 +22,8 @@ func (s *ProductsDefault) GetByID(id int) (prod models.Product, err error) {
 	return
 }
 
-func (s *ProductsDefault) GetReportRecords(id int) (list []models.ProductReportRecords, err error) {
-	list, err = s.repo.GetReportRecords(id)
+func (s *ProductsDefault) ReportRecords(id int) (list []models.ProductReportRecords, err error) {
+	list, err = s.repo.ReportRecords(id)
 	return
 }
 

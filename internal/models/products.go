@@ -3,7 +3,8 @@ package models
 import "errors"
 
 var (
-	ErrProductNotFound = errors.New("Product not found")
+	ErrProductNotFound      = errors.New("product not found")
+	ErrReportRecordNotFound = errors.New("product report record not found")
 )
 
 type Product struct {
@@ -57,7 +58,7 @@ type ProductReportRecords struct {
 type ProductService interface {
 	GetAll() (list []Product, err error)
 	GetByID(id int) (prod Product, err error)
-	GetReportRecords(id int) (list []ProductReportRecords, err error)
+	ReportRecords(id int) (list []ProductReportRecords, err error)
 	Create(prod ProductDTO) (newProd Product, err error)
 	Update(id int, prod ProductDTO) (updatedProd Product, err error)
 	Delete(id int) (err error)
@@ -66,7 +67,7 @@ type ProductService interface {
 type ProductRepository interface {
 	GetAll() (list []Product, err error)
 	GetByID(id int) (prod Product, err error)
-	GetReportRecords(id int) (list []ProductReportRecords, err error)
+	ReportRecords(id int) (list []ProductReportRecords, err error)
 	Create(prod ProductDTO) (newProd Product, err error)
 	Update(id int, prod ProductDTO) (updatedProd Product, err error)
 	Delete(id int) (err error)

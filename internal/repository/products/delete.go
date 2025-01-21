@@ -1,4 +1,4 @@
-package repository
+package productsrp
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
