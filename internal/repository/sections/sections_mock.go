@@ -23,7 +23,7 @@ func (s *SectionsMock) GetByID(id int) (section models.Section, err error) {
 	return args.Get(0).(models.Section), args.Error(1)
 }
 
-func (s *SectionsMock) GetReportProducts(sectionID int) (reportProducts []models.ProductReport, err error) {
+func (s *SectionsMock) ReportProducts(sectionID int) (reportProducts []models.ProductReport, err error) {
 	args := s.Called(sectionID)
 	return args.Get(0).([]models.ProductReport), args.Error(1)
 }

@@ -121,8 +121,8 @@ func TestReportPurchaseOrders(t *testing.T) {
 			res := httptest.NewRecorder()
 
 			// Act
-			rp.On("GetReportProducts", mock.AnythingOfType("int")).Return(tt.sections, tt.callErr)
-			ctl.GetReportProducts(res, req)
+			rp.On("ReportProducts", mock.AnythingOfType("int")).Return(tt.sections, tt.callErr)
+			ctl.ReportProducts(res, req)
 
 			var decodedRes struct {
 				Message string                              `json:"message,omitempty"`
@@ -131,7 +131,7 @@ func TestReportPurchaseOrders(t *testing.T) {
 			err := json.NewDecoder(res.Body).Decode(&decodedRes)
 
 			// Assert
-			rp.AssertNumberOfCalls(t, "GetReportProducts", tt.wanted.calls)
+			rp.AssertNumberOfCalls(t, "ReportProducts", tt.wanted.calls)
 			require.NoError(t, err)
 			require.Equal(t, tt.wanted.statusCode, res.Code)
 			if len(tt.sections) > 0 {
