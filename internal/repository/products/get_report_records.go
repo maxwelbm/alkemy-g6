@@ -1,5 +1,4 @@
-package repository
-
+package productsrp
 import (
 	"database/sql"
 
