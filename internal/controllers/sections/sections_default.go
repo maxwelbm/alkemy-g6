@@ -1,10 +1,16 @@
 package sectionsctl
 
 import (
-	"fmt"
-
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
+
+type SectionsController struct {
+	sv models.SectionService
+}
+
+func NewSectionsController(sv models.SectionService) *SectionsController {
+	return &SectionsController{sv: sv}
+}
 
 type SectionFullJSON struct {
 	ID                 int     `json:"id"`
@@ -32,51 +38,4 @@ type ReportProductFullJSON struct {
 	SectionID     int    `json:"section_id"`
 	SectionNumber string `json:"section_number"`
 	ProductsCount int    `json:"products_count"`
-}
-
-type SectionsController struct {
-	sv models.SectionService
-}
-
-func NewSectionsController(sv models.SectionService) *SectionsController {
-	return &SectionsController{sv: sv}
-}
-
-func (sec *NewSectionReqJSON) validateUpdate() (err error) {
-	var validationErrors []string
-
-	// Check for nil pointers and collect their errors
-	if sec.SectionNumber != nil && *sec.SectionNumber == "" {
-		validationErrors = append(validationErrors, "error: attribute SectionNumber cannot be empty")
-	}
-
-	if sec.CurrentCapacity != nil && *sec.CurrentCapacity < 0 {
-		validationErrors = append(validationErrors, "error: attribute CurrentCapacity cannot be negative")
-	}
-
-	if sec.MinimumCapacity != nil && *sec.MinimumCapacity < 0 {
-		validationErrors = append(validationErrors, "error: attribute MinimumCapacity cannot be negative")
-	}
-
-	if sec.MaximumCapacity != nil && *sec.MaximumCapacity <= 0 {
-		validationErrors = append(validationErrors, "error: attribute MaximumCapacity cannot be negative")
-	}
-
-	if sec.WarehouseID != nil && *sec.WarehouseID <= 0 {
-		validationErrors = append(validationErrors, "error: attribute WarehouseID must be positive")
-	}
-
-	if sec.ProductTypeID != nil && *sec.ProductTypeID <= 0 {
-		validationErrors = append(validationErrors, "error: attribute ProductTypeID must be positive")
-	}
-
-	// Combine all errors before returning
-	if len(validationErrors) > 0 {
-		var allErrors []string
-		allErrors = append(allErrors, validationErrors...)
-
-		err = fmt.Errorf("validation errors: %v", allErrors)
-	}
-
-	return err
 }
