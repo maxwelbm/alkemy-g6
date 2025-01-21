@@ -38,7 +38,7 @@ func (m *ProductsServiceMock) Delete(id int) error {
 	return args.Error(0)
 }
 
-func (m *ProductsServiceMock) GetReportRecords(id int) ([]models.ProductReportRecords, error) {
+func (m *ProductsServiceMock) ReportRecords(id int) ([]models.ProductReportRecords, error) {
 	args := m.Called(id)
 	return args.Get(0).([]models.ProductReportRecords), args.Error(1)
 }

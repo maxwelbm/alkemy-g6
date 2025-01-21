@@ -9,7 +9,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-// GetReportRecords handles the HTTP request to retrieve report records for a specific product.
+// ReportRecords handles the HTTP request to retrieve report records for a specific product.
 // @Summary Retrieve report records for a product
 // @Description Retrieves report records for a product based on the provided product ID.
 // @Tags products
@@ -20,7 +20,7 @@ import (
 // @Failure 404 {object} response.ErrorResponse "Product not found"
 // @Failure 500 {object} response.ErrorResponse "Internal server error"
 // @Router /api/v1/products/reportRecords [get]
-func (p *ProductsDefault) GetReportRecords(w http.ResponseWriter, r *http.Request) {
+func (p *ProductsDefault) ReportRecords(w http.ResponseWriter, r *http.Request) {
 	var productID int
 
 	var err error
@@ -40,10 +40,10 @@ func (p *ProductsDefault) GetReportRecords(w http.ResponseWriter, r *http.Reques
 	}
 
 	var reportRecords []models.ProductReportRecords
-	reportRecords, err = p.SV.GetReportRecords(productID)
+	reportRecords, err = p.SV.ReportRecords(productID)
 
 	if err != nil {
-		if errors.Is(err, models.ErrProductNotFound) {
+		if errors.Is(err, models.ErrReportRecordNotFound) {
 			response.Error(w, http.StatusNotFound, err.Error())
 			return
 		}

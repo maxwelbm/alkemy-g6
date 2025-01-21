@@ -1,13 +1,14 @@
 package productsrp
+
 import (
 	"database/sql"
 
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (p *Products) GetReportRecords(id int) (list []models.ProductReportRecords, err error) {
+func (p *Products) ReportRecords(id int) (list []models.ProductReportRecords, err error) {
 	var query string
-	
+
 	var rows *sql.Rows
 
 	query = `
@@ -22,7 +23,7 @@ func (p *Products) GetReportRecords(id int) (list []models.ProductReportRecords,
 	if err != nil {
 		return nil, err
 	}
-	
+
 	defer rows.Close()
 
 	for rows.Next() {
@@ -32,16 +33,16 @@ func (p *Products) GetReportRecords(id int) (list []models.ProductReportRecords,
 			&productRecord.Description,
 			&productRecord.RecordsCount,
 		)
-		
+
 		if err != nil {
 			return nil, err
 		}
-		
+
 		list = append(list, productRecord)
 	}
 
 	if len(list) == 0 {
-		err = models.ErrProductNotFound
+		err = models.ErrReportRecordNotFound
 		return nil, err
 	}
 

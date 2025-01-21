@@ -73,7 +73,7 @@ func TestProducts_GetByID(t *testing.T) {
 			wanted: wanted{
 				calls:      1,
 				statusCode: http.StatusNotFound,
-				message:    "Product not found",
+				message:    "product not found",
 			},
 		},
 		{
