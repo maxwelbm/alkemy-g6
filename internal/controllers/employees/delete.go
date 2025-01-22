@@ -31,6 +31,11 @@ func (c *EmployeesController) Delete(w http.ResponseWriter, r *http.Request) {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
+	
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+		return
+	}
 
 	err = c.sv.Delete(id)
 
@@ -49,7 +54,11 @@ func (c *EmployeesController) Delete(w http.ResponseWriter, r *http.Request) {
 		response.Error(w, http.StatusInternalServerError, err.Error())
 
 		return
+	}	
+
+	data := map[string]string{
+		"Message": "Success delete",
 	}
 
-	response.JSON(w, http.StatusNoContent, "Success delete")
+	response.JSON(w, http.StatusNoContent, data)
 }
