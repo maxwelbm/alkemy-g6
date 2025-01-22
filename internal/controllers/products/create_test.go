@@ -78,7 +78,6 @@ func TestProducts_Create(t *testing.T) {
 				"height": "",
 				"length": 15.0,
 				"width": 5.0,
-				"weight": "1",
 				"net_weight": 5,
 				"expiration_rate": 0.1,
 				"freezing_rate": 0.3,
@@ -146,16 +145,16 @@ func TestProducts_Create(t *testing.T) {
 			name: "422 - Product code cannot be empty",
 			productJSON: `
 			{
+				"id": 1,
 				"product_code": "",
-				"description": "Product 1",
-				"height": -10.0,
-				"length": -15.0,
-				"width": -5.0,
-				"weight": -1.0,
-				"net_weight": 5,
-				"expiration_rate": 0.1,
-				"freezing_rate": 0.3,
-				"recommended_freezing_temp": -18.0,
+				"description": "Product 11",
+				"height": 10,
+				"length": 20,
+				"width": 30,
+				"net_weight": 40,
+				"expiration_rate": 1,
+				"freezing_rate": 2,
+				"recommended_freezing_temp": -10,
 				"product_type_id": 1,
 				"seller_id": 1
 			}`,
@@ -167,6 +166,237 @@ func TestProducts_Create(t *testing.T) {
 			},
 		},
 		{
+			name: "422 - Description cannot be nil",
+			productJSON: `
+			{
+				"id": 1,
+				"product_code": "P011",
+				"height": 10,
+				"length": 20,
+				"width": 30,
+				"net_weight": 40,
+				"expiration_rate": 1,
+				"freezing_rate": 2,
+				"recommended_freezing_temp": -10,
+				"product_type_id": 1,
+				"seller_id": 1222
+			}`,
+			callErr: nil,
+			expected: expected{
+				products:   models.Product{},
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: attribute Description cannot be nil",
+			},
+		},
+		{
+			name: "422 - Height cannot be nil",
+			productJSON: `
+			{
+				"id": 1,
+				"product_code": "P011",
+				"description": "Product 11",
+				"length": 20,
+				"width": 30,
+				"net_weight": 40,
+				"expiration_rate": 1,
+				"freezing_rate": 2,
+				"recommended_freezing_temp": -10,
+				"product_type_id": 1,
+				"seller_id": 1
+			}`,
+			callErr: nil,
+			expected: expected{
+				products:   models.Product{},
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: attribute Height cannot be nil",
+			},
+		},
+		{
+			name: "422 - Length cannot be nil",
+			productJSON: `
+			{
+				"id": 1,
+				"product_code": "P011",
+				"description": "Product 11",
+				"height": 10,
+				"width": 30,
+				"net_weight": 40,
+				"expiration_rate": 1,
+				"freezing_rate": 2,
+				"recommended_freezing_temp": -10,
+				"product_type_id": 1,
+				"seller_id": 1222
+			}`,
+			callErr: nil,
+			expected: expected{
+				products:   models.Product{},
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: attribute Length cannot be nil",
+			},
+		},
+		{
+			name: "422 - Width cannot be nil",
+			productJSON: `
+			{
+				"id": 1,
+				"product_code": "P011",
+				"description": "Product 11",
+				"height": 10,
+				"length": 20,
+				"net_weight": 40,
+				"expiration_rate": 1,
+				"freezing_rate": 2,
+				"recommended_freezing_temp": -10,
+				"product_type_id": 1,
+				"seller_id": 1222
+			}`,
+			callErr: nil,
+			expected: expected{
+				products:   models.Product{},
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: attribute Width cannot be nil",
+			},
+		},
+		{
+			name: "422 - Net Weight cannot be nil",
+			productJSON: `
+			{
+				"id": 1,
+				"product_code": "P011",
+				"description": "Product 11",
+				"height": 10,
+				"length": 20,
+				"width": 30,
+				"expiration_rate": 1,
+				"freezing_rate": 2,
+				"recommended_freezing_temp": -10,
+				"product_type_id": 1,
+				"seller_id": 1
+			}`,
+			callErr: nil,
+			expected: expected{
+				products:   models.Product{},
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: attribute NetWeight cannot be nil",
+			},
+		},
+		{
+			name: "422 - Expiration Rate cannot be nil",
+			productJSON: `
+			{
+				"id": 1,
+				"product_code": "P011",
+				"description": "Product 11",
+				"height": 10,
+				"length": 20,
+				"width": 30,
+				"net_weight": 40,
+				"freezing_rate": 2,
+				"recommended_freezing_temp": -10,
+				"product_type_id": 1,
+				"seller_id": 1
+			}`,
+			callErr: nil,
+			expected: expected{
+				products:   models.Product{},
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: attribute ExpirationRate cannot be nil",
+			},
+		},
+		{
+			name: "422 - Freezing Rate cannot be nil",
+			productJSON: `
+			{
+				"id": 1,
+				"product_code": "P011",
+				"description": "Product 11",
+				"height": 10,
+				"length": 20,
+				"width": 30,
+				"net_weight": 40,
+				"expiration_rate": 1,
+				"recommended_freezing_temp": -10,
+				"product_type_id": 1,
+				"seller_id": 1
+			}`,
+			callErr: nil,
+			expected: expected{
+				products:   models.Product{},
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: attribute FreezingRate cannot be nil",
+			},
+		},
+		{
+			name: "422 - Recommended Freezing Temp cannot be nil",
+			productJSON: `
+			{
+				"id": 1,
+				"product_code": "P011",
+				"description": "Product 11",
+				"height": 10,
+				"length": 20,
+				"width": 30,
+				"net_weight": 40,
+				"expiration_rate": 1,
+				"freezing_rate": 2,
+				"product_type_id": 1,
+				"seller_id": 1
+			}`,
+			callErr: nil,
+			expected: expected{
+				products:   models.Product{},
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: attribute RecommendedFreezingTemp cannot be nil",
+			},
+		},
+		{
+			name: "422 - Product Type ID cannot be nil",
+			productJSON: `
+			{
+				"id": 1,
+				"product_code": "P011",
+				"description": "Product 11",
+				"height": 10,
+				"length": 20,
+				"width": 30,
+				"net_weight": 40,
+				"expiration_rate": 1,
+				"freezing_rate": 2,
+				"recommended_freezing_temp": -10,
+				"seller_id": 1
+			}`,
+			callErr: nil,
+			expected: expected{
+				products:   models.Product{},
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: attribute ProductTypeID cannot be nil",
+			},
+		},
+		{
+			name: "422 - Seller ID must be non-negative",
+			productJSON: `
+			{
+				"id": 1,
+				"product_code": "P011",
+				"description": "Product 11",
+				"height": 10,
+				"length": 20,
+				"width": 30,
+				"net_weight": 40,
+				"expiration_rate": 1,
+				"freezing_rate": 2,
+				"recommended_freezing_temp": -10,
+				"product_type_id": 1,
+				"seller_id": -1
+			}`,
+			callErr: nil,
+			expected: expected{
+				products:   models.Product{},
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: attribute SellerID must be non-negative",
+			},
+		},
+		{
 			name: "422 - Product code cannot be nil",
 			productJSON: `
 			{
@@ -174,7 +404,6 @@ func TestProducts_Create(t *testing.T) {
 				"height": 10.0,
 				"length": 15.0,
 				"width": 5.0,
-				"weight": 1.0,
 				"net_weight": 5,
 				"expiration_rate": 0.1,
 				"freezing_rate": 0.3,
