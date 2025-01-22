@@ -115,7 +115,7 @@ func (p *NewProductAttributesJSON) validate() (err error) {
 	}
 
 	if p.RecomFreezTemp == nil {
-		nilPointerErrors = append(nilPointerErrors, "error: attribute RecomFreezTemp cannot be nil")
+		nilPointerErrors = append(nilPointerErrors, "error: attribute RecommendedFreezingTemp cannot be nil")
 	}
 
 	if p.ProductTypeID == nil {

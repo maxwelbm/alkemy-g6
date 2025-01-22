@@ -59,7 +59,7 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 				response.Error(w, http.StatusConflict, err.Error())
 				return
 			case mysqlerr.CodeCannotAddOrUpdateChildRow:
-				response.Error(w, http.StatusBadRequest, err.Error())
+				response.Error(w, http.StatusConflict, err.Error())
 				return
 			}
 		}
@@ -69,6 +69,21 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res := ProductResJSON{Message: "Created", Data: newProd}
+	data := ProductFullJSON{
+		ID:             newProd.ID,
+		ProductCode:    newProd.ProductCode,
+		Description:    newProd.Description,
+		Height:         newProd.Height,
+		Length:         newProd.Length,
+		Width:          newProd.Width,
+		NetWeight:      newProd.NetWeight,
+		ExpirationRate: newProd.ExpirationRate,
+		FreezingRate:   newProd.FreezingRate,
+		RecomFreezTemp: newProd.RecomFreezTemp,
+		ProductTypeID:  newProd.ProductTypeID,
+		SellerID:       newProd.SellerID,
+	}
+
+	res := ProductResJSON{Message: "Created", Data: data}
 	response.JSON(w, http.StatusCreated, res)
 }
