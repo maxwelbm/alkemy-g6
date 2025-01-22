@@ -125,7 +125,7 @@ func TestUpdate(t *testing.T) {
 			},
 		},
 		{
-			name:         "500 - Internal Server Error when trying to retrieve the list of employees",
+			name:         "500 - Internal Server Error when trying to update an employee",
 			id:           "1",
 			employeeJSON: `{"first_name":"Daryl","last_name":"Dixon"}`,
 			callErr:      errors.New("internal error"),
