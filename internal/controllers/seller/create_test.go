@@ -102,7 +102,7 @@ func TestCreate(t *testing.T) {
 			},
 		},
 		{
-			name: "409 - When the repository raises a DuplicateEntry error",
+			name: "409 - When the repository raises a CannotAddOrUpdateChildRow error",
 			sellerJSON: `{
 				"id": 1,
 				"cid": "123",
