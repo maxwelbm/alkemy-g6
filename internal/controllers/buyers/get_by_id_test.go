@@ -9,7 +9,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/maxwelbm/alkemy-g6/internal/controllers"
-	buyersctl "github.com/maxwelbm/alkemy-g6/internal/controllers/buyer"
+	buyersctl "github.com/maxwelbm/alkemy-g6/internal/controllers/buyers"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/stretchr/testify/mock"
