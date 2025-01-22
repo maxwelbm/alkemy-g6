@@ -2,14 +2,12 @@ package employeesctl
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 
 	"github.com/go-sql-driver/mysql"
 	models "github.com/maxwelbm/alkemy-g6/internal/models"
 
-	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
@@ -32,13 +30,13 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&employeesJSON)
 
 	if err != nil {
-		response.JSON(w, http.StatusBadRequest, "Body invalid")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	err = validateNewEmployees(employeesJSON)
 	if err != nil {
-		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
@@ -51,12 +49,7 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 
 	emp, err := c.sv.Create(employees)
 	if err != nil {
-		if errors.Is(err, service.ErrWareHousesServiceNotFound) {
-			response.Error(w, http.StatusUnprocessableEntity, err.Error())
-			return
-		}
-		// Check if the error is a MySQL duplicate entry error
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && (mysqlErr.Number == mysqlerr.CodeDuplicateEntry || mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow) {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
