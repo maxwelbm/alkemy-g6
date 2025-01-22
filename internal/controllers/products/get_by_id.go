@@ -30,6 +30,11 @@ func (p *ProductsDefault) GetByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+		return
+	}
+
 	prod, err := p.SV.GetByID(id)
 	if errors.Is(err, models.ErrProductNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())

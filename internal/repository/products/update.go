@@ -1,4 +1,4 @@
-package repository
+package productsrp
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
@@ -10,7 +10,7 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 
 		query := "SELECT EXISTS(SELECT 1 FROM products WHERE `product_code`=?)"
 		err = p.DB.QueryRow(query, prod.ProductCode).Scan(&exists)
-		
+
 		if err != nil {
 			return updatedProd, err
 		}
@@ -19,7 +19,7 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 			err = models.ErrProductNotFound
 			return updatedProd, err
 		}
-    }
+	}
 
 	query := `UPDATE products SET 
 			product_code = COALESCE(NULLIF(?, ''), product_code), 
@@ -36,17 +36,17 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 			WHERE id = ?`
 
 	// Execute the update query
-	res, err := p.DB.Exec(query, 
-		prod.ProductCode, 
-		prod.Description, 
-		prod.Height, 
-		prod.Length, 
-		prod.Width, 
-		prod.NetWeight, 
-		prod.ExpirationRate, 
-		prod.FreezingRate, 
-		prod.RecomFreezTemp, 
-		prod.ProductTypeID, 
+	res, err := p.DB.Exec(query,
+		prod.ProductCode,
+		prod.Description,
+		prod.Height,
+		prod.Length,
+		prod.Width,
+		prod.NetWeight,
+		prod.ExpirationRate,
+		prod.FreezingRate,
+		prod.RecomFreezTemp,
+		prod.ProductTypeID,
 		prod.SellerID,
 		id)
 

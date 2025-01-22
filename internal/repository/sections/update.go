@@ -29,21 +29,11 @@ func (r *SectionRepository) Update(id int, sec models.SectionDTO) (updateSection
 		product_type_id = COALESCE(NULLIF(?, ''), product_type_id)
 	WHERE id = ?`
 
-	res, err := r.db.Exec(query, sec.SectionNumber, sec.CurrentTemperature, sec.MinimumTemperature, sec.CurrentCapacity,
+	_, err = r.db.Exec(query, sec.SectionNumber, sec.CurrentTemperature, sec.MinimumTemperature, sec.CurrentCapacity,
 		sec.MinimumCapacity, sec.MaximumCapacity, sec.WarehouseID, sec.ProductTypeID, id)
 
 	// Check for errors
 	if err != nil {
-		return updateSection, err
-	}
-	// Check if the seller was updated
-	rowsAffected, err := res.RowsAffected()
-	if err != nil {
-		return updateSection, err
-	}
-	// If the seller was not updated, return an error
-	if rowsAffected == 0 {
-		err = models.ErrorNoChangesMade
 		return updateSection, err
 	}
 

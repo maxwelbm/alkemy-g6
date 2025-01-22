@@ -3,10 +3,10 @@ package models
 import "errors"
 
 var (
-	ErrEmployeesNotFound = errors.New("Seller not found")
+	ErrEmployeeNotFound = errors.New("employee not found")
 )
 
-type Employees struct {
+type Employee struct {
 	ID           int
 	CardNumberID string
 	FirstName    string
@@ -14,7 +14,7 @@ type Employees struct {
 	WarehouseID  int
 }
 
-type EmployeesDTO struct {
+type EmployeeDTO struct {
 	ID           *int
 	CardNumberID *string
 	FirstName    *string
@@ -22,7 +22,7 @@ type EmployeesDTO struct {
 	WarehouseID  *int
 }
 
-type EmployeesReportInboundDTO struct {
+type EmployeeReportInboundDTO struct {
 	ID           int
 	CardNumberID string
 	FirstName    string
@@ -32,19 +32,19 @@ type EmployeesReportInboundDTO struct {
 }
 
 type EmployeesService interface {
-	GetAll() (employees []Employees, err error)
-	GetByID(id int) (employees Employees, err error)
-	GetReportInboundOrdersByID(id int) (employees []EmployeesReportInboundDTO, err error)
-	Create(employees EmployeesDTO) (newEmployees Employees, err error)
-	Update(employees EmployeesDTO, id int) (newEmployees Employees, err error)
+	GetAll() (employees []Employee, err error)
+	GetByID(id int) (employees Employee, err error)
+	GetReportInboundOrders(id int) (employees []EmployeeReportInboundDTO, err error)
+	Create(employees EmployeeDTO) (newEmployees Employee, err error)
+	Update(employees EmployeeDTO, id int) (newEmployees Employee, err error)
 	Delete(id int) (err error)
 }
 
 type EmployeesRepository interface {
-	GetAll() (employees []Employees, err error)
-	GetByID(id int) (employees Employees, err error)
-	GetReportInboundOrdersByID(id int) (employees []EmployeesReportInboundDTO, err error)
-	Create(employees EmployeesDTO) (newEmployees Employees, err error)
-	Update(employees EmployeesDTO, id int) (newEmployees Employees, err error)
+	GetAll() (employees []Employee, err error)
+	GetByID(id int) (employees Employee, err error)
+	GetReportInboundOrders(id int) (employees []EmployeeReportInboundDTO, err error)
+	Create(employees EmployeeDTO) (newEmployees Employee, err error)
+	Update(employees EmployeeDTO, id int) (newEmployees Employee, err error)
 	Delete(id int) (err error)
 }

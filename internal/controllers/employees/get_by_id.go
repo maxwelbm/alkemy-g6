@@ -1,10 +1,12 @@
 package employeesctl
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -20,23 +22,33 @@ import (
 // @Produce json
 // @Param id path int true "Employee ID"
 // @Success 200 {object} EmployeesResJSON "Success"
-// @Failure 400 {object} response.ErrorResponse "Invalid ID format"
-// @Failure 404 {object} response.ErrorResponse "Employee not found"
+// @Failure 400 {object} response.ErrorResponse "Bad Request"
+// @Failure 404 {object} response.ErrorResponse "employee not found"
 // @Router /api/v1/employees/{id} [get]
 func (c *EmployeesController) GetByID(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
-		response.Error(w, http.StatusBadRequest, "Invalid ID format")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	employees, err := c.SV.GetByID(id)
+	if id <= 0 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+		return
+	}
+
+	employees, err := c.sv.GetByID(id)
 	if err != nil {
-		response.Error(w, http.StatusNotFound, err.Error())
+		if errors.Is(err, models.ErrEmployeeNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+		}
+
+		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
-	data := EmployeesAttributes{
+	data := EmployeeFullJSON{
 		ID:           employees.ID,
 		CardNumberID: employees.CardNumberID,
 		FirstName:    employees.FirstName,

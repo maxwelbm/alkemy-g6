@@ -12,7 +12,7 @@ import (
 func InitSections(db *sql.DB, router *chi.Mux) {
 	rp := repository.NewSectionsRepository(db)
 	// - service
-	sv := service.NewSectionService(rp)
+	sv := service.NewSectionsService(rp)
 	// - handler
 	ct := controllers.NewSectionsController(sv)
 
@@ -20,7 +20,7 @@ func InitSections(db *sql.DB, router *chi.Mux) {
 	router.Route("/api/v1/sections", func(rt chi.Router) {
 		rt.Get("/", ct.GetAll)
 		rt.Get("/{id}", ct.GetByID)
-		rt.Get("/reportProducts", ct.GetReportProducts)
+		rt.Get("/reportProducts", ct.ReportProducts)
 		rt.Post("/", ct.Create)
 		rt.Patch("/{id}", ct.Update)
 		rt.Delete("/{id}", ct.Delete)

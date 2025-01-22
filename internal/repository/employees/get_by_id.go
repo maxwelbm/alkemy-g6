@@ -1,4 +1,4 @@
-package repository
+package employeesrp
 
 import (
 	"database/sql"
@@ -7,7 +7,7 @@ import (
 	models "github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (e *EmployeesRepository) GetByID(id int) (employees models.Employees, err error) {
+func (e *EmployeesRepository) GetByID(id int) (employees models.Employee, err error) {
 	query := "SELECT id, card_number_id, first_name, last_name, warehouse_id FROM employees WHERE id = ?"
 
 	row := e.DB.QueryRow(query, id)
@@ -18,7 +18,7 @@ func (e *EmployeesRepository) GetByID(id int) (employees models.Employees, err e
 			err = errors.New("ID not found")
 			return
 		}
-		
+
 		return
 	}
 

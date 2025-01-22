@@ -9,7 +9,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-// GetReportProducts handles the HTTP request to retrieve report products for a specific section.
+// ReportProducts handles the HTTP request to retrieve report products for a specific section.
 // @Summary Retrieve report products for a section
 // @Description Retrieves report products for a section based on the provided section ID.
 // @Tags sections
@@ -20,7 +20,7 @@ import (
 // @Failure 404 {object} response.ErrorResponse "Section not found"
 // @Failure 500 {object} response.ErrorResponse "Internal server error"
 // @Router /api/v1/sections/reportProducts [get]
-func (ctl *SectionsController) GetReportProducts(w http.ResponseWriter, r *http.Request) {
+func (ctl *SectionsController) ReportProducts(w http.ResponseWriter, r *http.Request) {
 	var sectionID int
 
 	var err error
@@ -40,7 +40,7 @@ func (ctl *SectionsController) GetReportProducts(w http.ResponseWriter, r *http.
 	}
 
 	var reportProducts []models.ProductReport
-	reportProducts, err = ctl.sv.GetReportProducts(sectionID)
+	reportProducts, err = ctl.sv.ReportProducts(sectionID)
 
 	if err != nil {
 		if errors.Is(err, models.ErrSectionNotFound) {
