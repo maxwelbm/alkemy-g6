@@ -30,7 +30,7 @@ func TestProducts_Delete(t *testing.T) {
 		expected expected
 	}{
 		{
-			name:    "204 - Product deleted successfully",
+			name:    "204 - When a valid product ID is provided for deletion",
 			id:      "1",
 			callErr: nil,
 			expected: expected{
@@ -39,7 +39,7 @@ func TestProducts_Delete(t *testing.T) {
 			},
 		},
 		{
-			name: "400 - Invalid ID format",
+			name: "400 - When passing a non numeric ID to the request",
 			id:   "invalid",
 			expected: expected{
 				calls:      0,
@@ -48,7 +48,7 @@ func TestProducts_Delete(t *testing.T) {
 			},
 		},
 		{
-			name: "400 - Negative ID not allowed",
+			name: "400 - When passing a negative ID to the request",
 			id:   "-1",
 			expected: expected{
 				calls:      0,
@@ -57,7 +57,7 @@ func TestProducts_Delete(t *testing.T) {
 			},
 		},
 		{
-			name:    "404 - Product not found",
+			name:    "404 - When trying to delete a product that does not exist",
 			id:      "10",
 			callErr: models.ErrProductNotFound,
 			expected: expected{
@@ -67,7 +67,7 @@ func TestProducts_Delete(t *testing.T) {
 			},
 		},
 		{
-			name:    "409 - Conflict: Cannot delete or update parent row",
+			name:    "409 - When attempting to delete a product linked to another resource",
 			id:      "1",
 			callErr: &mysql.MySQLError{Number: mysqlerr.CodeCannotDeleteOrUpdateParentRow},
 			expected: expected{
