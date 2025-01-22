@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	buyersctl "github.com/maxwelbm/alkemy-g6/internal/controllers/buyer"
+	buyersctl "github.com/maxwelbm/alkemy-g6/internal/controllers/buyers"
 	carriesctl "github.com/maxwelbm/alkemy-g6/internal/controllers/carries"
 	employeesctl "github.com/maxwelbm/alkemy-g6/internal/controllers/employees"
 	inboundordersctl "github.com/maxwelbm/alkemy-g6/internal/controllers/inbound_orders"
@@ -43,7 +43,7 @@ func NewLocalityController(sv models.LocalityService) *localitiesctl.LocalitiesC
 }
 
 func NewWarehousesController(sv models.WarehouseService) *warehousesctl.WarehouseDefault {
-	return warehousesctl.NewWarehouseDefault(sv)
+	return warehousesctl.NewWarehousesController(sv)
 }
 
 func NewInboundOrdersController(SV models.InboundOrdersService) *inboundordersctl.InboundOrdersController {

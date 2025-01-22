@@ -55,6 +55,18 @@ func TestGetReportInboundOrders(t *testing.T) {
 			},
 		},
 		{
+			name:    "200 - Successfully retrieve inbound orders' report for an employee id with no reports",
+			id:      "10",
+			callErr: nil,
+			expected: expected{
+				calls:      1,
+				statusCode: http.StatusOK,
+				reports: []models.EmployeeReportInboundDTO{
+					{ID: 1, CardNumberID: "3253", FirstName: "Rick", LastName: "Grimes", WarehouseID: 1, CountReports: 0},
+				},
+			},
+		},
+		{
 			name:    "400 - Bad Request error when retrieving inbound orders' report with invalid (non-numeric) ID",
 			id:      "a",
 			callErr: models.ErrEmployeeNotFound,
