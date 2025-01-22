@@ -4,7 +4,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (e *EmployeesRepository) GetReportInboundOrders(id int) (employeesReportList []models.EmployeeReportInboundDTO, err error) {
+func (e *EmployeesRepository) GetReportInboundOrders(id int) (employeesReportList []models.EmployeeReportInbound, err error) {
 	// selects locality info and carries count
 	query := `
 		SELECT e.id, e.card_number_id, e.first_name, e.last_name, e.warehouse_id ,COUNT(io.id) AS CountReports 
@@ -22,7 +22,7 @@ func (e *EmployeesRepository) GetReportInboundOrders(id int) (employeesReportLis
 	defer rows.Close()
 
 	for rows.Next() {
-		var employeesReport models.EmployeeReportInboundDTO
+		var employeesReport models.EmployeeReportInbound
 		if err = rows.Scan(&employeesReport.ID, &employeesReport.CardNumberID, &employeesReport.FirstName, &employeesReport.LastName, &employeesReport.WarehouseID, &employeesReport.CountReports); err != nil {
 			return nil, err
 		}

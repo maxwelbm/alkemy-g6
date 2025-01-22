@@ -28,7 +28,7 @@ func (e *EmployeesDefault) GetByID(id int) (employees models.Employee, err error
 	return
 }
 
-func (e *EmployeesDefault) GetReportInboundOrders(id int) (employees []models.EmployeeReportInboundDTO, err error) {
+func (e *EmployeesDefault) GetReportInboundOrders(id int) (employees []models.EmployeeReportInbound, err error) {
 	employees, err = e.rp.GetReportInboundOrders(id)
 	return
 }
