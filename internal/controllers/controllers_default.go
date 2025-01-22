@@ -43,7 +43,7 @@ func NewLocalityController(sv models.LocalityService) *localitiesctl.LocalitiesC
 }
 
 func NewWarehousesController(sv models.WarehouseService) *warehousesctl.WarehouseDefault {
-	return warehousesctl.NewWarehouseDefault(sv)
+	return warehousesctl.NewWarehousesController(sv)
 }
 
 func NewInboundOrdersController(SV models.InboundOrdersService) *inboundordersctl.InboundOrdersController {
