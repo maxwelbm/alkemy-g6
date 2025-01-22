@@ -1,11 +1,13 @@
 package warehousesctl
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-sql-driver/mysql"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
@@ -25,25 +27,36 @@ import (
 // @Router /api/v1/warehouses/{id} [delete]
 func (c *WarehouseDefault) Delete(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil || id < 1 {
+	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
-
-	_, err = c.sv.GetByID(id)
-	if err != nil {
-		response.Error(w, http.StatusNotFound, err.Error())
+	// If the ID is less than 1, return a 400 Bad Request error
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 		return
 	}
 
 	err = c.sv.Delete(id)
+
 	if err != nil {
+		// Handle if section not found
+		if errors.Is(err, models.ErrWareHouseNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+			return
+		}
+		// Handle no changes made
+		if errors.Is(err, models.ErrorNoChangesMade) {
+			response.Error(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		// Handle MySQL conflict dependencies
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotDeleteOrUpdateParentRow {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
-
-		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		// Handle other internal server errors
+		response.Error(w, http.StatusInternalServerError, err.Error())
 
 		return
 	}

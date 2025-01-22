@@ -35,5 +35,5 @@ func (m *WarehousesServiceMock) Update(id int, warehouse models.WarehouseDTO) (w
 
 func (m *WarehousesServiceMock) Delete(id int) (err error) {
 	args := m.Called(id)
-	return args.Error(1)
+	return args.Error(0)
 }
