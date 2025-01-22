@@ -32,6 +32,11 @@ func (p *ProductsDefault) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+		return
+	}
+
 	err = p.SV.Delete(id)
 	if errors.Is(err, models.ErrProductNotFound) {
 		response.Error(w, http.StatusNotFound, err.Error())
