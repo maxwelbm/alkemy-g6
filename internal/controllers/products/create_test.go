@@ -32,7 +32,7 @@ func TestProducts_Create(t *testing.T) {
 		expected    expected
 	}{
 		{
-			name: "201 - Successfully created",
+			name: "201 - Successfully created product",
 			productJSON: `
 			{
 				"id": 1,
@@ -70,10 +70,10 @@ func TestProducts_Create(t *testing.T) {
 			},
 		},
 		{
-			name: "400 - body invalid",
+			name: "400 - Invalid request body",
 			productJSON: `
 			{
-				"product_code": "P00246",
+				"product_code": 1,
 				"description": "X",
 				"height": "",
 				"length": 15.0,
@@ -93,7 +93,7 @@ func TestProducts_Create(t *testing.T) {
 			},
 		},
 		{
-			name: "409 - product code duplicate",
+			name: "409 - Duplicate product code",
 			productJSON: `
 			{
 				"id": 1,
@@ -118,7 +118,7 @@ func TestProducts_Create(t *testing.T) {
 			},
 		},
 		{
-			name: "409 - seller_id not exists",
+			name: "409 - Seller ID does not exist",
 			productJSON: `
 			{
 				"id": 1,
@@ -143,7 +143,7 @@ func TestProducts_Create(t *testing.T) {
 			},
 		},
 		{
-			name: "422 - product code empty",
+			name: "422 - Product code cannot be empty",
 			productJSON: `
 			{
 				"product_code": "",
@@ -164,6 +164,29 @@ func TestProducts_Create(t *testing.T) {
 				products:   models.Product{},
 				statusCode: http.StatusUnprocessableEntity,
 				message:    "error: attribute ProductCode cannot be empty",
+			},
+		},
+		{
+			name: "422 - Product code cannot be nil",
+			productJSON: `
+			{
+				"product_code": "1",
+				"height": 10.0,
+				"length": 15.0,
+				"width": 5.0,
+				"weight": 1.0,
+				"net_weight": 5,
+				"expiration_rate": 0.1,
+				"freezing_rate": 0.3,
+				"recommended_freezing_temp": -18.0,
+				"product_type_id": 1,
+				"seller_id": 1
+			}`,
+			callErr: nil,
+			expected: expected{
+				products:   models.Product{},
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: attribute Description cannot be nil",
 			},
 		},
 		{
