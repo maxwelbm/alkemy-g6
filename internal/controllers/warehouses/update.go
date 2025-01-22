@@ -68,8 +68,8 @@ func (c *WarehouseDefault) Update(w http.ResponseWriter, r *http.Request) {
 
 	resWarehouse, err := c.sv.Update(id, warehouse)
 	if err != nil {
-		if errors.Is(err, models.ErrWareHouseCodeExist) {
-			response.Error(w, http.StatusConflict, err.Error())
+		if errors.Is(err, models.ErrWareHouseNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
 			return
 		}
 
