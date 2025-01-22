@@ -59,9 +59,11 @@ func TestCreate(t *testing.T) {
 		{
 			name: "400 - When passing a body with invalid json",
 			sellerJSON: `{
+				"id": 1,
+				"cid": "123",
 				"company_name": "Meli",
 				"address": "123 Main St",
-				"telephone": "123-456-7890",
+				"telephone": 1234567890,
 				"locality_id": 1
 			}`,
 			callErr: nil,
@@ -73,30 +75,12 @@ func TestCreate(t *testing.T) {
 		{
 			name: "422 - When passing a body with a valid json with missing parameters",
 			sellerJSON: `{
-				"id": 1,
-				"telephone": "123-456-7890",
-				"locality_id": 1
+				"id": 1
 			}`,
 			callErr: nil,
 			wanted: wanted{
 				statusCode: http.StatusUnprocessableEntity,
-				message:    "error: attribute cid cannot be nil",
-			},
-		},
-		{
-			name: "422 - When passing a body with a valid json with empty parameters",
-			sellerJSON: `{
-				"id": 1,
-				"cid": "",
-				"company_name": "Meli",
-				"address": "123 Main St",
-				"telephone": "123-456-7890",
-				"locality_id": 1
-			}`,
-			callErr: nil,
-			wanted: wanted{
-				statusCode: http.StatusUnprocessableEntity,
-				message:    "error: attribute cid cannot be empty",
+				message:    "error: cid is required",
 			},
 		},
 		{
@@ -114,6 +98,24 @@ func TestCreate(t *testing.T) {
 				calls:      1,
 				statusCode: http.StatusConflict,
 				message:    "1062",
+				seller:     models.Seller{},
+			},
+		},
+		{
+			name: "409 - When the repository raises a DuplicateEntry error",
+			sellerJSON: `{
+				"id": 1,
+				"cid": "123",
+				"company_name": "Meli",
+				"address": "123 Main St",
+				"telephone": "123-456-7890",
+				"locality_id": 1
+			}`,
+			callErr: &mysql.MySQLError{Number: mysqlerr.CodeCannotAddOrUpdateChildRow},
+			wanted: wanted{
+				calls:      1,
+				statusCode: http.StatusConflict,
+				message:    "1452",
 				seller:     models.Seller{},
 			},
 		},

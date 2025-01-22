@@ -1,20 +1,20 @@
-package repository
+package employeesrp
 
 import (
 	models "github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (e *EmployeesRepository) Update(employees models.EmployeesDTO, id int) (newEmployees models.Employees, err error) {
+func (e *EmployeesRepository) Update(employees models.EmployeeDTO, id int) (newEmployees models.Employee, err error) {
 	// Check if the employee exists
 	var exists bool
 	err = e.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM employees WHERE id = ?)", id).Scan(&exists)
-	
+
 	if err != nil {
 		return newEmployees, err
 	}
-	
+
 	if !exists {
-		err = models.ErrEmployeesNotFound
+		err = models.ErrEmployeeNotFound
 		return newEmployees, err
 	}
 	// Update the employees

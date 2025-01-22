@@ -1,10 +1,10 @@
-package repository
+package employeesrp
 
 import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (e *EmployeesRepository) GetReportInboundOrdersByID(id int) (employeesReportList []models.EmployeesReportInboundDTO, err error) {
+func (e *EmployeesRepository) GetReportInboundOrders(id int) (employeesReportList []models.EmployeeReportInboundDTO, err error) {
 	// selects locality info and carries count
 	query := `
 		SELECT e.id, e.card_number_id, e.first_name, e.last_name, e.warehouse_id ,COUNT(io.id) AS CountReports 
@@ -18,20 +18,25 @@ func (e *EmployeesRepository) GetReportInboundOrdersByID(id int) (employeesRepor
 	if err != nil {
 		return nil, err
 	}
-	
+
 	defer rows.Close()
-	
+
 	for rows.Next() {
-		var employeesReport models.EmployeesReportInboundDTO
+		var employeesReport models.EmployeeReportInboundDTO
 		if err = rows.Scan(&employeesReport.ID, &employeesReport.CardNumberID, &employeesReport.FirstName, &employeesReport.LastName, &employeesReport.WarehouseID, &employeesReport.CountReports); err != nil {
 			return nil, err
 		}
-		
+
 		employeesReportList = append(employeesReportList, employeesReport)
 	}
 
 	// Check for errors after rows iteration
 	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	if len(employeesReportList) == 0 {
+		err = models.ErrEmployeeNotFound
 		return nil, err
 	}
 

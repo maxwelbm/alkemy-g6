@@ -3,10 +3,10 @@ package models
 import "errors"
 
 var (
-	ErrEmployeesNotFound = errors.New("Seller not found")
+	ErrEmployeeNotFound = errors.New("employee not found")
 )
 
-type Employees struct {
+type Employee struct {
 	ID           int
 	CardNumberID string
 	FirstName    string
@@ -14,15 +14,15 @@ type Employees struct {
 	WarehouseID  int
 }
 
-type EmployeesDTO struct {
-	ID           *int
-	CardNumberID *string
-	FirstName    *string
-	LastName     *string
-	WarehouseID  *int
+type EmployeeDTO struct {
+	ID           *int    `json:"id"`
+	CardNumberID *string `json:"card_number_id"`
+	FirstName    *string `json:"first_name"`
+	LastName     *string `json:"last_name"`
+	WarehouseID  *int    `json:"warehouse_id"`
 }
 
-type EmployeesReportInboundDTO struct {
+type EmployeeReportInboundDTO struct {
 	ID           int
 	CardNumberID string
 	FirstName    string
@@ -32,19 +32,19 @@ type EmployeesReportInboundDTO struct {
 }
 
 type EmployeesService interface {
-	GetAll() (employees []Employees, err error)
-	GetByID(id int) (employees Employees, err error)
-	GetReportInboundOrdersByID(id int) (employees []EmployeesReportInboundDTO, err error)
-	Create(employees EmployeesDTO) (newEmployees Employees, err error)
-	Update(employees EmployeesDTO, id int) (newEmployees Employees, err error)
+	GetAll() (employees []Employee, err error)
+	GetByID(id int) (employees Employee, err error)
+	GetReportInboundOrders(id int) (employees []EmployeeReportInboundDTO, err error)
+	Create(employees EmployeeDTO) (newEmployees Employee, err error)
+	Update(employees EmployeeDTO, id int) (newEmployees Employee, err error)
 	Delete(id int) (err error)
 }
 
 type EmployeesRepository interface {
-	GetAll() (employees []Employees, err error)
-	GetByID(id int) (employees Employees, err error)
-	GetReportInboundOrdersByID(id int) (employees []EmployeesReportInboundDTO, err error)
-	Create(employees EmployeesDTO) (newEmployees Employees, err error)
-	Update(employees EmployeesDTO, id int) (newEmployees Employees, err error)
+	GetAll() (employees []Employee, err error)
+	GetByID(id int) (employees Employee, err error)
+	GetReportInboundOrders(id int) (employees []EmployeeReportInboundDTO, err error)
+	Create(employees EmployeeDTO) (newEmployees Employee, err error)
+	Update(employees EmployeeDTO, id int) (newEmployees Employee, err error)
 	Delete(id int) (err error)
 }
