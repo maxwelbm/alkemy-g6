@@ -3,7 +3,7 @@ package models
 import "errors"
 
 var (
-	ErrLocalityNotFound = errors.New("Locality not found")
+	ErrLocalityNotFound = errors.New("locality not found")
 )
 
 type Locality struct {
