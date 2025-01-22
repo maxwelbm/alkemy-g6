@@ -8,6 +8,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/controllers"
 	employeesctl "github.com/maxwelbm/alkemy-g6/internal/controllers/employees"
@@ -18,7 +19,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestCreate(t *testing.T) {
+func TestUpdate(t *testing.T) {
 	type expected struct {
 		calls      int
 		statusCode int
@@ -27,23 +28,26 @@ func TestCreate(t *testing.T) {
 	}
 	tests := []struct {
 		name         string
+		id           string
 		employeeJSON string
 		callErr      error
 		expected     expected
 	}{
 		{
-			name:         "201 - Successfully created an employee",
-			employeeJSON: `{"id": 1, "card_number_id":"3253","first_name":"Rick","last_name":"Grimes","warehouse_id":1}`,
+			name:         "201 - Successfully updated an employee",
+			id:           "1",
+			employeeJSON: `{"first_name":"Daryl","last_name":"Dixon"}`,
 			callErr:      nil,
 			expected: expected{
 				calls:      1,
-				statusCode: http.StatusCreated,
-				employee:   models.Employee{ID: 1, CardNumberID: "3253", FirstName: "Rick", LastName: "Grimes", WarehouseID: 1},
+				statusCode: http.StatusOK,
+				employee:   models.Employee{ID: 1, CardNumberID: "3253", FirstName: "Daryl", LastName: "Dixon", WarehouseID: 1},
 			},
 		},
 		{
-			name:         "400 - Bad Request error when trying to create an employee",
-			employeeJSON: `{"id": 1, "card_number_id":3253,"first_name":"Rick","last_name":"Grimes","warehouse_id":1}`,
+			name:         "400 - Bad Request error when trying to update an employee",
+			id:           "1",
+			employeeJSON: `{"first_name":1,"last_name":"Dixon"}`,
 			callErr:      nil,
 			expected: expected{
 				calls:      0,
@@ -52,8 +56,42 @@ func TestCreate(t *testing.T) {
 			},
 		},
 		{
-			name:         "409 - Conflict error when trying to create an employee with a duplicate entry",
-			employeeJSON: `{"id": 1, "card_number_id":"3253","first_name":"Rick","last_name":"Grimes","warehouse_id":1}`,
+			name:         "400 - Bad Request error when trying to update an with invalid (non-numeric) ID",
+			id:           "a",
+			employeeJSON: `{"first_name":"Daryl,"last_name":"Grimes"}`,
+			callErr:      nil,
+			expected: expected{
+				calls:      0,
+				statusCode: http.StatusBadRequest,
+				message:    "strconv.Atoi:",
+			},
+		},
+		{
+			name:         "400 - Bad Request error when trying to update an with invalid (negative) ID",
+			id:           "-10",
+			employeeJSON: `{"first_name":"Daryl,"last_name":"Grimes"}`,
+			callErr:      nil,
+			expected: expected{
+				calls:      0,
+				statusCode: http.StatusBadRequest,
+				message:    "Bad Request",
+			},
+		},
+		{
+			name:         "404 - Not found error when attempting to update a non-existent employee ID",
+			id:           "10",
+			callErr:      models.ErrEmployeeNotFound,
+			employeeJSON: `{"first_name":"Daryl","last_name":"Grimes"}`,
+			expected: expected{
+				calls:      1,
+				statusCode: http.StatusNotFound,
+				message:    "employee not found",
+			},
+		},
+		{
+			name:         "409 - Conflict error when trying to update an employee with a duplicate entry",
+			id:           "1",
+			employeeJSON: `{"card_number_id":"1"}`,
 			callErr:      &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
 			expected: expected{
 				calls:      1,
@@ -63,8 +101,9 @@ func TestCreate(t *testing.T) {
 			},
 		},
 		{
-			name:         "409 - Conflict error when trying to create an employee with an inexistent warehouseID",
-			employeeJSON: `{"id": 1, "card_number_id":"3253","first_name":"Rick","last_name":"Grimes","warehouse_id":10}`,
+			name:         "409 - Conflict error when trying to update an employee with an inexistent warehouseID",
+			id:           "1",
+			employeeJSON: `{"warehouse_id":10}`,
 			callErr:      &mysql.MySQLError{Number: mysqlerr.CodeCannotAddOrUpdateChildRow},
 			expected: expected{
 				calls:      1,
@@ -74,8 +113,9 @@ func TestCreate(t *testing.T) {
 			},
 		},
 		{
-			name:         "422 - Conflict error when trying to create an employee with empty parameters",
-			employeeJSON: `{"id": 1, "card_number_id":"3923","first_name":"","last_name":"Grimes","warehouse_id":10}`,
+			name:         "422 - Conflict error when trying to update an employee with empty parameters",
+			id:           "1",
+			employeeJSON: `{"first_name":"","last_name":"Dixon"}`,
 			callErr:      nil,
 			expected: expected{
 				calls:      0,
@@ -85,19 +125,9 @@ func TestCreate(t *testing.T) {
 			},
 		},
 		{
-			name:         "422 - Conflict error when trying to create an employee with missing parameters",
-			employeeJSON: `{"id": 1,"first_name":"Rick","last_name":"Grimes","warehouse_id":10}`,
-			callErr:      nil,
-			expected: expected{
-				calls:      0,
-				statusCode: http.StatusUnprocessableEntity,
-				message:    "error: attribute CardNumberID cannot be nil",
-				employee:   models.Employee{},
-			},
-		},
-		{
 			name:         "500 - Internal Server Error when trying to retrieve the list of employees",
-			employeeJSON: `{"id": 1, "card_number_id":"3253","first_name":"Rick","last_name":"Grimes","warehouse_id":1}`,
+			id:           "1",
+			employeeJSON: `{"first_name":"Daryl","last_name":"Dixon"}`,
 			callErr:      errors.New("internal error"),
 			expected: expected{
 				calls:      1,
@@ -112,11 +142,15 @@ func TestCreate(t *testing.T) {
 			sv := service.NewEmployeesServiceMock()
 			ctl := controllers.NewEmployeesController(sv)
 
-			req := httptest.NewRequest(http.MethodPost, "/api/v1/employees", strings.NewReader(tt.employeeJSON))
+			r := chi.NewRouter()
+			r.Patch("/api/v1/employees/{id}", ctl.Update)
+			url := "/api/v1/employees/" + tt.id
+
+			req := httptest.NewRequest(http.MethodPatch, url, strings.NewReader(tt.employeeJSON))
 			res := httptest.NewRecorder()
 
-			sv.On("Create", mock.AnythingOfType("models.EmployeeDTO")).Return(tt.expected.employee, tt.callErr)
-			ctl.Create(res, req)
+			sv.On("Update", mock.AnythingOfType("int"), mock.AnythingOfType("models.EmployeeDTO")).Return(tt.expected.employee, tt.callErr)
+			r.ServeHTTP(res, req)
 
 			var decodedRes struct {
 				Message string                        `json:"message,omitempty"`
@@ -124,7 +158,7 @@ func TestCreate(t *testing.T) {
 			}
 			err := json.NewDecoder(res.Body).Decode(&decodedRes)
 
-			sv.AssertNumberOfCalls(t, "Create", tt.expected.calls)
+			sv.AssertNumberOfCalls(t, "Update", tt.expected.calls)
 			require.NoError(t, err)
 			require.Equal(t, tt.expected.statusCode, res.Code)
 			if tt.expected.statusCode == http.StatusOK {

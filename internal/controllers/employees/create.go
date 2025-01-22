@@ -73,28 +73,39 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func validateNewEmployees(employees EmployeesReqJSON) (err error) {
-	var errosEmp []string
-	if employees.CardNumberID == nil || *employees.CardNumberID == "" {
-		errosEmp = append(errosEmp, "error: attribute CardNumberID cannot be empty")
+	var validationErrors, nilPointerErrors []string
+
+	if employees.CardNumberID == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute CardNumberID cannot be nil")
+	} else if *employees.CardNumberID == "" {
+		validationErrors = append(validationErrors, "error: attribute CardNumberID cannot be empty")
 	}
 
-	if employees.FirstName == nil || *employees.FirstName == "" {
-		errosEmp = append(errosEmp, "error: attribute FirstName cannot be empty")
+	if employees.FirstName == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute FirstName cannot be nil")
+	} else if *employees.FirstName == "" {
+		validationErrors = append(validationErrors, "error: attribute FirstName cannot be empty")
 	}
 
-	if employees.LastName == nil || *employees.LastName == "" {
-		errosEmp = append(errosEmp, "error: attribute LastName cannot be empty")
+	if employees.LastName == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute LastName cannot be nil")
+	} else if *employees.LastName == "" {
+		validationErrors = append(validationErrors, "error: attribute LastName cannot be empty")
 	}
 
 	if employees.WarehouseID == nil {
-		errosEmp = append(errosEmp, "error: attribute WarehouseID cannot be empty")
-	} else if employees.WarehouseID == nil && *employees.WarehouseID <= 0 {
-		errosEmp = append(errosEmp, "error: attribute WarehouseID invalid")
+		nilPointerErrors = append(nilPointerErrors, "error: attribute WarehouseID cannot be empty")
+	} else if employees.WarehouseID != nil && *employees.WarehouseID <= 0 {
+		validationErrors = append(validationErrors, "error: attribute WarehouseID invalid")
 	}
 
-	if len(errosEmp) > 0 {
-		err = fmt.Errorf("validation errors: %v", errosEmp)
+	if len(nilPointerErrors) > 0 || len(validationErrors) > 0 {
+		var allErrors []string
+		allErrors = append(allErrors, nilPointerErrors...)
+		allErrors = append(allErrors, validationErrors...)
+
+		err = fmt.Errorf("validation errors: %v", allErrors)
 	}
 
-	return
+	return err
 }
