@@ -209,3 +209,85 @@ func TestSellersDefault_Create(t *testing.T) {
 		})
 	}
 }
+
+func TestSellersDefault_Update(t *testing.T) {
+	tests := []struct {
+		name         string
+		seller       models.Seller
+		err          error
+		wantedSeller models.Seller
+		wantedErr    error
+	}{
+		{
+			name:         "When the repository returns a seller",
+			seller:       sellersFixture[0],
+			err:          nil,
+			wantedSeller: sellersFixture[0],
+			wantedErr:    nil,
+		},
+		{
+			name:         "When the repository returns an error",
+			seller:       sellersFixture[0],
+			err:          &mysql.MySQLError{Number: mysqlerr.CodeCannotDeleteOrUpdateParentRow},
+			wantedSeller: sellersFixture[0],
+			wantedErr:    &mysql.MySQLError{Number: mysqlerr.CodeCannotDeleteOrUpdateParentRow},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Arrange
+			rp := sellersrp.NewSellersRepositoryMock()
+			sv := service.NewSellersService(rp)
+			dto := models.SellerDTO{
+				ID:          tt.seller.ID,
+				CID:         tt.seller.CID,
+				CompanyName: tt.seller.CompanyName,
+				Address:     tt.seller.Address,
+				Telephone:   tt.seller.Telephone,
+				LocalityID:  tt.seller.LocalityID,
+			}
+			// Act
+			rp.On("Update", 1, dto).Return(tt.seller, tt.err)
+			seller, err := sv.Update(dto.ID, dto)
+
+			// Assert
+			require.Equal(t, tt.wantedSeller, seller)
+			require.Equal(t, tt.wantedErr, err)
+		})
+	}
+}
+
+func TestSellersDefault_Delete(t *testing.T) {
+	tests := []struct {
+		name      string
+		err       error
+		wantedErr error
+	}{
+		{
+			name:      "When the repository deletes the seller sucessfully",
+			err:       nil,
+			wantedErr: nil,
+		},
+		{
+			name:      "When the repository returns an error",
+			err:       models.ErrSectionNotFound,
+			wantedErr: models.ErrSectionNotFound,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Arrange
+			rp := sellersrp.NewSellersRepositoryMock()
+			sv := service.NewSellersService(rp)
+
+			// Act
+			rp.On("Delete", 1).Return(tt.err)
+			err := sv.Delete(1)
+
+			// Assert
+			require.Equal(t, tt.wantedErr, err)
+		})
+	}
+}
