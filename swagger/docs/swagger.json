@@ -344,7 +344,7 @@
                     "200": {
                         "description": "OK - The employees were successfully retrieved",
                         "schema": {
-                            "$ref": "#/definitions/employeesctl.EmployeesFinalJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesResJSON"
                         }
                     },
                     "500": {
@@ -448,7 +448,7 @@
                         }
                     },
                     "404": {
-                        "description": "Employee not found",
+                        "description": "employee not found",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -492,13 +492,13 @@
                         }
                     },
                     "400": {
-                        "description": "Invalid ID format",
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
                     },
                     "404": {
-                        "description": "Employee not found",
+                        "description": "employee not found",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -600,7 +600,7 @@
                         }
                     },
                     "404": {
-                        "description": "Employee not found",
+                        "description": "employee not found",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -753,7 +753,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/localitiesctl.CarryReportJSON"
+                            "$ref": "#/definitions/localitiesctl.LocalityResJSON"
                         }
                     },
                     "400": {
@@ -856,7 +856,7 @@
                         }
                     },
                     "400": {
-                        "description": "Error ao decodificar JSON",
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -914,7 +914,7 @@
                         }
                     },
                     "400": {
-                        "description": "Error ao decodificar JSON",
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -2099,40 +2099,6 @@
                 }
             }
         },
-        "employeesctl.EmployeesAttributes": {
-            "type": "object",
-            "properties": {
-                "card_number_id": {
-                    "type": "string"
-                },
-                "count_reports": {
-                    "type": "integer"
-                },
-                "first_name": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "last_name": {
-                    "type": "string"
-                },
-                "warehouse_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "employeesctl.EmployeesFinalJSON": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/employeesctl.EmployeesAttributes"
-                    }
-                }
-            }
-        },
         "employeesctl.EmployeesReqJSON": {
             "type": "object",
             "properties": {
@@ -2190,20 +2156,6 @@
             "properties": {
                 "data": {},
                 "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "localitiesctl.CarryReportJSON": {
-            "type": "object",
-            "properties": {
-                "carries_count": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "locality_name": {
                     "type": "string"
                 }
             }
