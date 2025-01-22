@@ -10,7 +10,7 @@ type WarehouseDefault struct {
 	sv models.WarehouseService
 }
 
-func NewWarehouseDefault(sv models.WarehouseService) *WarehouseDefault {
+func NewWarehousesController(sv models.WarehouseService) *WarehouseDefault {
 	return &WarehouseDefault{sv: sv}
 }
 
