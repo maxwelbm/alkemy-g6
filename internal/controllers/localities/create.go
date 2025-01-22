@@ -12,31 +12,43 @@ import (
 )
 
 type NewLocalityJSON struct {
-	LocalityName *string `json:"locality_name"`
-	ProvinceName *string `json:"province_name"`
-	CountryName  *string `json:"country_name"`
+	LocalityName *string `json:"locality_name,omitempty"`
+	ProvinceName *string `json:"province_name,omitempty"`
+	CountryName  *string `json:"country_name,omitempty"`
 }
 
 func (j *NewLocalityJSON) validate() (err error) {
 	var locErrs []string
 
 	if j.LocalityName == nil {
-		locErrs = append(locErrs, "error: locality_name is required")
+		locErrs = append(locErrs, "error: locality_name cannot be nil")
+	}
+
+	if j.LocalityName != nil && *j.LocalityName == "" {
+		locErrs = append(locErrs, "error: locality_name cannot be empty")
 	}
 
 	if j.ProvinceName == nil {
-		locErrs = append(locErrs, "error: province_name is required")
+		locErrs = append(locErrs, "error: province_name cannot be nil")
+	}
+
+	if j.ProvinceName != nil && *j.ProvinceName == "" {
+		locErrs = append(locErrs, "error: province_name cannot be empty")
 	}
 
 	if j.CountryName == nil {
-		locErrs = append(locErrs, "error: country_name is required")
+		locErrs = append(locErrs, "error: country_name cannot be nil")
+	}
+
+	if j.CountryName != nil && *j.CountryName == "" {
+		locErrs = append(locErrs, "error: country_name cannot be empty")
 	}
 
 	if len(locErrs) > 0 {
 		err = fmt.Errorf("validation errors: %v", locErrs)
 	}
 
-	return
+	return err
 }
 
 // Create handles the creation of a new locality.
@@ -57,7 +69,7 @@ func (ct *LocalitiesController) Create(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&locJSON)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -86,10 +98,18 @@ func (ct *LocalitiesController) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// builds json
+	var localityJSON = FullLocalitySON{
+		ID:           loc.ID,
+		LocalityName: loc.LocalityName,
+		ProvinceName: loc.ProvinceName,
+		CountryName:  loc.CountryName,
+	}
+
 	// response
 	data := LocalityResJSON{
 		Message: http.StatusText(http.StatusCreated),
-		Data:    loc,
+		Data:    localityJSON,
 	}
 	response.JSON(w, http.StatusCreated, data)
 }
