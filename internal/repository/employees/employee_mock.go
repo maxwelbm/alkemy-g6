@@ -23,23 +23,18 @@ func (m *EmployeeRepositoryMock) GetByID(id int) (models.Employee, error) {
 	return args.Get(0).(models.Employee), args.Error(1)
 }
 
-func (m *EmployeeRepositoryMock) GetReportInboundOrders(id int) ([]models.EmployeeReportInboundDTO, error) {
+func (m *EmployeeRepositoryMock) GetReportInboundOrders(id int) ([]models.EmployeeReportInbound, error) {
 	args := m.Called(id)
-	return args.Get(0).([]models.EmployeeReportInboundDTO), args.Error(1)
+	return args.Get(0).([]models.EmployeeReportInbound), args.Error(1)
 }
 
-func (m *EmployeeRepositoryMock) GetByCardNumberID(cardNumberID string) (models.Employee, error) {
-	args := m.Called(cardNumberID)
+func (m *EmployeeRepositoryMock) Create(employee models.EmployeeDTO) (models.Employee, error) {
+	args := m.Called(employee)
 	return args.Get(0).(models.Employee), args.Error(1)
 }
 
-func (m *EmployeeRepositoryMock) Create(buyer models.EmployeeDTO) (models.Employee, error) {
-	args := m.Called(buyer)
-	return args.Get(0).(models.Employee), args.Error(1)
-}
-
-func (m *EmployeeRepositoryMock) Update(buyer models.EmployeeDTO, id int) (buyerReturn models.Employee, err error) {
-	args := m.Called(id, buyer)
+func (m *EmployeeRepositoryMock) Update(employee models.EmployeeDTO, id int) (employeeReturn models.Employee, err error) {
+	args := m.Called(employee, id)
 	return args.Get(0).(models.Employee), args.Error(1)
 }
 
