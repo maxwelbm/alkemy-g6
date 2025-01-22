@@ -2,6 +2,7 @@ package employeesctl
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -35,7 +36,12 @@ import (
 func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
-		response.Error(w, http.StatusBadRequest, "Invalid ID format")
+		response.Error(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 		return
 	}
 
@@ -43,46 +49,45 @@ func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 
 	err = json.NewDecoder(r.Body).Decode(&employeesJSON)
 	if err != nil {
-		response.JSON(w, http.StatusBadRequest, "Failed to update employees")
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	err = validateUpdateEmployees(employeesJSON)
 	if err != nil {
-		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 
-	newEmployees := models.EmployeeDTO{}
+	newEmployee := models.EmployeeDTO{}
 
-	newEmployees.ID = employeesJSON.ID
+	newEmployee.ID = employeesJSON.ID
 	if employeesJSON.CardNumberID != nil {
-		newEmployees.CardNumberID = employeesJSON.CardNumberID
+		newEmployee.CardNumberID = employeesJSON.CardNumberID
 	}
 
 	if employeesJSON.FirstName != nil {
-		newEmployees.FirstName = employeesJSON.FirstName
+		newEmployee.FirstName = employeesJSON.FirstName
 	}
 
 	if employeesJSON.LastName != nil {
-		newEmployees.LastName = employeesJSON.LastName
+		newEmployee.LastName = employeesJSON.LastName
 	}
 
 	if employeesJSON.WarehouseID != nil {
-		newEmployees.WarehouseID = employeesJSON.WarehouseID
+		newEmployee.WarehouseID = employeesJSON.WarehouseID
 	}
 
-	emp, err := c.sv.Update(newEmployees, id)
+	emp, err := c.sv.Update(newEmployee, id)
 	if err != nil {
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
-			switch mysqlErr.Number {
-			case mysqlerr.CodeDuplicateEntry:
-				response.Error(w, http.StatusConflict, err.Error())
-				return
-			case mysqlerr.CodeCannotAddOrUpdateChildRow:
-				response.Error(w, http.StatusBadRequest, err.Error())
-				return
-			}
+		if errors.Is(err, models.ErrEmployeeNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+			return
+		}
+
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok && (mysqlErr.Number == mysqlerr.CodeDuplicateEntry || mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow) {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
 		}
 
 		response.Error(w, http.StatusInternalServerError, err.Error())
