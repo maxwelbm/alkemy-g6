@@ -3,7 +3,7 @@ package models
 import "errors"
 
 var (
-	ErrBuyerNotFound = errors.New("Buyer not found ")
+	ErrBuyerNotFound = errors.New("buyer not found ")
 )
 
 type Buyer struct {
