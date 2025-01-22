@@ -2,6 +2,7 @@ package productsctl
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/go-sql-driver/mysql"
@@ -49,8 +50,9 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 		ProductTypeID:  *prodJSON.ProductTypeID,
 		SellerID:       *prodJSON.SellerID,
 	}
-
+	fmt.Println("create ======", prodDTO)
 	newProd, err := p.SV.Create(prodDTO)
+	fmt.Println("new create ======", newProd)
 
 	if err != nil {
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
