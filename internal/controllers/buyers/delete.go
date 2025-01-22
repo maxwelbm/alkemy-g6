@@ -23,11 +23,15 @@ import (
 // @Failure 404 {object} map[string]string "Not Found"
 // @Router /api/v1/buyers/{id} [delete]
 func (ct *BuyersDefault) Delete(w http.ResponseWriter, r *http.Request) {
-	// Parse the buyer ID from the URL parameter and convert it to an integer.
+	// Parse the buyer ID from the URL parameter and validate it
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil || id < 1 {
-		// If the ID is not valid, return a 400 Bad Request response.
+	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 		return
 	}
 

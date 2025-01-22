@@ -18,21 +18,35 @@ type BuyerCreateJSON struct {
 }
 
 func (j *BuyerCreateJSON) validate() (err error) {
-	var validationErrors []string
+	var validationErrors, nilPointerErrors []string
 
 	if j.FirstName == nil {
-		validationErrors = append(validationErrors, "error: first_name is required")
+		nilPointerErrors = append(nilPointerErrors, "error: attribute FirstName cannot be nil")
+	} else if j.FirstName != nil && *j.FirstName == "" {
+		validationErrors = append(validationErrors, "error: attribute FirstName cannot be empty")
 	}
 
 	if j.LastName == nil {
-		validationErrors = append(validationErrors, "error: last_name is required")
+		nilPointerErrors = append(nilPointerErrors, "error: attribute LastName cannot be nil")
+	} else if j.LastName != nil && *j.LastName == "" {
+		validationErrors = append(validationErrors, "error: attribute LastName cannot be empty")
 	}
 
-	if len(validationErrors) > 0 {
-		err = fmt.Errorf("validation errors: %v", validationErrors)
+	if j.CardNumberID == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute CardNumberID cannot be nil")
+	} else if j.CardNumberID != nil && *j.CardNumberID == "" {
+		validationErrors = append(validationErrors, "error: attribute CardNumberID cannot be empty")
 	}
 
-	return
+	if len(nilPointerErrors) > 0 || len(validationErrors) > 0 {
+		var allErrors []string
+		allErrors = append(allErrors, nilPointerErrors...)
+		allErrors = append(allErrors, validationErrors...)
+
+		err = fmt.Errorf("validation errors: %v", allErrors)
+	}
+
+	return err
 }
 
 // Create handles the creation of a new buyer.
@@ -52,7 +66,7 @@ func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
 	var buyerRequest BuyerCreateJSON
 	if err := json.NewDecoder(r.Body).Decode(&buyerRequest); err != nil {
 		// If there's an error decoding the request, respond with a 400 Bad Request status
-		response.JSON(w, http.StatusBadRequest, err.Error())
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
