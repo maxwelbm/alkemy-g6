@@ -2,6 +2,7 @@ package service_test
 
 import (
 	"errors"
+	"strconv"
 	"testing"
 
 	"github.com/go-sql-driver/mysql"
@@ -9,8 +10,6 @@ import (
 	sellersrp "github.com/maxwelbm/alkemy-g6/internal/repository/sellers"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 )
 
@@ -122,22 +121,45 @@ func TestSellersDefault_GetByID(t *testing.T) {
 }
 
 func TestSellersDefault_GetByCid(t *testing.T) {
-	rp := sellersrp.NewSellersRepositoryMock()
+	tests := []struct {
+		name         string
+		seller       models.Seller
+		err          error
+		wantedSeller models.Seller
+		wantedErr    error
+	}{
+		{
+			name:         "When the repository returns a seller by cid",
+			seller:       sellersFixture[0],
+			err:          nil,
+			wantedSeller: sellersFixture[0],
+			wantedErr:    nil,
+		},
+		{
+			name:         "When the repository returns an error",
+			seller:       models.Seller{},
+			err:          models.ErrSellerNotFound,
+			wantedSeller: models.Seller{},
+			wantedErr:    models.ErrSellerNotFound,
+		},
+	}
 
-	rp.On("GetByCid", mock.AnythingOfType("int")).Return(models.Seller{
-		ID:          1,
-		CID:         "123",
-		CompanyName: "Company A",
-		Address:     "123 Street",
-		Telephone:   "012345678",
-		LocalityID:  1,
-	}, nil)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cidInt, _ := strconv.Atoi(tt.seller.CID)
+			// Arrange
+			rp := sellersrp.NewSellersRepositoryMock()
+			rp.On("GetByCid", cidInt).Return(tt.seller, tt.err)
+			sv := service.NewSellersService(rp)
 
-	s := service.NewSellersService(rp)
-	seller, err := s.GetByCid(1)
+			// Act
+			seller, err := sv.GetByCid(cidInt)
 
-	assert.NoError(t, err)
-	assert.Equal(t, "123", seller.CID)
+			// Assert
+			require.Equal(t, tt.wantedSeller, seller)
+			require.Equal(t, tt.wantedErr, err)
+		})
+	}
 }
 
 func TestSellersDefault_Create(t *testing.T) {
