@@ -149,7 +149,7 @@ func TestUpdate(t *testing.T) {
 			req := httptest.NewRequest(http.MethodPatch, url, strings.NewReader(tt.employeeJSON))
 			res := httptest.NewRecorder()
 
-			sv.On("Update", mock.AnythingOfType("int"), mock.AnythingOfType("models.EmployeeDTO")).Return(tt.expected.employee, tt.callErr)
+			sv.On("Update", mock.AnythingOfType("models.EmployeeDTO"), mock.AnythingOfType("int")).Return(tt.expected.employee, tt.callErr)
 			r.ServeHTTP(res, req)
 
 			var decodedRes struct {
