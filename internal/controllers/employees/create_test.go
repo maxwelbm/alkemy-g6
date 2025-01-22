@@ -91,7 +91,7 @@ func TestCreate(t *testing.T) {
 			expected: expected{
 				calls:      0,
 				statusCode: http.StatusUnprocessableEntity,
-				message:    "error: attribute CardNumberID cannot be empty",
+				message:    "error: attribute CardNumberID cannot be nil",
 				employee:   models.Employee{},
 			},
 		},
