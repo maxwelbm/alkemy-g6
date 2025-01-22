@@ -1,10 +1,12 @@
 package buyersctl
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -22,17 +24,29 @@ import (
 func (ct *BuyersDefault) GetByID(w http.ResponseWriter, r *http.Request) {
 	// Parse the buyer ID from the URL parameter and convert it to an integer
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil || id < 1 {
-		// If the ID is invalid, return a 400 Bad Request error
+	// If the ID is invalid, return a 400 Bad Request error
+	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
+		return
+	}
+	// If the ID is less than 1, return a 400 Bad Request error
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
 		return
 	}
 
 	// Retrieve the buyer details from the service layer using the ID
 	buyer, err := ct.sv.GetByID(id)
 	if err != nil {
-		// If the buyer is not found, return a 404 Not Found error
-		response.Error(w, http.StatusNotFound, err.Error())
+		// If the buyer ID is not found, return a 404 Not Found response
+		if errors.Is(err, models.ErrBuyerNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+			return
+		}
+
+		// For any other errors, return a 500 Internal Server Error response
+		response.Error(w, http.StatusInternalServerError, err.Error())
+
 		return
 	}
 
