@@ -85,7 +85,7 @@ func TestCreate(t *testing.T) {
 			},
 		},
 		{
-			name:         "422 - Conflict error when trying to create an employee with empty parameters",
+			name:         "422 - Conflict error when trying to create an employee with missing parameters",
 			employeeJSON: `{"id": 1,"first_name":"Rick","last_name":"Grimes","warehouse_id":10}`,
 			callErr:      nil,
 			expected: expected{
