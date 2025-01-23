@@ -116,15 +116,11 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
-			switch mysqlErr.Number {
-			case mysqlerr.CodeDuplicateEntry:
-				response.Error(w, http.StatusConflict, err.Error())
-				return
-			case mysqlerr.CodeCannotAddOrUpdateChildRow:
-				response.Error(w, http.StatusConflict, err.Error())
-				return
-			}
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok &&
+			(mysqlErr.Number == mysqlerr.CodeDuplicateEntry ||
+				mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow) {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
 		}
 
 		response.Error(w, http.StatusInternalServerError, err.Error())
