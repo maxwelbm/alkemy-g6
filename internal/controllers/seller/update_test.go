@@ -163,7 +163,7 @@ func TestUpdate(t *testing.T) {
 			},
 		},
 		{
-			name: "500 - When the repository returns an error",
+			name: "409 - When the repository raises a DuplicateEntry error",
 			id:   "1",
 			sellerJSON: `{
 						"id": 1,
