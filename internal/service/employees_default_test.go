@@ -148,7 +148,7 @@ func TestEmployeesDefault_GetReportInboundOrders(t *testing.T) {
 		expectedErr     error
 	}{
 		{
-			name:            "200 - Successfully retrieve inbound orders'reports for all existing employees",
+			name:            "Successfully retrieve inbound orders'reports for all existing employees",
 			id:              0,
 			reports:         reports,
 			err:             nil,
@@ -156,7 +156,7 @@ func TestEmployeesDefault_GetReportInboundOrders(t *testing.T) {
 			expectedErr:     nil,
 		},
 		{
-			name:            "200 - Successfully retrieve inbound orders' report for an employee id",
+			name:            "Successfully retrieve inbound orders' report for an employee id",
 			id:              1,
 			reports:         []models.EmployeeReportInbound{reports[0]},
 			err:             nil,
