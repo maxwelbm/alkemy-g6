@@ -59,7 +59,7 @@ func TestDelete(t *testing.T) {
 				message:    "",
 			},
 		}, {
-			name:    "409 - When the repository raises a DuplicateEntry error",
+			name:    "409 - When the repository raises a CannotDeleteOrUpdateParentRow error",
 			id:      "999",
 			callErr: &mysql.MySQLError{Number: mysqlerr.CodeCannotDeleteOrUpdateParentRow},
 			wanted: wanted{
