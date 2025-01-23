@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-var prodBatchesFixture = []models.ProductBatches{
-	{
+func TestProductBatchesDefault_Create(t *testing.T) {
+	prodBatchesFixture := models.ProductBatches{
 		ID:                 1,
 		BatchNumber:        "PB01",
 		InitialQuantity:    100,
@@ -24,23 +24,7 @@ var prodBatchesFixture = []models.ProductBatches{
 		ManufacturingHour:  "08:00:00",
 		ProductID:          1,
 		SectionID:          1,
-	},
-	{
-		ID:                 2,
-		BatchNumber:        "PB02",
-		InitialQuantity:    10,
-		CurrentQuantity:    50,
-		CurrentTemperature: -2.0,
-		MinimumTemperature: -10.0,
-		DueDate:            "2024-04-04",
-		ManufacturingDate:  "2023-04-04",
-		ManufacturingHour:  "18:00:00",
-		ProductID:          2,
-		SectionID:          2,
-	},
-}
-
-func TestProductBatchesDefault_Create(t *testing.T) {
+	}
 	tests := []struct {
 		name              string
 		prodBatches       models.ProductBatches
@@ -50,16 +34,16 @@ func TestProductBatchesDefault_Create(t *testing.T) {
 	}{
 		{
 			name:              "When the repository returns a product batch",
-			prodBatches:       prodBatchesFixture[0],
+			prodBatches:       prodBatchesFixture,
 			err:               nil,
-			wantedProdBatches: prodBatchesFixture[0],
+			wantedProdBatches: prodBatchesFixture,
 			wantedErr:         nil,
 		},
 		{
 			name:              "When the repository returns an error",
-			prodBatches:       prodBatchesFixture[0],
+			prodBatches:       prodBatchesFixture,
 			err:               &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
-			wantedProdBatches: prodBatchesFixture[0],
+			wantedProdBatches: prodBatchesFixture,
 			wantedErr:         &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
 		},
 	}
