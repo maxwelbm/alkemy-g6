@@ -58,7 +58,6 @@ var productsFixture = []models.Product{
 }
 
 func TestProductsDefault_GetAll(t *testing.T) {
-
 	tests := []struct {
 		name            string
 		product         []models.Product
@@ -67,7 +66,7 @@ func TestProductsDefault_GetAll(t *testing.T) {
 		expectedErr     error
 	}{
 		{
-			name:            "When the repository returns a product",
+			name:            "When the repository returns products",
 			product:         productsFixture,
 			err:             nil,
 			expectedProduct: productsFixture,
@@ -97,30 +96,29 @@ func TestProductsDefault_GetAll(t *testing.T) {
 			require.Equal(t, tt.expectedErr, err)
 		})
 	}
-
 }
 
 func TestProductsDefault_GetByID(t *testing.T) {
 	tests := []struct {
-		name         string
-		product      models.Product
-		err          error
-		expecProduct models.Product
-		expectedErr  error
+		name            string
+		product         models.Product
+		err             error
+		expectedProduct models.Product
+		expectedErr     error
 	}{
 		{
-			name:         "When the repository returns a product",
-			product:      productsFixture[0],
-			err:          nil,
-			expecProduct: productsFixture[0],
-			expectedErr:  nil,
+			name:            "When the repository returns a product",
+			product:         productsFixture[0],
+			err:             nil,
+			expectedProduct: productsFixture[0],
+			expectedErr:     nil,
 		},
 		{
-			name:         "When the repository returns an error",
-			product:      models.Product{},
-			err:          models.ErrProductNotFound,
-			expecProduct: models.Product{},
-			expectedErr:  models.ErrProductNotFound,
+			name:            "When the repository returns an error",
+			product:         models.Product{},
+			err:             models.ErrProductNotFound,
+			expectedProduct: models.Product{},
+			expectedErr:     models.ErrProductNotFound,
 		},
 	}
 
@@ -135,7 +133,7 @@ func TestProductsDefault_GetByID(t *testing.T) {
 			result, err := sv.GetByID(tt.product.ID)
 
 			// Assert
-			require.Equal(t, tt.expecProduct, result)
+			require.Equal(t, tt.expectedProduct, result)
 			require.Equal(t, tt.expectedErr, err)
 		})
 	}
@@ -143,11 +141,11 @@ func TestProductsDefault_GetByID(t *testing.T) {
 
 func TestProductsDefault_ReportRecords(t *testing.T) {
 	tests := []struct {
-		name          string
-		productRecord []models.ProductReportRecords
-		err           error
-		expecProduct  []models.ProductReportRecords
-		expectedErr   error
+		name            string
+		productRecord   []models.ProductReportRecords
+		err             error
+		expectedProduct []models.ProductReportRecords
+		expectedErr     error
 	}{
 		{
 			name: "When the repository returns a product record",
@@ -159,7 +157,7 @@ func TestProductsDefault_ReportRecords(t *testing.T) {
 				},
 			},
 			err: nil,
-			expecProduct: []models.ProductReportRecords{
+			expectedProduct: []models.ProductReportRecords{
 				{
 					ProductID:    1,
 					Description:  "Product 1",
@@ -169,11 +167,11 @@ func TestProductsDefault_ReportRecords(t *testing.T) {
 			expectedErr: nil,
 		},
 		{
-			name:          "When the repository returns an error",
-			productRecord: []models.ProductReportRecords{},
-			err:           errors.New("internal error"),
-			expecProduct:  []models.ProductReportRecords{},
-			expectedErr:   errors.New("internal error"),
+			name:            "When the repository returns an error",
+			productRecord:   []models.ProductReportRecords{},
+			err:             errors.New("internal error"),
+			expectedProduct: []models.ProductReportRecords{},
+			expectedErr:     errors.New("internal error"),
 		},
 	}
 
@@ -188,7 +186,7 @@ func TestProductsDefault_ReportRecords(t *testing.T) {
 			result, err := sv.ReportRecords(0)
 
 			// Assert
-			require.Equal(t, tt.expecProduct, result)
+			require.Equal(t, tt.expectedProduct, result)
 			require.Equal(t, tt.expectedErr, err)
 		})
 	}
@@ -196,25 +194,25 @@ func TestProductsDefault_ReportRecords(t *testing.T) {
 
 func TestProductsDefault_Create(t *testing.T) {
 	tests := []struct {
-		name         string
-		product      models.Product
-		err          error
-		expecProduct models.Product
-		expectedErr  error
+		name            string
+		product         models.Product
+		err             error
+		expectedProduct models.Product
+		expectedErr     error
 	}{
 		{
-			name:         "When the repository returns a product",
-			product:      productsFixture[0],
-			err:          nil,
-			expecProduct: productsFixture[0],
-			expectedErr:  nil,
+			name:            "When the repository returns a product",
+			product:         productsFixture[0],
+			err:             nil,
+			expectedProduct: productsFixture[0],
+			expectedErr:     nil,
 		},
 		{
-			name:         "When the repository returns an error",
-			product:      productsFixture[0],
-			err:          &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
-			expecProduct: productsFixture[0],
-			expectedErr:  &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
+			name:            "When the repository returns an error",
+			product:         productsFixture[0],
+			err:             &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
+			expectedProduct: productsFixture[0],
+			expectedErr:     &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
 		},
 	}
 
@@ -242,7 +240,7 @@ func TestProductsDefault_Create(t *testing.T) {
 			result, err := sv.Create(dto)
 
 			// Assert
-			require.Equal(t, tt.expecProduct, result)
+			require.Equal(t, tt.expectedProduct, result)
 			require.Equal(t, tt.expectedErr, err)
 		})
 	}
@@ -250,25 +248,25 @@ func TestProductsDefault_Create(t *testing.T) {
 
 func TestProductsDefault_Update(t *testing.T) {
 	tests := []struct {
-		name         string
-		product      models.Product
-		err          error
-		expecProduct models.Product
-		expectedErr  error
+		name            string
+		product         models.Product
+		err             error
+		expectedProduct models.Product
+		expectedErr     error
 	}{
 		{
-			name:         "When the repository returns a product",
-			product:      productsFixture[0],
-			err:          nil,
-			expecProduct: productsFixture[0],
-			expectedErr:  nil,
+			name:            "When the repository returns a product",
+			product:         productsFixture[0],
+			err:             nil,
+			expectedProduct: productsFixture[0],
+			expectedErr:     nil,
 		},
 		{
-			name:         "When the repository returns an error",
-			product:      productsFixture[0],
-			err:          models.ErrProductNotFound,
-			expecProduct: productsFixture[0],
-			expectedErr:  models.ErrProductNotFound,
+			name:            "When the repository returns an error",
+			product:         productsFixture[0],
+			err:             models.ErrProductNotFound,
+			expectedProduct: productsFixture[0],
+			expectedErr:     models.ErrProductNotFound,
 		},
 	}
 
@@ -297,7 +295,7 @@ func TestProductsDefault_Update(t *testing.T) {
 			result, err := sv.Update(tt.product.ID, dto)
 
 			// Assert
-			require.Equal(t, tt.expecProduct, result)
+			require.Equal(t, tt.expectedProduct, result)
 			require.Equal(t, tt.expectedErr, err)
 		})
 	}
@@ -310,7 +308,7 @@ func TestProductsDefault_Delete(t *testing.T) {
 		expectedErr error
 	}{
 		{
-			name:        "When the repository returns a product",
+			name:        "When the repository deletes a product successfully",
 			err:         nil,
 			expectedErr: nil,
 		},
