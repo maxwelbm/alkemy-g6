@@ -244,7 +244,7 @@ func TestUpdate(t *testing.T) {
 
 			r := chi.NewRouter()
 			r.Patch("/api/v1/sellers/{id}", ctl.Update)
-			url := "/api/v1/sellers/" + string(tt.id)
+			url := "/api/v1/sellers/" + tt.id
 			req := httptest.NewRequest(http.MethodPatch, url, strings.NewReader(tt.sellerJSON))
 			res := httptest.NewRecorder()
 
