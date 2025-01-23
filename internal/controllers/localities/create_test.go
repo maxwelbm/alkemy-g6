@@ -106,7 +106,14 @@ func TestCreate(t *testing.T) {
 			res := httptest.NewRecorder()
 
 			// Act
-			sv.On("Create", mock.AnythingOfType("models.LocalityDTO")).Return(tt.wanted.locality, tt.callErr)
+			sv.On("Create", mock.MatchedBy(func(dto models.LocalityDTO) bool {
+				if tt.callErr != nil {
+					return true
+				}
+				return (*dto.LocalityName == tt.wanted.locality.LocalityName &&
+					*dto.ProvinceName == tt.wanted.locality.ProvinceName &&
+					*dto.CountryName == tt.wanted.locality.CountryName)
+			})).Return(tt.wanted.locality, tt.callErr)
 			ctl.Create(res, req)
 
 			// Assert

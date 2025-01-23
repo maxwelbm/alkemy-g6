@@ -79,9 +79,9 @@ func (ct *LocalitiesController) Create(w http.ResponseWriter, r *http.Request) {
 	}
 	// builds dto from json
 	locDTO := &models.LocalityDTO{
-		LocalityName: *locJSON.LocalityName,
-		ProvinceName: *locJSON.ProvinceName,
-		CountryName:  *locJSON.CountryName,
+		LocalityName: locJSON.LocalityName,
+		ProvinceName: locJSON.ProvinceName,
+		CountryName:  locJSON.CountryName,
 	}
 
 	// insert

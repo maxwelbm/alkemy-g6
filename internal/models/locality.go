@@ -14,9 +14,9 @@ type Locality struct {
 }
 
 type LocalityDTO struct {
-	LocalityName string
-	ProvinceName string
-	CountryName  string
+	LocalityName *string
+	ProvinceName *string
+	CountryName  *string
 }
 
 type LocalitySellersReport struct {
