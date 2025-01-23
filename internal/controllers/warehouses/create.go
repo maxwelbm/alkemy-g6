@@ -27,7 +27,7 @@ func (c *WarehouseDefault) Create(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&warehouseJSON)
 	if err != nil {
-		response.JSON(w, http.StatusBadRequest, err.Error())
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -47,11 +47,14 @@ func (c *WarehouseDefault) Create(w http.ResponseWriter, r *http.Request) {
 
 	resWarehouse, err := c.sv.Create(warehouse)
 	if err != nil {
-		if err.(*mysql.MySQLError).Number == mysqlerr.CodeDuplicateEntry {
+		// Check if the error is a MySQL duplicate entry error
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok &&
+			(mysqlErr.Number == mysqlerr.CodeDuplicateEntry) {
 			response.Error(w, http.StatusConflict, err.Error())
+			return
 		}
-
-		response.JSON(w, http.StatusUnprocessableEntity, err.Error())
+		// For any other error, respond with an internal server error status
+		response.Error(w, http.StatusInternalServerError, err.Error())
 
 		return
 	}
