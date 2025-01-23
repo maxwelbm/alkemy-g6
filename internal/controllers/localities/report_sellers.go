@@ -9,7 +9,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-type LocalityReportJSON struct {
+type LocalitySellersReportJSON struct {
 	ID           int    `json:"id"`
 	LocalityName string `json:"locality_name"`
 	SellersCount int    `json:"sellers_count"`
@@ -61,10 +61,10 @@ func (ct *LocalitiesController) ReportSellers(w http.ResponseWriter, r *http.Req
 	}
 
 	// Populate the response JSON with the locality report data
-	data := make([]LocalityReportJSON, 0, len(locs))
+	data := make([]LocalitySellersReportJSON, 0, len(locs))
 
 	for _, loc := range locs {
-		locJSON := LocalityReportJSON{
+		locJSON := LocalitySellersReportJSON{
 			ID:           loc.ID,
 			LocalityName: loc.LocalityName,
 			SellersCount: loc.SellersCount,

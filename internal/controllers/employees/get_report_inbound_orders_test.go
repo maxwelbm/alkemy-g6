@@ -20,7 +20,7 @@ func TestGetReportInboundOrders(t *testing.T) {
 		calls      int
 		statusCode int
 		message    string
-		reports    []models.EmployeeReportInboundDTO
+		reports    []models.EmployeeReportInbound
 	}
 	tests := []struct {
 		name     string
@@ -35,7 +35,7 @@ func TestGetReportInboundOrders(t *testing.T) {
 			expected: expected{
 				calls:      1,
 				statusCode: http.StatusOK,
-				reports: []models.EmployeeReportInboundDTO{
+				reports: []models.EmployeeReportInbound{
 					{ID: 1, CardNumberID: "3253", FirstName: "Rick", LastName: "Grimes", WarehouseID: 1, CountReports: 3},
 					{ID: 2, CardNumberID: "3254", FirstName: "Daryl", LastName: "Dixon", WarehouseID: 1, CountReports: 2},
 					{ID: 3, CardNumberID: "3255", FirstName: "Carol", LastName: "Peletier", WarehouseID: 1, CountReports: 1},
@@ -49,7 +49,7 @@ func TestGetReportInboundOrders(t *testing.T) {
 			expected: expected{
 				calls:      1,
 				statusCode: http.StatusOK,
-				reports: []models.EmployeeReportInboundDTO{
+				reports: []models.EmployeeReportInbound{
 					{ID: 1, CardNumberID: "3253", FirstName: "Rick", LastName: "Grimes", WarehouseID: 1, CountReports: 3},
 				},
 			},
@@ -61,7 +61,7 @@ func TestGetReportInboundOrders(t *testing.T) {
 			expected: expected{
 				calls:      1,
 				statusCode: http.StatusOK,
-				reports: []models.EmployeeReportInboundDTO{
+				reports: []models.EmployeeReportInbound{
 					{ID: 1, CardNumberID: "3253", FirstName: "Rick", LastName: "Grimes", WarehouseID: 1, CountReports: 0},
 				},
 			},
@@ -94,11 +94,11 @@ func TestGetReportInboundOrders(t *testing.T) {
 				calls:      1,
 				statusCode: http.StatusNotFound,
 				message:    "employee not found",
-				reports:    []models.EmployeeReportInboundDTO{},
+				reports:    []models.EmployeeReportInbound{},
 			},
 		},
 		{
-			name:    "500 - Internal server error when trying to retrieve inbound orders' report",
+			name:    "500 - Internal server error when trying to retrieve inbound orders' reports",
 			callErr: errors.New("internal error"),
 			id:      "1",
 			expected: expected{
@@ -130,8 +130,8 @@ func TestGetReportInboundOrders(t *testing.T) {
 			r.ServeHTTP(res, req)
 
 			var decodedRes struct {
-				Message string                            `json:"message,omitempty"`
-				Data    []models.EmployeeReportInboundDTO `json:"data,omitempty"`
+				Message string                         `json:"message,omitempty"`
+				Data    []models.EmployeeReportInbound `json:"data,omitempty"`
 			}
 			err := json.NewDecoder(res.Body).Decode(&decodedRes)
 

@@ -351,7 +351,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK - The employees were successfully retrieved",
                         "schema": {
-                            "$ref": "#/definitions/employeesctl.EmployeesFinalJSON"
+                            "$ref": "#/definitions/employeesctl.EmployeesResJSON"
                         }
                     },
                     "500": {
@@ -455,7 +455,7 @@ const docTemplate = `{
                         }
                     },
                     "404": {
-                        "description": "Employee not found",
+                        "description": "employee not found",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -499,13 +499,13 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID format",
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
                     },
                     "404": {
-                        "description": "Employee not found",
+                        "description": "employee not found",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -607,7 +607,7 @@ const docTemplate = `{
                         }
                     },
                     "404": {
-                        "description": "Employee not found",
+                        "description": "employee not found",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -760,7 +760,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/localitiesctl.CarryReportJSON"
+                            "$ref": "#/definitions/localitiesctl.LocalityResJSON"
                         }
                     },
                     "400": {
@@ -863,7 +863,7 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Error ao decodificar JSON",
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -921,7 +921,7 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Error ao decodificar JSON",
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/response.ErrorResponse"
                         }
@@ -2106,40 +2106,6 @@ const docTemplate = `{
                 }
             }
         },
-        "employeesctl.EmployeesAttributes": {
-            "type": "object",
-            "properties": {
-                "card_number_id": {
-                    "type": "string"
-                },
-                "count_reports": {
-                    "type": "integer"
-                },
-                "first_name": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "last_name": {
-                    "type": "string"
-                },
-                "warehouse_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "employeesctl.EmployeesFinalJSON": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/employeesctl.EmployeesAttributes"
-                    }
-                }
-            }
-        },
         "employeesctl.EmployeesReqJSON": {
             "type": "object",
             "properties": {
@@ -2197,20 +2163,6 @@ const docTemplate = `{
             "properties": {
                 "data": {},
                 "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "localitiesctl.CarryReportJSON": {
-            "type": "object",
-            "properties": {
-                "carries_count": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "locality_name": {
                     "type": "string"
                 }
             }
@@ -2661,7 +2613,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "localhost:8000",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "FrescosAPI",
