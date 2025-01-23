@@ -40,5 +40,5 @@ func (m *SellerServiceMock) Update(id int, seller models.SellerDTO) (sellerToRet
 
 func (m *SellerServiceMock) Delete(id int) (err error) {
 	args := m.Called(id)
-	return args.Error(1)
+	return args.Error(0)
 }

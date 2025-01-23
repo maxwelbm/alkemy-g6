@@ -12,7 +12,6 @@ import (
 	"github.com/go-sql-driver/mysql"
 	sellersctl "github.com/maxwelbm/alkemy-g6/internal/controllers/seller"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
-	sellersrp "github.com/maxwelbm/alkemy-g6/internal/repository/sellers"
 	"github.com/maxwelbm/alkemy-g6/internal/service"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/stretchr/testify/mock"
@@ -58,19 +57,7 @@ func TestUpdate(t *testing.T) {
 					LocalityID:  1,
 				},
 			},
-		}, /*
-			{
-				name:       "200 - When the seller is updated successfully with missing fields",
-				id:         "1",
-				sellerJSON: `{"first_name": "Buyer 1", "last_name": "Ferreira"}`,
-				callErr:    nil,
-				wanted: wanted{
-					calls:      1,
-					statusCode: http.StatusOK,
-					message:    "OK",
-					seller:     models.Seller{ID: 1, FirstName: "Buyer 1", LastName: "Ferreira", CardNumberID: "123456789"},
-				},
-			},*/
+		},
 		{
 			name: "400 - When passing a non numeric id",
 			id:   "abc",
@@ -121,29 +108,7 @@ func TestUpdate(t *testing.T) {
 				statusCode: http.StatusBadRequest,
 				message:    "json: cannot unmarshal",
 			},
-		}, /*
-			{
-				name:       "404 - When the repository raises a BuyerNotFound error",
-				id:         "999",
-				sellerJSON: `{"first_name": "Buyer 1", "last_name": "Ferreira", "card_number_id": "12345678"}`,
-				callErr:    models.ErrBuyerNotFound,
-				wanted: wanted{
-					calls:      1,
-					statusCode: http.StatusNotFound,
-					message:    "seller not found",
-				},
-			},
-				{
-					name:       "409 - When the repository raises a DuplicateEntry error",
-					id:         "1",
-					sellerJSON: `{"first_name": "Buyer 1", "last_name": "Ferreira", "card_number_id": "12345678"}`,
-					callErr:    &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
-					wanted: wanted{
-						calls:      1,
-						statusCode: http.StatusConflict,
-						message:    "1062",
-					},
-				},*/
+		},
 		{
 			name: "422 - When passing a body with empty fields",
 			id:   "1",
@@ -238,8 +203,7 @@ func TestUpdate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Arrange
-			rp := sellersrp.NewSellersRepositoryMock()
-			sv := service.NewSellersService(rp)
+			sv := service.NewSellersServiceMock()
 			ctl := sellersctl.NewSellersController(sv)
 
 			r := chi.NewRouter()
@@ -249,7 +213,7 @@ func TestUpdate(t *testing.T) {
 			res := httptest.NewRecorder()
 
 			// Act
-			rp.On(
+			sv.On(
 				"Update",
 				mock.AnythingOfType("int"),
 				mock.AnythingOfType("models.SellerDTO"),
@@ -264,7 +228,7 @@ func TestUpdate(t *testing.T) {
 			err := json.NewDecoder(res.Body).Decode(&decodedRes)
 			require.NoError(t, err)
 
-			rp.AssertNumberOfCalls(t, "Update", tt.wanted.calls)
+			sv.AssertNumberOfCalls(t, "Update", tt.wanted.calls)
 			require.Equal(t, tt.wanted.statusCode, res.Code)
 			require.Contains(t, decodedRes.Message, tt.wanted.message)
 			if tt.callErr != nil {
