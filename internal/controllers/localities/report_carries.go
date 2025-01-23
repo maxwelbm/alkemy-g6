@@ -9,7 +9,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-type CarryReportJSON struct {
+type LocalityCarriesReportJSON struct {
 	ID           int    `json:"id"`
 	LocalityName string `json:"locality_name"`
 	CarriesCount int    `json:"carries_count"`
@@ -21,7 +21,7 @@ type CarryReportJSON struct {
 // @Tags localities
 // @Produce json
 // @Param id query int true "Carry ID"
-// @Success 200 {object} CarryReportJSON "OK"
+// @Success 200 {object} LocalityResJSON "OK"
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 404 {object} response.ErrorResponse "Not Found"
 // @Failure 500 {object} response.ErrorResponse "Internal Server Error"
@@ -61,10 +61,10 @@ func (ct *LocalitiesController) ReportCarries(w http.ResponseWriter, r *http.Req
 	}
 
 	// Populate the response JSON with the locality report data
-	data := make([]CarryReportJSON, 0, len(locs))
+	data := make([]LocalityCarriesReportJSON, 0, len(locs))
 
 	for _, loc := range locs {
-		locJSON := CarryReportJSON{
+		locJSON := LocalityCarriesReportJSON{
 			ID:           loc.ID,
 			LocalityName: loc.LocalityName,
 			CarriesCount: loc.CarriesCount,
