@@ -255,7 +255,6 @@ func TestUpdate(t *testing.T) {
 				mock.AnythingOfType("models.SellerDTO"),
 			).Return(tt.wanted.seller, tt.callErr)
 			r.ServeHTTP(res, req)
-			ctl.Update(res, req)
 
 			// Assert
 			var decodedRes struct {
