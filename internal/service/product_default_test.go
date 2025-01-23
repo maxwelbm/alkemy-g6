@@ -60,25 +60,25 @@ var productsFixture = []models.Product{
 func TestProductsDefault_GetAll(t *testing.T) {
 
 	tests := []struct {
-		name         string
-		product      []models.Product
-		err          error
-		expecProduct []models.Product
-		expectedErr  error
+		name            string
+		product         []models.Product
+		err             error
+		expectedProduct []models.Product
+		expectedErr     error
 	}{
 		{
-			name:         "When the repository returns a product",
-			product:      productsFixture,
-			err:          nil,
-			expecProduct: productsFixture,
-			expectedErr:  nil,
+			name:            "When the repository returns a product",
+			product:         productsFixture,
+			err:             nil,
+			expectedProduct: productsFixture,
+			expectedErr:     nil,
 		},
 		{
-			name:         "When the repository returns an error",
-			product:      []models.Product{},
-			err:          errors.New("internal error"),
-			expecProduct: []models.Product{},
-			expectedErr:  errors.New("internal error"),
+			name:            "When the repository returns an error",
+			product:         []models.Product{},
+			err:             errors.New("internal error"),
+			expectedProduct: []models.Product{},
+			expectedErr:     errors.New("internal error"),
 		},
 	}
 
@@ -93,7 +93,7 @@ func TestProductsDefault_GetAll(t *testing.T) {
 			result, err := sv.GetAll()
 
 			// Assert
-			require.Equal(t, tt.expecProduct, result)
+			require.Equal(t, tt.expectedProduct, result)
 			require.Equal(t, tt.expectedErr, err)
 		})
 	}
