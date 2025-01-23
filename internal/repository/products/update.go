@@ -5,22 +5,7 @@ import (
 )
 
 func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Product, err error) {
-	if prod.ProductCode != "" {
-		var exists bool
-
-		query := "SELECT EXISTS(SELECT 1 FROM products WHERE `product_code`=?)"
-		err = p.DB.QueryRow(query, prod.ProductCode).Scan(&exists)
-
-		if err != nil {
-			return updatedProd, err
-		}
-
-		if !exists {
-			err = models.ErrProductNotFound
-			return updatedProd, err
-		}
-	}
-
+	// Define the update query
 	query := `UPDATE products SET 
 			product_code = COALESCE(NULLIF(?, ''), product_code), 
 			description = COALESCE(NULLIF(?, ''), description),
