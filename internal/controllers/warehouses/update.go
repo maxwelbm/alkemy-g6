@@ -38,12 +38,17 @@ func (c *WarehouseDefault) Update(w http.ResponseWriter, r *http.Request) {
 		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
+	// If the ID is less than 1, return a 400 Bad Request error
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+		return
+	}
 
 	var warehouseJSON WarehouseReqJSON
 	err = json.NewDecoder(r.Body).Decode(&warehouseJSON)
 
 	if err != nil {
-		response.JSON(w, http.StatusBadRequest, err.Error())
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -63,8 +68,8 @@ func (c *WarehouseDefault) Update(w http.ResponseWriter, r *http.Request) {
 
 	resWarehouse, err := c.sv.Update(id, warehouse)
 	if err != nil {
-		if errors.Is(err, models.ErrWareHouseCodeExist) {
-			response.Error(w, http.StatusConflict, err.Error())
+		if errors.Is(err, models.ErrWareHouseNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
 			return
 		}
 
