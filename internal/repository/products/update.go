@@ -5,7 +5,34 @@ import (
 )
 
 func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Product, err error) {
-	// Define the update query
+	var exists bool
+
+	if err = p.DB.QueryRow("SELECT EXISTS(SELECT 1 FROM products WHERE `id`=?)", id).Scan(&exists); err != nil {
+		return updatedProd, err
+	}
+
+	if !exists {
+		err = models.ErrProductNotFound
+		return updatedProd, err
+	}
+
+	if prod.ProductCode != "" {
+		exists = false
+		query := "SELECT EXISTS(SELECT 1 FROM products WHERE `product_code`=?)"
+		err = p.DB.QueryRow(query, prod.ProductCode).Scan(&exists)
+
+		if err != nil {
+			return updatedProd, err
+		}
+
+		if exists {
+			err = models.ErrProductCodeExist
+			return updatedProd, err
+		}
+
+		updatedProd.ProductCode = prod.ProductCode
+	}
+
 	query := `UPDATE products SET 
 			product_code = COALESCE(NULLIF(?, ''), product_code), 
 			description = COALESCE(NULLIF(?, ''), description),
@@ -21,7 +48,7 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 			WHERE id = ?`
 
 	// Execute the update query
-	res, err := p.DB.Exec(query,
+	_, err = p.DB.Exec(query,
 		prod.ProductCode,
 		prod.Description,
 		prod.Height,
@@ -36,18 +63,6 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 		id)
 
 	if err != nil {
-		return updatedProd, err
-	}
-
-	// Check how many rows were affected
-	rowsAffected, err := res.RowsAffected()
-	if err != nil {
-		return updatedProd, err
-	}
-
-	// Check if the update affected any rows
-	if rowsAffected == 0 {
-		err = models.ErrProductNotFound
 		return updatedProd, err
 	}
 
@@ -66,10 +81,6 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 		&updatedProd.ProductTypeID,
 		&updatedProd.SellerID,
 	)
-
-	if err != nil {
-		return updatedProd, err
-	}
 
 	return updatedProd, err
 }

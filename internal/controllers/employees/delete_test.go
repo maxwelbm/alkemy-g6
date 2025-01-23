@@ -79,7 +79,7 @@ func TestDelete(t *testing.T) {
 			},
 		},
 		{
-			name:    "500 - Internal Server Error when trying to retrieve the list of employees",
+			name:    "500 - Internal Server Error when trying to delete an employee",
 			id:      "1",
 			callErr: errors.New("internal error"),
 			expected: expected{

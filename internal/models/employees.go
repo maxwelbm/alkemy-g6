@@ -22,7 +22,7 @@ type EmployeeDTO struct {
 	WarehouseID  *int    `json:"warehouse_id"`
 }
 
-type EmployeeReportInboundDTO struct {
+type EmployeeReportInbound struct {
 	ID           int
 	CardNumberID string
 	FirstName    string
@@ -34,7 +34,7 @@ type EmployeeReportInboundDTO struct {
 type EmployeesService interface {
 	GetAll() (employees []Employee, err error)
 	GetByID(id int) (employees Employee, err error)
-	GetReportInboundOrders(id int) (employees []EmployeeReportInboundDTO, err error)
+	GetReportInboundOrders(id int) (employees []EmployeeReportInbound, err error)
 	Create(employees EmployeeDTO) (newEmployees Employee, err error)
 	Update(employees EmployeeDTO, id int) (newEmployees Employee, err error)
 	Delete(id int) (err error)
@@ -43,7 +43,7 @@ type EmployeesService interface {
 type EmployeesRepository interface {
 	GetAll() (employees []Employee, err error)
 	GetByID(id int) (employees Employee, err error)
-	GetReportInboundOrders(id int) (employees []EmployeeReportInboundDTO, err error)
+	GetReportInboundOrders(id int) (employees []EmployeeReportInbound, err error)
 	Create(employees EmployeeDTO) (newEmployees Employee, err error)
 	Update(employees EmployeeDTO, id int) (newEmployees Employee, err error)
 	Delete(id int) (err error)
