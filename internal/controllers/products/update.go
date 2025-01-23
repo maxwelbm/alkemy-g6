@@ -39,6 +39,11 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if id < 1 {
+		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+		return
+	}
+
 	// Decode the JSON
 	var prodJSON UpdateProductAttributesJSON
 	if err := json.NewDecoder(r.Body).Decode(&prodJSON); err != nil {
@@ -97,23 +102,27 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	if prodJSON.SellerID != nil {
 		prodDTO.SellerID = *prodJSON.SellerID
 	}
-
 	// Update the product
 	updatedProd, err := p.SV.Update(id, prodDTO)
 
-	if errors.Is(err, models.ErrProductNotFound) {
-		response.Error(w, http.StatusNotFound, err.Error())
-		return
-	}
-
 	if err != nil {
+		if errors.Is(err, models.ErrProductNotFound) {
+			response.Error(w, http.StatusNotFound, err.Error())
+			return
+		}
+
+		if errors.Is(err, models.ErrProductCodeExist) {
+			response.Error(w, http.StatusConflict, err.Error())
+			return
+		}
+
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
 			switch mysqlErr.Number {
 			case mysqlerr.CodeDuplicateEntry:
 				response.Error(w, http.StatusConflict, err.Error())
 				return
 			case mysqlerr.CodeCannotAddOrUpdateChildRow:
-				response.Error(w, http.StatusBadRequest, err.Error())
+				response.Error(w, http.StatusConflict, err.Error())
 				return
 			}
 		}
@@ -123,7 +132,26 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	data := ProductFullJSON{
+		ID:             updatedProd.ID,
+		ProductCode:    updatedProd.ProductCode,
+		Description:    updatedProd.Description,
+		Height:         updatedProd.Height,
+		Length:         updatedProd.Length,
+		Width:          updatedProd.Width,
+		NetWeight:      updatedProd.NetWeight,
+		ExpirationRate: updatedProd.ExpirationRate,
+		FreezingRate:   updatedProd.FreezingRate,
+		RecomFreezTemp: updatedProd.RecomFreezTemp,
+		ProductTypeID:  updatedProd.ProductTypeID,
+		SellerID:       updatedProd.SellerID,
+	}
+
 	// Return the updated product
-	res := ProductResJSON{Message: "Updated", Data: updatedProd}
+	res := ProductResJSON{
+		Message: "Updated",
+		Data:    data,
+	}
+
 	response.JSON(w, http.StatusOK, res)
 }
