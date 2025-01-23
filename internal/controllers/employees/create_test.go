@@ -96,7 +96,7 @@ func TestCreate(t *testing.T) {
 			},
 		},
 		{
-			name:         "500 - Internal Server Error when trying to retrieve the list of employees",
+			name:         "500 - Internal Server Error when trying to create an employee",
 			employeeJSON: `{"id": 1, "card_number_id":"3253","first_name":"Rick","last_name":"Grimes","warehouse_id":1}`,
 			callErr:      errors.New("internal error"),
 			expected: expected{
