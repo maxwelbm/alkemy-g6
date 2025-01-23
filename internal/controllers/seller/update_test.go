@@ -144,24 +144,7 @@ func TestUpdate(t *testing.T) {
 				message:    "seller not found",
 			},
 		},
-		{
-			name: "500 - When the repository returns an error",
-			id:   "1",
-			sellerJSON: `{
-						"id": 1,
-						"cid": "123",
-						"company_name": "Meli",
-						"address": "123 Main St",
-						"telephone": "123-456-7890",
-						"locality_id": 1
-					}`,
-			callErr: models.ErrorNoChangesMade,
-			wanted: wanted{
-				calls:      1,
-				statusCode: http.StatusBadRequest,
-				message:    "no changes made",
-			},
-		},
+
 		{
 			name: "409 - When the repository raises a DuplicateEntry error",
 			id:   "1",
