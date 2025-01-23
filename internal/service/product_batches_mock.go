@@ -13,7 +13,7 @@ func NewProductBatchesServiceMock() *ProductBatchesServiceMock {
 	return &ProductBatchesServiceMock{}
 }
 
-func (m *ProductBatchesServiceMock) Create(prodBatch models.ProductBatchesDTO) (models.ProductBatches, error) {
+func (m *ProductBatchesServiceMock) Create(prodBatch models.ProductBatchesDTO) (newProdBatches models.ProductBatches, err error) {
 	args := m.Called(prodBatch)
 	return args.Get(0).(models.ProductBatches), args.Error(1)
 }
