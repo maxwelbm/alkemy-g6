@@ -104,7 +104,7 @@ func TestDelete(t *testing.T) {
 			err := json.NewDecoder(res.Body).Decode(&decodedRes)
 
 			// Assert
-			//sv.AssertNumberOfCalls(t, "Delete", tt.wanted.calls)
+			sv.AssertNumberOfCalls(t, "Delete", tt.wanted.calls)
 			require.NoError(t, err)
 			require.Equal(t, tt.wanted.statusCode, res.Code)
 			require.Contains(t, decodedRes.Message, tt.wanted.message)
