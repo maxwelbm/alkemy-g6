@@ -37,28 +37,6 @@ definitions:
       phone_number:
         type: string
     type: object
-  employeesctl.EmployeesAttributes:
-    properties:
-      card_number_id:
-        type: string
-      count_reports:
-        type: integer
-      first_name:
-        type: string
-      id:
-        type: integer
-      last_name:
-        type: string
-      warehouse_id:
-        type: integer
-    type: object
-  employeesctl.EmployeesFinalJSON:
-    properties:
-      data:
-        items:
-          $ref: '#/definitions/employeesctl.EmployeesAttributes'
-        type: array
-    type: object
   employeesctl.EmployeesReqJSON:
     properties:
       card_number_id:
@@ -97,15 +75,6 @@ definitions:
     properties:
       data: {}
       message:
-        type: string
-    type: object
-  localitiesctl.CarryReportJSON:
-    properties:
-      carries_count:
-        type: integer
-      id:
-        type: integer
-      locality_name:
         type: string
     type: object
   localitiesctl.LocalityResJSON:
@@ -624,7 +593,7 @@ paths:
         "200":
           description: OK - The employees were successfully retrieved
           schema:
-            $ref: '#/definitions/employeesctl.EmployeesFinalJSON'
+            $ref: '#/definitions/employeesctl.EmployeesResJSON'
         "500":
           description: Internal Server Error - An unexpected error occurred during
             the retrieval process
@@ -723,11 +692,11 @@ paths:
           schema:
             $ref: '#/definitions/employeesctl.EmployeesResJSON'
         "400":
-          description: Invalid ID format
+          description: Bad Request
           schema:
             $ref: '#/definitions/response.ErrorResponse'
         "404":
-          description: Employee not found
+          description: employee not found
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Retrieve employee by ID
@@ -761,7 +730,7 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
         "404":
-          description: Employee not found
+          description: employee not found
           schema:
             $ref: '#/definitions/response.ErrorResponse'
         "409":
@@ -798,7 +767,7 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
         "404":
-          description: Employee not found
+          description: employee not found
           schema:
             $ref: '#/definitions/response.ErrorResponse'
         "500":
@@ -895,7 +864,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/localitiesctl.CarryReportJSON'
+            $ref: '#/definitions/localitiesctl.LocalityResJSON'
         "400":
           description: Bad Request
           schema:
@@ -962,7 +931,7 @@ paths:
           schema:
             $ref: '#/definitions/productbatchesctl.ProductBatchesResJSON'
         "400":
-          description: Error ao decodificar JSON
+          description: Bad Request
           schema:
             $ref: '#/definitions/response.ErrorResponse'
         "409":
@@ -1000,7 +969,7 @@ paths:
           schema:
             $ref: '#/definitions/productrecordsctl.ProductRecordResJSON'
         "400":
-          description: Error ao decodificar JSON
+          description: Bad Request
           schema:
             $ref: '#/definitions/response.ErrorResponse'
         "409":

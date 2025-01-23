@@ -3,7 +3,7 @@ package models
 import "errors"
 
 var (
-	ErrLocalityNotFound = errors.New("Locality not found")
+	ErrLocalityNotFound = errors.New("locality not found")
 )
 
 type Locality struct {
@@ -14,9 +14,9 @@ type Locality struct {
 }
 
 type LocalityDTO struct {
-	LocalityName string
-	ProvinceName string
-	CountryName  string
+	LocalityName *string
+	ProvinceName *string
+	CountryName  *string
 }
 
 type LocalitySellersReport struct {
