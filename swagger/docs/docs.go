@@ -904,12 +904,12 @@ const docTemplate = `{
                 "summary": "Create a new product record",
                 "parameters": [
                     {
-                        "description": "Product Record Create JSON",
+                        "description": "Product Record Req JSON",
                         "name": "productRecord",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/productrecordsctl.ProductRecordCreateJSON"
+                            "$ref": "#/definitions/productrecordsctl.ProductRecordReqJSON"
                         }
                     }
                 ],
@@ -2297,7 +2297,7 @@ const docTemplate = `{
                 }
             }
         },
-        "productrecordsctl.ProductRecordCreateJSON": {
+        "productrecordsctl.ProductRecordReqJSON": {
             "type": "object",
             "properties": {
                 "last_update_date": {

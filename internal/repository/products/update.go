@@ -82,9 +82,5 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 		&updatedProd.SellerID,
 	)
 
-	if err != nil {
-		return updatedProd, err
-	}
-
 	return updatedProd, err
 }

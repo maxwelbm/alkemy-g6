@@ -11,40 +11,55 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
-type ProductRecordCreateJSON struct {
+type ProductRecordReqJSON struct {
 	LastUpdateDate *string  `json:"last_update_date,omitempty"`
 	PurchasePrice  *float64 `json:"purchase_price,omitempty"`
 	SalePrice      *float64 `json:"sale_price,omitempty"`
 	ProductID      *int     `json:"product_id,omitempty"`
 }
 
-func (j *ProductRecordCreateJSON) validate() (err error) {
+func (p *ProductRecordReqJSON) validate() (err error) {
 	// Initialize a slice to hold validation error messages
-	var validationErrors []string
+	var validationErrors, nilPointerErrors []string
 
 	// Check if LastUpdateDate is nil and add an error message if it is
-	if j.LastUpdateDate == nil {
-		validationErrors = append(validationErrors, "error: last_update_date is required")
+	if p.LastUpdateDate == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute LastUpdateDate cannot be nil")
+	} else if *p.LastUpdateDate == "" {
+		validationErrors = append(validationErrors, "error: attribute LastUpdateDate cannot be empty")
 	}
+
 	// Check if PurchasePrice is nil and add an error message if it is
-	if j.PurchasePrice == nil {
-		validationErrors = append(validationErrors, "error: purchase_price is required")
+	if p.PurchasePrice == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute PurchasePrice cannot be nil")
+	} else if *p.PurchasePrice <= 0 {
+		validationErrors = append(validationErrors, "error: attribute PurchasePrice must be greater than zero")
 	}
+
 	// Check if SalePrice is nil and add an error message if it is
-	if j.SalePrice == nil {
-		validationErrors = append(validationErrors, "error: sale_price is required")
+	if p.SalePrice == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute SalePrice cannot be nil")
+	} else if *p.SalePrice <= 0 {
+		validationErrors = append(validationErrors, "error: attribute SalePrice must be greater than zero")
 	}
+
 	// Check if ProductID is nil and add an error message if it is
-	if j.ProductID == nil {
-		validationErrors = append(validationErrors, "error: product_id is required")
+	if p.ProductID == nil {
+		nilPointerErrors = append(nilPointerErrors, "error: attribute ProductID cannot be nil")
+	} else if *p.ProductID <= 0 {
+		validationErrors = append(validationErrors, "error: attribute ProductID must be greater than zero")
 	}
-	// If there are any validation errors, create an error with all messages
-	if len(validationErrors) > 0 {
-		err = fmt.Errorf("validation errors: %v", validationErrors)
+	// If there are any validation errors or nil pointer errors, create an error with all messages
+	if len(nilPointerErrors) > 0 || len(validationErrors) > 0 {
+		var allErrors []string
+		allErrors = append(allErrors, nilPointerErrors...)
+		allErrors = append(allErrors, validationErrors...)
+
+		err = fmt.Errorf("validation errors: %v", allErrors)
 	}
 
 	// Return the error (if any)
-	return
+	return err
 }
 
 // Create handles the creation of a new product record.
@@ -53,7 +68,7 @@ func (j *ProductRecordCreateJSON) validate() (err error) {
 // @Tags product_records
 // @Accept json
 // @Produce json
-// @Param productRecord body ProductRecordCreateJSON true "Product Record Create JSON"
+// @Param productRecord body ProductRecordReqJSON true "Product Record Req JSON"
 // @Success 201 {object} ProductRecordResJSON "Success"
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 422 {object} response.ErrorResponse "Unprocessable Entity"
@@ -62,7 +77,7 @@ func (j *ProductRecordCreateJSON) validate() (err error) {
 // @Router /api/v1/product_records [post]
 func (controller *ProductRecordsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	// Decode the JSON request body into productRecordRequest
-	var productRecordRequest ProductRecordCreateJSON
+	var productRecordRequest ProductRecordReqJSON
 	if err := json.NewDecoder(r.Body).Decode(&productRecordRequest); err != nil {
 		// If there's an error decoding the JSON, respond with a bad request status
 		response.Error(w, http.StatusBadRequest, err.Error())

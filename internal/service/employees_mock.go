@@ -28,11 +28,6 @@ func (m *EmployeeServiceMock) GetReportInboundOrders(id int) ([]models.EmployeeR
 	return args.Get(0).([]models.EmployeeReportInbound), args.Error(1)
 }
 
-func (m *EmployeeServiceMock) GetByCardNumberID(cardNumberID string) (models.Employee, error) {
-	args := m.Called(cardNumberID)
-	return args.Get(0).(models.Employee), args.Error(1)
-}
-
 func (m *EmployeeServiceMock) Create(employee models.EmployeeDTO) (models.Employee, error) {
 	args := m.Called(employee)
 	return args.Get(0).(models.Employee), args.Error(1)

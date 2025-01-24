@@ -12,7 +12,7 @@ import (
 func InitLocalities(db *sql.DB, router *chi.Mux) {
 	rp := repository.NewLocalityRepository(db)
 	// - service
-	sv := service.NewLocalityDefault(rp)
+	sv := service.NewLocalitiesService(rp)
 	// - handler
 	ct := controllers.NewLocalityController(sv)
 
