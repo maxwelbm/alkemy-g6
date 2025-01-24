@@ -56,10 +56,6 @@ func (ctl *InboundOrdersController) Create(w http.ResponseWriter, r *http.Reques
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
-			response.Error(w, http.StatusConflict, err.Error())
-			return
-		}
-		// For any other error, respond with an internal server error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
 
 		return
