@@ -13,7 +13,7 @@ func NewCarriesRepositoryMock() *CarryDefaultMock {
 	return &CarryDefaultMock{}
 }
 
-func (m *CarryDefaultMock) Create(buyer models.CarryDTO) (models.Carry, error) {
-	args := m.Called(buyer)
+func (m *CarryDefaultMock) Create(carry models.CarryDTO) (models.Carry, error) {
+	args := m.Called(carry)
 	return args.Get(0).(models.Carry), args.Error(1)
 }
