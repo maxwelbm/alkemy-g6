@@ -68,7 +68,7 @@ func (p *ProductRecordReqJSON) validate() (err error) {
 // @Tags product_records
 // @Accept json
 // @Produce json
-// @Param productRecord body ProductRecordReqJSON true "Product Record Create JSON"
+// @Param productRecord body ProductRecordReqJSON true "Product Record Req JSON"
 // @Success 201 {object} ProductRecordResJSON "Success"
 // @Failure 400 {object} response.ErrorResponse "Bad Request"
 // @Failure 422 {object} response.ErrorResponse "Unprocessable Entity"

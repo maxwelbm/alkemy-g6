@@ -162,7 +162,7 @@ definitions:
       message:
         type: string
     type: object
-  productrecordsctl.ProductRecordCreateJSON:
+  productrecordsctl.ProductRecordReqJSON:
     properties:
       last_update_date:
         type: string
@@ -955,12 +955,12 @@ paths:
       - application/json
       description: Create a new product record with the provided JSON data
       parameters:
-      - description: Product Record Create JSON
+      - description: Product Record Req JSON
         in: body
         name: productRecord
         required: true
         schema:
-          $ref: '#/definitions/productrecordsctl.ProductRecordCreateJSON'
+          $ref: '#/definitions/productrecordsctl.ProductRecordReqJSON'
       produces:
       - application/json
       responses:
