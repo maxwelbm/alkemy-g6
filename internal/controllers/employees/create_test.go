@@ -115,7 +115,16 @@ func TestCreate(t *testing.T) {
 			req := httptest.NewRequest(http.MethodPost, "/api/v1/employees", strings.NewReader(tt.employeeJSON))
 			res := httptest.NewRecorder()
 
-			sv.On("Create", mock.AnythingOfType("models.EmployeeDTO")).Return(tt.expected.employee, tt.callErr)
+			sv.On("Create", mock.MatchedBy(func(dto models.EmployeeDTO) bool {
+				if tt.callErr != nil {
+					return true
+				}
+				return (*dto.CardNumberID == tt.expected.employee.CardNumberID &&
+					*dto.FirstName == tt.expected.employee.FirstName &&
+					*dto.LastName == tt.expected.employee.LastName &&
+					*dto.WarehouseID == tt.expected.employee.WarehouseID)
+			})).Return(tt.expected.employee, tt.callErr)
+
 			ctl.Create(res, req)
 
 			var decodedRes struct {
