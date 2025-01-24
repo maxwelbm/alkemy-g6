@@ -34,20 +34,28 @@ func TestWarehouses_Update(t *testing.T) {
 		wanted        wanted
 	}{
 		{
-			name: "200 - When the warehouse is updated successfully with all fields",
+			name:          "200 - When the warehouse is updated successfully with all fields",
+			id:            "1",
+			warehouseJSON: `{"address":"123 Main St","telephone":"555-1234","warehouse_code":"WH001","minimum_capacity":100,"minimum_temperature":-10}`,
+			callErr:       nil,
+			wanted: wanted{
+				calls:      1,
+				statusCode: http.StatusOK,
+				warehouse:  models.Warehouse{ID: 1, Address: "123 Main St", Telephone: "555-1234", WarehouseCode: "WH001", MinimumCapacity: 100, MinimumTemperature: -10},
+			},
+		},
+		{
+			name: "200 - When the warehouse is updated successfully with missing fields",
 			id:   "1",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234", 
-				"warehouse_code": "WH001", 
-				"minimum_capacity":100, 
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "minimum_capacity":100,
+                "minimum_temperature":-10
+            }`,
 			callErr: nil,
 			wanted: wanted{
 				calls:      1,
 				statusCode: http.StatusOK,
-				message:    "OK",
 				warehouse: models.Warehouse{
 					ID:                 1,
 					Address:            "123 Main St",
@@ -59,141 +67,125 @@ func TestWarehouses_Update(t *testing.T) {
 			},
 		},
 		{
-			name: "200 - When the warehouse is updated successfully with missing fields",
-			id:   "1",
-			warehouseJSON: `{
-				"address":"123 Main St",
-				"warehouse_code": "WH001", 
-				"minimum_capacity":100, 
-				"minimum_temperature":-10
-			}`,
-			callErr: nil,
-			wanted: wanted{
-				calls:      1,
-				statusCode: http.StatusOK,
-				message:    "OK",
-				warehouse: models.Warehouse{
-					ID:                 1,
-					Address:            "123 Main St",
-					WarehouseCode:      "WH001",
-					MinimumCapacity:    100,
-					MinimumTemperature: -10,
-				},
-			},
-		},
-		{
 			name: "400 - When passing a negative id",
 			id:   "-1",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234",
-				"warehouse_code": "WH001",
-				"minimum_capacity":100,
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234",
+                "warehouse_code": "WH001",
+                "minimum_capacity":100,
+                "minimum_temperature":-10
+            }`,
 			callErr: nil,
 			wanted: wanted{
 				statusCode: http.StatusBadRequest,
 				message:    "Bad Request",
+				warehouse:  models.Warehouse{},
 			},
 		},
 		{
 			name: "400 - When passing a non numeric id",
 			id:   "a",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234",
-				"warehouse_code": "WH001",
-				"minimum_capacity":100,
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234",
+                "warehouse_code": "WH001",
+                "minimum_capacity":100,
+                "minimum_temperature":-10
+            }`,
 			callErr: nil,
 			wanted: wanted{
 				statusCode: http.StatusBadRequest,
 				message:    "strconv.Atoi",
+				warehouse:  models.Warehouse{},
 			},
 		},
 		{
 			name: "400 - When passing a body with invalid json",
 			id:   "1",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234",
-				"warehouse_code": "WH001",
-				"minimum_capacity":"100",
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234",
+                "warehouse_code": "WH001",
+                "minimum_capacity":"100",
+                "minimum_temperature":-10
+            }`,
 			callErr: nil,
 			wanted: wanted{
 				statusCode: http.StatusBadRequest,
 				message:    "json: cannot unmarshal",
+				warehouse:  models.Warehouse{},
 			},
 		},
 		{
 			name: "404 - When the repository raises a WareHouseNotFound error",
 			id:   "50",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234", 
-				"warehouse_code": "WH001", 
-				"minimum_capacity":100, 
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234", 
+                "warehouse_code": "WH001", 
+                "minimum_capacity":100, 
+                "minimum_temperature":-10
+            }`,
 			callErr: models.ErrWareHouseNotFound,
 			wanted: wanted{
 				calls:      1,
 				statusCode: http.StatusNotFound,
 				message:    "warehouse not found",
+				warehouse:  models.Warehouse{},
 			},
 		},
 		{
 			name: "409 - When the repository raises a DuplicateEntry error",
 			id:   "1",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234",
-				"warehouse_code": "WH001",
-				"minimum_capacity":100,
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234",
+                "warehouse_code": "WH001",
+                "minimum_capacity":100,
+                "minimum_temperature":-10
+            }`,
 			callErr: &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
 			wanted: wanted{
 				calls:      1,
 				statusCode: http.StatusConflict,
 				message:    "1062",
+				warehouse:  models.Warehouse{},
 			},
 		},
 		{
 			name: "422 - When passing a body with a valid json but empty parameters",
 			id:   "1",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234",
-				"warehouse_code": "",
-				"minimum_capacity":100,
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234",
+                "warehouse_code": "",
+                "minimum_capacity":100,
+                "minimum_temperature":-10
+            }`,
 			callErr: nil,
 			wanted: wanted{
 				statusCode: http.StatusUnprocessableEntity,
 				message:    "error: the warehouse_code field cannot be empty",
+				warehouse:  models.Warehouse{},
 			},
 		},
 		{
 			name: "500 - When the repository returns an unexpected error",
 			id:   "1",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234",
-				"warehouse_code": "WH001",
-				"minimum_capacity":100,
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234",
+                "warehouse_code": "WH001",
+                "minimum_capacity":100,
+                "minimum_temperature":-10
+            }`,
 			callErr: errors.New("internal error"),
 			wanted: wanted{
 				calls:      1,
 				statusCode: http.StatusInternalServerError,
 				message:    "internal error",
+				warehouse:  models.Warehouse{},
 			},
 		},
 	}
@@ -209,11 +201,17 @@ func TestWarehouses_Update(t *testing.T) {
 			req := httptest.NewRequest(http.MethodPatch, "/api/v1/warehouses/"+tt.id, strings.NewReader(tt.warehouseJSON))
 			res := httptest.NewRecorder()
 
-			sv.On(
-				"Update",
-				mock.AnythingOfType("int"),
-				mock.AnythingOfType("models.WarehouseDTO"),
-			).Return(tt.wanted.warehouse, tt.callErr)
+			sv.On("Update", mock.AnythingOfType("int"), mock.MatchedBy(func(dto models.WarehouseDTO) bool {
+				if tt.callErr != nil {
+					return true
+				}
+				return !(dto.Address != nil && *dto.Address != tt.wanted.warehouse.Address ||
+					dto.Telephone != nil && *dto.Telephone != tt.wanted.warehouse.Telephone ||
+					dto.WarehouseCode != nil && *dto.WarehouseCode != tt.wanted.warehouse.WarehouseCode ||
+					dto.MinimumCapacity != nil && *dto.MinimumCapacity != tt.wanted.warehouse.MinimumCapacity ||
+					dto.MinimumTemperature != nil && *dto.MinimumTemperature != tt.wanted.warehouse.MinimumTemperature)
+			})).Return(tt.wanted.warehouse, tt.callErr)
+
 			r.ServeHTTP(res, req)
 
 			// Assert
@@ -225,8 +223,7 @@ func TestWarehouses_Update(t *testing.T) {
 
 			sv.AssertNumberOfCalls(t, "Update", tt.wanted.calls)
 			require.Equal(t, tt.wanted.statusCode, res.Code)
-			require.Contains(t, decodedRes.Message, tt.wanted.message)
-			if tt.callErr != nil {
+			if tt.wanted.statusCode == http.StatusOK {
 				require.Equal(t, tt.wanted.warehouse.ID, decodedRes.Data.ID)
 				require.Equal(t, tt.wanted.warehouse.Address, decodedRes.Data.Address)
 				require.Equal(t, tt.wanted.warehouse.Telephone, decodedRes.Data.Telephone)
@@ -234,6 +231,7 @@ func TestWarehouses_Update(t *testing.T) {
 				require.Equal(t, tt.wanted.warehouse.MinimumCapacity, decodedRes.Data.MinimumCapacity)
 				require.Equal(t, tt.wanted.warehouse.MinimumTemperature, decodedRes.Data.MinimumTemperature)
 			}
+			require.Contains(t, decodedRes.Message, tt.wanted.message)
 		})
 	}
 }

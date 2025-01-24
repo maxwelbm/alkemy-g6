@@ -34,12 +34,12 @@ func TestWarehouses_Create(t *testing.T) {
 		{
 			name: "201 - When the warehouse is created successfully",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234", 
-				"warehouse_code": "WH001", 
-				"minimum_capacity":100, 
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234", 
+                "warehouse_code": "WH001", 
+                "minimum_capacity":100, 
+                "minimum_temperature":-10
+            }`,
 			callErr: nil,
 			wanted: wanted{
 				calls:      1,
@@ -58,12 +58,12 @@ func TestWarehouses_Create(t *testing.T) {
 		{
 			name: "400 - When passing a body with invalid json",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234",
-				"warehouse_code": "WH001",
-				"minimum_capacity":"100",
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234",
+                "warehouse_code": "WH001",
+                "minimum_capacity":"100",
+                "minimum_temperature":-10
+            }`,
 			callErr: nil,
 			wanted: wanted{
 				statusCode: http.StatusBadRequest,
@@ -73,12 +73,12 @@ func TestWarehouses_Create(t *testing.T) {
 		{
 			name: "409 - When the repository raises a DuplicateEntry error",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234",
-				"warehouse_code": "WH001",
-				"minimum_capacity":100,
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234",
+                "warehouse_code": "WH001",
+                "minimum_capacity":100,
+                "minimum_temperature":-10
+            }`,
 			callErr: &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
 			wanted: wanted{
 				calls:      1,
@@ -90,11 +90,11 @@ func TestWarehouses_Create(t *testing.T) {
 		{
 			name: "422 - When passing a body with a valid json but missing parameters",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234",
-				"warehouse_code": "WH001",
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234",
+                "warehouse_code": "WH001",
+                "minimum_temperature":-10
+            }`,
 			callErr: nil,
 			wanted: wanted{
 				statusCode: http.StatusUnprocessableEntity,
@@ -104,12 +104,12 @@ func TestWarehouses_Create(t *testing.T) {
 		{
 			name: "422 - When passing a body with a valid json but empty parameters",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234",
-				"warehouse_code": "",
-				"minimum_capacity":100,
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234",
+                "warehouse_code": "",
+                "minimum_capacity":100,
+                "minimum_temperature":-10
+            }`,
 			callErr: nil,
 			wanted: wanted{
 				statusCode: http.StatusUnprocessableEntity,
@@ -119,12 +119,12 @@ func TestWarehouses_Create(t *testing.T) {
 		{
 			name: "500 - When the repository returns an unexpected error",
 			warehouseJSON: `{
-				"address":"123 Main St",
-				"telephone": "555-1234",
-				"warehouse_code": "WH001",
-				"minimum_capacity":100,
-				"minimum_temperature":-10
-			}`,
+                "address":"123 Main St",
+                "telephone": "555-1234",
+                "warehouse_code": "WH001",
+                "minimum_capacity":100,
+                "minimum_temperature":-10
+            }`,
 			callErr: errors.New("internal error"),
 			wanted: wanted{
 				calls:      1,
@@ -143,10 +143,18 @@ func TestWarehouses_Create(t *testing.T) {
 			req := httptest.NewRequest(http.MethodPost, "/api/v1/warehouses/", strings.NewReader(tt.warehouseJSON))
 			res := httptest.NewRecorder()
 
-			sv.On("Create", mock.AnythingOfType("models.WarehouseDTO")).Return(tt.wanted.warehouse, tt.callErr)
+			sv.On("Create", mock.MatchedBy(func(dto models.WarehouseDTO) bool {
+				if tt.callErr != nil {
+					return true
+				}
+				return (*dto.Address == tt.wanted.warehouse.Address &&
+					*dto.Telephone == tt.wanted.warehouse.Telephone &&
+					*dto.WarehouseCode == tt.wanted.warehouse.WarehouseCode &&
+					*dto.MinimumCapacity == tt.wanted.warehouse.MinimumCapacity &&
+					*dto.MinimumTemperature == tt.wanted.warehouse.MinimumTemperature)
+			})).Return(tt.wanted.warehouse, tt.callErr)
 			ctl.Create(res, req)
 
-			// Assert
 			var decodedRes struct {
 				Message string                             `json:"message,omitempty"`
 				Data    warehousesctl.WarehouseDataResJSON `json:"data,omitempty"`
