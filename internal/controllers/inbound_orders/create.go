@@ -50,11 +50,13 @@ func (ctl *InboundOrdersController) Create(w http.ResponseWriter, r *http.Reques
 	inb, err := ctl.SV.Create(inboundOrders)
 	if err != nil {
 		// Check if the error is a MySQL duplicate entry error
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow || mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
+		if mysqlErr, ok := err.(*mysql.MySQLError); ok &&
+			(mysqlErr.Number == mysqlerr.CodeDuplicateEntry ||
+				mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow) {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
-		// For any other error, respond with an internal server error status
+
 		response.Error(w, http.StatusInternalServerError, err.Error())
 
 		return
