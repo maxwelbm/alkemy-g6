@@ -29,7 +29,7 @@ func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Reques
 
 	err := json.NewDecoder(r.Body).Decode(&purchaseOrdersJSON)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		response.Error(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
