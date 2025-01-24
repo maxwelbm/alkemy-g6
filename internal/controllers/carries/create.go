@@ -19,36 +19,57 @@ type CarriesCreateJSON struct {
 	LocalityID  *int    `json:"locality_id"`
 }
 
+//nolint:gocyclo
 func (j *CarriesCreateJSON) validate() (err error) {
 	// Initialize a slice to hold validation error messages
 	var validationErrors []string
 
 	// Check if CID is nil and add an error message if it is
 	if j.CID == nil {
-		validationErrors = append(validationErrors, "error: cid is required")
+		validationErrors = append(validationErrors, "error: cid cannot be nil")
+	}
+	// Check if CID is empty and add an error message if it is
+	if j.CID != nil && *j.CID == "" {
+		validationErrors = append(validationErrors, "error: cid cannot be empty")
 	}
 	// Check if CompanyName is nil and add an error message if it is
 	if j.CompanyName == nil {
-		validationErrors = append(validationErrors, "error: company_name is required")
+		validationErrors = append(validationErrors, "error: company_name cannot be nil")
+	}
+	// Check if CompanyName is empty and add an error message if it is
+	if j.CompanyName != nil && *j.CompanyName == "" {
+		validationErrors = append(validationErrors, "error: company_name cannot be empty")
 	}
 	// Check if Address is nil and add an error message if it is
 	if j.Address == nil {
-		validationErrors = append(validationErrors, "error: address is required")
+		validationErrors = append(validationErrors, "error: address cannot be nil")
+	}
+	// Check if Address is empty and add an error message if it is
+	if j.Address != nil && *j.Address == "" {
+		validationErrors = append(validationErrors, "error: address cannot be empty")
 	}
 	// Check if PhoneNumber is nil and add an error message if it is
 	if j.PhoneNumber == nil {
-		validationErrors = append(validationErrors, "error: phone_number is required")
+		validationErrors = append(validationErrors, "error: phone_number cannot be nil")
+	}
+	// Check if PhoneNumber is empty and add an error message if it is
+	if j.PhoneNumber != nil && *j.PhoneNumber == "" {
+		validationErrors = append(validationErrors, "error: phone_number cannot be empty")
 	}
 	// Check if LocalityID is nil and add an error message if it is
 	if j.LocalityID == nil {
-		validationErrors = append(validationErrors, "error: locality_id is required")
+		validationErrors = append(validationErrors, "error: locality_id cannot be nil")
+	}
+	// Check if LocalityID is 0 and add an error message if it is
+	if j.LocalityID != nil && *j.LocalityID == 0 {
+		validationErrors = append(validationErrors, "error: locality_id cannot be 0")
 	}
 	// If there are any validation errors, create an error with all messages
 	if len(validationErrors) > 0 {
 		err = fmt.Errorf("validation errors: %v", validationErrors)
 	}
 
-	return
+	return err
 }
 
 // Create creates a new carry
@@ -80,11 +101,11 @@ func (ctl *CarriesDefault) Create(w http.ResponseWriter, r *http.Request) {
 
 	// Map the request data to a CarriesDTO model
 	carryToCreate := models.CarryDTO{
-		CID:         *carryRequest.CID,
-		CompanyName: *carryRequest.CompanyName,
-		Address:     *carryRequest.Address,
-		PhoneNumber: *carryRequest.PhoneNumber,
-		LocalityID:  *carryRequest.LocalityID,
+		CID:         carryRequest.CID,
+		CompanyName: carryRequest.CompanyName,
+		Address:     carryRequest.Address,
+		PhoneNumber: carryRequest.PhoneNumber,
+		LocalityID:  carryRequest.LocalityID,
 	}
 
 	// Call the service layer to create the carry
@@ -92,8 +113,8 @@ func (ctl *CarriesDefault) Create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		// Check if the error is a MySQL duplicate entry error or cannot add or update child row error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok &&
-			mysqlErr.Number == mysqlerr.CodeDuplicateEntry ||
-			mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
+			(mysqlErr.Number == mysqlerr.CodeDuplicateEntry ||
+				mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow) {
 			response.Error(w, http.StatusConflict, err.Error())
 			return
 		}
