@@ -202,7 +202,21 @@ func TestProductBatch_Create(t *testing.T) {
 			res := httptest.NewRecorder()
 
 			// Act
-			sv.On("Create", mock.AnythingOfType("models.ProductBatchesDTO")).Return(tt.wanted.prodBatch, tt.callErr)
+			sv.On("Create", mock.MatchedBy(func(dto models.ProductBatchesDTO) bool {
+				if tt.callErr != nil {
+					return true
+				}
+				return (dto.BatchNumber == tt.wanted.prodBatch.BatchNumber &&
+					dto.InitialQuantity == tt.wanted.prodBatch.InitialQuantity &&
+					dto.CurrentQuantity == tt.wanted.prodBatch.CurrentQuantity &&
+					dto.CurrentTemperature == tt.wanted.prodBatch.CurrentTemperature &&
+					dto.MinimumTemperature == tt.wanted.prodBatch.MinimumTemperature &&
+					dto.DueDate == tt.wanted.prodBatch.DueDate &&
+					dto.ManufacturingDate == tt.wanted.prodBatch.ManufacturingDate &&
+					dto.ManufacturingHour == tt.wanted.prodBatch.ManufacturingHour &&
+					dto.SectionID == tt.wanted.prodBatch.SectionID &&
+					dto.ProductID == tt.wanted.prodBatch.ProductID)
+			})).Return(tt.wanted.prodBatch, tt.callErr)
 			ctl.Create(res, req)
 
 			var decodedRes struct {
