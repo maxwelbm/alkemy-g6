@@ -201,3 +201,108 @@ func TestPurchaseOrders_Create(t *testing.T) {
 		})
 	}
 }
+
+func TestPurchaseOrdersJSON_Validate(t *testing.T) {
+	type expected struct {
+		calls          int
+		purchaseOrders models.PurchaseOrders
+		statusCode     int
+		message        string
+	}
+	tests := []struct {
+		name               string
+		purchaseOrdersJSON string
+		callErr            error
+		expected           expected
+	}{
+
+		{
+			name: "422 - when the order date is required",
+			purchaseOrdersJSON: `
+				{
+					"order_number": "order#1a",
+					"tracking_code": "absc",
+					"buyer_id": 1,
+					"product_record_id": 1
+				}`,
+			callErr: nil,
+			expected: expected{
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: order_date is required",
+			},
+		},
+		{
+			name: "422 - when the tracking code is required",
+			purchaseOrdersJSON: `
+				{
+					"order_number": "order#1a",
+					"order_date": "2021-04-04",
+					"buyer_id": 1,
+					"product_record_id": 1
+				}`,
+			callErr: nil,
+			expected: expected{
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: tracking_code is required",
+			},
+		},
+		{
+			name: "422 - when the buyer ID is required",
+			purchaseOrdersJSON: `
+				{
+					"order_number": "order#1a",
+					"order_date": "2021-04-04",
+					"tracking_code": "absc",
+					"product_record_id": 1
+				}`,
+			callErr: nil,
+			expected: expected{
+				statusCode: http.StatusUnprocessableEntity,
+				message:    "error: buyer_id is required",
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			purchaseOrders := tt.expected.purchaseOrders
+			//Arrange
+			sv := service.NewPurchaseOrdersServiceMock()
+			ctl := controllers.NewPurchaseOrdersController(sv)
+
+			req := httptest.NewRequest(http.MethodPost, "/api/v1/purchaseOrders", strings.NewReader(tt.purchaseOrdersJSON))
+			res := httptest.NewRecorder()
+			//Act
+			sv.On("Create", mock.MatchedBy(func(dto models.PurchaseOrdersDTO) bool {
+				if tt.callErr != nil {
+					return true
+				}
+				return (dto.OrderNumber == tt.expected.purchaseOrders.OrderNumber &&
+					dto.OrderDate == tt.expected.purchaseOrders.OrderDate &&
+					dto.TrackingCode == tt.expected.purchaseOrders.TrackingCode &&
+					dto.BuyerID == tt.expected.purchaseOrders.BuyerID &&
+					dto.ProductRecordID == tt.expected.purchaseOrders.ProductRecordID)
+			})).Return(tt.expected.purchaseOrders, tt.callErr)
+			ctl.Create(res, req)
+
+			var decodedRes struct {
+				Message string                               `json:"message,omitempty"`
+				Data    purchaseordersctl.PurchaseOrdersJSON `json:"data,omitempty"`
+			}
+			require.NoError(t, json.NewDecoder(res.Body).Decode(&decodedRes))
+
+			// Assert
+			sv.AssertNumberOfCalls(t, "Create", tt.expected.calls)
+			require.Equal(t, tt.expected.statusCode, res.Code)
+			if tt.expected.statusCode == http.StatusCreated {
+				require.Equal(t, purchaseOrders.OrderNumber, *decodedRes.Data.OrderNumber)
+				require.Equal(t, purchaseOrders.OrderDate, *decodedRes.Data.OrderDate)
+				require.Equal(t, purchaseOrders.TrackingCode, *decodedRes.Data.TrackingCode)
+				require.Equal(t, purchaseOrders.BuyerID, *decodedRes.Data.BuyerID)
+				require.Equal(t, purchaseOrders.ProductRecordID, *decodedRes.Data.ProductRecordID)
+			}
+			require.Contains(t, decodedRes.Message, tt.expected.message)
+
+		})
+	}
+}

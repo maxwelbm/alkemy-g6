@@ -33,7 +33,7 @@ func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	if err = purchaseOrdersJSON.validate(); err != nil {
+	if err = purchaseOrdersJSON.Validate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
@@ -68,7 +68,7 @@ func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Reques
 	response.JSON(w, http.StatusCreated, res)
 }
 
-func (p *PurchaseOrdersJSON) validate() (err error) {
+func (p *PurchaseOrdersJSON) Validate() (err error) {
 	var poErrs []string
 
 	if p.OrderNumber == nil {
@@ -84,7 +84,7 @@ func (p *PurchaseOrdersJSON) validate() (err error) {
 	}
 
 	if p.BuyerID == nil {
-		poErrs = append(poErrs, "error: buyer_id: is required")
+		poErrs = append(poErrs, "error: buyer_id is required")
 	}
 
 	if p.ProductRecordID == nil {
