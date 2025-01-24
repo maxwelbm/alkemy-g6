@@ -150,11 +150,6 @@ func handleUpdateError(w http.ResponseWriter, err error) {
 		return
 	}
 
-	if errors.Is(err, models.ErrorNoChangesMade) {
-		response.Error(w, http.StatusBadRequest, err.Error())
-		return
-	}
-
 	if mysqlErr, ok := err.(*mysql.MySQLError); ok {
 		if mysqlErr.Number == mysqlerr.CodeDuplicateEntry || mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
 			response.Error(w, http.StatusConflict, err.Error())
