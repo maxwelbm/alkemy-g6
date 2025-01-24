@@ -2,6 +2,7 @@ package inboundordersctl_test
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -79,7 +80,7 @@ func TestCreate(t *testing.T) {
 			callErr: nil,
 			wanted: wanted{
 				statusCode: http.StatusUnprocessableEntity,
-				message:    "error: order_date is required",
+				message:    "error: attribute Order Date invalid",
 			},
 		},
 		{
@@ -128,11 +129,11 @@ func TestCreate(t *testing.T) {
 					"product_batch_id": 1,
 					"warehouse_id": 1
 				}`,
-			callErr: &mysql.MySQLError{Number: mysqlerr.CodeIncorrectDateValue},
+			callErr: errors.New("Erro interno!"),
 			wanted: wanted{
 				calls:         1,
 				statusCode:    http.StatusInternalServerError,
-				message:       "1292",
+				message:       "Erro interno!",
 				inboundOrders: models.InboundOrders{},
 			},
 		},
@@ -159,15 +160,15 @@ func TestCreate(t *testing.T) {
 			require.NoError(t, json.NewDecoder(res.Body).Decode(&decodedRes))
 
 			sv.AssertNumberOfCalls(t, "Create", tt.wanted.calls)
-			require.Equal(t, tt.wanted.statusCode, res.Code) /*
-				require.Contains(t, decodedRes.Message, tt.wanted.message)
-				if tt.wanted.statusCode == http.StatusCreated {
-					require.Equal(t, tt.wanted.inboundOrders.ID, decodedRes.Data.ID)
-					require.Equal(t, tt.wanted.inboundOrders.EmployeeID, decodedRes.Data.EmployeeID)
-					require.Equal(t, tt.wanted.inboundOrders.ProductBatchID, decodedRes.Data.ProductBatchID)
-					require.Equal(t, tt.wanted.inboundOrders.WarehouseID, decodedRes.Data.WarehouseID)
-				}
-				require.Contains(t, decodedRes.Message, tt.wanted.message)*/
+			require.Equal(t, tt.wanted.statusCode, res.Code)
+			require.Contains(t, decodedRes.Message, tt.wanted.message)
+			if tt.wanted.statusCode == http.StatusCreated {
+				require.Equal(t, tt.wanted.inboundOrders.ID, decodedRes.Data.ID)
+				require.Equal(t, tt.wanted.inboundOrders.EmployeeID, decodedRes.Data.EmployeeID)
+				require.Equal(t, tt.wanted.inboundOrders.ProductBatchID, decodedRes.Data.ProductBatchID)
+				require.Equal(t, tt.wanted.inboundOrders.WarehouseID, decodedRes.Data.WarehouseID)
+			}
+			require.Contains(t, decodedRes.Message, tt.wanted.message)
 		})
 	}
 }
