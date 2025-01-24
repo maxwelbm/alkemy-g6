@@ -172,12 +172,12 @@ func TestPurchaseOrders_Create(t *testing.T) {
 				if tt.callErr != nil {
 					return true
 				}
-				return (dto.OrderNumber == tt.expected.purchaseOrders.OrderNumber &&
-					dto.OrderDate == tt.expected.purchaseOrders.OrderDate &&
-					dto.TrackingCode == tt.expected.purchaseOrders.TrackingCode &&
-					dto.BuyerID == tt.expected.purchaseOrders.BuyerID &&
-					dto.ProductRecordID == tt.expected.purchaseOrders.ProductRecordID)
-			})).Return(tt.expected.purchaseOrders, tt.callErr)
+				return (dto.OrderNumber == purchaseOrders.OrderNumber &&
+					dto.OrderDate == purchaseOrders.OrderDate &&
+					dto.TrackingCode == purchaseOrders.TrackingCode &&
+					dto.BuyerID == purchaseOrders.BuyerID &&
+					dto.ProductRecordID == purchaseOrders.ProductRecordID)
+			})).Return(purchaseOrders, tt.callErr)
 			ctl.Create(res, req)
 
 			var decodedRes struct {
