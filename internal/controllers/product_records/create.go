@@ -102,12 +102,6 @@ func (controller *ProductRecordsDefault) Create(w http.ResponseWriter, r *http.R
 	// Call the service layer to create the productRecord
 	productRecordCreated, err := controller.sv.Create(productRecordToCreate)
 	if err != nil {
-		// Check if the error is a MySQL duplicate entry error
-		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
-			response.Error(w, http.StatusConflict, err.Error())
-			return
-		}
-
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow {
 			response.Error(w, http.StatusConflict, err.Error())
 			return

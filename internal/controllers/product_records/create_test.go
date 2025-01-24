@@ -104,7 +104,18 @@ func TestCreate(t *testing.T) {
 			req := httptest.NewRequest(http.MethodPost, "/api/v1/productRecords", strings.NewReader(tt.productRecordJSON))
 			res := httptest.NewRecorder()
 
-			sv.On("Create", mock.AnythingOfType("models.ProductRecordDTO")).Return(tt.expected.productRecord, tt.callErr)
+			// sv.On("Create", mock.AnythingOfType("models.ProductRecordDTO")).Return(tt.expected.productRecord, tt.callErr)
+			
+			sv.On("Create", mock.MatchedBy(func(dto models.ProductRecordDTO) bool {
+                if tt.callErr != nil {
+                    return true
+                }
+                return (dto.LastUpdateDate == tt.expected.productRecord.LastUpdateDate &&
+                    dto.ProductID == tt.expected.productRecord.ProductID &&
+                    dto.PurchasePrice == tt.expected.productRecord.PurchasePrice &&
+					dto.SalePrice == tt.expected.productRecord.SalePrice)
+            })).Return(tt.expected.productRecord, tt.callErr)
+
 			ctl.Create(res, req)
 
 			var decodedRes struct {
