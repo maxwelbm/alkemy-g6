@@ -12,7 +12,7 @@ import (
 func InitProductBatches(db *sql.DB, router *chi.Mux) {
 	rp := repository.NewProductBatchesRepository(db)
 	// - service
-	sv := service.NewProductBatchesDefault(rp)
+	sv := service.NewProductBatchesService(rp)
 	// - handler
 	ct := controllers.NewProductBatchesController(sv)
 
