@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -150,6 +151,17 @@ func TestCreate(t *testing.T) {
 
 			// Act
 			sv.On("Create", mock.AnythingOfType("models.InboundOrdersDTO")).Return(tt.wanted.inboundOrders, tt.callErr)
+			sv.On("Create", mock.MatchedBy(func(dto models.InboundOrdersDTO) bool {
+				if tt.callErr != nil {
+					return true
+				}
+				product_batch_id, _ := strconv.Atoi(tt.wanted.inboundOrders.ProductBatchID)
+				return (*dto.OrderDate == tt.wanted.inboundOrders.OrderDate &&
+					*dto.OrderNumber == tt.wanted.inboundOrders.OrderNumber &&
+					*dto.EmployeeID == tt.wanted.inboundOrders.EmployeeID &&
+					*dto.ProductBatchID == product_batch_id &&
+					*dto.WarehouseID == tt.wanted.inboundOrders.WarehouseID)
+			})).Return(tt.wanted.inboundOrders, tt.callErr)
 			ctl.Create(res, req)
 
 			// Assert
