@@ -73,6 +73,7 @@ func TestUpdate(t *testing.T) {
 			wanted: wanted{
 				statusCode: http.StatusBadRequest,
 				message:    "strconv.Atoi",
+				seller:     models.Seller{},
 			},
 		},
 		{
@@ -90,6 +91,7 @@ func TestUpdate(t *testing.T) {
 			wanted: wanted{
 				statusCode: http.StatusBadRequest,
 				message:    "Bad Request",
+				seller:     models.Seller{},
 			},
 		},
 		{
@@ -107,6 +109,7 @@ func TestUpdate(t *testing.T) {
 			wanted: wanted{
 				statusCode: http.StatusBadRequest,
 				message:    "json: cannot unmarshal",
+				seller:     models.Seller{},
 			},
 		},
 		{
@@ -124,6 +127,7 @@ func TestUpdate(t *testing.T) {
 			wanted: wanted{
 				statusCode: http.StatusUnprocessableEntity,
 				message:    "error: attribute CID cannot be empty",
+				seller:     models.Seller{},
 			},
 		},
 		{
@@ -142,6 +146,7 @@ func TestUpdate(t *testing.T) {
 				calls:      1,
 				statusCode: http.StatusNotFound,
 				message:    "seller not found",
+				seller:     models.Seller{},
 			},
 		},
 
@@ -161,6 +166,7 @@ func TestUpdate(t *testing.T) {
 				calls:      1,
 				statusCode: http.StatusConflict,
 				message:    "1062",
+				seller:     models.Seller{},
 			},
 		},
 		{
@@ -179,6 +185,7 @@ func TestUpdate(t *testing.T) {
 				calls:      1,
 				statusCode: http.StatusInternalServerError,
 				message:    "Generic error",
+				seller:     models.Seller{},
 			},
 		},
 	}
@@ -201,6 +208,19 @@ func TestUpdate(t *testing.T) {
 				mock.AnythingOfType("int"),
 				mock.AnythingOfType("models.SellerDTO"),
 			).Return(tt.wanted.seller, tt.callErr)
+
+			sv.On("Update", mock.AnythingOfType("int"), mock.MatchedBy(func(dto models.SellerDTO) bool {
+				if tt.callErr != nil {
+					return true
+				}
+
+				return !(dto.CID != tt.wanted.seller.CID ||
+					dto.CompanyName != tt.wanted.seller.CompanyName ||
+					dto.Address != tt.wanted.seller.Address ||
+					dto.Telephone != tt.wanted.seller.Telephone ||
+					dto.LocalityID != tt.wanted.seller.LocalityID)
+			}), mock.AnythingOfType("int")).Return(tt.wanted.seller, tt.callErr)
+
 			r.ServeHTTP(res, req)
 
 			// Assert
