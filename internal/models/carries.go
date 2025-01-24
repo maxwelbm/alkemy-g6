@@ -16,11 +16,11 @@ type Carry struct {
 }
 
 type CarryDTO struct {
-	CID         string
-	CompanyName string
-	Address     string
-	PhoneNumber string
-	LocalityID  int
+	CID         *string
+	CompanyName *string
+	Address     *string
+	PhoneNumber *string
+	LocalityID  *int
 }
 
 type CarriesService interface {
