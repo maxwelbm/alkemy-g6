@@ -6,7 +6,7 @@ type LocalityDefault struct {
 	rp models.LocalityRepository
 }
 
-func NewLocalityDefault(rp models.LocalityRepository) *LocalityDefault {
+func NewLocalitiesService(rp models.LocalityRepository) *LocalityDefault {
 	return &LocalityDefault{rp: rp}
 }
 
