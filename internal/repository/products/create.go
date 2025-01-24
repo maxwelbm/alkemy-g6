@@ -70,10 +70,6 @@ func (p *Products) Create(prod models.ProductDTO) (newProd models.Product, err e
 		&newProd.ProductTypeID,
 		&newProd.SellerID,
 	)
-	
-	if err != nil {
-		return newProd, err
-	}
 
 	return newProd, err
 }
