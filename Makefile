@@ -3,28 +3,28 @@ include .env
 .PHONY: up down mysql swag lint lint-fix test test-cover cover-avg
 
 up:
-    docker-compose up -d
+	docker-compose up -d
 
 down:
-    docker-compose down
+	docker-compose down
 
 mysql:
-    docker exec -it frescos-db mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME}
+	docker exec -it frescos-db mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME}
 
 swag:
-    docker exec -it frescos-api sh -c "swag init -d cmd --parseDependency --parseInternal --parseDepth 4 -o swagger/docs"
+	docker exec -it frescos-api sh -c "swag init -d cmd --parseDependency --parseInternal --parseDepth 4 -o swagger/docs"
 
 lint:
-    docker exec -it frescos-api sh -c "golangci-lint run ./..."
+	docker exec -it frescos-api sh -c "golangci-lint run ./..."
 
 lint-fix:
-    docker exec -it frescos-api sh -c "golangci-lint run ./... --fix"
+	docker exec -it frescos-api sh -c "golangci-lint run ./... --fix"
 
 test:
-    go run gotest.tools/gotestsum@latest --format dots $(or $(filter-out $@,$(MAKECMDGOALS)),./...)
+	go run gotest.tools/gotestsum@latest --format dots $(or $(filter-out $@,$(MAKECMDGOALS)),./...)
 
 test-cover:
-    go test -cover -coverprofile=coverage.out ./internal/controllers/... ./internal/service/...
+	go test -cover -coverprofile=coverage.out ./internal/controllers/... ./internal/service/...
 
 cover-avg:
-      go tool cover -func=coverage.out | grep total | awk '{print $3}'
+	go tool cover -func=coverage.out | grep total | awk '{print $3}'

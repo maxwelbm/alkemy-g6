@@ -70,6 +70,7 @@ func TestCreate(t *testing.T) {
 			wanted: wanted{
 				statusCode: http.StatusBadRequest,
 				message:    "json: cannot unmarshal",
+				seller:     models.Seller{},
 			},
 		},
 		{
@@ -81,6 +82,7 @@ func TestCreate(t *testing.T) {
 			wanted: wanted{
 				statusCode: http.StatusUnprocessableEntity,
 				message:    "error: cid is required",
+				seller:     models.Seller{},
 			},
 		},
 		{
@@ -150,6 +152,18 @@ func TestCreate(t *testing.T) {
 
 			// Act
 			sv.On("Create", mock.AnythingOfType("models.SellerDTO")).Return(tt.wanted.seller, tt.callErr)
+
+			sv.On("Create", mock.MatchedBy(func(dto models.SellerDTO) bool {
+				if tt.callErr != nil {
+					return true
+				}
+				return (dto.CID == tt.wanted.seller.CID &&
+					dto.Address == tt.wanted.seller.Address &&
+					dto.CompanyName == tt.wanted.seller.CompanyName &&
+					dto.Telephone == tt.wanted.seller.Telephone &&
+					dto.LocalityID == tt.wanted.seller.LocalityID)
+			})).Return(tt.wanted.seller, tt.callErr)
+
 			ctl.Create(res, req)
 
 			// Assert
