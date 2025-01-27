@@ -103,7 +103,14 @@ func TestCreate(t *testing.T) {
 			res := httptest.NewRecorder()
 
 			// Act
-			sv.On("Create", mock.AnythingOfType("models.BuyerDTO")).Return(tt.wanted.buyer, tt.callErr)
+			sv.On("Create", mock.MatchedBy(func(dto models.BuyerDTO) bool {
+				if tt.callErr != nil {
+					return true
+				}
+				return (*dto.FirstName == tt.wanted.buyer.FirstName &&
+					*dto.LastName == tt.wanted.buyer.LastName &&
+					*dto.CardNumberID == tt.wanted.buyer.CardNumberID)
+			})).Return(tt.wanted.buyer, tt.callErr)
 			ctl.Create(res, req)
 
 			// Assert
