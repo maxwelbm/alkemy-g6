@@ -365,7 +365,7 @@ definitions:
       message:
         type: string
     type: object
-host: localhost:8000
+host: localhost:8080
 info:
   contact: {}
   description: This is the FrescosAPI documentation.
