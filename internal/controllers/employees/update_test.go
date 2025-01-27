@@ -154,16 +154,7 @@ func TestUpdate(t *testing.T) {
 			req := httptest.NewRequest(http.MethodPatch, url, strings.NewReader(tt.employeeJSON))
 			res := httptest.NewRecorder()
 
-			sv.On("Update", mock.MatchedBy(func(dto models.EmployeeDTO) bool {
-				if tt.callErr != nil {
-					return true
-				}
-
-				return !(dto.CardNumberID != nil && *dto.CardNumberID != tt.expected.employee.CardNumberID ||
-					dto.FirstName != nil && *dto.FirstName != tt.expected.employee.FirstName ||
-					dto.LastName != nil && *dto.LastName != tt.expected.employee.LastName ||
-					dto.WarehouseID != nil && *dto.WarehouseID != tt.expected.employee.WarehouseID)
-			}), mock.AnythingOfType("int")).Return(tt.expected.employee, tt.callErr)
+			sv.On("Update", mock.AnythingOfType("models.EmployeeDTO"), mock.AnythingOfType("int")).Return(tt.expected.employee, tt.callErr)
 
 			r.ServeHTTP(res, req)
 

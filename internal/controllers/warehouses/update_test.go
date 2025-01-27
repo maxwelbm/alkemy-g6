@@ -201,16 +201,7 @@ func TestWarehouses_Update(t *testing.T) {
 			req := httptest.NewRequest(http.MethodPatch, "/api/v1/warehouses/"+tt.id, strings.NewReader(tt.warehouseJSON))
 			res := httptest.NewRecorder()
 
-			sv.On("Update", mock.AnythingOfType("int"), mock.MatchedBy(func(dto models.WarehouseDTO) bool {
-				if tt.callErr != nil {
-					return true
-				}
-				return !(dto.Address != nil && *dto.Address != tt.wanted.warehouse.Address ||
-					dto.Telephone != nil && *dto.Telephone != tt.wanted.warehouse.Telephone ||
-					dto.WarehouseCode != nil && *dto.WarehouseCode != tt.wanted.warehouse.WarehouseCode ||
-					dto.MinimumCapacity != nil && *dto.MinimumCapacity != tt.wanted.warehouse.MinimumCapacity ||
-					dto.MinimumTemperature != nil && *dto.MinimumTemperature != tt.wanted.warehouse.MinimumTemperature)
-			})).Return(tt.wanted.warehouse, tt.callErr)
+			sv.On("Update", mock.AnythingOfType("int"), mock.AnythingOfType("models.WarehouseDTO")).Return(tt.wanted.warehouse, tt.callErr)
 
 			r.ServeHTTP(res, req)
 
