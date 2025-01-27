@@ -185,7 +185,19 @@ func TestCreate(t *testing.T) {
 			res := httptest.NewRecorder()
 
 			// Act
-			sv.On("Create", mock.AnythingOfType("models.SectionDTO")).Return(tt.wanted.section, tt.callErr)
+			sv.On("Create", mock.MatchedBy(func(dto models.SectionDTO) bool {
+				if tt.callErr != nil {
+					return true
+				}
+				return (*dto.SectionNumber == tt.wanted.section.SectionNumber &&
+					*dto.CurrentTemperature == tt.wanted.section.CurrentTemperature &&
+					*dto.MinimumTemperature == tt.wanted.section.MinimumTemperature &&
+					*dto.CurrentCapacity == tt.wanted.section.CurrentCapacity &&
+					*dto.MinimumCapacity == tt.wanted.section.MinimumCapacity &&
+					*dto.MaximumCapacity == tt.wanted.section.MaximumCapacity &&
+					*dto.WarehouseID == tt.wanted.section.WarehouseID &&
+					*dto.ProductTypeID == tt.wanted.section.ProductTypeID)
+			})).Return(tt.wanted.section, tt.callErr)
 			ctl.Create(res, req)
 
 			var decodedRes struct {
