@@ -12,7 +12,7 @@ import (
 // @title FrescosAPI
 // @version 1.0
 // @description This is the FrescosAPI documentation.
-// @host localhost:8000
+// @host localhost:8080
 // @BasePath /
 func main() {
 	// Initializes env variables from .env file

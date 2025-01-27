@@ -24,7 +24,8 @@ test:
 	go run gotest.tools/gotestsum@latest --format dots $(or $(filter-out $@,$(MAKECMDGOALS)),./...)
 
 test-cover:
-	go test -cover -coverprofile=coverage.out ./internal/controllers/... ./internal/service/...
+	go test -cover -coverprofile=./tmp/coverage.out ./internal/controllers/... ./internal/service/... \
+	&& sed -i '' '/_mock.go/d' ./tmp/coverage.out
 
 cover-avg:
-	go tool cover -func=coverage.out | grep total | awk '{print $3}'
+	go tool cover -func=./tmp/coverage.out | grep total | awk '{print $3}'
