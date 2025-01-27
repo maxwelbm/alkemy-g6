@@ -209,18 +209,6 @@ func TestUpdate(t *testing.T) {
 				mock.AnythingOfType("models.SellerDTO"),
 			).Return(tt.wanted.seller, tt.callErr)
 
-			sv.On("Update", mock.AnythingOfType("int"), mock.MatchedBy(func(dto models.SellerDTO) bool {
-				if tt.callErr != nil {
-					return true
-				}
-
-				return !(dto.CID != tt.wanted.seller.CID ||
-					dto.CompanyName != tt.wanted.seller.CompanyName ||
-					dto.Address != tt.wanted.seller.Address ||
-					dto.Telephone != tt.wanted.seller.Telephone ||
-					dto.LocalityID != tt.wanted.seller.LocalityID)
-			}), mock.AnythingOfType("int")).Return(tt.wanted.seller, tt.callErr)
-
 			r.ServeHTTP(res, req)
 
 			// Assert
