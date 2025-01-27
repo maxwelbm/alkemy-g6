@@ -111,11 +111,6 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		if errors.Is(err, models.ErrProductCodeExist) {
-			response.Error(w, http.StatusConflict, err.Error())
-			return
-		}
-
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok &&
 			(mysqlErr.Number == mysqlerr.CodeDuplicateEntry ||
 				mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow) {

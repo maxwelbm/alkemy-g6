@@ -152,23 +152,6 @@ func TestProducts_Update(t *testing.T) {
 			},
 		},
 		{
-			name: "409 - When attempting to update to an existing product code",
-			id:   "1",
-			productJSON: `
-			{
-				"product_code": "P001",
-				"recommended_freezing_temp": -10,
-				"product_type_id": 1,
-				"seller_id": 1
-			}`,
-			callErr: models.ErrProductCodeExist,
-			expected: expected{
-				calls:      1,
-				statusCode: http.StatusConflict,
-				message:    "product code already exist",
-			},
-		},
-		{
 			name: "409 - When the repository raises a DuplicateEntry error",
 			id:   "1",
 			productJSON: `

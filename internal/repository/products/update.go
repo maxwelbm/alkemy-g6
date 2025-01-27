@@ -26,7 +26,6 @@ func (p *Products) Update(id int, prod models.ProductDTO) (updatedProd models.Pr
 		}
 
 		if exists {
-			err = models.ErrProductCodeExist
 			return updatedProd, err
 		}
 
