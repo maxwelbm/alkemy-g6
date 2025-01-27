@@ -454,7 +454,23 @@ func TestProducts_Create(t *testing.T) {
 			req := httptest.NewRequest(http.MethodPost, "/api/v1/products", strings.NewReader(tt.productJSON))
 			res := httptest.NewRecorder()
 			//Act
-			sv.On("Create", mock.AnythingOfType("models.ProductDTO")).Return(product, tt.callErr)
+			sv.On("Create", mock.MatchedBy(func(dto models.ProductDTO) bool {
+				if tt.callErr != nil {
+					return true
+				}
+				return (dto.ProductCode == product.ProductCode &&
+					dto.Description == product.Description &&
+					dto.Height == product.Height &&
+					dto.Length == product.Length &&
+					dto.Width == product.Width &&
+					dto.NetWeight == product.NetWeight &&
+					dto.ExpirationRate == product.ExpirationRate &&
+					dto.FreezingRate == product.FreezingRate &&
+					dto.RecomFreezTemp == product.RecomFreezTemp &&
+					dto.ProductTypeID == product.ProductTypeID &&
+					dto.SellerID == product.SellerID)
+			})).Return(product, tt.callErr)
+
 			ctl.Create(res, req)
 
 			var decodedRes struct {
