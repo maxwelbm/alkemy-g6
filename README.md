@@ -72,6 +72,8 @@ make lint-fix // auto apply linter suggestions
 
 Run the Go tests and format the output with [gotestsum](https://github.com/gotestyourself/gotestsum).
 
+##### For integration testing the db container must be up
+
 ```bash
 make test
 ```
