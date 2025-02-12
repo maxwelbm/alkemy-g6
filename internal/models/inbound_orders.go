@@ -11,7 +11,7 @@ type InboundOrders struct {
 	OrderDate      string
 	OrderNumber    int
 	EmployeeID     int
-	ProductBatchID string
+	ProductBatchID int
 	WarehouseID    int
 }
 

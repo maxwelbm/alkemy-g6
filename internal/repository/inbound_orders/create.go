@@ -5,16 +5,29 @@ import (
 )
 
 func (e *InboundOrdersRepository) Create(inboundOrders models.InboundOrdersDTO) (newInboundOrders models.InboundOrders, err error) {
-	query := "INSERT INTO inbound_orders (order_date,order_number, employee_id, product_batch_id, warehouse_id) VALUES (?, ?, ?, ?, ?)"
+	query := `
+		INSERT INTO inbound_orders
+			(order_date,order_number, employee_id, product_batch_id, warehouse_id) 
+		VALUES (?, ?, ?, ?, ?)
+	`
 
-	result, err := e.db.Exec(query, inboundOrders.OrderDate, inboundOrders.OrderNumber, inboundOrders.EmployeeID, inboundOrders.ProductBatchID, inboundOrders.WarehouseID)
+	result, err := e.db.Exec(
+		query,
+		*inboundOrders.OrderDate,
+		*inboundOrders.OrderNumber,
+		*inboundOrders.EmployeeID,
+		*inboundOrders.ProductBatchID,
+		*inboundOrders.WarehouseID,
+	)
+
 	if err != nil {
-		return
+		return newInboundOrders, err
 	}
 
 	lastInsertID, err := result.LastInsertId()
+
 	if err != nil {
-		return
+		return newInboundOrders, err
 	}
 
 	query = "SELECT id, order_date, order_number, employee_id, product_batch_id, warehouse_id FROM inbound_orders WHERE id = ?"
@@ -29,5 +42,5 @@ func (e *InboundOrdersRepository) Create(inboundOrders models.InboundOrdersDTO) 
 			&newInboundOrders.WarehouseID,
 		)
 
-	return
+	return newInboundOrders, err
 }
