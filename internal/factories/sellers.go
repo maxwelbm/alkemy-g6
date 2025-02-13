@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/randstr"
 )
 
 type SellerFactory struct {
@@ -18,10 +19,10 @@ func NewSellerFactory(db *sql.DB) *SellerFactory {
 
 func defaultSeller() models.Seller {
 	return models.Seller{
-		CID:         RandAlphanumeric(8),
-		CompanyName: RandChars(8),
-		Address:     RandChars(8),
-		Telephone:   RandChars(11),
+		CID:         randstr.Alphanumeric(8),
+		CompanyName: randstr.Chars(8),
+		Address:     randstr.Chars(8),
+		Telephone:   randstr.Chars(11),
 		LocalityID:  1,
 	}
 }
