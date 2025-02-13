@@ -28,6 +28,14 @@ func (f *ProductBatchesFactory) Build(productBatches models.ProductBatches) mode
 func (f *ProductBatchesFactory) Create(productBatches models.ProductBatches) (record models.ProductBatches, err error) {
 	populateProductBatchesParams(&productBatches)
 
+	if err = f.checkProductExists(productBatches.ProductID); err != nil {
+		return productBatches, err
+	}
+
+	if err = f.checkSectionExists(productBatches.SectionID); err != nil {
+		return productBatches, err
+	}
+
 	query := `
 		INSERT INTO product_batches
 			(
@@ -125,4 +133,52 @@ func populateProductBatchesParams(productBatches *models.ProductBatches) {
 	if productBatches.SectionID == 0 {
 		productBatches.SectionID = defaultProductBatches.SectionID
 	}
+}
+
+func (f *ProductBatchesFactory) checkProductExists(productID int) (err error) {
+	var count int
+	err = f.db.QueryRow(`SELECT COUNT(*) FROM products WHERE id = ?`, productID).Scan(&count)
+
+	if err != nil {
+		return
+	}
+
+	if count > 0 {
+		return
+	}
+
+	err = f.createProduct()
+
+	return
+}
+
+func (f *ProductBatchesFactory) checkSectionExists(sectionID int) (err error) {
+	var count int
+	err = f.db.QueryRow(`SELECT COUNT(*) FROM sections WHERE id = ?`, sectionID).Scan(&count)
+
+	if err != nil {
+		return
+	}
+
+	if count > 0 {
+		return
+	}
+
+	err = f.createSections()
+
+	return
+}
+
+func (f *ProductBatchesFactory) createProduct() (err error) {
+	productBatchesFactory := NewProductFactory(f.db)
+	_, err = productBatchesFactory.Create(models.Product{})
+
+	return
+}
+
+func (f *ProductBatchesFactory) createSections() (err error) {
+	productBatchesFactory := NewSectionFactory(f.db)
+	_, err = productBatchesFactory.Create(models.Section{})
+
+	return
 }

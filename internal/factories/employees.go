@@ -29,6 +29,10 @@ func (f EmployeeFactory) Build(employee models.Employee) models.Employee {
 func (f *EmployeeFactory) Create(employee models.Employee) (record models.Employee, err error) {
 	populateEmployeeParams(&employee)
 
+	if err = f.checkWarehouseExists(employee.WarehouseID); err != nil {
+		return employee, err
+	}
+
 	query := `
 		INSERT INTO employee 
 			(
@@ -90,4 +94,28 @@ func populateEmployeeParams(employee *models.Employee) {
 	if employee.WarehouseID == 0 {
 		employee.WarehouseID = defaultEmployee.WarehouseID
 	}
+}
+
+func (f *EmployeeFactory) checkWarehouseExists(warehouseID int) (err error) {
+	var count int
+	err = f.db.QueryRow(`SELECT COUNT(*) FROM warehouses WHERE id = ?`, warehouseID).Scan(&count)
+
+	if err != nil {
+		return
+	}
+
+	if count > 0 {
+		return
+	}
+
+	err = f.createWarehouse()
+
+	return
+}
+
+func (f *EmployeeFactory) createWarehouse() (err error) {
+	employeeFactory := NewWarehouseFactory(f.db)
+	_, err = employeeFactory.Create(models.Warehouse{})
+
+	return
 }
