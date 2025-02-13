@@ -52,7 +52,7 @@ CREATE TABLE localities (
 -- Create a table to store seller information
 CREATE TABLE sellers (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  cid INT UNIQUE,
+  cid VARCHAR(255) UNIQUE,
   company_name VARCHAR(255),
   address VARCHAR(255),
   telephone VARCHAR(255),
