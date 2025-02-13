@@ -90,36 +90,36 @@ func TestReportCarries(t *testing.T) {
 				err: nil,
 			},
 		},
-		// {
-		// 	name: "When reporting one locality by id and the locality has sellers",
-		// 	setup: func() {
-		// 		factory := factories.NewLocalityFactory(db)
-		// 		_, err := factory.Create(models.Locality{
-		// 			LocalityName: "Sao Paulo",
-		// 			ProvinceName: "Sao Paulo",
-		// 			CountryName:  "Brazil",
-		// 		})
-		// 		require.NoError(t, err)
-		// 		sellerFactory := factories.NewCarryFactory(db)
-		// 		_, err = sellerFactory.Create(models.Carry{LocalityID: 1})
-		// 		require.NoError(t, err)
-		// 		_, err = sellerFactory.Create(models.Carry{LocalityID: 1})
-		// 		require.NoError(t, err)
-		// 	},
-		// 	arg: arg{
-		// 		id: 1,
-		// 	},
-		// 	want: want{
-		// 		locality: []models.LocalityCarriesReport{
-		// 			{
-		// 				ID:           1,
-		// 				LocalityName: "Sao Paulo",
-		// 				CarriesCount: 2,
-		// 			},
-		// 		},
-		// 		err: nil,
-		// 	},
-		// },
+		{
+			name: "When reporting one locality by id and the locality has sellers",
+			setup: func() {
+				factory := factories.NewLocalityFactory(db)
+				_, err := factory.Create(models.Locality{
+					LocalityName: "Sao Paulo",
+					ProvinceName: "Sao Paulo",
+					CountryName:  "Brazil",
+				})
+				require.NoError(t, err)
+				sellerFactory := factories.NewCarryFactory(db)
+				_, err = sellerFactory.Create(models.Carry{LocalityID: 1})
+				require.NoError(t, err)
+				_, err = sellerFactory.Create(models.Carry{LocalityID: 1})
+				require.NoError(t, err)
+			},
+			arg: arg{
+				id: 1,
+			},
+			want: want{
+				locality: []models.LocalityCarriesReport{
+					{
+						ID:           1,
+						LocalityName: "Sao Paulo",
+						CarriesCount: 2,
+					},
+				},
+				err: nil,
+			},
+		},
 		{
 			name: "When reporting by id and locality is Not Found",
 			arg: arg{

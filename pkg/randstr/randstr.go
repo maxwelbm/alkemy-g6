@@ -20,7 +20,7 @@ func Chars(n int) string {
 }
 
 func Alphanumeric(n int) string {
-	rand.New(rand.NewSource(1))
+	rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	b := make([]rune, n)
 	for i := range b {

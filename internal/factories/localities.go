@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/randstr"
 )
 
 type LocalityFactory struct {
@@ -18,9 +19,9 @@ func NewLocalityFactory(db *sql.DB) *LocalityFactory {
 
 func defaultLocality() models.Locality {
 	return models.Locality{
-		LocalityName: RandChars(8),
-		ProvinceName: RandChars(8),
-		CountryName:  RandChars(8),
+		LocalityName: randstr.Chars(8),
+		ProvinceName: randstr.Chars(8),
+		CountryName:  randstr.Chars(8),
 	}
 }
 
