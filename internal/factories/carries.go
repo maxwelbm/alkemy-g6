@@ -9,15 +9,15 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/randstr"
 )
 
-type CarrieFactory struct {
+type CarryFactory struct {
 	db *sql.DB
 }
 
-func NewCarrieFactory(db *sql.DB) *CarrieFactory {
-	return &CarrieFactory{db: db}
+func NewCarryFactory(db *sql.DB) *CarryFactory {
+	return &CarryFactory{db: db}
 }
 
-func defaultCarrie() models.Carry {
+func defaultCarry() models.Carry {
 	return models.Carry{
 		CID:         randstr.Alphanumeric(8),
 		CompanyName: randstr.Chars(8),
@@ -27,8 +27,8 @@ func defaultCarrie() models.Carry {
 	}
 }
 
-func (f *CarrieFactory) Create(carrie models.Carry) (record models.Carry, err error) {
-	populateCarrieParams(&carrie)
+func (f *CarryFactory) Create(carrie models.Carry) (record models.Carry, err error) {
+	populateCarryParams(&carrie)
 
 	if err = f.checkLocalityExists(carrie.LocalityID); err != nil {
 		return carrie, err
@@ -65,34 +65,34 @@ func (f *CarrieFactory) Create(carrie models.Carry) (record models.Carry, err er
 	return carrie, err
 }
 
-func populateCarrieParams(carrie *models.Carry) {
-	defaultCarrie := defaultCarrie()
+func populateCarryParams(carrie *models.Carry) {
+	defaultCarry := defaultCarry()
 	if carrie == nil {
-		carrie = &defaultCarrie
+		carrie = &defaultCarry
 	}
 
 	if carrie.CID == "" {
-		carrie.CID = defaultCarrie.CID
+		carrie.CID = defaultCarry.CID
 	}
 
 	if carrie.CompanyName == "" {
-		carrie.CompanyName = defaultCarrie.CompanyName
+		carrie.CompanyName = defaultCarry.CompanyName
 	}
 
 	if carrie.Address == "" {
-		carrie.Address = defaultCarrie.Address
+		carrie.Address = defaultCarry.Address
 	}
 
 	if carrie.PhoneNumber == "" {
-		carrie.PhoneNumber = defaultCarrie.PhoneNumber
+		carrie.PhoneNumber = defaultCarry.PhoneNumber
 	}
 
 	if carrie.LocalityID == 0 {
-		carrie.LocalityID = defaultCarrie.LocalityID
+		carrie.LocalityID = defaultCarry.LocalityID
 	}
 }
 
-func (f *CarrieFactory) checkLocalityExists(localityID int) (err error) {
+func (f *CarryFactory) checkLocalityExists(localityID int) (err error) {
 	var count int
 	err = f.db.QueryRow(`SELECT COUNT(*) FROM localities WHERE id = ?`, localityID).Scan(&count)
 
@@ -109,7 +109,7 @@ func (f *CarrieFactory) checkLocalityExists(localityID int) (err error) {
 	return
 }
 
-func (f *CarrieFactory) createLocality() (err error) {
+func (f *CarryFactory) createLocality() (err error) {
 	localityFactory := NewLocalityFactory(f.db)
 	_, err = localityFactory.Create(models.Locality{})
 
