@@ -13,6 +13,8 @@ import (
 func TestCreate(t *testing.T) {
 	db, truncate, teardown := testdb.NewConn(t)
 	defer teardown()
+	factory := factories.NewLocalityFactory(db)
+	fixture := factory.Build(models.Locality{ID: 1})
 
 	type arg struct {
 		dto models.LocalityDTO
@@ -30,47 +32,29 @@ func TestCreate(t *testing.T) {
 		{
 			name: "When successfully creating a new Locality",
 			arg: arg{
-				dto: func() models.LocalityDTO {
-					locality := "Sao Paulo"
-					province := "Sao Paulo"
-					country := "Brazil"
-
-					return models.LocalityDTO{
-						LocalityName: &locality,
-						ProvinceName: &province,
-						CountryName:  &country,
-					}
-				}(),
+				dto: models.LocalityDTO{
+					LocalityName: &fixture.LocalityName,
+					ProvinceName: &fixture.ProvinceName,
+					CountryName:  &fixture.CountryName,
+				},
 			},
 			want: want{
-				locality: models.Locality{
-					ID:           1,
-					LocalityName: "Sao Paulo",
-					ProvinceName: "Sao Paulo",
-					CountryName:  "Brazil",
-				},
-				err: nil,
+				locality: fixture,
+				err:      nil,
 			},
 		},
 		{
 			name: "Error - When creating a duplicated Locality",
 			setup: func() {
-				locality := models.Locality{LocalityName: "Sao Paulo", ProvinceName: "Sao Paulo", CountryName: "Brazil"}
-				_, err := factories.NewLocalityFactory(db).Create(locality)
+				_, err := factory.Create(fixture)
 				require.NoError(t, err)
 			},
 			arg: arg{
-				dto: func() models.LocalityDTO {
-					locality := "Sao Paulo"
-					province := "Sao Paulo"
-					country := "Brazil"
-
-					return models.LocalityDTO{
-						LocalityName: &locality,
-						ProvinceName: &province,
-						CountryName:  &country,
-					}
-				}(),
+				dto: models.LocalityDTO{
+					LocalityName: &fixture.LocalityName,
+					ProvinceName: &fixture.ProvinceName,
+					CountryName:  &fixture.CountryName,
+				},
 			},
 			want: want{
 				err: errors.New("Duplicate entry"),
