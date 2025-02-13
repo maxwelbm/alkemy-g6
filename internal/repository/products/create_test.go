@@ -1,12 +1,13 @@
 package productsrp
 
 import (
-	"errors"
 	"log"
 	"testing"
 
+	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/factories"
 	models "github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/testdb"
 	"github.com/stretchr/testify/require"
 )
@@ -74,7 +75,7 @@ func TestCreate(t *testing.T) {
 				},
 			},
 			want: want{
-				err: errors.New("Cannot add or update a child row"),
+				err: &mysql.MySQLError{Number: mysqlerr.CodeCannotAddOrUpdateChildRow},
 			},
 		},
 		{
@@ -99,7 +100,7 @@ func TestCreate(t *testing.T) {
 				},
 			},
 			want: want{
-				err: errors.New("Duplicate entry"),
+				err: &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
 			},
 		},
 		// Add more test cases here
@@ -121,7 +122,7 @@ func TestCreate(t *testing.T) {
 
 			// Assert
 			if tt.err != nil {
-				require.Contains(t, err.Error(), tt.err.Error())
+				require.ErrorIs(t, tt.err, err)
 			}
 			require.Equal(t, tt.want.product, got)
 		})
