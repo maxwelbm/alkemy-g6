@@ -134,9 +134,12 @@ func TestReportSellers(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			// Setup
+			t.Cleanup(truncate)
 			if tt.setup != nil {
 				tt.setup()
 			}
+
 			// Arrange
 			rp := NewLocalityRepository(db)
 			// Act
@@ -147,9 +150,6 @@ func TestReportSellers(t *testing.T) {
 				require.Equal(t, tt.err.Error(), err.Error())
 			}
 			require.Equal(t, tt.want.locality, got)
-
-			// Cleans up sql entries
-			truncate()
 		})
 	}
 }
