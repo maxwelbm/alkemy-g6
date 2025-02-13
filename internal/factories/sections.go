@@ -50,7 +50,7 @@ func (f *SectionFactory) Create(section models.Section) (record models.Section, 
 			warehouse_id,
 			product_type_id
 			) 
-		VALUES (%s?, ?, ?, ?, ?)
+		VALUES (%s?, ?, ?, ?, ?, ?, ?, ?)
 	`
 
 	switch section.ID {
