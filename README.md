@@ -8,7 +8,7 @@
 ```
 
 Welcome to `Frescos Api`!
-This is a [chi](https://github.com/go-chi/chi) powered webserver powered using `Go`, `MYSQL`.
+This is a [chi](https://github.com/go-chi/chi) powered webserver using `Go`, `MYSQL`.
 
 ## Swagger
 
@@ -18,7 +18,7 @@ To explore the app's endpoints, simply raise the server and navigate to `http://
 
 ## How to run in development
 
-For development, this project uses `Docker compose` and some scripts quality in a `Makefile`.
+For development, this project uses `docker compose` and some scripts in a `Makefile`.
 
 Inside the docker container, Hot reloading is enabled because of the use of [air-verse](https://github.com/air-verse/air).
 
@@ -71,6 +71,8 @@ make lint-fix // auto apply linter suggestions
 #### Test
 
 Run the Go tests and format the output with [gotestsum](https://github.com/gotestyourself/gotestsum).
+
+##### For integration testing the db container must be up
 
 ```bash
 make test

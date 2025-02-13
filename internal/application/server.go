@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/application/resources"
+	"github.com/maxwelbm/alkemy-g6/internal/controllers"
 	_ "github.com/maxwelbm/alkemy-g6/swagger/docs"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
@@ -80,6 +81,7 @@ func (a *ServerChi) Run() (err error) {
 		httpSwagger.URL("http://localhost:8080/swagger/doc.json")),
 	)
 	// resources
+	rt.Get("/ping", controllers.PingHandler)
 	resources.InitInboundOrders(a.db, rt)
 	resources.InitEmployees(a.db, rt)
 	resources.InitBuyers(a.db, rt)

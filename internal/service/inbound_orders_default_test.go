@@ -1,7 +1,6 @@
 package service_test
 
 import (
-	"strconv"
 	"testing"
 
 	"github.com/go-sql-driver/mysql"
@@ -18,7 +17,7 @@ var InboundOrdersFixture = []models.InboundOrders{
 		OrderDate:      "2025-01-01",
 		OrderNumber:    100,
 		EmployeeID:     1,
-		ProductBatchID: "1",
+		ProductBatchID: 1,
 		WarehouseID:    1,
 	},
 	{
@@ -26,7 +25,7 @@ var InboundOrdersFixture = []models.InboundOrders{
 		OrderDate:      "2025-01-02",
 		OrderNumber:    101,
 		EmployeeID:     2,
-		ProductBatchID: "2",
+		ProductBatchID: 2,
 		WarehouseID:    2,
 	},
 }
@@ -61,14 +60,12 @@ func TestInboundOrdersDefault_Create(t *testing.T) {
 			rp := inboundOrdersrp.NewInboundOrdersRepositoryMock()
 			sv := service.NewInboundOrdersService(rp)
 
-			product_batch_id, _ := strconv.Atoi(tt.inboundOrder.ProductBatchID)
-
 			dto := models.InboundOrdersDTO{
 				ID:             &tt.inboundOrder.ID,
 				OrderDate:      &tt.inboundOrder.OrderDate,
 				OrderNumber:    &tt.inboundOrder.OrderNumber,
 				EmployeeID:     &tt.inboundOrder.EmployeeID,
-				ProductBatchID: &product_batch_id,
+				ProductBatchID: &tt.inboundOrder.ProductBatchID,
 				WarehouseID:    &tt.inboundOrder.WarehouseID,
 			}
 			// Act
