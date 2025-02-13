@@ -4,7 +4,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
-func (e *InboundOrdersRepository) Create(inboundOrders models.InboundOrdersDTO) (newInboundOrders models.InboundOrders, err error) {
+func (e *InboundOrdersRepository) Create(inboundOrders models.InboundOrderDTO) (newInboundOrders models.InboundOrder, err error) {
 	query := `
 		INSERT INTO inbound_orders
 			(order_date,order_number, employee_id, product_batch_id, warehouse_id) 

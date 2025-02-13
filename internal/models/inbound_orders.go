@@ -6,7 +6,7 @@ var (
 	ErrInboundOrdersNotFound = errors.New("inbound Orders not found")
 )
 
-type InboundOrders struct {
+type InboundOrder struct {
 	ID             int
 	OrderDate      string
 	OrderNumber    int
@@ -15,7 +15,7 @@ type InboundOrders struct {
 	WarehouseID    int
 }
 
-type InboundOrdersDTO struct {
+type InboundOrderDTO struct {
 	ID             *int
 	OrderDate      *string
 	OrderNumber    *int
@@ -24,10 +24,10 @@ type InboundOrdersDTO struct {
 	WarehouseID    *int
 }
 
-type InboundOrdersService interface {
-	Create(inboundOrders InboundOrdersDTO) (newInboundOrders InboundOrders, err error)
+type InboundOrderService interface {
+	Create(inboundOrders InboundOrderDTO) (newInboundOrders InboundOrder, err error)
 }
 
-type InboundOrdersRepository interface {
-	Create(inboundOrders InboundOrdersDTO) (newInboundOrders InboundOrders, err error)
+type InboundOrderRepository interface {
+	Create(inboundOrders InboundOrderDTO) (newInboundOrders InboundOrder, err error)
 }

@@ -23,7 +23,7 @@ func TestCreate(t *testing.T) {
 		calls         int
 		statusCode    int
 		message       string
-		inboundOrders models.InboundOrders
+		inboundOrders models.InboundOrder
 	}
 	tests := []struct {
 		name              string
@@ -46,7 +46,7 @@ func TestCreate(t *testing.T) {
 				calls:      1,
 				statusCode: http.StatusCreated,
 				message:    "Created",
-				inboundOrders: models.InboundOrders{
+				inboundOrders: models.InboundOrder{
 					ID:             1,
 					OrderDate:      "2023-10-01",
 					OrderNumber:    12345,
@@ -98,7 +98,7 @@ func TestCreate(t *testing.T) {
 				calls:         1,
 				statusCode:    http.StatusConflict,
 				message:       "1062",
-				inboundOrders: models.InboundOrders{},
+				inboundOrders: models.InboundOrder{},
 			},
 		},
 		{
@@ -116,7 +116,7 @@ func TestCreate(t *testing.T) {
 				calls:         1,
 				statusCode:    http.StatusConflict,
 				message:       "1452",
-				inboundOrders: models.InboundOrders{},
+				inboundOrders: models.InboundOrder{},
 			},
 		},
 		{
@@ -134,7 +134,7 @@ func TestCreate(t *testing.T) {
 				calls:         1,
 				statusCode:    http.StatusInternalServerError,
 				message:       "Erro interno!",
-				inboundOrders: models.InboundOrders{},
+				inboundOrders: models.InboundOrder{},
 			},
 		},
 	}
@@ -150,7 +150,7 @@ func TestCreate(t *testing.T) {
 
 			// Act
 			sv.On("Create", mock.AnythingOfType("models.InboundOrdersDTO")).Return(tt.wanted.inboundOrders, tt.callErr)
-			sv.On("Create", mock.MatchedBy(func(dto models.InboundOrdersDTO) bool {
+			sv.On("Create", mock.MatchedBy(func(dto models.InboundOrderDTO) bool {
 				if tt.callErr != nil {
 					return true
 				}

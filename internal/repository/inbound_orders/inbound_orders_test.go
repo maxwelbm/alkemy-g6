@@ -32,10 +32,10 @@ func TestCreate(t *testing.T) {
 	defer teardown()
 
 	type call struct {
-		dto models.InboundOrdersDTO
+		dto models.InboundOrderDTO
 	}
 	type want struct {
-		order models.InboundOrders
+		order models.InboundOrder
 		wErr  error
 	}
 	tests := []struct {
@@ -50,14 +50,14 @@ func TestCreate(t *testing.T) {
 				inboundOrdersSeeds(db)
 			},
 			call: call{
-				dto: func() models.InboundOrdersDTO {
+				dto: func() models.InboundOrderDTO {
 					orderDate := "2023-01-01"
 					orderNumber := 2
 					employeeID := 1
 					productBatchID := 1
 					warehouseID := 1
 
-					io := models.InboundOrdersDTO{}
+					io := models.InboundOrderDTO{}
 					io.OrderDate = &orderDate
 					io.OrderNumber = &orderNumber
 					io.EmployeeID = &employeeID
@@ -68,7 +68,7 @@ func TestCreate(t *testing.T) {
 				}(),
 			},
 			want: want{
-				order: models.InboundOrders{
+				order: models.InboundOrder{
 					ID:             2,
 					OrderDate:      "2023-01-01T00:00:00Z",
 					OrderNumber:    2,
