@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/randstr"
 )
 
 type ProductFactory struct {
@@ -18,8 +19,8 @@ func NewProductFactory(db *sql.DB) *ProductFactory {
 
 func defaultProduct() models.Product {
 	return models.Product{
-		ProductCode:    RandAlphanumeric(8),
-		Description:    RandChars(16),
+		ProductCode:    randstr.Alphanumeric(8),
+		Description:    randstr.Chars(16),
 		Height:         10,
 		Length:         10,
 		Width:          10,
@@ -157,13 +158,11 @@ func (f *ProductFactory) checkSellerExists(sellerID int) (err error) {
 		return
 	}
 
-	if count == 0 {
-		err = fmt.Errorf("seller with id %d does not exist", sellerID)
+	if count > 0 {
+		return
 	}
 
-	if err != nil {
-		err = f.createSeller()
-	}
+	err = f.createSeller()
 
 	return
 }

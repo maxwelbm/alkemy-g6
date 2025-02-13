@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/randstr"
 )
 
 type CarrieFactory struct {
@@ -18,10 +19,10 @@ func NewCarrieFactory(db *sql.DB) *CarrieFactory {
 
 func defaultCarrie() models.Carry {
 	return models.Carry{
-		CID:         RandAlphanumeric(8),
-		CompanyName: RandChars(8),
-		Address:     RandChars(8),
-		PhoneNumber: RandChars(11),
+		CID:         randstr.Alphanumeric(8),
+		CompanyName: randstr.Chars(8),
+		Address:     randstr.Chars(8),
+		PhoneNumber: randstr.Chars(11),
 		LocalityID:  1,
 	}
 }
@@ -99,13 +100,11 @@ func (f *CarrieFactory) checkLocalityExists(localityID int) (err error) {
 		return
 	}
 
-	if count == 0 {
-		err = fmt.Errorf("carrie with id %d does not exist", localityID)
+	if count > 0 {
+		return
 	}
 
-	if err != nil {
-		err = f.createLocality()
-	}
+	err = f.createLocality()
 
 	return
 }

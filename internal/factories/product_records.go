@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/randstr"
 )
 
 type ProductRecodsFactory struct {
@@ -18,7 +19,7 @@ func NewProductRecodsFactory(db *sql.DB) *ProductRecodsFactory {
 
 func defaultProductRecords() models.ProductRecord {
 	return models.ProductRecord{
-		LastUpdateDate: RandChars(8),
+		LastUpdateDate: randstr.Chars(8),
 		PurchasePrice:  10.0,
 		SalePrice:      10.0,
 		ProductID:      1,
@@ -85,19 +86,17 @@ func populateProductRecordsParams(productRecord *models.ProductRecord) {
 
 func (f *ProductRecodsFactory) checkProductExists(productID int) (err error) {
 	var count int
-	err = f.db.QueryRow(`SELECT COUNT(*) FROM product WHERE id = ?`, productID).Scan(&count)
+	err = f.db.QueryRow(`SELECT COUNT(*) FROM products WHERE id = ?`, productID).Scan(&count)
 
 	if err != nil {
 		return
 	}
 
-	if count == 0 {
-		err = fmt.Errorf("product with id %d does not exist", productID)
+	if count > 0 {
+		return
 	}
 
-	if err != nil {
-		err = f.createProduct()
-	}
+	err = f.createProduct()
 
 	return
 }

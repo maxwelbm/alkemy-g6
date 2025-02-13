@@ -1,16 +1,15 @@
-package factories
+package randstr
 
 import (
+	"math/rand"
 	"time"
-
-	"golang.org/x/exp/rand"
 )
 
 var alphabet = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 var alphanumeric = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
-func RandChars(n int) string {
-	rand.Seed(uint64(time.Now().UnixNano()))
+func Chars(n int) string {
+	rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	b := make([]rune, n)
 	for i := range b {
@@ -20,8 +19,8 @@ func RandChars(n int) string {
 	return string(b)
 }
 
-func RandAlphanumeric(n int) string {
-	rand.Seed(uint64(time.Now().UnixNano()))
+func Alphanumeric(n int) string {
+	rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	b := make([]rune, n)
 	for i := range b {
