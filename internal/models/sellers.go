@@ -28,7 +28,6 @@ type SellerDTO struct {
 type SellersService interface {
 	GetAll() (sellers []Seller, err error)
 	GetByID(id int) (seller Seller, err error)
-	GetByCid(cid int) (seller Seller, err error)
 	Create(seller SellerDTO) (sellerReturn Seller, err error)
 	Update(id int, seller SellerDTO) (sellerReturn Seller, err error)
 	Delete(id int) (err error)
@@ -37,7 +36,6 @@ type SellersService interface {
 type SellersRepository interface {
 	GetAll() (sellerMap []Seller, err error)
 	GetByID(id int) (seller Seller, err error)
-	GetByCid(cid int) (seller Seller, err error)
 	Create(seller SellerDTO) (sellerReturn Seller, err error)
 	Update(id int, seller SellerDTO) (sellerReturn Seller, err error)
 	Delete(id int) (err error)
