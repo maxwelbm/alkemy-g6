@@ -43,7 +43,6 @@ type BuyerResJSON struct {
 type BuyerService interface {
 	GetAll() (buyers []Buyer, err error)
 	GetByID(id int) (buyer Buyer, err error)
-	GetByCardNumberID(cardNumberID string) (buyer Buyer, err error)
 	Create(buyer BuyerDTO) (buyerReturn Buyer, err error)
 	Update(id int, buyer BuyerDTO) (buyerReturn Buyer, err error)
 	Delete(id int) (err error)
@@ -53,7 +52,6 @@ type BuyerService interface {
 type BuyerRepository interface {
 	GetAll() (buyers []Buyer, err error)
 	GetByID(id int) (buyer Buyer, err error)
-	GetByCardNumberID(cardNumberID string) (buyer Buyer, err error)
 	Create(buyer BuyerDTO) (buyerReturn Buyer, err error)
 	Update(id int, buyer BuyerDTO) (buyerReturn Buyer, err error)
 	Delete(id int) (err error)

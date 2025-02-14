@@ -24,11 +24,6 @@ func (s *BuyerDefault) GetByID(id int) (buyer models.Buyer, err error) {
 	return
 }
 
-func (s *BuyerDefault) GetByCardNumberID(cardNumberID string) (buyer models.Buyer, err error) {
-	buyer, err = s.rp.GetByCardNumberID(cardNumberID)
-	return
-}
-
 func (s *BuyerDefault) Create(buyer models.BuyerDTO) (buyerReturn models.Buyer, err error) {
 	buyerReturn, err = s.rp.Create(buyer)
 	return
