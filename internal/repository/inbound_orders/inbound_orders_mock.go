@@ -13,7 +13,7 @@ func NewInboundOrdersRepositoryMock() *InboundOrdersRepositoryMock {
 	return &InboundOrdersRepositoryMock{}
 }
 
-func (m *InboundOrdersRepositoryMock) Create(inboundOrders models.InboundOrdersDTO) (models.InboundOrders, error) {
+func (m *InboundOrdersRepositoryMock) Create(inboundOrders models.InboundOrderDTO) (models.InboundOrder, error) {
 	args := m.Called(inboundOrders)
-	return args.Get(0).(models.InboundOrders), args.Error(1)
+	return args.Get(0).(models.InboundOrder), args.Error(1)
 }

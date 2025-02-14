@@ -14,7 +14,7 @@ func (r *WarehouseRepository) GetByID(id int) (w models.Warehouse, err error) {
 
 	if err = rows.Scan(&w.ID, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			err = ErrWarehouseRepositoryNotFound
+			err = models.ErrWareHouseNotFound
 			return
 		}
 	}

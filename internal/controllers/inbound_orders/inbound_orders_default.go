@@ -5,10 +5,10 @@ import (
 )
 
 type InboundOrdersController struct {
-	SV models.InboundOrdersService
+	SV models.InboundOrderService
 }
 
-func NewInboundOrdersDefault(sv models.InboundOrdersService) *InboundOrdersController {
+func NewInboundOrdersDefault(sv models.InboundOrderService) *InboundOrdersController {
 	return &InboundOrdersController{SV: sv}
 }
 

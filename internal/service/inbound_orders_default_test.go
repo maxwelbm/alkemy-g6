@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-var InboundOrdersFixture = []models.InboundOrders{
+var InboundOrdersFixture = []models.InboundOrder{
 	{
 		ID:             1,
 		OrderDate:      "2025-01-01",
@@ -33,9 +33,9 @@ var InboundOrdersFixture = []models.InboundOrders{
 func TestInboundOrdersDefault_Create(t *testing.T) {
 	tests := []struct {
 		name                string
-		inboundOrder        models.InboundOrders
+		inboundOrder        models.InboundOrder
 		err                 error
-		wantedInboundOrders models.InboundOrders
+		wantedInboundOrders models.InboundOrder
 		wantedErr           error
 	}{
 		{
@@ -60,7 +60,7 @@ func TestInboundOrdersDefault_Create(t *testing.T) {
 			rp := inboundOrdersrp.NewInboundOrdersRepositoryMock()
 			sv := service.NewInboundOrdersService(rp)
 
-			dto := models.InboundOrdersDTO{
+			dto := models.InboundOrderDTO{
 				ID:             &tt.inboundOrder.ID,
 				OrderDate:      &tt.inboundOrder.OrderDate,
 				OrderNumber:    &tt.inboundOrder.OrderNumber,

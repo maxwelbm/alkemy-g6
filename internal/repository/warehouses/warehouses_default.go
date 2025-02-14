@@ -2,11 +2,6 @@ package warehousesrp
 
 import (
 	"database/sql"
-	"errors"
-)
-
-var (
-	ErrWarehouseRepositoryNotFound = errors.New("warehouse not found")
 )
 
 type WarehouseRepository struct {

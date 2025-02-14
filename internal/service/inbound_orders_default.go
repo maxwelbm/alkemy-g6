@@ -11,14 +11,14 @@ var (
 )
 
 type InboundOrdersDefault struct {
-	rp models.InboundOrdersRepository
+	rp models.InboundOrderRepository
 }
 
-func NewInboundOrdersService(rp models.InboundOrdersRepository) *InboundOrdersDefault {
+func NewInboundOrdersService(rp models.InboundOrderRepository) *InboundOrdersDefault {
 	return &InboundOrdersDefault{rp: rp}
 }
 
-func (e *InboundOrdersDefault) Create(inboundOrders models.InboundOrdersDTO) (newInboundOrders models.InboundOrders, err error) {
+func (e *InboundOrdersDefault) Create(inboundOrders models.InboundOrderDTO) (newInboundOrders models.InboundOrder, err error) {
 	newInboundOrders, err = e.rp.Create(inboundOrders)
 	return
 }

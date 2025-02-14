@@ -46,7 +46,7 @@ func NewWarehousesController(sv models.WarehouseService) *warehousesctl.Warehous
 	return warehousesctl.NewWarehousesController(sv)
 }
 
-func NewInboundOrdersController(SV models.InboundOrdersService) *inboundordersctl.InboundOrdersController {
+func NewInboundOrdersController(SV models.InboundOrderService) *inboundordersctl.InboundOrdersController {
 	return inboundordersctl.NewInboundOrdersDefault(SV)
 }
 

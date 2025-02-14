@@ -19,7 +19,7 @@ func NewProductRecordsFactory(db *sql.DB) *ProductRecordsFactory {
 
 func defaultProductRecords() models.ProductRecord {
 	return models.ProductRecord{
-		LastUpdateDate: randstr.Chars(8),
+		LastUpdateDate: randstr.Date(),
 		PurchasePrice:  10.0,
 		SalePrice:      10.0,
 		ProductID:      1,
@@ -34,7 +34,7 @@ func (f *ProductRecordsFactory) Create(productRecord models.ProductRecord) (reco
 	}
 
 	query := `
-		INSERT INTO productRecords 
+		INSERT INTO product_records 
 			(
 			%s
 			last_update_date,
