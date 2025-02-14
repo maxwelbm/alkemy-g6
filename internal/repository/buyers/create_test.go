@@ -45,7 +45,7 @@ func TestCreate(t *testing.T) {
 			},
 		},
 		{
-			name: "When successfully creating a duplicate Buyer",
+			name: "Error - When creating a duplicated Buyer",
 			setup: func() {
 				_, err := factory.Create(fixture)
 				require.NoError(t, err)
