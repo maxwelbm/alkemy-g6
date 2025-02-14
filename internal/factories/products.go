@@ -158,13 +158,11 @@ func (f *ProductFactory) checkSellerExists(sellerID int) (err error) {
 		return
 	}
 
-	if count == 0 {
-		err = fmt.Errorf("seller with id %d does not exist", sellerID)
+	if count > 0 {
+		return
 	}
 
-	if err != nil {
-		err = f.createSeller()
-	}
+	err = f.createSeller()
 
 	return
 }

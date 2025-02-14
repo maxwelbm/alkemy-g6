@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"testing"
 
+	"github.com/maxwelbm/alkemy-g6/pkg/randstr"
 	"github.com/melisource/fury_go-core/pkg/sqldb/sqldbmigrate"
 	"github.com/melisource/fury_go-core/pkg/sqldb/sqldbtest"
 	"github.com/stretchr/testify/require"
@@ -16,6 +17,8 @@ func NewConn(t *testing.T) (db *sql.DB, truncate func(), teardown func()) {
 	migrations, err := sqldbmigrate.GetMigrationsFS("migrations/mysql/testschema")
 	require.NoError(t, err)
 
+	schema := randstr.Chars(8)
+
 	db, teardown = sqldbtest.Setup(
 		t,
 		context.Background(),
@@ -23,10 +26,10 @@ func NewConn(t *testing.T) (db *sql.DB, truncate func(), teardown func()) {
 		migrations,
 		sqldbtest.WithPassword("root"),
 		sqldbtest.WithUser("root"),
-		sqldbtest.WithDatabaseName("testschema"),
+		sqldbtest.WithDatabaseName(schema),
 	)
 
-	rows, err := db.Query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'testschema'")
+	rows, err := db.Query("SELECT table_name FROM information_schema.tables WHERE table_schema = ?", schema)
 	defer rows.Close()
 	require.NoError(t, err)
 

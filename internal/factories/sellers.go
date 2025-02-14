@@ -100,13 +100,11 @@ func (f *SellerFactory) checkLocalityExists(localityID int) (err error) {
 		return
 	}
 
-	if count == 0 {
-		err = fmt.Errorf("seller with id %d does not exist", localityID)
+	if count > 0 {
+		return
 	}
 
-	if err != nil {
-		err = f.createLocality()
-	}
+	err = f.createLocality()
 
 	return
 }
