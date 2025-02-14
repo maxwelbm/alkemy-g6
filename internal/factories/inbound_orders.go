@@ -159,12 +159,11 @@ func (f *InboundOrderFactory) createEmployee() (err error) {
 }
 
 func (f *InboundOrderFactory) createProductBatch() (err error) {
-	warehouseFactory := NewProductBatchFactory(f.db)
-	_, err = warehouseFactory.Create(models.ProductBatch{})
+	warehouseFactory := NewProductBatchesFactory(f.db)
+	_, err = warehouseFactory.Create(models.ProductBatches{})
 
 	return
 }
-
 
 func (f *InboundOrderFactory) createWarehouse() (err error) {
 	warehouseFactory := NewWarehouseFactory(f.db)

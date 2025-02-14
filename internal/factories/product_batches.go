@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/randstr"
 )
 
 type ProductBatchesFactory struct {
@@ -17,7 +18,18 @@ func NewProductBatchesFactory(db *sql.DB) *ProductBatchesFactory {
 }
 
 func defaultProductBatches() models.ProductBatches {
-	return models.ProductBatches{}
+	return models.ProductBatches{
+		BatchNumber:        randstr.Alphanumeric(8),
+		InitialQuantity:    1,
+		CurrentQuantity:    1,
+		CurrentTemperature: 10.0,
+		MinimumTemperature: 1.0,
+		DueDate:            randstr.Data(),
+		ManufacturingDate:  randstr.Data(),
+		ManufacturingHour:  "10:00",
+		ProductID:          1,
+		SectionID:          1,
+	}
 }
 func (f *ProductBatchesFactory) Build(productBatches models.ProductBatches) models.ProductBatches {
 	populateProductBatchesParams(&productBatches)

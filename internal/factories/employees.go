@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/randstr"
 )
 
 type EmployeeFactory struct {
@@ -17,7 +18,12 @@ func NewEmployeeFactory(db *sql.DB) *EmployeeFactory {
 }
 
 func defaultEmployee() models.Employee {
-	return models.Employee{}
+	return models.Employee{
+		CardNumberID: randstr.Alphanumeric(8),
+		FirstName:    randstr.Chars(10),
+		LastName:     randstr.Chars(10),
+		WarehouseID:  1,
+	}
 }
 
 func (f EmployeeFactory) Build(employee models.Employee) models.Employee {
