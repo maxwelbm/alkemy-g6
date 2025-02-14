@@ -1,6 +1,9 @@
 package warehousesrp
 
 import (
+	"database/sql"
+	"errors"
+
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 )
 
@@ -17,8 +20,6 @@ func (r *WarehouseRepository) Update(id int, warehouse models.WarehouseDTO) (w m
 			err = models.ErrWareHouseCodeExist
 			return w, err
 		}
-
-		w.WarehouseCode = *warehouse.WarehouseCode
 	}
 
 	//COALESCE: used to retain the current value of the field if the new value is null or not applicable
@@ -37,6 +38,11 @@ func (r *WarehouseRepository) Update(id int, warehouse models.WarehouseDTO) (w m
 
 	query = "SELECT `id`,`address`, `telephone`, `warehouse_code`, `minimum_capacity`, `minimum_temperature` FROM warehouses WHERE `id`=?"
 	if err = r.db.QueryRow(query, id).Scan(&w.ID, &w.Address, &w.Telephone, &w.WarehouseCode, &w.MinimumCapacity, &w.MinimumTemperature); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			err = models.ErrWareHouseNotFound
+			return w, err
+		}
+		
 		return w, err
 	}
 
