@@ -93,10 +93,10 @@ func (controller *ProductRecordsDefault) Create(w http.ResponseWriter, r *http.R
 
 	// Map the request data to a ProductRecordDTO model
 	productRecordToCreate := models.ProductRecordDTO{
-		LastUpdateDate: *productRecordRequest.LastUpdateDate,
-		PurchasePrice:  *productRecordRequest.PurchasePrice,
-		SalePrice:      *productRecordRequest.SalePrice,
-		ProductID:      *productRecordRequest.ProductID,
+		LastUpdateDate: productRecordRequest.LastUpdateDate,
+		PurchasePrice:  productRecordRequest.PurchasePrice,
+		SalePrice:      productRecordRequest.SalePrice,
+		ProductID:      productRecordRequest.ProductID,
 	}
 
 	// Call the service layer to create the productRecord

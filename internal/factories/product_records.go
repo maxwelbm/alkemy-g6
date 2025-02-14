@@ -26,6 +26,12 @@ func defaultProductRecords() models.ProductRecord {
 	}
 }
 
+func (f *ProductRecordsFactory) Build(productRecord models.ProductRecord) models.ProductRecord {
+	populateProductRecordsParams(&productRecord)
+
+	return productRecord
+}
+
 func (f *ProductRecordsFactory) Create(productRecord models.ProductRecord) (record models.ProductRecord, err error) {
 	populateProductRecordsParams(&productRecord)
 

@@ -40,3 +40,8 @@ func Date() string {
 
 	return date.Format("2006-01-02")
 }
+
+func Timestamp() string {
+    // Define a data específica em UTC
+    return time.Date(2022, 2, 5, 3, 45, 13, 0, time.UTC).Format(time.RFC3339)
+}
