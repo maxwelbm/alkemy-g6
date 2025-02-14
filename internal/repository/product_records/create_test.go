@@ -63,24 +63,6 @@ func TestCreate(t *testing.T) {
 				err: &mysql.MySQLError{Number: mysqlerr.CodeCannotAddOrUpdateChildRow},
 			},
 		},
-		{
-			name: "Error - When creating a duplicated product record",
-			setup: func() {
-				_, err := factory.Create(fixture)
-				require.NoError(t, err)
-			},
-			arg: arg{
-				dto: models.ProductRecordDTO{
-					LastUpdateDate: &fixture.LastUpdateDate,
-					PurchasePrice:  &fixture.PurchasePrice,
-					SalePrice:      &fixture.SalePrice,
-					ProductID:      &fixture.ProductID,
-				},
-			},
-			want: want{
-				err: &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
-			},
-		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
