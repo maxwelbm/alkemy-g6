@@ -35,18 +35,18 @@ type Product struct {
 }
 
 type ProductDTO struct {
-	ID             int
-	ProductCode    string
-	Description    string
-	Height         float64
-	Length         float64
-	Width          float64
-	NetWeight      float64
-	ExpirationRate float64
-	FreezingRate   float64
-	RecomFreezTemp float64
-	ProductTypeID  int
-	SellerID       int
+	ID             *int
+	ProductCode    *string
+	Description    *string
+	Height         *float64
+	Length         *float64
+	Width          *float64
+	NetWeight      *float64
+	ExpirationRate *float64
+	FreezingRate   *float64
+	RecomFreezTemp *float64
+	ProductTypeID  *int
+	SellerID       *int
 }
 
 type ProductReportRecords struct {

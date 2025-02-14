@@ -458,17 +458,17 @@ func TestProducts_Create(t *testing.T) {
 				if tt.callErr != nil {
 					return true
 				}
-				return (dto.ProductCode == product.ProductCode &&
-					dto.Description == product.Description &&
-					dto.Height == product.Height &&
-					dto.Length == product.Length &&
-					dto.Width == product.Width &&
-					dto.NetWeight == product.NetWeight &&
-					dto.ExpirationRate == product.ExpirationRate &&
-					dto.FreezingRate == product.FreezingRate &&
-					dto.RecomFreezTemp == product.RecomFreezTemp &&
-					dto.ProductTypeID == product.ProductTypeID &&
-					dto.SellerID == product.SellerID)
+				return (*dto.ProductCode == product.ProductCode &&
+					*dto.Description == product.Description &&
+					*dto.Height == product.Height &&
+					*dto.Length == product.Length &&
+					*dto.Width == product.Width &&
+					*dto.NetWeight == product.NetWeight &&
+					*dto.ExpirationRate == product.ExpirationRate &&
+					*dto.FreezingRate == product.FreezingRate &&
+					*dto.RecomFreezTemp == product.RecomFreezTemp &&
+					*dto.ProductTypeID == product.ProductTypeID &&
+					*dto.SellerID == product.SellerID)
 			})).Return(product, tt.callErr)
 
 			ctl.Create(res, req)

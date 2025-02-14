@@ -38,5 +38,5 @@ func Date() string {
 	sec := rand.Int63n(delta) + minDate
 	date := time.Unix(sec, 0)
 
-	return date.Format("2025-02-14")
+	return date.Format("2006-01-02")
 }
