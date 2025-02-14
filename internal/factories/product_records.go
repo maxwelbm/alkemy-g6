@@ -9,12 +9,12 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/randstr"
 )
 
-type ProductRecodsFactory struct {
+type ProductRecordsFactory struct {
 	db *sql.DB
 }
 
-func NewProductRecodsFactory(db *sql.DB) *ProductRecodsFactory {
-	return &ProductRecodsFactory{db: db}
+func NewProductRecordsFactory(db *sql.DB) *ProductRecordsFactory {
+	return &ProductRecordsFactory{db: db}
 }
 
 func defaultProductRecords() models.ProductRecord {
@@ -26,7 +26,7 @@ func defaultProductRecords() models.ProductRecord {
 	}
 }
 
-func (f *ProductRecodsFactory) Create(productRecord models.ProductRecord) (record models.ProductRecord, err error) {
+func (f *ProductRecordsFactory) Create(productRecord models.ProductRecord) (record models.ProductRecord, err error) {
 	populateProductRecordsParams(&productRecord)
 
 	if err = f.checkProductExists(productRecord.ProductID); err != nil {
@@ -84,7 +84,7 @@ func populateProductRecordsParams(productRecord *models.ProductRecord) {
 	}
 }
 
-func (f *ProductRecodsFactory) checkProductExists(productID int) (err error) {
+func (f *ProductRecordsFactory) checkProductExists(productID int) (err error) {
 	var count int
 	err = f.db.QueryRow(`SELECT COUNT(*) FROM products WHERE id = ?`, productID).Scan(&count)
 
@@ -101,7 +101,7 @@ func (f *ProductRecodsFactory) checkProductExists(productID int) (err error) {
 	return
 }
 
-func (f *ProductRecodsFactory) createProduct() (err error) {
+func (f *ProductRecordsFactory) createProduct() (err error) {
 	productFactory := NewProductFactory(f.db)
 	_, err = productFactory.Create(models.Product{})
 
