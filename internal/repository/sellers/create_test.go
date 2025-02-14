@@ -1,7 +1,6 @@
 package sellersrp
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/go-sql-driver/mysql"
@@ -99,11 +98,8 @@ func TestCreate(t *testing.T) {
 			rp := NewSellersRepository(db)
 			// Act
 
-			fmt.Printf("tt.dto: %v\n", tt.dto)
 			got, err := rp.Create(tt.dto)
 
-			fmt.Printf("got: %v\n", got)
-			fmt.Printf("tt.want.seller: %v\n", tt.want.seller)
 			// Assert
 			// Assert
 			if tt.err != nil {

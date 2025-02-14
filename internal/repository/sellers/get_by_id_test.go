@@ -58,7 +58,7 @@ func TestGetById(t *testing.T) {
 
 			},
 			arg: arg{
-				dto: models.SellerDTO{
+				models.SellerDTO{
 					ID:          fixture.ID + 1,
 					CID:         fixture.CID,
 					CompanyName: fixture.CompanyName,

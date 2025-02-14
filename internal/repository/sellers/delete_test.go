@@ -1,7 +1,6 @@
 package sellersrp
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/maxwelbm/alkemy-g6/internal/factories"
@@ -81,8 +80,6 @@ func TestDelete(t *testing.T) {
 			rp := NewSellersRepository(db)
 			// Act
 
-			fmt.Printf("tt.name: %v\n", tt.name)
-			fmt.Printf("tt.dto.ID: %v\n", tt.dto.ID)
 			err := rp.Delete(tt.dto.ID)
 
 			// Assert
