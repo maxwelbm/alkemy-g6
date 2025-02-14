@@ -20,11 +20,17 @@ func NewPurchaseOrdersFactory(db *sql.DB) *PurchaseOrdersFactory {
 func defaultPurchaseOrders() models.PurchaseOrders {
 	return models.PurchaseOrders{
 		OrderNumber:     randstr.Alphanumeric(8),
-		OrderDate:       randstr.RandDate(),
+		OrderDate:       randstr.Date(),
 		TrackingCode:    randstr.Alphanumeric(8),
 		BuyerID:         1,
 		ProductRecordID: 1,
 	}
+}
+
+func (f PurchaseOrdersFactory) Build(purchaseOrders models.PurchaseOrders) models.PurchaseOrders {
+	populatePurchaseOrdersParams(&purchaseOrders)
+
+	return purchaseOrders
 }
 
 func (f *PurchaseOrdersFactory) Create(purchaseOrders models.PurchaseOrders) (record models.PurchaseOrders, err error) {
@@ -139,7 +145,7 @@ func (f *PurchaseOrdersFactory) checkProductRecordExists(productRecordID int) (e
 }
 
 func (f *PurchaseOrdersFactory) createProductRecord() (err error) {
-	productRecordFactory := NewProductRecodsFactory(f.db)
+	productRecordFactory := NewProductRecordsFactory(f.db)
 	_, err = productRecordFactory.Create(models.ProductRecord{})
 
 	return

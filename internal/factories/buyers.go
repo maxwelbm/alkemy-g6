@@ -19,7 +19,7 @@ func NewBuyerFactory(db *sql.DB) *BuyerFactory {
 
 func defaultBuyer() models.Buyer {
 	return models.Buyer{
-		CardNumberID: randstr.Chars(8),
+		CardNumberID: randstr.Alphanumeric(8),
 		FirstName:    randstr.Chars(8),
 		LastName:     randstr.Chars(8),
 	}
