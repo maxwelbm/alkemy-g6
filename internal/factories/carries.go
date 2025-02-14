@@ -27,11 +27,17 @@ func defaultCarry() models.Carry {
 	}
 }
 
-func (f *CarryFactory) Create(carrie models.Carry) (record models.Carry, err error) {
-	populateCarryParams(&carrie)
+func (f *CarryFactory) Build(carry models.Carry) models.Carry {
+	populateCarryParams(&carry)
 
-	if err = f.checkLocalityExists(carrie.LocalityID); err != nil {
-		return carrie, err
+	return carry
+}
+
+func (f *CarryFactory) Create(carry models.Carry) (record models.Carry, err error) {
+	populateCarryParams(&carry)
+
+	if err = f.checkLocalityExists(carry.LocalityID); err != nil {
+		return carry, err
 	}
 
 	query := `
@@ -47,48 +53,48 @@ func (f *CarryFactory) Create(carrie models.Carry) (record models.Carry, err err
 		VALUES (%s?, ?, ?, ?, ?)
 	`
 
-	switch carrie.ID {
+	switch carry.ID {
 	case 0:
 		query = fmt.Sprintf(query, "", "")
 	default:
-		query = fmt.Sprintf(query, "id,", strconv.Itoa(carrie.ID)+",")
+		query = fmt.Sprintf(query, "id,", strconv.Itoa(carry.ID)+",")
 	}
 
 	_, err = f.db.Exec(query,
-		carrie.CID,
-		carrie.CompanyName,
-		carrie.Address,
-		carrie.PhoneNumber,
-		carrie.LocalityID,
+		carry.CID,
+		carry.CompanyName,
+		carry.Address,
+		carry.PhoneNumber,
+		carry.LocalityID,
 	)
 
-	return carrie, err
+	return carry, err
 }
 
-func populateCarryParams(carrie *models.Carry) {
+func populateCarryParams(carry *models.Carry) {
 	defaultCarry := defaultCarry()
-	if carrie == nil {
-		carrie = &defaultCarry
+	if carry == nil {
+		carry = &defaultCarry
 	}
 
-	if carrie.CID == "" {
-		carrie.CID = defaultCarry.CID
+	if carry.CID == "" {
+		carry.CID = defaultCarry.CID
 	}
 
-	if carrie.CompanyName == "" {
-		carrie.CompanyName = defaultCarry.CompanyName
+	if carry.CompanyName == "" {
+		carry.CompanyName = defaultCarry.CompanyName
 	}
 
-	if carrie.Address == "" {
-		carrie.Address = defaultCarry.Address
+	if carry.Address == "" {
+		carry.Address = defaultCarry.Address
 	}
 
-	if carrie.PhoneNumber == "" {
-		carrie.PhoneNumber = defaultCarry.PhoneNumber
+	if carry.PhoneNumber == "" {
+		carry.PhoneNumber = defaultCarry.PhoneNumber
 	}
 
-	if carrie.LocalityID == 0 {
-		carrie.LocalityID = defaultCarry.LocalityID
+	if carry.LocalityID == 0 {
+		carry.LocalityID = defaultCarry.LocalityID
 	}
 }
 
