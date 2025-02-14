@@ -46,7 +46,7 @@ func (f *WarehouseFactory) Create(warehouse models.Warehouse) (record models.War
 			minimum_capacity,
 			minimum_temperature
 			) 
-		VALUES (%s?, ?, ?, ?, ?, ?)
+		VALUES (%s?, ?, ?, ?, ?)
 	`
 
 	switch warehouse.ID {
