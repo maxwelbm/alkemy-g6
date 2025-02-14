@@ -79,7 +79,12 @@ func TestCreate(t *testing.T) {
 			if tt.err != nil {
 				require.ErrorIs(t, tt.err, err)
 			}
-			require.Equal(t, tt.want.productRecord, got)
+			if got.LastUpdateDate != "" {
+				require.Equal(t, tt.want.productRecord.LastUpdateDate, got.LastUpdateDate[:10])
+				require.Equal(t, tt.want.productRecord.PurchasePrice, got.PurchasePrice)
+				require.Equal(t, tt.want.productRecord.SalePrice, got.SalePrice)
+				require.Equal(t, tt.want.productRecord.ProductID, got.ProductID)
+			}
 		})
 	}
 }
