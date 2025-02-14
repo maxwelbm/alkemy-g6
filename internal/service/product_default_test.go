@@ -222,17 +222,17 @@ func TestProductsDefault_Create(t *testing.T) {
 			rp := productsrp.NewProductsRepositoryMock()
 			sv := service.NewProductsService(rp)
 			dto := models.ProductDTO{
-				ProductCode:    tt.product.ProductCode,
-				Description:    tt.product.Description,
-				Height:         tt.product.Height,
-				Length:         tt.product.Length,
-				Width:          tt.product.Width,
-				NetWeight:      tt.product.NetWeight,
-				ExpirationRate: tt.product.ExpirationRate,
-				FreezingRate:   tt.product.FreezingRate,
-				RecomFreezTemp: tt.product.RecomFreezTemp,
-				ProductTypeID:  tt.product.ProductTypeID,
-				SellerID:       tt.product.SellerID,
+				ProductCode:    &tt.product.ProductCode,
+				Description:    &tt.product.Description,
+				Height:         &tt.product.Height,
+				Length:         &tt.product.Length,
+				Width:          &tt.product.Width,
+				NetWeight:      &tt.product.NetWeight,
+				ExpirationRate: &tt.product.ExpirationRate,
+				FreezingRate:   &tt.product.FreezingRate,
+				RecomFreezTemp: &tt.product.RecomFreezTemp,
+				ProductTypeID:  &tt.product.ProductTypeID,
+				SellerID:       &tt.product.SellerID,
 			}
 
 			// Act
@@ -276,18 +276,17 @@ func TestProductsDefault_Update(t *testing.T) {
 			rp := productsrp.NewProductsRepositoryMock()
 			sv := service.NewProductsService(rp)
 			dto := models.ProductDTO{
-				ID:             tt.product.ID,
-				ProductCode:    tt.product.ProductCode,
-				Description:    tt.product.Description,
-				Height:         tt.product.Height,
-				Length:         tt.product.Length,
-				Width:          tt.product.Width,
-				NetWeight:      tt.product.NetWeight,
-				ExpirationRate: tt.product.ExpirationRate,
-				FreezingRate:   tt.product.FreezingRate,
-				RecomFreezTemp: tt.product.RecomFreezTemp,
-				ProductTypeID:  tt.product.ProductTypeID,
-				SellerID:       tt.product.SellerID,
+				ProductCode:    &tt.product.ProductCode,
+				Description:    &tt.product.Description,
+				Height:         &tt.product.Height,
+				Length:         &tt.product.Length,
+				Width:          &tt.product.Width,
+				NetWeight:      &tt.product.NetWeight,
+				ExpirationRate: &tt.product.ExpirationRate,
+				FreezingRate:   &tt.product.FreezingRate,
+				RecomFreezTemp: &tt.product.RecomFreezTemp,
+				ProductTypeID:  &tt.product.ProductTypeID,
+				SellerID:       &tt.product.SellerID,
 			}
 
 			// Act

@@ -37,17 +37,17 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	prodDTO := models.ProductDTO{
-		ProductCode:    *prodJSON.ProductCode,
-		Description:    *prodJSON.Description,
-		Height:         *prodJSON.Height,
-		Length:         *prodJSON.Length,
-		Width:          *prodJSON.Width,
-		NetWeight:      *prodJSON.NetWeight,
-		ExpirationRate: *prodJSON.ExpirationRate,
-		FreezingRate:   *prodJSON.FreezingRate,
-		RecomFreezTemp: *prodJSON.RecomFreezTemp,
-		ProductTypeID:  *prodJSON.ProductTypeID,
-		SellerID:       *prodJSON.SellerID,
+		ProductCode:    prodJSON.ProductCode,
+		Description:    prodJSON.Description,
+		Height:         prodJSON.Height,
+		Length:         prodJSON.Length,
+		Width:          prodJSON.Width,
+		NetWeight:      prodJSON.NetWeight,
+		ExpirationRate: prodJSON.ExpirationRate,
+		FreezingRate:   prodJSON.FreezingRate,
+		RecomFreezTemp: prodJSON.RecomFreezTemp,
+		ProductTypeID:  prodJSON.ProductTypeID,
+		SellerID:       prodJSON.SellerID,
 	}
 
 	newProd, err := p.SV.Create(prodDTO)

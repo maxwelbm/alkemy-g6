@@ -60,47 +60,47 @@ func (p *ProductsDefault) Update(w http.ResponseWriter, r *http.Request) {
 	prodDTO := models.ProductDTO{}
 
 	if prodJSON.ProductCode != nil {
-		prodDTO.ProductCode = *prodJSON.ProductCode
+		prodDTO.ProductCode = prodJSON.ProductCode
 	}
 
 	if prodJSON.Description != nil {
-		prodDTO.Description = *prodJSON.Description
+		prodDTO.Description = prodJSON.Description
 	}
 
 	if prodJSON.Height != nil {
-		prodDTO.Height = *prodJSON.Height
+		prodDTO.Height = prodJSON.Height
 	}
 
 	if prodJSON.Length != nil {
-		prodDTO.Length = *prodJSON.Length
+		prodDTO.Length = prodJSON.Length
 	}
 
 	if prodJSON.Width != nil {
-		prodDTO.Width = *prodJSON.Width
+		prodDTO.Width = prodJSON.Width
 	}
 
 	if prodJSON.NetWeight != nil {
-		prodDTO.NetWeight = *prodJSON.NetWeight
+		prodDTO.NetWeight = prodJSON.NetWeight
 	}
 
 	if prodJSON.ExpirationRate != nil {
-		prodDTO.ExpirationRate = *prodJSON.ExpirationRate
+		prodDTO.ExpirationRate = prodJSON.ExpirationRate
 	}
 
 	if prodJSON.FreezingRate != nil {
-		prodDTO.FreezingRate = *prodJSON.FreezingRate
+		prodDTO.FreezingRate = prodJSON.FreezingRate
 	}
 
 	if prodJSON.RecomFreezTemp != nil {
-		prodDTO.RecomFreezTemp = *prodJSON.RecomFreezTemp
+		prodDTO.RecomFreezTemp = prodJSON.RecomFreezTemp
 	}
 
 	if prodJSON.ProductTypeID != nil {
-		prodDTO.ProductTypeID = *prodJSON.ProductTypeID
+		prodDTO.ProductTypeID = prodJSON.ProductTypeID
 	}
 
 	if prodJSON.SellerID != nil {
-		prodDTO.SellerID = *prodJSON.SellerID
+		prodDTO.SellerID = prodJSON.SellerID
 	}
 	// Update the product
 	updatedProd, err := p.SV.Update(id, prodDTO)
