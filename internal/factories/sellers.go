@@ -36,7 +36,7 @@ func (f SellerFactory) Build(seller models.Seller) models.Seller {
 func (f *SellerFactory) Create(seller models.Seller) (record models.Seller, err error) {
 	populateSellerParams(&seller)
 
-	if err = f.CheckLocalityExists(seller.LocalityID); err != nil {
+	if err = f.checkLocalityExists(seller.LocalityID); err != nil {
 		return seller, err
 	}
 
@@ -98,7 +98,7 @@ func populateSellerParams(seller *models.Seller) {
 	}
 }
 
-func (f *SellerFactory) CheckLocalityExists(localityID int) (err error) {
+func (f *SellerFactory) checkLocalityExists(localityID int) (err error) {
 	var count int
 	err = f.db.QueryRow(`SELECT COUNT(*) FROM localities WHERE id = ?`, localityID).Scan(&count)
 

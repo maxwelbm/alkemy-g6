@@ -34,12 +34,11 @@ func TestCreate(t *testing.T) {
 		{
 			name: "When create a new Seller",
 			setup: func() {
-				err := factory.CheckLocalityExists(fixture.LocalityID)
+				_, err := factories.NewLocalityFactory(db).Create(models.Locality{ID: 1})
 				require.NoError(t, err)
 			},
 			arg: arg{
 				dto: models.SellerDTO{
-					ID:          fixture.ID + 1,
 					CID:         fixture.CID,
 					CompanyName: fixture.CompanyName,
 					Address:     fixture.Address,
@@ -53,7 +52,7 @@ func TestCreate(t *testing.T) {
 			},
 		},
 		{
-			name: "Error - When try create new empty Seller",
+			name: "Error - When try create a new Seller and locality not exists",
 			arg: arg{
 				dto: models.SellerDTO{
 					CID:         fixture.CID,
