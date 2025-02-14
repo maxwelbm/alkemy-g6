@@ -30,6 +30,13 @@ func Alphanumeric(n int) string {
 	return string(b)
 }
 
-func Data() string {
-	return time.Now().Format("2006-01-02")
+func Date() string {
+	minDate := time.Date(1970, 1, 1, 0, 0, 0, 0, time.UTC).Unix()
+	maxDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC).Unix()
+	delta := maxDate - minDate
+
+	sec := rand.Int63n(delta) + minDate
+	date := time.Unix(sec, 0)
+
+	return date.Format("2025-02-14")
 }
