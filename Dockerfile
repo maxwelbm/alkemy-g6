@@ -1,14 +1,7 @@
-FROM golang:latest
+FROM hub.furycloud.io/mercadolibre/distroless-go-dev:1.21-mini
+ENV APPLICATION_PACKAGE=./cmd
 
-WORKDIR /usr/src/alkemy-g6
+RUN apk add mysql-server
 
-RUN go install github.com/air-verse/air@latest
-RUN go install github.com/swaggo/swag/cmd/swag@v1.8.4
-RUN go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.63.4
-
-COPY go.mod go.sum ./
-RUN go mod download
-
-COPY . .
-
-EXPOSE 8080
+ADD .ci/ /commands/
+RUN chmod a+x /commands/*

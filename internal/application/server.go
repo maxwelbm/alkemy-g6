@@ -28,16 +28,13 @@ type ConfigServerChi struct {
 	DB *mysql.Config
 	// ServerAddress is the address where the server will be listening
 	Addr string
-	// LoaderFilePath is the path to the directory with files representing the database
-	LoaderFilePath string
 }
 
 // NewServerChi is a function that returns a new instance of ServerChi
 func NewServerChi(cfg *ConfigServerChi) *ServerChi {
 	return &ServerChi{
-		cfgDB:          cfg.DB,
-		Addr:           cfg.Addr,
-		loaderFilePath: cfg.LoaderFilePath,
+		cfgDB: cfg.DB,
+		Addr:  cfg.Addr,
 	}
 }
 
@@ -49,8 +46,6 @@ type ServerChi struct {
 	Addr string
 	// db is the database connection.
 	db *sql.DB
-	// loaderFilePath is the path to the directory with files representing the database
-	loaderFilePath string
 }
 
 // Run is a method that runs the application
