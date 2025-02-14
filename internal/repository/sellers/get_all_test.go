@@ -47,15 +47,7 @@ func TestGetAll(t *testing.T) {
 				sellers: allFixtures,
 				err:     nil,
 			},
-		}, /*{
-			name: "When not found Sellers",
-			arg: arg{
-				dtos: convertToDTOs(allFixtures),
-			},
-			want: want{
-				err: nil,
-			},
-		},*/
+		},
 	}
 
 	for _, tt := range tests {
@@ -73,11 +65,7 @@ func TestGetAll(t *testing.T) {
 			sellers, err := rp.GetAll()
 
 			// Assert
-			if tt.err != nil {
-				require.Contains(t, err.Error(), tt.err.Error())
-			} else {
-				require.NoError(t, err)
-			}
+			require.NoError(t, err)
 			require.Equal(t, tt.want.sellers, sellers)
 		})
 	}

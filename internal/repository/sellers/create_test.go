@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/factories"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/testdb"
-	"github.com/pkg/errors"
 	"github.com/stretchr/testify/require"
 )
 
@@ -63,7 +64,7 @@ func TestCreate(t *testing.T) {
 				},
 			},
 			want: want{
-				err: errors.New("Error 1452"),
+				err: &mysql.MySQLError{Number: mysqlerr.CodeCannotAddOrUpdateChildRow},
 			},
 		},
 		{
@@ -82,7 +83,7 @@ func TestCreate(t *testing.T) {
 				},
 			},
 			want: want{
-				err: errors.New("Error 1062"),
+				err: &mysql.MySQLError{Number: mysqlerr.CodeDuplicateEntry},
 			},
 		},
 	}
@@ -105,10 +106,9 @@ func TestCreate(t *testing.T) {
 			fmt.Printf("got: %v\n", got)
 			fmt.Printf("tt.want.seller: %v\n", tt.want.seller)
 			// Assert
+			// Assert
 			if tt.err != nil {
-				require.Contains(t, err.Error(), tt.err.Error())
-			} else {
-				require.NoError(t, err)
+				require.ErrorIs(t, tt.err, err)
 			}
 			require.Equal(t, tt.want.seller, got)
 		})

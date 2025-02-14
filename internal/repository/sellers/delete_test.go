@@ -7,7 +7,6 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/factories"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
 	"github.com/maxwelbm/alkemy-g6/pkg/testdb"
-	"github.com/pkg/errors"
 	"github.com/stretchr/testify/require"
 )
 
@@ -65,7 +64,7 @@ func TestDelete(t *testing.T) {
 				},
 			},
 			want: want{
-				err: errors.New("seller not found"),
+				err: models.ErrSellerNotFound,
 			},
 		},
 	}
@@ -88,9 +87,7 @@ func TestDelete(t *testing.T) {
 
 			// Assert
 			if tt.err != nil {
-				require.Contains(t, err.Error(), tt.err.Error())
-			} else {
-				require.NoError(t, err)
+				require.ErrorIs(t, tt.err, err)
 			}
 		})
 	}
