@@ -19,7 +19,7 @@ func NewSellerFactory(db *sql.DB) *SellerFactory {
 
 func defaultSeller() models.Seller {
 	return models.Seller{
-		CID:         randstr.Alphanumeric(8),
+		CID:         randstr.Numbers(8),
 		CompanyName: randstr.Chars(8),
 		Address:     randstr.Chars(8),
 		Telephone:   randstr.Chars(11),
@@ -27,10 +27,16 @@ func defaultSeller() models.Seller {
 	}
 }
 
+func (f SellerFactory) Build(seller models.Seller) models.Seller {
+	populateSellerParams(&seller)
+
+	return seller
+}
+
 func (f *SellerFactory) Create(seller models.Seller) (record models.Seller, err error) {
 	populateSellerParams(&seller)
 
-	if err = f.checkLocalityExists(seller.LocalityID); err != nil {
+	if err = f.CheckLocalityExists(seller.LocalityID); err != nil {
 		return seller, err
 	}
 
@@ -92,7 +98,7 @@ func populateSellerParams(seller *models.Seller) {
 	}
 }
 
-func (f *SellerFactory) checkLocalityExists(localityID int) (err error) {
+func (f *SellerFactory) CheckLocalityExists(localityID int) (err error) {
 	var count int
 	err = f.db.QueryRow(`SELECT COUNT(*) FROM localities WHERE id = ?`, localityID).Scan(&count)
 
