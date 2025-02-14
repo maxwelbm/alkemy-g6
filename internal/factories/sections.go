@@ -30,6 +30,12 @@ func defaultSection() models.Section {
 	}
 }
 
+func (f SectionFactory) Build(section models.Section) models.Section {
+	populateSectionParams(&section)
+
+	return section
+}
+
 func (f *SectionFactory) Create(section models.Section) (record models.Section, err error) {
 	populateSectionParams(&section)
 
