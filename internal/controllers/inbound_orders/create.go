@@ -39,7 +39,7 @@ func (ctl *InboundOrdersController) Create(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	inboundOrders := models.InboundOrdersDTO{
+	inboundOrders := models.InboundOrderDTO{
 		OrderDate:      inboundOrdersJSON.OrderDate,
 		OrderNumber:    inboundOrdersJSON.OrderNumber,
 		EmployeeID:     inboundOrdersJSON.EmployeeID,
