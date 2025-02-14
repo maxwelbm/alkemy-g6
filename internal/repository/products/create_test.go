@@ -1,7 +1,6 @@
 package productsrp
 
 import (
-	"log"
 	"testing"
 
 	"github.com/go-sql-driver/mysql"
@@ -117,7 +116,6 @@ func TestCreate(t *testing.T) {
 			// Arrange
 			rp := NewProducts(db)
 			// Act
-			log.Println(*tt.dto.Description)
 			got, err := rp.Create(tt.dto)
 
 			// Assert
