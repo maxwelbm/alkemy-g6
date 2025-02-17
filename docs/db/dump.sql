@@ -141,6 +141,13 @@ CREATE TABLE purchase_orders (
     FOREIGN KEY (product_record_id) REFERENCES product_records(id)
 );
 
+CREATE TABLE logs (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  message VARCHAR(255),
+  level INT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Insert data into warehouses
 INSERT INTO warehouses (address, telephone, warehouse_code, minimum_capacity, minimum_temperature) VALUES ('123 Main St', '555-1234', 'WH001', 100, -10.0);
 INSERT INTO warehouses (address, telephone, warehouse_code, minimum_capacity, minimum_temperature) VALUES ('456 Elm St', '555-5678', 'WH002', 200, -20.0);
