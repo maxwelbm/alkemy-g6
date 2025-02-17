@@ -27,8 +27,13 @@ func defaultInboundOrder() models.InboundOrder {
 	}
 }
 
-func (f *InboundOrderFactory) Create(inboundOrder models.InboundOrder) (record models.InboundOrder, err error) {
+func (f *InboundOrderFactory) Build(inboundOrder models.InboundOrder) models.InboundOrder {
 	populateInboundOrderParams(&inboundOrder)
+
+	return inboundOrder
+}
+
+func (f *InboundOrderFactory) Create(inboundOrder models.InboundOrder) (record models.InboundOrder, err error) {
 
 	if err = f.checkEmployeeExists(inboundOrder.EmployeeID); err != nil {
 		return inboundOrder, err

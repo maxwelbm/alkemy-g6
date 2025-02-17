@@ -26,7 +26,7 @@ func defaultEmployee() models.Employee {
 	}
 }
 
-func (f EmployeeFactory) Build(employee models.Employee) models.Employee {
+func (f *EmployeeFactory) Build(employee models.Employee) models.Employee {
 	populateEmployeeParams(&employee)
 
 	return employee
