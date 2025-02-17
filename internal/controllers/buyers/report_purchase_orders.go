@@ -75,4 +75,5 @@ func (ct *BuyersDefault) ReportPurchaseOrders(w http.ResponseWriter, r *http.Req
 
 	res := BuyerResJSON{Data: data}
 	response.JSON(w, http.StatusOK, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusOK, res))
 }

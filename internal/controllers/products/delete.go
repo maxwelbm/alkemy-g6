@@ -67,4 +67,5 @@ func (p *ProductsDefault) Delete(w http.ResponseWriter, r *http.Request) {
 
 	res := ProductResJSON{Message: "No content"}
 	response.JSON(w, http.StatusNoContent, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusNoContent, res))
 }

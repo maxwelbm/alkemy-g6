@@ -72,4 +72,5 @@ func (c *EmployeesController) Delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response.JSON(w, http.StatusNoContent, data)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusNoContent, data))
 }

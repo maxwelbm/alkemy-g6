@@ -82,6 +82,7 @@ func (ctl *InboundOrdersController) Create(w http.ResponseWriter, r *http.Reques
 		},
 	}
 	response.JSON(w, http.StatusCreated, data)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusCreated, data))
 }
 
 func validateNewInboundOrders(inboundOrders InboundOrdersReqJSON) (err error) {

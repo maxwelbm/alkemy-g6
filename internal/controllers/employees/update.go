@@ -121,6 +121,7 @@ func (c *EmployeesController) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response.JSON(w, http.StatusOK, data)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusOK, data))
 }
 
 func validateUpdateEmployees(e EmployeesReqJSON) (err error) {

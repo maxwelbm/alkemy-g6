@@ -126,6 +126,7 @@ func (controller *SellersDefault) Update(w http.ResponseWriter, r *http.Request)
 		Data:    data,
 	}
 	response.JSON(w, http.StatusOK, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusOK, res))
 }
 
 func createSellerDTO(sellerRequest SellerUpdateJSON) models.SellerDTO {
@@ -172,5 +173,4 @@ func handleUpdateError(w http.ResponseWriter, err error) {
 
 	response.Error(w, http.StatusInternalServerError, err.Error())
 	logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusInternalServerError, err.Error()))
-
 }

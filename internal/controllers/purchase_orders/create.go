@@ -71,6 +71,7 @@ func (pc *PurchaseOrdersController) Create(w http.ResponseWriter, r *http.Reques
 		Data:    data,
 	}
 	response.JSON(w, http.StatusCreated, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusCreated, res))
 }
 
 func (p *PurchaseOrdersJSON) Validate() (err error) {
@@ -129,5 +130,4 @@ func (pc *PurchaseOrdersController) handleCreateError(w http.ResponseWriter, err
 
 	response.Error(w, http.StatusInternalServerError, err.Error())
 	logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusInternalServerError, err.Error()))
-
 }

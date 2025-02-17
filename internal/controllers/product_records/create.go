@@ -137,4 +137,5 @@ func (controller *ProductRecordsDefault) Create(w http.ResponseWriter, r *http.R
 
 	// Respond with the created status and the response JSON
 	response.JSON(w, http.StatusCreated, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusCreated, res))
 }

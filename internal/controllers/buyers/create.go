@@ -123,4 +123,5 @@ func (ct *BuyersDefault) Create(w http.ResponseWriter, r *http.Request) {
 
 	// Respond with a 201 Created status and the response JSON
 	response.JSON(w, http.StatusCreated, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusCreated, res))
 }

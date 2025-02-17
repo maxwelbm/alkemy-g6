@@ -68,4 +68,5 @@ func (c *EmployeesController) GetByID(w http.ResponseWriter, r *http.Request) {
 	res := EmployeesResJSON{Data: data}
 
 	response.JSON(w, http.StatusOK, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusOK, res))
 }

@@ -145,4 +145,5 @@ func (ct *BuyersDefault) Update(w http.ResponseWriter, r *http.Request) {
 
 	// Send the response back to the client
 	response.JSON(w, http.StatusOK, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusOK, res))
 }

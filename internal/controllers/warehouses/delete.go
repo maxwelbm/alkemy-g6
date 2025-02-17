@@ -75,4 +75,5 @@ func (c *WarehouseDefault) Delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response.JSON(w, http.StatusNoContent, nil)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusNoContent, nil))
 }

@@ -134,4 +134,5 @@ func (controller *SellersDefault) Create(w http.ResponseWriter, r *http.Request)
 		Data:    data,
 	}
 	response.JSON(w, http.StatusCreated, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusCreated, res))
 }

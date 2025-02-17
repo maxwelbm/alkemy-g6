@@ -500,5 +500,4 @@ func TestProducts_Create(t *testing.T) {
 
 		})
 	}
-
 }

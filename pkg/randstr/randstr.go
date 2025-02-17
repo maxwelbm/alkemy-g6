@@ -40,8 +40,8 @@ func Numbers(n int) string {
 	}
 
 	return string(b)
-}  
-  
+}
+
 func Date() string {
 	minDate := time.Date(1970, 1, 1, 0, 0, 0, 0, time.UTC).Unix()
 	maxDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC).Unix()
@@ -51,5 +51,4 @@ func Date() string {
 	date := time.Unix(sec, 0)
 
 	return date.Format("2006-01-02")
-
 }

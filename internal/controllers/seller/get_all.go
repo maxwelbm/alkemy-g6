@@ -53,4 +53,5 @@ func (controller *SellersDefault) GetAll(w http.ResponseWriter, r *http.Request)
 
 	// Send the JSON response with status OK
 	response.JSON(w, http.StatusOK, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusOK, res))
 }

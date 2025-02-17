@@ -43,4 +43,5 @@ func (c *WarehouseDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	res := WarehouseResJSON{Data: data}
 
 	response.JSON(w, http.StatusOK, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusOK, res))
 }

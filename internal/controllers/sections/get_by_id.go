@@ -75,4 +75,5 @@ func (ctl *SectionsController) GetByID(w http.ResponseWriter, r *http.Request) {
 	// Return the response
 	res := SectionResJSON{Data: data}
 	response.JSON(w, http.StatusOK, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusOK, res))
 }

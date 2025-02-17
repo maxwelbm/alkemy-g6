@@ -60,4 +60,5 @@ func (ct *BuyersDefault) Delete(w http.ResponseWriter, r *http.Request) {
 
 	// If the deletion is successful, return a 204 No Content response.
 	response.JSON(w, http.StatusNoContent, nil)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusNoContent, nil))
 }

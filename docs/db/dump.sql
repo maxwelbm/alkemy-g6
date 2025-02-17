@@ -143,7 +143,7 @@ CREATE TABLE purchase_orders (
 
 CREATE TABLE logs (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
-  message VARCHAR(255),
+  message TEXT,
   level INT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );

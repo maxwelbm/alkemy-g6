@@ -65,4 +65,5 @@ func (controller *SellersDefault) Delete(w http.ResponseWriter, r *http.Request)
 
 	// If deletion is successful, return no content status
 	response.JSON(w, http.StatusNoContent, nil)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusNoContent, nil))
 }

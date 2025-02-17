@@ -71,4 +71,5 @@ func (ct *BuyersDefault) GetByID(w http.ResponseWriter, r *http.Request) {
 
 	// Send the response JSON with a 200 OK status
 	response.JSON(w, http.StatusOK, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusOK, res))
 }

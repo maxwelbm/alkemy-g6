@@ -155,4 +155,5 @@ func (ctl *ProductBatchesController) Create(w http.ResponseWriter, r *http.Reque
 	}
 
 	response.JSON(w, http.StatusCreated, res)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusCreated, res))
 }

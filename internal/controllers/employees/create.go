@@ -78,6 +78,7 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 	response.JSON(w, http.StatusCreated, data)
+	logger.Writer.Info(fmt.Sprintf("HTTP Status Code: %d - %#v", http.StatusCreated, data))
 }
 
 func validateNewEmployees(employees EmployeesReqJSON) (err error) {
