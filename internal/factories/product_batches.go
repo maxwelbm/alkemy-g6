@@ -26,7 +26,7 @@ func defaultProductBatches() models.ProductBatches {
 		MinimumTemperature: 1.0,
 		DueDate:            randstr.Date(),
 		ManufacturingDate:  randstr.Date(),
-		ManufacturingHour:  "10:00",
+		ManufacturingHour:  "10:00:00",
 		ProductID:          1,
 		SectionID:          1,
 	}
