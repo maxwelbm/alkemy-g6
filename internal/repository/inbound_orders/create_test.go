@@ -1,6 +1,7 @@
 package inboundordersrp
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/go-sql-driver/mysql"
@@ -33,11 +34,11 @@ func TestInboundOrdersRepository_Create(t *testing.T) {
 		{
 			name: "When successfully creating a new inbound order",
 			setup: func() {
-				_, err := factories.NewEmployeeFactory(db).Create(models.Employee{ID: 1, WarehouseID: 1})
+				_, err := factories.NewEmployeeFactory(db).Create(models.Employee{ID: 1})
 				require.NoError(t, err)
 				_, err = factories.NewProductBatchesFactory(db).Create(models.ProductBatches{ID: 1})
 				require.NoError(t, err)
-				_, err = factories.NewWarehouseFactory(db).Create(models.Warehouse{ID: 1})
+				_, err = factories.NewWarehouseFactory(db).Create(models.Warehouse{ID: 2})
 				require.NoError(t, err)
 			},
 			arg: arg{
@@ -55,7 +56,7 @@ func TestInboundOrdersRepository_Create(t *testing.T) {
 			},
 		},
 		{
-			name: "Error - When creating a Inbound Order from a non-existent Employee",
+			name: "Error - When creating a Inbound Order from a non-existent Employee/ProductBatch/Warehouse",
 			arg: arg{
 				dto: models.InboundOrderDTO{
 					OrderDate:      &inboundOrders.OrderDate,
@@ -103,6 +104,8 @@ func TestInboundOrdersRepository_Create(t *testing.T) {
 			// Act
 			got, err := rp.Create(tt.dto)
 
+			got.OrderDate = formatDateToUse(got.OrderDate)
+
 			// Assert
 			if tt.err != nil {
 				require.ErrorIs(t, tt.err, err)
@@ -110,4 +113,11 @@ func TestInboundOrdersRepository_Create(t *testing.T) {
 			require.Equal(t, tt.expected.inboundOrders, got)
 		})
 	}
+}
+
+func formatDateToUse(date string) string {
+	if date == "" {
+		return ""
+	}
+	return strings.Split(date, "T")[0]
 }

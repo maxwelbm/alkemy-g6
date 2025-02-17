@@ -110,9 +110,9 @@ func TestEmployeesRepository_GetReportInboundOrders(t *testing.T) {
 				})
 				require.NoError(t, err)
 				inboundOrdersFactory := factories.NewInboundOrderFactory(db)
-				_, err = inboundOrdersFactory.Create(models.InboundOrder{OrderNumber: 1, EmployeeID: 1})
+				_, err = inboundOrdersFactory.Create(models.InboundOrder{OrderDate: "2025-01-01", OrderNumber: 1, EmployeeID: 1, ProductBatchID: 1, WarehouseID: 1})
 				require.NoError(t, err)
-				_, err = inboundOrdersFactory.Create(models.InboundOrder{OrderNumber: 2, EmployeeID: 2})
+				_, err = inboundOrdersFactory.Create(models.InboundOrder{OrderDate: "2025-01-01", OrderNumber: 2, EmployeeID: 2, ProductBatchID: 1, WarehouseID: 1})
 				require.NoError(t, err)
 			},
 			id: 1,
