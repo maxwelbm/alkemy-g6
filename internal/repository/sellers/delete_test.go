@@ -16,7 +16,7 @@ func TestDelete(t *testing.T) {
 	fixture := factory.Build(models.Seller{ID: 1})
 
 	type arg struct {
-		dto models.SellerDTO
+		id int
 	}
 	type want struct {
 		seller models.Seller
@@ -35,13 +35,7 @@ func TestDelete(t *testing.T) {
 				require.NoError(t, err)
 			},
 			arg: arg{
-				dto: models.SellerDTO{
-					ID:          fixture.ID,
-					CompanyName: fixture.CompanyName,
-					Address:     fixture.Address,
-					Telephone:   fixture.Telephone,
-					LocalityID:  fixture.LocalityID,
-				},
+				id: fixture.ID,
 			},
 			want: want{
 				err: nil,
@@ -54,13 +48,7 @@ func TestDelete(t *testing.T) {
 				require.NoError(t, err)
 			},
 			arg: arg{
-				dto: models.SellerDTO{
-					CID:         fixture.CID,
-					CompanyName: fixture.CompanyName,
-					Address:     fixture.Address,
-					Telephone:   fixture.Telephone,
-					LocalityID:  fixture.LocalityID,
-				},
+				id: fixture.ID + 1,
 			},
 			want: want{
 				err: models.ErrSellerNotFound,
@@ -80,7 +68,7 @@ func TestDelete(t *testing.T) {
 			rp := NewSellersRepository(db)
 			// Act
 
-			err := rp.Delete(tt.dto.ID)
+			err := rp.Delete(tt.id)
 
 			// Assert
 			if tt.err != nil {

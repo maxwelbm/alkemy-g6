@@ -16,7 +16,7 @@ func TestGetById(t *testing.T) {
 	fixture := factory.Build(models.Seller{ID: 1})
 
 	type arg struct {
-		dto models.SellerDTO
+		id int
 	}
 	type want struct {
 		seller models.Seller
@@ -36,14 +36,7 @@ func TestGetById(t *testing.T) {
 
 			},
 			arg: arg{
-				dto: models.SellerDTO{
-					ID:          fixture.ID,
-					CID:         fixture.CID,
-					CompanyName: fixture.CompanyName,
-					Address:     fixture.Address,
-					Telephone:   fixture.Telephone,
-					LocalityID:  fixture.LocalityID,
-				},
+				id: fixture.ID,
 			},
 			want: want{
 				seller: fixture,
@@ -58,14 +51,7 @@ func TestGetById(t *testing.T) {
 
 			},
 			arg: arg{
-				models.SellerDTO{
-					ID:          fixture.ID + 1,
-					CID:         fixture.CID,
-					CompanyName: fixture.CompanyName,
-					Address:     fixture.Address,
-					Telephone:   fixture.Telephone,
-					LocalityID:  fixture.LocalityID,
-				},
+				id: fixture.ID + 1,
 			},
 			want: want{
 				err: models.ErrSellerNotFound,
@@ -85,7 +71,7 @@ func TestGetById(t *testing.T) {
 			rp := NewSellersRepository(db)
 			// Act
 
-			seller, err := rp.GetByID(tt.dto.ID)
+			seller, err := rp.GetByID(tt.id)
 
 			// Assert
 			require.ErrorIs(t, err, tt.want.err)

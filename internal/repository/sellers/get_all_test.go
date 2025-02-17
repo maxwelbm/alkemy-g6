@@ -18,10 +18,6 @@ func TestGetAll(t *testing.T) {
 		factory.Build(models.Seller{ID: 2}),
 		factory.Build(models.Seller{ID: 3}),
 	}
-
-	type arg struct {
-		dtos []models.SellerDTO
-	}
 	type want struct {
 		sellers []models.Seller
 		err     error
@@ -29,7 +25,6 @@ func TestGetAll(t *testing.T) {
 	tests := []struct {
 		name  string
 		setup func()
-		arg
 		want
 	}{
 		{
@@ -39,9 +34,6 @@ func TestGetAll(t *testing.T) {
 					_, err := factory.Create(fixture)
 					require.NoError(t, err)
 				}
-			},
-			arg: arg{
-				dtos: convertToDTOs(allFixtures),
 			},
 			want: want{
 				sellers: allFixtures,
