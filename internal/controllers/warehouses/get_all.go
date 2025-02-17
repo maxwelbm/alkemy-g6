@@ -1,8 +1,10 @@
 package warehousesctl
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/maxwelbm/alkemy-g6/pkg/logger"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -19,6 +21,8 @@ func (c *WarehouseDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	warehouses, err := c.sv.GetAll()
 	if err != nil {
 		response.Error(w, http.StatusInternalServerError, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusInternalServerError, err.Error()))
+
 		return
 	}
 

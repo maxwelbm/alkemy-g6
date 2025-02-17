@@ -1,8 +1,10 @@
 package buyersctl
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/maxwelbm/alkemy-g6/pkg/logger"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -22,6 +24,8 @@ func (ct *BuyersDefault) GetAll(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		// Send an internal server error response if there is an error
 		response.Error(w, http.StatusInternalServerError, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusInternalServerError, err.Error()))
+
 		return
 	}
 

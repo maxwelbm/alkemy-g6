@@ -2,10 +2,12 @@ package productsctl
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/logger"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
@@ -27,12 +29,16 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 	var prodJSON NewProductAttributesJSON
 	if err := json.NewDecoder(r.Body).Decode(&prodJSON); err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusBadRequest, err.Error()))
+
 		return
 	}
 
 	err := prodJSON.validate()
 	if err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusUnprocessableEntity, err.Error()))
+
 		return
 	}
 
@@ -57,14 +63,19 @@ func (p *ProductsDefault) Create(w http.ResponseWriter, r *http.Request) {
 			switch mysqlErr.Number {
 			case mysqlerr.CodeDuplicateEntry:
 				response.Error(w, http.StatusConflict, err.Error())
+				logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusConflict, err.Error()))
+
 				return
 			case mysqlerr.CodeCannotAddOrUpdateChildRow:
 				response.Error(w, http.StatusConflict, err.Error())
+				logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusConflict, err.Error()))
+
 				return
 			}
 		}
 
 		response.Error(w, http.StatusInternalServerError, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusInternalServerError, err.Error()))
 
 		return
 	}

@@ -11,6 +11,7 @@ import (
 	"github.com/maxwelbm/alkemy-g6/internal/application/reqlogger"
 	"github.com/maxwelbm/alkemy-g6/internal/application/resources"
 	"github.com/maxwelbm/alkemy-g6/internal/controllers"
+	"github.com/maxwelbm/alkemy-g6/pkg/logger"
 	_ "github.com/maxwelbm/alkemy-g6/swagger/docs"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
@@ -69,6 +70,9 @@ func (a *ServerChi) Run() (err error) {
 		return err
 	}
 	defer a.db.Close()
+
+	// logger
+	logger.SetGlobalLogger(a.db)
 
 	// router
 	rt := chi.NewRouter()

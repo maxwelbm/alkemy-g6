@@ -10,8 +10,14 @@ const (
 	Error
 )
 
+var Writer Logger
+
 type Logger struct {
 	db *sql.DB
+}
+
+func SetGlobalLogger(db *sql.DB) {
+	Writer = *NewLogger(db)
 }
 
 func NewLogger(db *sql.DB) *Logger {

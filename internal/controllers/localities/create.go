@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/logger"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
@@ -70,11 +71,15 @@ func (ct *LocalitiesController) Create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusBadRequest, err.Error()))
+
 		return
 	}
 
 	if err = locJSON.validate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusUnprocessableEntity, err.Error()))
+
 		return
 	}
 	// builds dto from json
@@ -90,10 +95,13 @@ func (ct *LocalitiesController) Create(w http.ResponseWriter, r *http.Request) {
 		// handles conflict error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeDuplicateEntry {
 			response.Error(w, http.StatusConflict, err.Error())
+			logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusConflict, err.Error()))
+
 			return
 		}
 		// handles other errors
 		response.Error(w, http.StatusInternalServerError, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusInternalServerError, err.Error()))
 
 		return
 	}

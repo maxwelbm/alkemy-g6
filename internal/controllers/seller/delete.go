@@ -2,12 +2,14 @@ package sellersctl
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/logger"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
@@ -31,6 +33,8 @@ func (controller *SellersDefault) Delete(w http.ResponseWriter, r *http.Request)
 	if err != nil || id < 1 {
 		// If conversion fails or id is less than 1, return a bad request error
 		response.Error(w, http.StatusBadRequest, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusBadRequest, err.Error()))
+
 		return
 	}
 
@@ -40,16 +44,21 @@ func (controller *SellersDefault) Delete(w http.ResponseWriter, r *http.Request)
 		// If the seller is not found, return a not found error
 		if errors.Is(err, models.ErrSellerNotFound) {
 			response.Error(w, http.StatusNotFound, err.Error())
+			logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusNotFound, err.Error()))
+
 			return
 		}
 		// Check if the error is a MySQL foreign key constraint error
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && mysqlErr.Number == mysqlerr.CodeCannotDeleteOrUpdateParentRow {
 			// If it is, return a conflict error
 			response.Error(w, http.StatusConflict, err.Error())
+			logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusConflict, err.Error()))
+
 			return
 		}
 		// For any other error, return an internal server error
 		response.Error(w, http.StatusInternalServerError, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusInternalServerError, err.Error()))
 
 		return
 	}

@@ -2,11 +2,13 @@ package employeesctl
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/logger"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -29,11 +31,15 @@ func (c *EmployeesController) GetByID(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusBadRequest, err.Error()))
+
 		return
 	}
 
 	if id <= 0 {
 		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusBadRequest, http.StatusText(http.StatusBadRequest)))
+
 		return
 	}
 
@@ -41,9 +47,12 @@ func (c *EmployeesController) GetByID(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if errors.Is(err, models.ErrEmployeeNotFound) {
 			response.Error(w, http.StatusNotFound, err.Error())
+			logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusNotFound, err.Error()))
+
 		}
 
 		response.Error(w, http.StatusInternalServerError, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusInternalServerError, err.Error()))
 
 		return
 	}

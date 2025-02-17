@@ -2,10 +2,12 @@ package employeesctl
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/logger"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -32,11 +34,15 @@ func (c *EmployeesController) GetReportInboundOrders(w http.ResponseWriter, r *h
 		id, err = strconv.Atoi(idString)
 		if err != nil {
 			response.Error(w, http.StatusBadRequest, err.Error())
+			logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusBadRequest, err.Error()))
+
 			return
 		}
 
 		if id <= 0 {
 			response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+			logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusBadRequest, http.StatusText(http.StatusBadRequest)))
+
 			return
 		}
 	}
@@ -45,10 +51,13 @@ func (c *EmployeesController) GetReportInboundOrders(w http.ResponseWriter, r *h
 	if err != nil {
 		if errors.Is(err, models.ErrEmployeeNotFound) {
 			response.Error(w, http.StatusNotFound, err.Error())
+			logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusNotFound, err.Error()))
+
 			return
 		}
 
 		response.Error(w, http.StatusInternalServerError, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusInternalServerError, err.Error()))
 
 		return
 	}

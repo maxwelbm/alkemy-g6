@@ -10,6 +10,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/models"
+	"github.com/maxwelbm/alkemy-g6/pkg/logger"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
@@ -114,22 +115,30 @@ func (ctl *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 	// If the ID is invalid, return a 400 Bad Request error
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusBadRequest, err.Error()))
+
 		return
 	}
 	// If the ID is less than 1, return a 400 Bad Request error
 	if id < 1 {
 		response.Error(w, http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusBadRequest, http.StatusText(http.StatusBadRequest)))
+
 		return
 	}
 	// Parse the request body
 	var secReqJSON UpdateSectionReqJSON
 	if err = json.NewDecoder(r.Body).Decode(&secReqJSON); err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusBadRequest, err.Error()))
+
 		return
 	}
 	// Validate the request
 	if err = secReqJSON.validate(); err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusUnprocessableEntity, err.Error()))
+
 		return
 	}
 
@@ -152,6 +161,8 @@ func (ctl *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 		// Handle if section not found
 		if errors.Is(err, models.ErrSectionNotFound) {
 			response.Error(w, http.StatusNotFound, err.Error())
+			logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusNotFound, err.Error()))
+
 			return
 		}
 		// Handle MySQL duplicate entry error
@@ -159,10 +170,13 @@ func (ctl *SectionsController) Update(w http.ResponseWriter, r *http.Request) {
 			(mysqlErr.Number == mysqlerr.CodeDuplicateEntry ||
 				mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow) {
 			response.Error(w, http.StatusConflict, err.Error())
+			logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusConflict, err.Error()))
+
 			return
 		}
 		// Handle other internal server errors
 		response.Error(w, http.StatusInternalServerError, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusInternalServerError, err.Error()))
 
 		return
 	}

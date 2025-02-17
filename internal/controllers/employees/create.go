@@ -8,6 +8,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 	models "github.com/maxwelbm/alkemy-g6/internal/models"
 
+	"github.com/maxwelbm/alkemy-g6/pkg/logger"
 	"github.com/maxwelbm/alkemy-g6/pkg/mysqlerr"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
@@ -31,12 +32,16 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		response.Error(w, http.StatusBadRequest, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusBadRequest, err.Error()))
+
 		return
 	}
 
 	err = validateNewEmployees(employeesJSON)
 	if err != nil {
 		response.Error(w, http.StatusUnprocessableEntity, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusUnprocessableEntity, err.Error()))
+
 		return
 	}
 
@@ -51,10 +56,13 @@ func (c *EmployeesController) Create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok && (mysqlErr.Number == mysqlerr.CodeDuplicateEntry || mysqlErr.Number == mysqlerr.CodeCannotAddOrUpdateChildRow) {
 			response.Error(w, http.StatusConflict, err.Error())
+			logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusConflict, err.Error()))
+
 			return
 		}
 		// For any other error, respond with an internal server error status
 		response.Error(w, http.StatusInternalServerError, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusInternalServerError, err.Error()))
 
 		return
 	}

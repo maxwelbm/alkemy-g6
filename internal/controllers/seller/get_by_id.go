@@ -1,10 +1,12 @@
 package sellersctl
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/maxwelbm/alkemy-g6/pkg/logger"
 	"github.com/maxwelbm/alkemy-g6/pkg/response"
 )
 
@@ -25,6 +27,8 @@ func (controller *SellersDefault) GetByID(w http.ResponseWriter, r *http.Request
 	if err != nil || id < 1 {
 		// If conversion fails or id is less than 1, return a bad request error
 		response.Error(w, http.StatusBadRequest, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusBadRequest, err.Error()))
+
 		return
 	}
 
@@ -33,6 +37,8 @@ func (controller *SellersDefault) GetByID(w http.ResponseWriter, r *http.Request
 	if err != nil {
 		// If the seller is not found, return a not found error
 		response.Error(w, http.StatusNotFound, err.Error())
+		logger.Writer.Error(fmt.Sprintf("HTTP Status Code: %d - %s", http.StatusNotFound, err.Error()))
+
 		return
 	}
 
