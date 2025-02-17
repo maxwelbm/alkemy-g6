@@ -22,7 +22,7 @@ CREATE TABLE employees (
     card_number_id VARCHAR(255) UNIQUE,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
-    warehouse_id INT,
+    warehouse_id BIGINT,
     FOREIGN KEY (warehouse_id) REFERENCES warehouses(id)
 );
 
@@ -35,8 +35,8 @@ CREATE TABLE sections (
     current_capacity INT,
     minimum_capacity INT,
     maximum_capacity INT,
-    warehouse_id INT,
-    product_type_id INT,
+    warehouse_id BIGINT,
+    product_type_id BIGINT,
     FOREIGN KEY (warehouse_id) REFERENCES warehouses(id)
 );
 
@@ -56,7 +56,7 @@ CREATE TABLE sellers (
     company_name VARCHAR(255),
     address VARCHAR(255),
     telephone VARCHAR(255),
-    locality_id INT,
+    locality_id BIGINT,
     FOREIGN KEY (locality_id) REFERENCES localities(id)
 );
 
@@ -72,8 +72,8 @@ CREATE TABLE products (
     expiration_rate DECIMAL(19,2),
     freezing_rate DECIMAL(19,2),
     recommended_freezing_temperature DECIMAL(19,2),
-    seller_id INT,
-    product_type_id INT,
+    seller_id BIGINT,
+    product_type_id BIGINT,
     FOREIGN KEY (seller_id) REFERENCES sellers(id)
     -- FOREIGN KEY (product_type_id) REFERENCES product_types(id)
 );
@@ -85,7 +85,7 @@ CREATE TABLE carries (
     company_name VARCHAR(255),
     address VARCHAR(255),
     phone_number VARCHAR(255),
-    locality_id INT,
+    locality_id BIGINT,
     FOREIGN KEY (locality_id) REFERENCES localities(id)
 );
 
@@ -100,8 +100,8 @@ CREATE TABLE product_batches (
     due_date DATE,
     manufacturing_date DATE,
     manufacturing_hour TIME,
-    product_id INT,
-    section_id INT,
+    product_id BIGINT,
+    section_id BIGINT,
     FOREIGN KEY (product_id) REFERENCES products(id),
     FOREIGN KEY (section_id) REFERENCES sections(id)
 );
@@ -112,7 +112,7 @@ CREATE TABLE product_records (
     last_update_date DATETIME(6),
     purchase_price DECIMAL(19, 2),
     sale_price DECIMAL(19, 2),
-    product_id INT,
+    product_id BIGINT,
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
@@ -121,9 +121,9 @@ CREATE TABLE inbound_orders (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     order_date DATE,
     order_number INT UNIQUE,
-    employee_id INT,
-    product_batch_id INT,
-    warehouse_id INT,
+    employee_id BIGINT,
+    product_batch_id BIGINT,
+    warehouse_id BIGINT,
     FOREIGN KEY (employee_id) REFERENCES employees(id),
     FOREIGN KEY (product_batch_id) REFERENCES product_batches(id),
     FOREIGN KEY (warehouse_id) REFERENCES warehouses(id)
@@ -135,8 +135,8 @@ CREATE TABLE purchase_orders (
     order_number VARCHAR(255) UNIQUE,
     order_date DATE,
     tracking_code VARCHAR(255),
-    buyer_id INT,
-    product_record_id INT,
+    buyer_id BIGINT,
+    product_record_id BIGINT,
     FOREIGN KEY (buyer_id) REFERENCES buyers(id),
     FOREIGN KEY (product_record_id) REFERENCES product_records(id)
 );
