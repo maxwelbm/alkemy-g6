@@ -3,7 +3,6 @@ package productbatchesrp
 import (
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/maxwelbm/alkemy-g6/internal/factories"
@@ -12,10 +11,6 @@ import (
 	"github.com/maxwelbm/alkemy-g6/pkg/testdb"
 	"github.com/stretchr/testify/require"
 )
-
-func formatDate(date time.Time) string {
-	return date.Format("2006-01-02")
-}
 
 func TestCreate(t *testing.T) {
 	db, truncate, teardown := testdb.NewConn(t)
