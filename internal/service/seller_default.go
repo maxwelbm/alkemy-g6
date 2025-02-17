@@ -22,10 +22,6 @@ func (s *SellersDefault) GetByID(id int) (seller models.Seller, err error) {
 	return s.rp.GetByID(id)
 }
 
-func (s *SellersDefault) GetByCid(cid int) (seller models.Seller, err error) {
-	return s.rp.GetByCid(cid)
-}
-
 func (s *SellersDefault) Create(seller models.SellerDTO) (sellerToReturn models.Seller, err error) {
 	return s.rp.Create(seller)
 }

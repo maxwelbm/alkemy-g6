@@ -19,12 +19,18 @@ func NewSellerFactory(db *sql.DB) *SellerFactory {
 
 func defaultSeller() models.Seller {
 	return models.Seller{
-		CID:         randstr.Alphanumeric(8),
+		CID:         randstr.Numbers(8),
 		CompanyName: randstr.Chars(8),
 		Address:     randstr.Chars(8),
 		Telephone:   randstr.Chars(11),
 		LocalityID:  1,
 	}
+}
+
+func (f SellerFactory) Build(seller models.Seller) models.Seller {
+	populateSellerParams(&seller)
+
+	return seller
 }
 
 func (f *SellerFactory) Create(seller models.Seller) (record models.Seller, err error) {

@@ -23,11 +23,6 @@ func (m *SellerServiceMock) GetByID(id int) (models.Seller, error) {
 	return args.Get(0).(models.Seller), args.Error(1)
 }
 
-func (m *SellerServiceMock) GetByCid(CID int) (models.Seller, error) {
-	args := m.Called(CID)
-	return args.Get(0).(models.Seller), args.Error(1)
-}
-
 func (m *SellerServiceMock) Create(seller models.SellerDTO) (sellerToReturn models.Seller, err error) {
 	args := m.Called(seller)
 	return args.Get(0).(models.Seller), args.Error(1)
