@@ -9,11 +9,11 @@ type ProductRecord struct {
 }
 
 type ProductRecordDTO struct {
-	ID             int     `json:"id,omitempty"`
-	LastUpdateDate string  `json:"last_update_date"`
-	PurchasePrice  float64 `json:"purchase_price"`
-	SalePrice      float64 `json:"sale_price"`
-	ProductID      int     `json:"product_id"`
+	ID             *int     `json:"id,omitempty"`
+	LastUpdateDate *string  `json:"last_update_date"`
+	PurchasePrice  *float64 `json:"purchase_price"`
+	SalePrice      *float64 `json:"sale_price"`
+	ProductID      *int     `json:"product_id"`
 }
 
 type ProductRecordsService interface {

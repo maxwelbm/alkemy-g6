@@ -45,11 +45,11 @@ func TestProductRecordsDefault_Create(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			productRecordDTO := models.ProductRecordDTO{
-				ID:             tt.productRecord.ID,
-				LastUpdateDate: tt.productRecord.LastUpdateDate,
-				PurchasePrice:  tt.productRecord.PurchasePrice,
-				SalePrice:      tt.productRecord.SalePrice,
-				ProductID:      tt.productRecord.ProductID,
+				ID:             &tt.productRecord.ID,
+				LastUpdateDate: &tt.productRecord.LastUpdateDate,
+				PurchasePrice:  &tt.productRecord.PurchasePrice,
+				SalePrice:      &tt.productRecord.SalePrice,
+				ProductID:      &tt.productRecord.ProductID,
 			}
 
 			rp := productrecordsrp.NewProductRecordsRepositoryMock()
