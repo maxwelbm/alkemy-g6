@@ -25,25 +25,16 @@ func (r *BuyerRepository) Update(id int, buyerRequest models.BuyerDTO) (buyer mo
 		first_name = COALESCE(NULLIF(?, ''), first_name),
 		last_name = COALESCE(NULLIF(?, ''), last_name)
 	WHERE id = ?`
-	res, err := r.db.Exec(query, buyerRequest.CardNumberID, buyerRequest.FirstName, buyerRequest.LastName, id)
+	_, err = r.db.Exec(query, buyerRequest.CardNumberID, buyerRequest.FirstName, buyerRequest.LastName, id)
 	// Check for errors
 	if err != nil {
-		return buyer, err
-	}
-	// Check if the buyer was updated
-	rowsAffected, err := res.RowsAffected()
-	if err != nil {
-		return buyer, err
-	}
-	// If the buyer was not updated, return an error
-	if rowsAffected == 0 {
-		err = models.ErrorNoChangesMade
 		return buyer, err
 	}
 
 	// Retrieve the updated buyer
 	err = r.db.QueryRow("SELECT id, card_number_id, first_name, last_name FROM buyers WHERE id = ?", id).Scan(
 		&buyer.ID, &buyer.CardNumberID, &buyer.FirstName, &buyer.LastName)
+
 	if err != nil {
 		return buyer, err
 	}

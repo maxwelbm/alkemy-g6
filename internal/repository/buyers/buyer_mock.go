@@ -23,11 +23,6 @@ func (m *BuyerRepositoryMock) GetByID(id int) (models.Buyer, error) {
 	return args.Get(0).(models.Buyer), args.Error(1)
 }
 
-func (m *BuyerRepositoryMock) GetByCardNumberID(CID string) (models.Buyer, error) {
-	args := m.Called(CID)
-	return args.Get(0).(models.Buyer), args.Error(1)
-}
-
 func (m *BuyerRepositoryMock) Create(buyer models.BuyerDTO) (models.Buyer, error) {
 	args := m.Called(buyer)
 	return args.Get(0).(models.Buyer), args.Error(1)
