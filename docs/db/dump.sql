@@ -1,6 +1,6 @@
 -- Create a table to store warehouse information
 CREATE TABLE warehouses (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     address VARCHAR(255),
     telephone VARCHAR(255),
     warehouse_code VARCHAR(255) UNIQUE,
@@ -10,7 +10,7 @@ CREATE TABLE warehouses (
 
 -- Create a table to store employee card information
 CREATE TABLE buyers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     card_number_id VARCHAR(255) UNIQUE,
     first_name VARCHAR(255),
     last_name VARCHAR(255)
@@ -18,7 +18,7 @@ CREATE TABLE buyers (
 
 -- Create a table to store employee information
 CREATE TABLE employees (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     card_number_id VARCHAR(255) UNIQUE,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
@@ -28,7 +28,7 @@ CREATE TABLE employees (
 
 -- Create a table to store section information
 CREATE TABLE sections (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     section_number VARCHAR(255) UNIQUE,
     current_temperature DECIMAL(19,2),
     minimum_temperature DECIMAL(19,2),
@@ -42,7 +42,7 @@ CREATE TABLE sections (
 
 -- Create a table to store locality information
 CREATE TABLE localities (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     locality_name VARCHAR(255),
     province_name VARCHAR(255),
     country_name VARCHAR(255),
@@ -51,7 +51,7 @@ CREATE TABLE localities (
 
 -- Create a table to store seller information
 CREATE TABLE sellers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     cid VARCHAR(255) UNIQUE,
     company_name VARCHAR(255),
     address VARCHAR(255),
@@ -62,7 +62,7 @@ CREATE TABLE sellers (
 
 -- Create a table to store products information
 CREATE TABLE products (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     product_code VARCHAR(255) NOT NULL UNIQUE,
     description VARCHAR(255),
     height DECIMAL(19,2),
@@ -80,7 +80,7 @@ CREATE TABLE products (
 
 -- Create a table to store carrier information
 CREATE TABLE carries (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     cid VARCHAR(255) UNIQUE,
     company_name VARCHAR(255),
     address VARCHAR(255),
@@ -91,7 +91,7 @@ CREATE TABLE carries (
 
 -- Create a table to store product batch information
 CREATE TABLE product_batches (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     batch_number VARCHAR(255) UNIQUE,
     initial_quantity INT,
     current_quantity INT,
@@ -108,7 +108,7 @@ CREATE TABLE product_batches (
 
 -- Create a table to store product record information
 CREATE TABLE product_records (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     last_update_date DATETIME(6),
     purchase_price DECIMAL(19, 2),
     sale_price DECIMAL(19, 2),
@@ -118,7 +118,7 @@ CREATE TABLE product_records (
 
 -- Create a table to store inbound order information
 CREATE TABLE inbound_orders (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     order_date DATE,
     order_number INT UNIQUE,
     employee_id INT,
@@ -131,7 +131,7 @@ CREATE TABLE inbound_orders (
 
 -- Create a table to store purchase order information
 CREATE TABLE purchase_orders (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     order_number VARCHAR(255) UNIQUE,
     order_date DATE,
     tracking_code VARCHAR(255),
@@ -139,6 +139,13 @@ CREATE TABLE purchase_orders (
     product_record_id INT,
     FOREIGN KEY (buyer_id) REFERENCES buyers(id),
     FOREIGN KEY (product_record_id) REFERENCES product_records(id)
+);
+
+CREATE TABLE logs (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  message VARCHAR(255),
+  level INT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Insert data into warehouses
