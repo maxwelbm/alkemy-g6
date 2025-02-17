@@ -15,7 +15,7 @@ func (e *EmployeesRepository) GetByID(id int) (employees models.Employee, err er
 	err = row.Scan(&employees.ID, &employees.CardNumberID, &employees.FirstName, &employees.LastName, &employees.WarehouseID)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			err = errors.New("ID not found")
+			err = models.ErrEmployeeNotFound
 			return
 		}
 

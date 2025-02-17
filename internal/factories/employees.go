@@ -40,7 +40,7 @@ func (f *EmployeeFactory) Create(employee models.Employee) (record models.Employ
 	}
 
 	query := `
-		INSERT INTO employee 
+		INSERT INTO employees
 			(
 			%s
 			card_number_id,
@@ -48,7 +48,7 @@ func (f *EmployeeFactory) Create(employee models.Employee) (record models.Employ
 			last_name,
 			warehouse_id
 			) 
-		VALUES (%s?, ?, ?, ?, ?)
+		VALUES (%s?, ?, ?, ?)
 	`
 
 	switch employee.ID {
