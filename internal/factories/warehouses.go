@@ -27,7 +27,7 @@ func defaultWarehouse() models.Warehouse {
 	}
 }
 
-func (f WarehouseFactory) Build(warehouse models.Warehouse) models.Warehouse {
+func (f *WarehouseFactory) Build(warehouse models.Warehouse) models.Warehouse {
 	populateWarehouseParams(&warehouse)
 
 	return warehouse

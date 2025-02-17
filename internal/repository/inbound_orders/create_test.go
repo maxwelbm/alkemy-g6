@@ -33,7 +33,7 @@ func TestInboundOrdersRepository_Create(t *testing.T) {
 		{
 			name: "When successfully creating a new inbound order",
 			setup: func() {
-				_, err := factories.NewEmployeeFactory(db).Create(models.Employee{ID: 2})
+				_, err := factories.NewEmployeeFactory(db).Create(models.Employee{ID: 1})
 				require.NoError(t, err)
 				_, err = factories.NewProductBatchesFactory(db).Create(models.ProductBatches{ID: 1})
 				require.NoError(t, err)

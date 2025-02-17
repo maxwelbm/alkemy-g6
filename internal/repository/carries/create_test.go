@@ -21,8 +21,8 @@ func TestCreate(t *testing.T) {
 		dto models.CarryDTO
 	}
 	type want struct {
-		product models.Carry
-		err     error
+		carry models.Carry
+		err   error
 	}
 	tests := []struct {
 		name  string
@@ -46,8 +46,8 @@ func TestCreate(t *testing.T) {
 				},
 			},
 			want: want{
-				product: carry,
-				err:     nil,
+				carry: carry,
+				err:   nil,
 			},
 		},
 		{
@@ -104,7 +104,7 @@ func TestCreate(t *testing.T) {
 			if tt.err != nil {
 				require.ErrorIs(t, tt.err, err)
 			}
-			require.Equal(t, tt.want.product, got)
+			require.Equal(t, tt.want.carry, got)
 		})
 	}
 }
