@@ -108,10 +108,10 @@ func TestCreate(t *testing.T) {
                 if tt.callErr != nil {
                     return true
                 }
-                return (dto.LastUpdateDate == tt.expected.productRecord.LastUpdateDate &&
-                    dto.ProductID == tt.expected.productRecord.ProductID &&
-                    dto.PurchasePrice == tt.expected.productRecord.PurchasePrice &&
-					dto.SalePrice == tt.expected.productRecord.SalePrice)
+                return (*dto.LastUpdateDate == tt.expected.productRecord.LastUpdateDate &&
+                    *dto.ProductID == tt.expected.productRecord.ProductID &&
+                    *dto.PurchasePrice == tt.expected.productRecord.PurchasePrice &&
+					*dto.SalePrice == tt.expected.productRecord.SalePrice)
             })).Return(tt.expected.productRecord, tt.callErr)
 
 			ctl.Create(res, req)

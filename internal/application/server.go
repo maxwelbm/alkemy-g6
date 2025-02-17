@@ -8,6 +8,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-sql-driver/mysql"
+	"github.com/maxwelbm/alkemy-g6/internal/application/reqlogger"
 	"github.com/maxwelbm/alkemy-g6/internal/application/resources"
 	"github.com/maxwelbm/alkemy-g6/internal/controllers"
 	_ "github.com/maxwelbm/alkemy-g6/swagger/docs"
@@ -75,6 +76,7 @@ func (a *ServerChi) Run() (err error) {
 	// - middlewares
 	rt.Use(middleware.Logger)
 	rt.Use(middleware.Recoverer)
+	rt.Use(reqlogger.LoggerMDW(a.db))
 
 	// swagger
 	rt.Get("/swagger/*", httpSwagger.Handler(

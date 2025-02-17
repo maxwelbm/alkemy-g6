@@ -19,7 +19,7 @@ func NewInboundOrderFactory(db *sql.DB) *InboundOrderFactory {
 
 func defaultInboundOrder() models.InboundOrder {
 	return models.InboundOrder{
-		OrderDate:      randstr.Alphanumeric(8),
+		OrderDate:      randstr.Date(),
 		OrderNumber:    1,
 		EmployeeID:     1,
 		ProductBatchID: 1,
