@@ -66,7 +66,7 @@ func TestCreate(t *testing.T) {
 			},
 		},
 		{
-			name: "Error - When creating a duplicated Seller",
+			name: "Error - When trying to create a New seller with a duplicated CID",
 			setup: func() {
 				_, err := factory.Create(fixture)
 				require.NoError(t, err)
