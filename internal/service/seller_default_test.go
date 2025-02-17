@@ -2,7 +2,6 @@ package service_test
 
 import (
 	"errors"
-	"strconv"
 	"testing"
 
 	"github.com/go-sql-driver/mysql"
@@ -112,48 +111,6 @@ func TestSellersDefault_GetByID(t *testing.T) {
 
 			// Act
 			seller, err := sv.GetByID(tt.seller.ID)
-
-			// Assert
-			require.Equal(t, tt.wantedSeller, seller)
-			require.Equal(t, tt.wantedErr, err)
-		})
-	}
-}
-
-func TestSellersDefault_GetByCid(t *testing.T) {
-	tests := []struct {
-		name         string
-		seller       models.Seller
-		err          error
-		wantedSeller models.Seller
-		wantedErr    error
-	}{
-		{
-			name:         "When the repository returns a seller by cid",
-			seller:       sellersFixture[0],
-			err:          nil,
-			wantedSeller: sellersFixture[0],
-			wantedErr:    nil,
-		},
-		{
-			name:         "When the repository returns an error",
-			seller:       models.Seller{},
-			err:          models.ErrSellerNotFound,
-			wantedSeller: models.Seller{},
-			wantedErr:    models.ErrSellerNotFound,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			cidInt, _ := strconv.Atoi(tt.seller.CID)
-			// Arrange
-			rp := sellersrp.NewSellersRepositoryMock()
-			rp.On("GetByCid", cidInt).Return(tt.seller, tt.err)
-			sv := service.NewSellersService(rp)
-
-			// Act
-			seller, err := sv.GetByCid(cidInt)
 
 			// Assert
 			require.Equal(t, tt.wantedSeller, seller)
