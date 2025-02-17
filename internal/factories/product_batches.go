@@ -61,9 +61,9 @@ func (f *ProductBatchesFactory) Create(productBatches models.ProductBatches) (re
 			manufacturing_date,
 			manufacturing_hour,
 			product_id,
-			section_id,
+			section_id
 			) 
-		VALUES (%s?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		VALUES (%s?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	`
 
 	switch productBatches.ID {
