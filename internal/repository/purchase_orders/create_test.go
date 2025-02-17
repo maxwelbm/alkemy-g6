@@ -1,7 +1,6 @@
 package purchaseordersrp
 
 import (
-	"log"
 	"testing"
 
 	"github.com/go-sql-driver/mysql"
@@ -84,7 +83,6 @@ func TestCreate(t *testing.T) {
 			rp := NewPurchaseOrdersRepository(db)
 
 			got, err := rp.Create(tt.dto)
-			log.Println(got, err)
 
 			if tt.err != nil {
 				require.ErrorIs(t, tt.err, err)
