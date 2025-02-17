@@ -134,47 +134,6 @@ func TestBuyersDefault_GetByID(t *testing.T) {
 	}
 }
 
-func TestBuyersDefault_GetByCardNumberID(t *testing.T) {
-	tests := []struct {
-		name        string
-		buyer       models.Buyer
-		err         error
-		wantedBuyer models.Buyer
-		wantedErr   error
-	}{
-		{
-			name:        "When the repository returns a buyer by cid",
-			buyer:       buyersFixture[0],
-			err:         nil,
-			wantedBuyer: buyersFixture[0],
-			wantedErr:   nil,
-		},
-		{
-			name:        "When the repository returns an error",
-			buyer:       models.Buyer{},
-			err:         models.ErrSellerNotFound,
-			wantedBuyer: models.Buyer{},
-			wantedErr:   models.ErrSellerNotFound,
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			// Arrange
-			rp := buyersrp.NewBuyersRepositoryMock()
-			rp.On("GetByCardNumberID", tt.buyer.CardNumberID).Return(tt.buyer, tt.err)
-			sv := service.NewBuyersService(rp)
-
-			// Act
-			buyer, err := sv.GetByCardNumberID(tt.buyer.CardNumberID)
-
-			// Assert
-			require.Equal(t, tt.wantedBuyer, buyer)
-			require.Equal(t, tt.wantedErr, err)
-		})
-	}
-}
-
 func TestBuyersDefault_Create(t *testing.T) {
 	tests := []struct {
 		name        string

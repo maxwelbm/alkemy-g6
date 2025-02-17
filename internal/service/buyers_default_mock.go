@@ -23,11 +23,6 @@ func (m *BuyerDefaultMock) GetByID(id int) (models.Buyer, error) {
 	return args.Get(0).(models.Buyer), args.Error(1)
 }
 
-func (m *BuyerDefaultMock) GetByCardNumberID(cardNumberID string) (models.Buyer, error) {
-	args := m.Called(cardNumberID)
-	return args.Get(0).(models.Buyer), args.Error(1)
-}
-
 func (m *BuyerDefaultMock) Create(buyer models.BuyerDTO) (models.Buyer, error) {
 	args := m.Called(buyer)
 	return args.Get(0).(models.Buyer), args.Error(1)
